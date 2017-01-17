@@ -1,0 +1,1 @@
+﻿SELECT * FROM tbl_user WHERE login = ?login;
