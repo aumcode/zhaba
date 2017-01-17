@@ -1,0 +1,142 @@
+schema
+{
+  TName            = "ZhabaName"
+  TDescription     = "ZhabaDescription"
+	TDate            = "ZhabaDate"
+  TMnemonic        = "ZhabaMnemonic"
+	TIssueStatusType = "ZhabaIssueStatusType"
+  TUserRoleType    = "ZhabaUserRoleType"
+
+  scripts
+  {
+    script-only=true
+
+    counter                 {column=counter       {type=TInt(8,true) required=true primary-key {}}}
+    name                    {column=name          {type=TName required=true}}
+    description             {column=description   {type=TDescription required=true}}
+    c_project_required      {column=c_project     {type=TInt(8,true) required=true  reference {table="project" column="counter"}}}
+    c_project_optional      {column=c_project     {type=TInt(8,true) required=false reference {table="project" column="counter"}}}
+    c_issue_required        {column=c_issue       {type=TInt(8,true) required=true  reference {table="issue" column="counter"}}}
+    c_milestone_optional    {column=c_milestone   {type=TInt(8,true) required=false reference {table="milestone" column="counter"}}}
+    c_area_optional         {column=c_area        {type=TInt(8,true) required=false reference {table="area" column="counter"}}}
+    c_component_optional    {column=c_component   {type=TInt(8,true) required=false reference {table="component" column="counter"}}}
+  }
+
+	table=sequence
+  {
+    column=scope_name    {type=$(/$TName)   required=true}
+	  column=sequence_name {type=$(/$TName)   required=true}
+	  column=counter       {type=TInt(8,true) required=true}
+
+	  primary-key {column=scope_name{} column=sequence_name{}}
+  }
+
+  table=user
+  {
+    _call=/scripts/counter {}
+    column=login           {type=$(/TMnemonic) required=true}
+	  column=first_name      {type=$(/$TName) required=true}
+	  column=last_name       {type=$(/$TName) required=true}
+	  column=role            {type=$(/$TUserRoleType) required=true}
+    column=password_hash   {type=TVarchar(128) required=true}
+    column=password_salt   {type=TVarchar(32) required=true}
+
+    index=uk
+    {
+      unique=true
+      column=login{}
+    }
+  }
+
+  table=component
+  {
+	  _call=/scripts/counter {}
+    _call=/scripts/name {}
+	  _call=/scripts/description {}
+
+    index=uk
+    {
+      unique=true
+      column=name{}
+    }
+  }
+
+  table=area
+  {
+    _call=/scripts/counter {}
+    _call=/scripts/name {}
+	  _call=/scripts/description {}
+
+    index=uk
+    {
+      unique=true
+      column=name{}
+    }
+  }
+
+  table=project
+  {
+    _call=/scripts/counter {}
+    _call=/scripts/name {}
+    _call=/scripts/description {}
+
+    index=uk
+    {
+      unique=true
+      column=name{}
+    }
+  }
+
+  table=milestone
+  {
+    _call=/scripts/counter {}
+    _call=/scripts/name {}
+	  _call=/scripts/description {}
+	  _call=/scripts/c_project_required {}
+	  column=start_date {type=$(/$TDate)  required=false}
+	  column=plan_date {type=$(/$TDate)  required=false}
+	  column=complete_date {type=$(/$TDate)  required=false}
+
+    index=uk
+    {
+      unique=true
+      column=c_project{}
+      column=name{}
+    }
+  }
+
+  table=issue
+  {
+    _call=/scripts/counter {}
+    _call=/scripts/name {}
+	  _call=/scripts/description {}
+	  _call=/scripts/c_project_required {}
+	  _call=/scripts/c_milestone_optional {}
+	  _call=/scripts/c_area_optional {}
+	  _call=/scripts/c_component_optional {}
+    column=c_parent      {type=TInt(8,true) required=false reference {table="issue" column="counter"}}
+	  column=status        {type=$(/$TIssueStatusType) required=true}
+	  column=creator       {type=$(/$TMnemonic) required=true}
+	  column=owner         {type=$(/$TMnemonic) required=false}
+	  column=creation_date {type=TDateTime required=true}
+	  column=change_date   {type=TDateTime required=true}
+
+    index=uk
+    {
+      unique=true
+      column=c_project{}
+      column=name{}
+    }
+  }
+
+  table=issuelog
+  {
+    _call=/scripts/counter {}
+	  _call=/scripts/c_issue_required {}
+	  column=description {type=TNote required=false}
+	  column=status {type=$(/$TName) required=true}
+	  column=creator {type=$(/$TName) required=true}
+	  column=creation_date {type=TDateTime required=true}
+  }
+
+}

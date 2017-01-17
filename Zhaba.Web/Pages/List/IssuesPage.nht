@@ -1,0 +1,69 @@
+﻿#<laconf>
+  compiler
+  {
+    using { ns="System.Linq" }
+    using { ns="System.Collections.Generic" }
+    using { ns="NFX" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Wave.Templatization" }
+    using { ns="Zhaba" }
+    using { ns="Zhaba.Data.Filters" }
+    base-class-name="Zhaba.Web.Pages.SiteGridMaster<IssueListFilter>"
+    namespace="Zhaba.Web.Pages.List"
+  }
+#</laconf>
+
+#[class]
+  public IssuesPage(IssueListFilter filter) : base()
+  {
+    Filter = filter;
+  }
+
+
+  public override string DataSourceAjaxURI { get { return URIS.ForPROJECT_ISSUES(Filter.ProjectID); } }
+
+#[override renderTitle()]
+  <h1>Issues</h1>
+
+#[override renderTopToolbar()]
+  @[base.renderTopToolbar();]
+  <a class="uiSmallRedButton" href="javascript:addIssue()">Add</a>
+  <a class="uiSmallRedButton" href="javascript:editIssue()" data-grid-link>Edit</a>
+
+#[override renderFilterControls()]
+  <div class="fView" data-wv-fname="OrderBy" data-wv-ctl="combo"></div>
+  <div class="fView" data-wv-fname="Name"></div>
+  <div class="fView" data-wv-fname="Description"></div>
+  <div class="fView" data-wv-fname="Milestone"></div>
+  <div class="fView" data-wv-fname="Area"></div>
+  <div class="fView" data-wv-fname="Component"></div>
+  <div class="fView" data-wv-fname="Status"></div>
+  <div class="fView" data-wv-fname="Creator"></div>
+  <div class="fView" data-wv-fname="Owner"></div>
+  <div class="fView" data-wv-fname="CreationDateSpan"></div>
+  <div class="fView" data-wv-fname="ChangeDateSpan"></div>
+
+<script>
+  function editIssue() {
+    var grid = WAVE.id("tblIssues");
+    if (!grid || !grid.SELECTED_ROW_KEY || !grid.SELECTED_ROW_DATA) return;
+
+    var link = ZHB.URIS.ForPROJECT_ISSUE('?[:Filter.ProjectID]', grid.SELECTED_ROW_KEY);
+    window.location.href = link;
+  }
+
+  function addIssue() {
+    var link = "?[:URIS.ForPROJECT_ISSUE(Filter.ProjectID)]";
+    window.location.href = link;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+

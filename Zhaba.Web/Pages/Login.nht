@@ -1,0 +1,75 @@
+﻿#<laconf>
+  compiler
+  {
+    using { ns="System.Linq" }
+    using { ns="System.Collections.Generic" }
+    using { ns="NFX" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Wave.Templatization" }
+    using { ns="Zhaba" }
+    using { ns="Zhaba.Data.Forms" }
+    base-class-name="Zhaba.Web.Pages.FormMaster<LoginForm>"
+    namespace="Zhaba.Web.Pages"
+  }
+#</laconf>
+
+#[class]
+  public Login(LoginForm form, Exception error)
+    : base(form, error)
+  {
+    m_Form = form;
+    m_LoginError = error;
+  }
+
+  private readonly LoginForm m_Form;
+  private readonly Exception m_LoginError;
+
+#[override includeStyles()]
+  <link href="/static/css/login.css" rel="stylesheet">
+
+#[override renderBody()]
+  <div class="div-login-wrapper">
+    <div class="div-login-header">
+      <h1><i class="fa fa-bank"></i>ZHABA</h1>
+    </div>
+
+    <form id="frmLogin" data-wv-rid="V1" method="POST" class="form-horizontal form-label-left" novalidate="">
+      <div class="form-group">
+        <div id="divID" class="data-wv" data-wv-fname="ID"></div>
+      </div>
+      <div class="form-group">
+        <div id="divPassword" class="data-wv" data-wv-fname="Password"></div>
+      </div>
+
+      <div class="form-group cntr login-form-btns">
+        <a href="?[:URIS.USER_SIGN_UP]" class="to_register">Sign Up</a>
+        <input class="btn btn-primary btn-std submit" type="submit" value="Log in"/>
+      </div>
+    </form>
+
+  </div>
+
+#[override renderScripts()]
+<script>
+  WAVE.GUI.SUPPRESS_UNLOAD_CHECK = true;
+
+  var REC = new WAVE.RecordModel.Record(?[:FormJSON(m_Form, m_LoginError)]);
+  var RVIEW = new WAVE.RecordModel.RecordView("V1", REC);
+
+  $("#frmLogin").submit(function(e){
+    if (!REC.validate()) {
+      WAVE.GUI.toast('Please enter data in both fields','error')
+      e.preventDefault();
+      return false;
+    }
+    return true;
+  });
+
+  @[if (m_LoginError!=null){]
+    WAVE.GUI.toast('?[m_LoginError.Message]','error', 4000);
+  @[}]
+
+  $("#divID input[type='text']:first").focus();
+  $("#divPassword *").keypress( function(e) { if (e.which == 13) { WAVE.id("frmLogin").submit(); } } );
+</script>
+

@@ -1,0 +1,74 @@
+﻿#<laconf>
+  compiler
+  {
+  using { ns="NFX" }
+  using { ns="NFX.Wave" }
+  using { ns="NFX.Security" }
+  using { ns="Zhaba" }
+  using { ns="Zhaba.Web" }
+  using { ns="Zhaba.Data.Rows" }
+  using { ns="NFX.Wave.Templatization" }
+  using { ns="NFX.ApplicationModel" }
+  base-class-name="Zhaba.Web.ZhabaPage"
+  abstract="true"
+  namespace="Zhaba.Web.Pages"
+  }
+#</laconf>
+
+#[class]
+  protected Master()
+  {
+    Title = "Zhaba Issue Tracker";
+  }
+
+  protected abstract void renderBody();
+  protected virtual void includeStyles() { }
+  protected virtual void renderStyles() { }
+  protected virtual void renderScripts() { }
+
+#[render]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>?[:Title]</title>
+
+  <link href="/static/css/vendors/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/css/main.css" rel="stylesheet">
+  <link href="/static/common.css" rel="stylesheet">
+  <link href="/static/css/navigation.css" rel="stylesheet">
+  <link href="/static/css/tables.css" rel="stylesheet">
+  <link href="/static/css/forms.css" rel="stylesheet">
+  @[includeStyles();]
+
+  <script src="/static/js/vendors/jquery.min.js"></script>
+  <script src="/static/js/wv.js"></script>
+  <script src="/static/js/wv.gui.js"></script>
+  <script src="/static/js/zhb.js"></script>
+
+  @[renderStyles();]
+</head>
+
+<body class="nav-md">
+  <div class="container body">
+    <div class="main_container">
+      @[renderBody();]
+      <div class="clearfix"></div>
+
+      <!-- footer content -->
+      <footer class="zhaba-footer">
+        <div class="pull-right">Zhaba 1.0 ©2016 All Rights Reserved</div>
+      </footer>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+
+<script src="/static/js/custom.js"></script>
+@[renderScripts();]
+
+</body>
+</html>

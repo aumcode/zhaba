@@ -1,0 +1,41 @@
+﻿#<laconf>
+  compiler
+  {
+    using { ns="NFX" }
+    using { ns="NFX.DataAccess.CRUD" }
+    base-class-name="TableGrid"
+    namespace="Zhaba.Web.Controls.Grids"
+    summary="Component List"
+  }
+#</laconf>
+
+#[class]
+  public ComponentGrid(RowsetBase data, string id) : base(id)
+  {
+    DataSource = data;
+    HasHead = true;
+  }
+
+  protected override object GetColumnValue(Schema.FieldDef fDef, bool isHead, object value, ref bool encode)
+  {
+    if (isHead)
+    {
+      if (fDef.Name.EqualsIgnoreCase("Counter"))
+      {
+        encode = false;
+        return "ID";
+      }
+    }
+
+    return base.GetColumnValue(fDef, isHead, value, ref encode);
+  }
+
+  protected override object GetValue(Schema.FieldDef fDef, Row row, object value, ref bool encode)
+  {
+    return base.GetValue(fDef, row, value, ref encode);
+  }
+
+  protected override object RowDataSelector(Row row)
+  {
+    return "{0}:{1}:{2}".Args(row["Counter"], row["Name"], row["Description"]);
+  } 

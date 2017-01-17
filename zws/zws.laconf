@@ -1,0 +1,167 @@
+﻿application
+{
+  data-store
+  {
+    type="Zhaba.Data.Store.ZhabaDataStore, Zhaba"
+    my-sql
+    {
+      connect-string="Server=localhost;Database=zhaba;Uid=root;Pwd=thejake"
+      script-assembly="Zhaba.DBAccess"
+      handler-location { ns="Zhaba.DBAccess, Zhaba.DBAccess" }
+    }
+    cache { }
+  }
+
+
+  log
+  {
+    name="log"
+
+    destination
+    {
+        type="NFX.Log.Destinations.ConsoleDestination, NFX"
+       name="log-console-destination"
+      min-level="Debug"
+    }
+
+    destination
+    {
+        type="NFX.Log.Destinations.DebugDestination, NFX"
+        name="log-debug-destination"
+      min-level="Debug"
+      path="$(~ZHABA_ROOT)"
+    }
+  }
+
+  object-store
+  {
+    name="Object Store"
+    guid="EE4A85B7-747E-4698-A17A-8E262D1B3832"
+    object-life-span-ms="180000"
+    bucket-count="1024"
+    provider
+    {
+      name="Object Store Provider"
+      type="NFX.ApplicationModel.Volatile.FileObjectStoreProvider"
+      load-limit="0"
+      root-path="$(~ZHABA_ROOT)"
+    }
+  }
+
+  security
+  {
+    type="Zhaba.Security.ZhabaSecurityManager, Zhaba"
+  }
+
+
+  unique-sequence-provider
+  {
+    type="Zhaba.Data.Store.ZhabaUniqueSequenceProvider, Zhaba"
+    name="unique-sequence-provider"
+  }
+
+  wave
+  {
+    server
+    {
+      prefix { name="http://localhost:8080/" }
+
+      dispatcher
+      {
+        filter
+        {
+          order=0
+          name="error-filter"
+          type="NFX.Wave.Filters.ErrorFilter, NFX.Wave"
+          show-dump { match { name="localhost" order=0 is-local=true } }
+          security-redirect-url="/User/Login"
+        }
+
+        handler
+        {
+          order=100
+          name="StockContent"
+          type="NFX.Wave.Handlers.StockContentSiteHandler, NFX.Wave"
+          match{ path="/static/stock/{*path}"}
+        }
+
+        handler
+        {
+          order=200
+          type="NFX.Wave.Handlers.FileDownloadHandler, NFX.Wave"
+          root-path=$"Static/"
+          match
+          {
+            path="/static/{*filePath}"
+            var { name="attachment" query-name="a" default="false" }
+          }
+        }
+
+        handler
+        {
+          order=1000000
+          name="Dynamic Content"
+          type="NFX.Wave.Handlers.CompositeHandler, NFX.Wave"
+          match{ name='Any MVC' }
+
+          filter
+          {
+            order=10
+            name="Sessions"
+            type="Zhaba.Web.ZhabaSessionFilter, Zhaba"
+          }
+
+          handler
+          {
+            order=1000
+            name="MVCHandler"
+            type="NFX.Wave.Handlers.MVCHandler, NFX.Wave"
+            type-location { assembly="Zhaba.Web.dll" ns { name="Zhaba.Web.Controllers" }}
+
+            match
+            {
+              order = 10
+              path="/project/{projID}/{mvc-action}"
+              var{ query-name="*" }
+              var{ name=type default='Project' }
+            }
+
+            match
+            {
+              order = 20
+              path="/user/{mvc-action}"
+              var{ name=type default='User' }
+              var{ query-name="*" }
+            }
+
+            match
+            {
+              order = 30
+              path="/common/{mvc-action}"
+              var{ name=type default='Common' }
+              var{ query-name="*" }
+            }
+
+            match
+            {
+              order = 30
+              path="/dashboard/{mvc-action}"
+              var{ name=type default='Dashboard' }
+              var{ query-name="*" }
+            }
+
+            match
+            {
+              order=100
+              path='{mvc-action}'
+              var{ query-name=* }
+              var{ name=type default='Home' }
+            }
+          }
+        }//MVC composite
+
+      }
+    }
+
+  }
+}

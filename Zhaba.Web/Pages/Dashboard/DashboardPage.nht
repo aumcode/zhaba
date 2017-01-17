@@ -1,0 +1,43 @@
+﻿#<laconf>
+    compiler
+    {
+    using { ns="System.Linq" }
+    using { ns="System.Collections.Generic" }
+
+    using { ns="NFX" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Wave.Templatization" }
+    using { ns="Zhaba" }
+    base-class-name="Zhaba.Web.Pages.SiteMaster"
+    namespace="Zhaba.Web.Pages.Dashboard"
+    }
+#</laconf>
+#[class]
+
+
+#[override renderSiteBody()]
+<div class="x_content control_panel">
+    <p>Quick links</p>
+    <a class="btn btn-app">
+        <span class="badge bg-green">92</span>
+        <i class="fa fa-list"></i> All My Issues
+    </a>
+    <a class="btn btn-app">
+        <i class="fa fa-edit"></i> Create New Issue
+    </a>
+
+    <a class="btn btn-app">
+        <i class="fa fa-thumbs-o-up"></i> Completed Issues
+    </a>
+    <a class="btn btn-app">
+        <span class="badge bg-green">6</span>
+        <i class="fa fa-star"></i> New Issues
+    </a>
+
+    <a class="btn btn-app">
+        <span class="badge bg-orange">5</span>
+        <i class="fa fa-exclamation-triangle"></i> Urgent Issues
+    </a>
+
+</div>
+

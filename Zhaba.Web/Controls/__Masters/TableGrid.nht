@@ -1,0 +1,150 @@
+﻿#<laconf>
+  compiler
+  {
+     using{ns="NFX"}
+     using{ns="NFX.Security"}
+     using{ns="NFX.Serialization.JSON"}
+     using{ns="NFX.DataAccess.CRUD"}
+     using{ns="NFX.Wave.Templatization"}
+     base-class-name="ZhabaControl, ITableGridControl"
+     namespace="Zhaba.Web.Controls"
+     abstract="false"
+     summary="Grid based on a table"
+  }
+#</laconf>
+#[class]
+ public TableGrid() : base()
+ {
+   ID = "tblGrid_"+NFX.ExternalRandomGenerator.Instance.NextRandomWebSafeString(8);
+ }
+ public TableGrid(string id) : base()
+ {
+   ID = id;
+ }
+
+ public string ID {get; private set; }
+ public RowsetBase DataSource { get; set; }
+ public bool HasHead { get; set; }
+ public bool HasFoot { get; set; }
+
+ public TableGridGetColumnValueFunc OnGetColumnValue {get; set; }
+ public TableGridGetValueFunc OnGetValue {get; set; }
+
+
+ protected virtual void renderExtraScripts()
+ {
+ }
+
+ protected virtual object GetEncodedColumnValue(Schema.FieldDef def, bool isHead)
+ {
+   var encode = true;
+   object result = def.Description;
+
+   result = GetColumnValue(def, isHead, result, ref encode);
+
+   if (result==null) return string.Empty;
+
+   return encode ? System.Net.WebUtility.HtmlEncode(result.ToString()) : result;
+ }
+
+ protected virtual object GetEncodedValue(Schema.FieldDef def, Row row)
+ {
+   var encode = true;
+   var result = row.GetFieldValue(def);
+
+   result = GetValue(def, row, result, ref encode);
+
+   if (result==null) return string.Empty;
+
+   return encode ? System.Net.WebUtility.HtmlEncode(result.ToString()) : result;
+ }
+
+
+ protected virtual object GetColumnValue(Schema.FieldDef def, bool isHead, object value, ref bool encode)
+ {
+   if (OnGetColumnValue!=null)
+    return OnGetColumnValue(this, def, isHead, value, ref encode);
+
+   return value;
+ }
+
+ protected virtual object GetValue(Schema.FieldDef def, Row row, object value, ref bool encode)
+ {
+   if (OnGetValue!=null)
+    return OnGetValue(this, def, row, value, ref encode);
+
+   return value;
+ }
+
+ protected virtual object RowKeyFieldSelector(Row row)
+ {
+   return row[0].AsString();
+ }
+
+ protected virtual object RowDataSelector(Row row)
+ {
+   return null;
+ }
+
+ protected virtual string GetEncodedTagAttributes(string tag, GridSection section, Schema.FieldDef fdef, Row row)
+ {
+   if (tag.EqualsIgnoreCase("table")) return "class='gridTable'";
+
+   if (section==GridSection.Body && tag.EqualsIgnoreCase("tr") && row!=null)
+   {
+     var ks = RowKeyFieldSelector(row);
+     var key  = (ks==null) ? string.Empty : (ks is string) ? EscapeJSLiteral(ks.ToString()) : EscapeJSLiteral(ks.ToJSON());
+
+     var ds = RowDataSelector(row);
+     string data = (ds==null) ? string.Empty : (ds is string) ? EscapeJSLiteral(ds.ToString()) : EscapeJSLiteral(ds.ToJSON());
+
+     return "onclick='ZHB.ControlScripts.TableGrid.rowSelect(WAVE.id(\""+ID+"\"), this, \""+key+"\",\""+data+"\" );'";
+   }
+   return "";
+ }
+
+
+#[render]
+<script>
+  WAVE.onReady(function() {
+    ZHB.ControlScripts.TableGrid = {
+      rowSelect: function(tableElm, rowElm, key, data) {
+        tableElm.SELECTED_ROW_KEY = key;
+        tableElm.SELECTED_ROW_DATA = data;
+        $(tableElm).find("tr").removeClass("selectedGridTableRow");
+        $(rowElm).addClass("selectedGridTableRow");
+        if (tableElm.onGridRowSelection)
+          tableElm.onGridRowSelection(tableElm, key, data);
+      }
+    };
+  });
+</script>
+@[renderExtraScripts();]
+
+
+<table class="table table-striped jambo_table bulk_action" id="?[:ID]" ?[:GetEncodedTagAttributes("table", GridSection.Table, null, null)]>
+@[if (HasHead) {]<thead ?[:GetEncodedTagAttributes("thead", GridSection.Head, null, null)]>@[renderHead();]</thead>@[}]
+  <tbody ?[:GetEncodedTagAttributes("tbody", GridSection.Body, null, null)]>
+    @[renderBody();]
+  </tbody>
+@[if (HasFoot) {]<tfoot ?[:GetEncodedTagAttributes("tfoot", GridSection.Foot, null, null)]>@[renderFoot();]</tfoot>@[}]
+</table>
+
+#[virtual renderHead()]
+ <tr class="headings" ?[:GetEncodedTagAttributes("tr", GridSection.Head, null, null)]>
+  @[foreach(var fdef in DataSource.Schema.AnyVisibleFieldDefs){]
+  <td class="column-title" ?[:GetEncodedTagAttributes("td", GridSection.Head, fdef, null)]>?[:GetEncodedColumnValue(fdef, true)]</td>
+  @[} /*foreach fdef*/]
+ </tr>
+
+#[virtual renderBody()]
+@[foreach(var row in DataSource){]
+ <tr class="pointer" ?[:GetEncodedTagAttributes("tr", GridSection.Body, null, row)]>
+  @[foreach(var fdef in DataSource.Schema.AnyVisibleFieldDefs){]
+  <td ?[:GetEncodedTagAttributes("td", GridSection.Body, fdef, row)]>?[:GetEncodedValue(fdef, row)]</td>
+  @[} /*foreach value*/]
+ </tr>
+@[} /*foreach row*/]
+
+
+#[virtual renderFoot()]

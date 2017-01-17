@@ -1,0 +1,314 @@
+.form-control, .data-wv input {
+    display: block;
+    width: 100%;
+    /*height: 34px;*/
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+.btn-default:hover {
+  color: #333;
+  background-color: #e6e6e6;
+  border-color: #adadad;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+  height: 33px;
+}
+
+.btn-std {
+  width: 70px;
+}
+
+.btn-primary:focus,
+.btn-primary.focus {
+  color: #fff;
+  background-color: #286090;
+  border-color: #122b40;
+}
+.btn-primary:hover {
+  color: #fff;
+  background-color: #286090;
+  border-color: #204d74;
+}
+
+
+.btn.btn-app {
+    position: relative;
+    padding: 15px 5px;
+    margin: 0 0 10px 10px;
+    min-width: 80px;
+    height: 60px;
+    box-shadow: none;
+    border-radius: 0;
+    text-align: center;
+    color: #666;
+    border: 1px solid #ddd;
+    background-color: #fafafa;
+    font-size: 12px;
+}
+
+.btn.btn-app:hover {
+    background: #f4f4f4;
+    color: #444;
+    /*border-color: #374a5e;*/
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.control_panel .btn.btn-app {
+    font-size: 18px;
+    min-width: 150px;
+    height: 150px;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+.control_panel .btn.btn-app > .fa {
+    font-size: 36px;
+    margin: 15px;
+    color: #34485c;
+    display: block;
+}
+
+.btn.btn-app > .badge {
+    position: absolute;
+    top: -3px;
+    right: -10px;
+    font-size: 10px;
+    font-weight: 400;
+}
+
+.control_panel .btn.btn-app > .badge {
+    padding: 8px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.input-group {
+    position: relative;
+    display: table;
+    border-collapse: separate;
+}
+
+.input-group-addon, .input-group-btn {
+    width: 1%;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.input-group .form-control, .input-group-addon, .input-group-btn {
+    display: table-cell;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-horizontal .form-group {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+
+.form-horizontal .control-label {
+    padding-top: 7px;
+    margin-bottom: 0;
+    text-align: right;
+}
+
+
+.col-md-6 {
+    width: 50%;
+    padding: 0;
+}
+
+
+.col-md-3 {
+    width: 25%;
+}
+
+label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.form-horizontal .data-wv label {
+    width: 25%;
+    text-align: right;
+    padding: 7px 7px 0 0;
+    float: left;
+}
+
+.data-wv input, .data-wv textarea, .data-wv select {
+    display: block;
+    float: left;
+    width: 50%;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+#frmFilter.form-horizontal
+{
+    margin: 8px 0;
+}
+
+#frmFilter.form-horizontal .data-wv label {
+    width: initial;
+}
+
+#frmFilter .data-wv input, #frmFilter .data-wv textarea, #frmFilter .data-wv select {
+    width: initial;
+}
+
+#frmFilter table{
+    width: 100%;
+}
+
+#frmFilter table .data-wv input, #frmFilter table .data-wv textarea, #frmFilter table .data-wv select {
+    width: 100%;
+}
+
+#frmFilter .data-wv label {
+float: none;
+}
+
+#frmFilter .btn_cell{
+    vertical-align: bottom;
+}
+
+a.edit_link {
+    float: right;
+    font-size: 20px;
+    margin: -5px;
+}
+
+div.ln_solid {
+    clear: both;
+}
+
+div.issue_main {
+    float: left;
+    width: 80%;
+}
+
+div.issue_side {
+    float: right;
+    width: 20%;
+    padding-left: 20px;
+}
+
+#issue .data-wv label {
+    width: initial;
+    float: none;
+}
+
+#issue .data-wv input, #issue .data-wv textarea, #issue .data-wv select {
+    width: initial;
+    float: none;
+}
+
+#issue .data-wv input, #issue .data-wv textarea, #issue .data-wv select {
+    width: 100%;
+}
+
+#issue .issue_main textarea {
+    height: 176px;
+}
+
+div#issue .log-record {
+    width: 100%;
+    margin: 5px 0;
+}
+
+div#issue .log-caption {
+    background: #ededed;
+    color: #6f6b6b;
+    border: 1px solid rgb(191, 189, 189);
+    border-bottom-color: white;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 3px 3px 0 0;
+}
+
+div#issue .log-body {
+    border: 1px solid rgb(191, 189, 189);
+    border-radius: 0 0 3px 3px;
+    margin: 0;
+    padding: 5px;
+    min-height: 30px;
+}
+
+.form-wrapper {
+  width: 550px;
+  margin: auto;
+}
+
+.form-header {
+  text-align: center;
+  margin: 40px 0 40px 0;
+}
+
+.form-btns-wrapper {
+  text-align: center;
+  margin-top: 25px;
+}

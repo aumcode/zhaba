@@ -1,0 +1,70 @@
+﻿#<laconf>
+    compiler
+    {
+    using { ns="System.Linq" }
+    using { ns="System.Collections.Generic" }
+    using { ns="NFX" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Wave.Templatization" }
+    using { ns="Zhaba" }
+    using { ns="Zhaba.Data.Forms" }
+    base-class-name="Zhaba.Web.Pages.SiteMaster"
+    class-declaration="SiteGridMaster<TFilter>"
+    class-constraint="where TFilter : ZhabaFilterForm"
+    namespace="Zhaba.Web.Pages"
+    summary="General ancestor for screens with filtering"
+    }
+#</laconf>
+
+#[class]
+  public virtual TFilter Filter { get; set; }
+  public virtual string DataSourceAjaxURI { get; set; }
+
+  protected virtual void renderTitle(){}
+  protected virtual void renderTopToolbar(){}
+  protected virtual void renderFilterControls(){}
+  protected virtual void renderBeforeGrid(){}
+  protected virtual void renderAfterGrid(){}
+
+
+#[override renderSiteBody()]
+  <div class="table-responsive">
+    <div class="cntr form-header">@[renderTitle();]</div>
+    <div>@[renderTopToolbar();]</div>
+    <form id="frmFilter" class="form-horizontal form-label-left" data-wv-rid="V1" novalidate>
+      @[renderFilterControls();]
+    </form>
+    <section id="sectBeforeGrid">@[renderBeforeGrid();]</section>
+    <section id="sectGrid"></section>
+    <section id="sectAfterGrid">@[renderAfterGrid();]</section>
+  </div>
+
+#[override renderScripts()]
+<script>
+
+  var REC = new WAVE.RecordModel.Record(?[:FormJSON(Filter, null)]);
+  var RVIEW = new WAVE.RecordModel.RecordView("V1", REC);
+
+  function clearFilters(){
+    REC.resetRecord(true);
+    RVIEW.buildViews();
+    fetchData();
+  }
+
+  function fetchData(){
+
+	  $.post('?[:DataSourceAjaxURI]',
+          REC.data(),
+          function(grid) {
+            $("#sectGrid").html(grid);
+            REC.resetModified();
+          }
+        ).fail(function(xhr, status, error){
+          $("#sectGrid").html("Please revise filter values: "+error);
+
+        });
+  }
+
+  fetchData();
+
+</script>

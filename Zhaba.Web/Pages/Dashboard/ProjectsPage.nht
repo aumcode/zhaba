@@ -1,0 +1,34 @@
+﻿#<laconf>
+ compiler
+ {
+   using { ns="System" }
+   using { ns="System.Linq" }
+   using { ns="System.Collections.Generic" }
+   using { ns="NFX" }
+   using { ns="NFX.Wave" }
+   using { ns="NFX.Wave.Templatization" }
+   using { ns="Zhaba" }
+   using { ns="Zhaba.Data.Rows" }
+   base-class-name="Zhaba.Web.Pages.SiteMaster"
+   namespace="Zhaba.Web.Pages.Dashboard"
+ }
+#</laconf>
+
+#[class]
+public ProjectsPage(IEnumerable<ProjectRow> projects)
+{
+  m_Projects = projects;
+}
+
+private readonly IEnumerable<ProjectRow> m_Projects;
+
+
+#[override renderSiteBody()]
+<div class="x_content control_panel">
+  @[foreach (var project in m_Projects) {]
+    <a class="btn btn-app" href="?[:URIS.ForPROJECT_SELECT(project.Counter)]">
+      <i class="fa fa-book"></i>?[project.Name]
+    </a>
+  @[}]
+</div>
+

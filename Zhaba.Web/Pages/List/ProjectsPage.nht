@@ -1,0 +1,51 @@
+﻿#<laconf>
+  compiler
+  {
+    using { ns="System.Linq" }
+    using { ns="System.Collections.Generic" }
+    using { ns="NFX" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Wave.Templatization" }
+    using { ns="Zhaba" }
+    using { ns="Zhaba.Data.Filters" }
+    base-class-name="Zhaba.Web.Pages.SiteGridMaster<ProjectListFilter>"
+    namespace="Zhaba.Web.Pages.List"
+  }
+#</laconf>
+
+#[class]
+  public ProjectsPage(ProjectListFilter filter) : base()
+  {
+    Filter = filter;
+  }
+
+
+  public override string DataSourceAjaxURI { get { return URIS.COMMON_PROJECTS; } }
+
+#[override renderTitle()]
+  <h1>Projects</h1>
+
+#[override renderTopToolbar()]
+  @[base.renderTopToolbar();]
+  <a class="uiSmallRedButton" href="javascript:addProject()">Add</a>
+  <a class="uiSmallRedButton" href="javascript:editProject()" data-grid-link>Edit</a>
+
+#[override renderFilterControls()]
+  <div class="fView" data-wv-fname="OrderBy" data-wv-ctl="combo"></div>
+  <div class="fView" data-wv-fname="Name"></div>
+  <div class="fView" data-wv-fname="Description"></div>
+
+<script>
+  function editProject() {
+    var grid = WAVE.id("tblProjects");
+    if (!grid || !grid.SELECTED_ROW_KEY || !grid.SELECTED_ROW_DATA) return;
+
+    var link = ZHB.URIS.ForPROJECT(grid.SELECTED_ROW_KEY);
+    window.location.href = link;
+  }
+
+  function addProject() {
+    var link = "?[:URIS.ForCOMMON_PROJECT()]";
+    window.location.href = link;
+  }
+</script>
