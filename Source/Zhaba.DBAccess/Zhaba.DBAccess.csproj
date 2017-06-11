@@ -36,20 +36,8 @@
     <Reference Include="NFX, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NFX.3.4.0.1\lib\NFX.dll</HintPath>
     </Reference>
-    <Reference Include="NFX.Erlang, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NFX.3.4.0.1\lib\NFX.Erlang.dll</HintPath>
-    </Reference>
     <Reference Include="NFX.MySQL, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NFX.3.4.0.1\lib\NFX.MySQL.dll</HintPath>
-    </Reference>
-    <Reference Include="NFX.Wave, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NFX.3.4.0.1\lib\NFX.Wave.dll</HintPath>
-    </Reference>
-    <Reference Include="NFX.Web, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NFX.3.4.0.1\lib\NFX.Web.dll</HintPath>
-    </Reference>
-    <Reference Include="NFX.WinForms, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NFX.3.4.0.1\lib\NFX.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

@@ -5,7 +5,6 @@ using NFX;
 using NFX.ApplicationModel.Pile;
 using NFX.DataAccess;
 using NFX.DataAccess.CRUD;
-using NFX.DataAccess.MySQL;
 using NFX.Environment;
 using NFX.Wave.Client;
 using NFX.ServiceModel;
@@ -81,144 +80,10 @@ namespace Zhaba.Data.Store
 
     #region Public
 
-    //public IEnumerable<T> RecordSet<T>(string queryName, string id = "") where T : TypedRow
-    //{
-    //  Query<T> q;
-    //  if (id == "") q = new Query<T>("{0}".Args(queryName));
-    //  else q = new Query<T>("{0}".Args(queryName))
-    //     {
-    //        new Query.Param("ID", id)
-    //     };
-    //  return CRUD.LoadOneRowset(q).AsEnumerableOf<T>();
-    //}
-
-    //public RowsetBase RecordSet(string queryName, object filter)
-    //{
-    //  Query q;
-    //  if (filter == null) q = new Query<DynamicRow>("{0}".Args(queryName));
-    //  else q = new Query<DynamicRow>("{0}".Args(queryName))
-    //    {
-    //    new Query.Param("filter", filter)
-    //    };
-    //  return CRUD.LoadOneRowset(q);
-    //}
-
-    //public RowsetBase RecordSet(string queryName, string id, object filter)
-    //{
-    //  Query q;
-    //  if (filter == null) q = new Query<DynamicRow>("{0}".Args(queryName))
-    //    {
-    //    new Query.Param("filter", filter)
-    //    };
-    //  else q = new Query<DynamicRow>("{0}".Args(queryName))
-    //    {
-    //    new Query.Param("filter", filter),
-    //    new Query.Param("id", id)
-    //    };
-    //  return CRUD.LoadOneRowset(q);
-    //}
-
-    //public T Record<T>(string queryName, string id, bool createNew = false) where T : TypedRow, new()
-    //{
-    //  if ((id == "" || id == "0" || id == null) && createNew) return new T();
-    //  var q = new Query<T>("{0}".Args(queryName))
-    //     {
-    //        new Query.Param("ID", id)
-    //     };
-    //  return CRUD.LoadRow<T>(q);
-    //}
-
-    //public string JSONRecordSet<T>(string queryName, string id = "") where T : TypedRow
-    //{
-    //  var records = RecordSet<T>(queryName, id);
-    //  if (records != null)
-    //  {
-    //    var gen = new RecordModelGenerator();
-    //    Exception validationError = null;
-
-    //    var result = new JSONDataMap();
-    //    result.Add("data", records);
-
-    //    foreach (T row in records)
-    //    {
-    //      result.AddRange(gen.RowToRecordInitJSON(row, validationError));
-    //      break;
-    //    }
-    //    return result.ToString();
-    //  }
-    //  return null;
-    //}
-
-    //public string JSONFilter<T>() where T : TypedRow, new()
-    //{
-    //  var gen = new RecordModelGenerator();
-    //  return gen.RowToRecordInitJSON(new T(), null).ToString();
-    //}
-
-
-    //public JSONDataMap Lookup(string queryName, string id = "")
-    //{
-    //  Query q;
-    //  if (id == "") q = new Query("{0}".Args(queryName));
-    //  else q = new Query("{0}".Args(queryName))
-    //     {
-    //        new Query.Param("ID", id)
-    //     };
-    //  var records = CRUD.LoadOneRowset(q);
-    //  if (records != null)
-    //  {
-    //    var result = new JSONDataMap();
-    //    foreach (var row in records)
-    //      result.Add(row[0].ToString(), row[1].ToString());
-    //    return result;
-    //  }
-    //  return null;
-    //}
-
     public void TestConnection()
     {
       m_DataStore.TestConnection();
     }
-
-    //public object SaveRow(TypedRow row)
-    //{
-    //  var tx = CRUD.BeginTransaction();
-    //  ulong counter = row["Counter"].AsULong();
-    //  if (counter == 0)
-    //  {
-    //    var sequenceName = row.GetType().Name.Replace("Row", "");
-    //    counter = SequenceProvider.GenerateOneSequenceID("Zhaba", sequenceName);
-    //    row["Counter"] = counter;
-    //  }
-    //  tx.Upsert(row);
-    //  tx.Commit();
-    //  return counter;
-    //}
-
-    //public object SaveIssueRow(IssueRow row, string comment) {
-    //  var tx = CRUD.BeginTransaction();
-    //  ulong? counter = row.Counter;
-    //  if (counter == null)
-    //  {
-    //    counter = SequenceProvider.GenerateOneSequenceID("Zhaba", "Issue");
-    //    row.Counter = counter;
-    //  }
-    //  var logCounter = SequenceProvider.GenerateOneSequenceID("Zhaba", "IssueLog");
-    //  IssueLogRow logRow = new IssueLogRow()
-    //  {
-    //    Counter = logCounter,
-    //    C_Issue = row.Counter,
-    //    Description = comment,
-    //    Status = row.Status,
-    //    //Creator = ZApp.User.Name,
-    //    Creation_Date = DateTime.Now
-    //  };
-
-    //  tx.Upsert(row);
-    //  tx.Insert(logRow);
-    //  tx.Commit();
-    //  return counter;
-    //}
 
     #endregion
 
