@@ -30,38 +30,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NFX.3.0.0.5\lib\MySql.Data.dll</HintPath>
-    </Reference>
     <Reference Include="NFX, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NFX.3.0.0.5\lib\NFX.dll</HintPath>
-    </Reference>
-    <Reference Include="NFX.MySQL, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NFX.3.0.0.5\lib\NFX.MySQL.dll</HintPath>
+      <HintPath>..\..\packages\NFX.3.4.0.1\lib\NFX.dll</HintPath>
     </Reference>
     <Reference Include="NFX.Wave, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NFX.3.0.0.5\lib\NFX.Wave.dll</HintPath>
+      <HintPath>..\..\packages\NFX.3.4.0.1\lib\NFX.Wave.dll</HintPath>
     </Reference>
     <Reference Include="NFX.Web, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NFX.3.0.0.5\lib\NFX.Web.dll</HintPath>
-    </Reference>
-    <Reference Include="NFX.WinForms, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NFX.3.0.0.5\lib\NFX.WinForms.dll</HintPath>
+      <HintPath>..\..\packages\NFX.3.4.0.1\lib\NFX.Web.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Consts.cs" />
@@ -122,11 +102,8 @@
     <Compile Include="Web\ZhabaWebSession.cs" />
     <Compile Include="ZApp.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

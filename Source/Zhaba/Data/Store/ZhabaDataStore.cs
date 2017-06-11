@@ -54,7 +54,7 @@ namespace Zhaba.Data.Store
 
     #endregion
 
-    private MySQLDataStore m_DataStore;
+    private ICRUDDataStoreImplementation m_DataStore;
     private ZhabaSequenceProvider m_UniqueSequenceProvider;
     private UserLogic m_UserLogic;
 

@@ -15,18 +15,14 @@ namespace Zhaba
   /// </summary>
   public static class ZApp
   {
-    #region Properties
-
-      public static IZhabaDataStore Data
+    public static IZhabaDataStore Data
+    {
+      get
       {
-        get
-        {
-          var result = App.DataStore as IZhabaDataStore;
-          if (result == null) throw new ZhabaException("Zhaba Data is not injected");
-          return result;
-        }
+        var result = App.DataStore as IZhabaDataStore;
+        if (result == null) throw new ZhabaException("Zhaba Data is not injected");
+        return result;
       }
-
-    #endregion
+    }
   }
 }
