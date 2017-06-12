@@ -1,8 +1,9 @@
 @echo off
 
 set NFX_HOME=%AGNICORE_HOME%\NFX\
-set ZHABA_HOME=%AGNICORE_HOME%\Zhaba\
-set RSC_EXE="%ZHABA_HOME%Output\Debug\rsc.exe"
+set ZHABA_HOME="C:\Users\User\Documents\GitHub\Zhaba\"
+rem %AGNICORE_HOME%\Zhaba\
+set RSC_EXE="%ZHABA_HOME%packages\NFX.3.4.0.1\tools\rsc.exe"
 set DOMAINS="Zhaba.Data.Domains.*, Zhaba"
 
 echo Building ZHABA main script ---------------------------------------------------

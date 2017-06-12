@@ -17,7 +17,7 @@ namespace Zhaba.DBAccess.SQL.Filters
 {
   public class IssueList : ZhabaFilteredMySQLQueryHandler<IssueListFilter>
   {
-    public IssueList(MySQLDataStore store) : base(store)
+    public IssueList(MySQLDataStore store, string name) : base(store, name)
     {
     }
 

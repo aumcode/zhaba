@@ -17,7 +17,7 @@ namespace Zhaba.DBAccess.SQL.Filters
 {
   public class MilestoneList : ZhabaFilteredMySQLQueryHandler<MilestoneListFilter>
   {
-    public MilestoneList(MySQLDataStore store) : base(store)
+    public MilestoneList(MySQLDataStore store, string name) : base(store, name)
     {
     }
 

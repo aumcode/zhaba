@@ -17,7 +17,7 @@ namespace Zhaba.DBAccess.SQL.Filters
 {
   public class AreaList : ZhabaFilteredMySQLQueryHandler<AreaListFilter>
   {
-    public AreaList(MySQLDataStore store) : base(store)
+    public AreaList(MySQLDataStore store, string name) : base(store, name)
     {
     }
 

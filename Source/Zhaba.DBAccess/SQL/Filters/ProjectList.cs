@@ -16,7 +16,7 @@ namespace Zhaba.DBAccess.SQL.Filters
 {
   public class ProjectList : ZhabaFilteredMySQLQueryHandler<ProjectListFilter>
   {
-    public ProjectList(MySQLDataStore store) : base(store)
+    public ProjectList(MySQLDataStore store, string name) : base(store, name)
     {
     }
 

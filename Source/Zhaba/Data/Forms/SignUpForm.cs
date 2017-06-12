@@ -4,8 +4,8 @@ using System.Security.Cryptography;
 
 using NFX;
 using NFX.DataAccess;
-using NFX.Wave;
 using NFX.DataAccess.CRUD;
+using NFX.Security;
 
 using Zhaba.Data.Rows;
 using Zhaba.Security;
@@ -64,7 +64,9 @@ namespace Zhaba.Data.Forms
 
       if (Password != PASSWORD_FAKE)
       {
-        var score = NFX.Security.PasswordUtils.PasswordStrengthPercent(Password, NFX.Security.PasswordUtils.TOP_SCORE_NORMAL);
+        int score = 0;
+        using (var password = IDPasswordCredentials.PlainPasswordToSecureBuffer(Password))
+          score = App.SecurityManager.PasswordManager.CalculateStrenghtScore(PasswordFamily.Text, password);
         if (score < Consts.MINIMUM_PASSWORD_STRENGTH_SCORE_PCT)
         {
           Password = "";

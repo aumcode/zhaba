@@ -8,7 +8,7 @@ using NFX.DataAccess;
 using Zhaba.Data.Rows;
 using Zhaba.Data.QueryBuilders;
 
-namespace Zhaba.Data.Store
+namespace Zhaba.Data
 {
   public class ZhabaSequenceProvider : IUniqueSequenceProvider
   {
@@ -38,7 +38,6 @@ namespace Zhaba.Data.Store
 
     // temporary solution: need to sync all ID generation processes
     private static readonly object m_Sync = new object();
-
 
     public string Name { get { return "ZhabaSequenceProvider"; }}
 

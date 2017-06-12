@@ -17,7 +17,7 @@ namespace Zhaba.DBAccess.SQL.Filters
 {
   public class ComponentList : ZhabaFilteredMySQLQueryHandler<ComponentListFilter>
   {
-    public ComponentList(MySQLDataStore store) : base(store)
+    public ComponentList(MySQLDataStore store, string name) : base(store, name)
     {
     }
 

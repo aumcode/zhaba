@@ -6,7 +6,7 @@ using NFX.DataAccess.CRUD;
 
 using Zhaba.Data.Rows;
 
-namespace Zhaba.Data.Store
+namespace Zhaba.Data
 {
   public interface IZhabaDataStore : IDataStore
   {
@@ -17,10 +17,12 @@ namespace Zhaba.Data.Store
     IUserLogic Users { get; }
   }
 
+
   public interface IStoreLogic
   {
-    IZhabaDataStore DStore { get; }
+    IZhabaDataStore Store { get; }
   }
+
 
   public interface IUserLogic : IStoreLogic
   {

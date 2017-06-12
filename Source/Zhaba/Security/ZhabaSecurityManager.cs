@@ -15,6 +15,20 @@ namespace Zhaba.Security
 {
   public sealed class ZhabaSecurityManager : ApplicationComponent, ISecurityManagerImplementation
   {
+    public const string CONFIG_PASSWORD_MANAGER_SECTION = "password-manager";
+
+    private IPasswordManagerImplementation m_PasswordManager;
+
+    public IPasswordManager PasswordManager
+    {
+      get
+      {
+        return m_PasswordManager;
+      }
+    }
+
+    #region Public
+
     public void Authenticate(User user)
     {
       var credentials = user.Credentials as IDPasswordCredentials;
@@ -72,9 +86,10 @@ namespace Zhaba.Security
 
     public void Configure(IConfigSectionNode node)
     {
-      ConfigAttribute.Apply(this, node);
+      m_PasswordManager = FactoryUtils.MakeAndConfigure<IPasswordManagerImplementation>(node[CONFIG_PASSWORD_MANAGER_SECTION], typeof(DefaultPasswordManager), new object[] { this });
     }
 
+    #endregion
 
     #region .pvt
 
@@ -108,7 +123,7 @@ namespace Zhaba.Security
       return new ZhabaUser(
         new IDPasswordCredentials(userRow.Login, password),
         new AuthenticationToken(Consts.ZHABA_SECURITY_REALM, userRow.Counter),
-        userRow.Role.EqualsIgnoreCase("ADMIN") ? UserStatus.Admin : UserStatus.User,
+        userRow.Role.EqualsOrdIgnoreCase("ADMIN") ? UserStatus.Admin : UserStatus.User,
         userRow.Login,
         "{0} {1}".Args(userRow.First_Name, userRow.Last_Name),
         Rights.None) { DataRow = userRow };

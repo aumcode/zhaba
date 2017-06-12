@@ -19,7 +19,7 @@ namespace Zhaba.DBAccess.Handlers
   /// </summary>
   public abstract class ZhabaFilteredMySQLQueryHandler<TFilter> : ZhabaMySQLQueryHandler<TFilter> where TFilter : ZhabaFilterForm
   {
-    public ZhabaFilteredMySQLQueryHandler(MySQLDataStore store) : base(store)
+    public ZhabaFilteredMySQLQueryHandler(MySQLDataStore store, string name) : base(store, name)
     {
     }
 

@@ -2,9 +2,10 @@
 {
   data-store
   {
-    type="Zhaba.Data.Store.ZhabaDataStore, Zhaba"
-    my-sql
+    type="Zhaba.DataLogic.ZhabaDataStore, Zhaba.DataLogic"
+    zhaba-data-store
     {
+      type="NFX.DataAccess.MySQL.MySQLDataStore, NFX.MySQL"
       connect-string="Server=localhost;Database=zhaba;Uid=root;Pwd=thejake"
       script-assembly="Zhaba.DBAccess"
       handler-location { ns="Zhaba.DBAccess, Zhaba.DBAccess" }
@@ -19,8 +20,8 @@
 
     destination
     {
-        type="NFX.Log.Destinations.ConsoleDestination, NFX"
-       name="log-console-destination"
+      type="NFX.Log.Destinations.ConsoleDestination, NFX"
+      name="log-console-destination"
       min-level="Debug"
     }
 
@@ -51,6 +52,14 @@
   security
   {
     type="Zhaba.Security.ZhabaSecurityManager, Zhaba"
+    password-manager
+    {
+      algo
+      {
+        name="MD5"
+        type="NFX.Security.MD5PasswordHashingAlgorithm, NFX"
+      }
+    }
   }
 
 
