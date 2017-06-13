@@ -1,9 +1,9 @@
 delimiter ;
 
-DROP SCHEMA IF EXISTS `Zhaba1`;
-CREATE SCHEMA `Zhaba1`;
+DROP SCHEMA IF EXISTS `Zhaba`;
+CREATE SCHEMA `Zhaba`;
 
-USE `Zhaba1`;
+USE `Zhaba`;
 source tables.MySQL.sql;
 delimiter ;
 source foreignkeys.MySQL.sql;
