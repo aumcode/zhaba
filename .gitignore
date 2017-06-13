@@ -197,3 +197,6 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+Source/Zhaba.DBAccess/Schema/foreignkeys.MySQL.sql
+Source/Zhaba.DBAccess/Schema/tables.MySQL.sql

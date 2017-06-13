@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using NFX.ApplicationModel;
+using NFX;
 using NFX.Environment;
 using NFX.Security;
-using NFX;
+using NFX.ServiceModel;
 
 using Zhaba.Data.QueryBuilders;
 using Zhaba.Data.Rows;
 
 namespace Zhaba.Security
 {
-  public sealed class ZhabaSecurityManager : ApplicationComponent, ISecurityManagerImplementation
+  public sealed class ZhabaSecurityManager : ServiceWithInstrumentationBase<object>, ISecurityManagerImplementation
   {
     public const string CONFIG_PASSWORD_MANAGER_SECTION = "password-manager";
 
@@ -25,6 +25,12 @@ namespace Zhaba.Security
       {
         return m_PasswordManager;
       }
+    }
+
+    public override bool InstrumentationEnabled
+    {
+      get { throw new NotImplementedException(); }
+      set { throw new NotImplementedException(); }
     }
 
     #region Public
@@ -84,12 +90,35 @@ namespace Zhaba.Security
       return new AccessLevel(user, permission, confNode);
     }
 
-    public void Configure(IConfigSectionNode node)
+    #endregion
+
+    #region Protected
+
+    protected override void DoConfigure(IConfigSectionNode node)
     {
+      base.DoConfigure(node);
       m_PasswordManager = FactoryUtils.MakeAndConfigure<IPasswordManagerImplementation>(node[CONFIG_PASSWORD_MANAGER_SECTION], typeof(DefaultPasswordManager), new object[] { this });
     }
 
+    protected override void DoStart()
+    {
+      if (m_PasswordManager != null)
+        m_PasswordManager.Start();
+    }
+
+    protected override void DoSignalStop()
+    {
+      if (m_PasswordManager != null)
+        m_PasswordManager.SignalStop();
+    }
+
+    protected override void DoWaitForCompleteStop()
+    {
+      if (m_PasswordManager != null)
+        m_PasswordManager.WaitForCompleteStop();
+    }
     #endregion
+
 
     #region .pvt
 

@@ -30,7 +30,7 @@
         type="NFX.Log.Destinations.DebugDestination, NFX"
         name="log-debug-destination"
       min-level="Debug"
-      path="$(~ZHABA_ROOT)"
+      path=$(~ZHABA_ROOT)\logs
     }
   }
 
@@ -45,7 +45,7 @@
       name="Object Store Provider"
       type="NFX.ApplicationModel.Volatile.FileObjectStoreProvider"
       load-limit="0"
-      root-path="$(~ZHABA_ROOT)"
+      root-path=$(~ZHABA_ROOT)\obj
     }
   }
 

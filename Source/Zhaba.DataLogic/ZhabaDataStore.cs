@@ -73,7 +73,9 @@ namespace Zhaba.DataLogic
       var config = node[CONFIG_ZHABA_DS];
       if (config.Exists)
         m_CRUD = FactoryUtils.MakeAndConfigure<ICRUDDataStoreImplementation>(config);
-      else m_CRUD = null;
+      else
+        throw new ZhabaDataException("Data Store Configuration: {0} section is missing".Args(CONFIG_ZHABA_DS));
+
       base.DoConfigure(node);
     }
   }
