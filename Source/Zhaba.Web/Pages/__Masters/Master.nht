@@ -45,9 +45,9 @@
   <link href="/static/css/forms.css" rel="stylesheet">
   @[includeStyles();]
 
-  <script src="/static/js/vendors/jquery.min.js"></script>
-  <script src="/static/js/wv.js"></script>
-  <script src="/static/js/wv.gui.js"></script>
+  <script src="/stock/site/script/jquery-2.1.4.min.js"></script>
+  <script src="/stock/site/script/wv.js"></script>
+  <script src="/stock/site/script/wv.gui.js"></script>
   <script src="/static/js/zhb.js"></script>
 
   @[renderStyles();]

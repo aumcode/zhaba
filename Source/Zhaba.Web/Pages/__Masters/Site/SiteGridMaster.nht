@@ -45,24 +45,63 @@
   var REC = new WAVE.RecordModel.Record(?[:FormJSON(Filter, null)]);
   var RVIEW = new WAVE.RecordModel.RecordView("V1", REC);
 
+  var tmrSchedFetch = null;
+
+  function scheduleFetch(){
+    if (tmrSchedFetch) clearTimeout(tmrSchedFetch);
+    tmrSchedFetch = setTimeout(function(){fetchData();}, 3000);
+  }
+
+  function unscheduleFetch(indicator){
+    if (tmrSchedFetch) clearTimeout(tmrSchedFetch);
+    tmrSchedFetch = null;
+  }
+
+  REC.eventBind(WAVE.RecordModel.EVT_DATA_CHANGE, function(sender, phase, oldv, newv){
+    if (phase==WAVE.RecordModel.EVT_PHASE_AFTER) scheduleFetch();
+  });
+
+  var tmrBlur = null;
+  $("form#frmFilter").on("keydown", " input[type=text]", function(evt)
+  {
+      var self = this;
+      if (tmrBlur) clearTimeout(tmrBlur);
+      tmrBlur = setTimeout(function(){ $(self).blur(); }, 3000);
+      unscheduleFetch(false);
+  });
+
   function clearFilters(){
     REC.resetRecord(true);
     RVIEW.buildViews();
+
+    ON_CLEAR_FILTERS();
+
     fetchData();
   }
 
-  function fetchData(){
+  //assign your values to override
+  var BEFORE_REFILTER       = function(){};
+  var ON_CLEAR_FILTERS      = function(){};
 
-	  $.post('?[:DataSourceAjaxURI]',
-          REC.data(),
-          function(grid) {
-            $("#sectGrid").html(grid);
-            REC.resetModified();
-          }
-        ).fail(function(xhr, status, error){
-          $("#sectGrid").html("Please revise filter values: "+error);
+  var ON_REFILTER_SUCCESS = function(grid) {
+                              $("#sectGrid").html(grid);
+                              REC.resetModified();
+                            };
 
-        });
+  var ON_REFILTER_FAIL = function(xhr, status, error) {
+                           $("#sectGrid").html("Please revise filter values: "+error);
+                         };
+
+  function fetchData() {
+    unscheduleFetch(true);
+
+    BEFORE_REFILTER();
+
+    $.post('?[:DataSourceAjaxURI]',
+            REC.data(),
+            ON_REFILTER_SUCCESS
+          )
+     .fail(ON_REFILTER_FAIL);
   }
 
   fetchData();

@@ -91,7 +91,7 @@
           order=100
           name="StockContent"
           type="NFX.Wave.Handlers.StockContentSiteHandler, NFX.Wave"
-          match{ path="/static/stock/{*path}"}
+          match{ path="/stock/{*path}"}
         }
 
         handler
