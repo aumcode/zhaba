@@ -9,7 +9,14 @@ using NFX.RelationalModel.DataTypes;
 
 namespace Zhaba.Data.Domains
 {
-  public class ZhabaUserRoleType : ZhabaEnum
+  public class ZhabaBool : ZhabaEnum
+  {
+    public const int MAX_LEN = 1;
+
+    public ZhabaBool() : base(DBCharType.Char, "T|F") { }
+  }
+
+  public class ZhabaUserStatus : ZhabaEnum
   {
     public const int MAX_LEN = 1;
 
@@ -18,7 +25,7 @@ namespace Zhaba.Data.Domains
 
     public const string VALUE_LIST = "A: Admin, U: User";
 
-    public ZhabaUserRoleType() : base(DBCharType.Char, "A|U") { }
+    public ZhabaUserStatus() : base(DBCharType.Char, "A|U") { }
 
     public static string MapDescription(string value)
     {
@@ -33,7 +40,7 @@ namespace Zhaba.Data.Domains
 
   public class ZhabaIssueStatusType : ZhabaEnum
   {
-    public const int MAX_LEN = 1;
+    public const int MAX_LEN = 3;
 
     public const string NEW = "N";
     public const string ASSIGNED = "A";

@@ -54,4 +54,19 @@ namespace Zhaba.Data.Domains
                           );
     }
   }
+
+  public class ZhabaIDRef : ZhabaDomain
+  {
+    public ZhabaIDRef() : base() { }
+
+    public override string GetTypeName(RDBMSCompiler compiler)
+    {
+      return "BIGINT(8) UNSIGNED";
+    }
+
+    public override void TransformColumnName(RDBMSCompiler compiler, RDBMSEntity column)
+    {
+      column.TransformedName = "C_{0}".Args(column.TransformedName);
+    }
+  }
 }
