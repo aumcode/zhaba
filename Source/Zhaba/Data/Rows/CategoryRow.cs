@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 using NFX.DataAccess.CRUD;
 
@@ -7,11 +10,11 @@ using Zhaba.Data.Domains;
 
 namespace Zhaba.Data.Rows
 {
-  [Table(name: "tbl_component")]
-  public class ComponentRow : ZhabaRowProjectBase
+  [Table(name: "tbl_category")]
+  public class CategoryRow : ZhabaRowWithPKAndInUse
   {
-    public ComponentRow() : base() { }
-    public ComponentRow(RowPKAction action) : base(action) { }
+    public CategoryRow() : base() { }
+    public CategoryRow(RowPKAction action) : base(action) { }
 
 
     [Field(required: true,

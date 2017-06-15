@@ -1,10 +1,10 @@
 schema
 {
-  TName            = "ZhabaName"
+  THumanName       = "ZhabaHumanName"
   TDescription     = "ZhabaDescription"
   TDate            = "ZhabaDate"
   TMnemonic        = "ZhabaMnemonic"
-  TIssueStatusType = "ZhabaIssueStatusType"
+  TIssueStatus     = "ZhabaIssueStatus"
   TUserStatus      = "ZhabaUserStatus"
   TPasswordHash    = "ZhabaPasswordHash"
   TSecurityRights  = "ZhabaSecurityRights"
@@ -20,21 +20,21 @@ schema
     script-only=true
 
     counter       {column=counter     {type=TInt(8,true) required=true primary-key {}}}
-    name          {column=name        {type=$(/$TName) required=true}}
+    name          {column=name        {type=$(/$TMnemonic) required=true }}
     description   {column=description {type=$(/$TDescription)}}
-    creator_ref   {column=creator     {type=$(/$TIDRef) required=true  reference {table="user" column="counter"}}}
-    project_ref   {column=project     {type=$(/$TIDRef) required=true  reference {table="project" column="counter"}}}
-    issue_ref     {column=issue       {type=$(/$TIDRef) required=true  reference {table="issue" column="counter"}}}
-    component_ref {column=component   {type=$(/$TIDRef) required=true  reference {table="component" column="counter"}}}
-    area_ref      {column=area        {type=$(/$TIDRef) required=true  reference {table="area" column="counter"}}}
+    creator_ref   {column=creator     {type=$(/$TIDRef) required=true reference {table="user" column="counter"}}}
+    project_ref   {column=project     {type=$(/$TIDRef) required=true reference {table="project" column="counter"}}}
+    issue_ref     {column=issue       {type=$(/$TIDRef) required=true reference {table="issue" column="counter"}}}
+    component_ref {column=component   {type=$(/$TIDRef) required=true reference {table="component" column="counter"}}}
+    area_ref      {column=area        {type=$(/$TIDRef) required=true reference {table="area" column="counter"}}}
     in-use        {column=in_use      {type=$(/$TBool)  required=true default=$(/$TRUE) }}
   }
 
   table=sequence
   {
-    column=scope_name    {type=$(/$TName)    required=true}
-    column=sequence_name {type=$(/$TName)    required=true}
-    column=counter       {type=TInt(8,true)  required=true}
+    column=scope_name    {type=$(/$TMnemonic) required=true}
+    column=sequence_name {type=$(/$TMnemonic) required=true}
+    column=counter       {type=TInt(8,true)   required=true}
 
     primary-key {column=scope_name{} column=sequence_name{}}
   }
@@ -43,9 +43,9 @@ schema
   {
     _call=/scripts/counter {}
     column=login           {type=$(/$TMnemonic)        required=true}
-    column=first_name      {type=$(/$TName)            required=true}
-    column=last_name       {type=$(/$TName)            required=true}
-    column=status          {type=TChar(1)              required=true}
+    column=first_name      {type=$(/$THumanName)            required=true}
+    column=last_name       {type=$(/$THumanName)            required=true}
+    column=status          {type=$(/$TUserStatus)      required=true}
     column=password        {type=$(/$TPasswordHash)    required=true}
     column=user_rights     {type=$(/$TSecurityRights)  required=true}
     _call=/scripts/in-use  {}
@@ -53,7 +53,7 @@ schema
     index=uk
     {
       unique=true
-      column=login{}
+      column=login {}
     }
   }
 
@@ -120,12 +120,12 @@ schema
   table=milestone
   {
     _call=/scripts/counter     {}
-    _call=/scripts/name        {}
+    _call=/scripts/name    {}
     _call=/scripts/description {}
     _call=/scripts/project_ref {}
     _call=/scripts/in-use      {}
-    column=start_date {type=$(/$TDate)  required=false}
-    column=plan_date  {type=$(/$TDate)  required=false}
+    column=start_date    {type=$(/$TDate)  required=false}
+    column=plan_date     {type=$(/$TDate)  required=false}
     column=complete_date {type=$(/$TDate)  required=false}
 
     index=uk
@@ -137,8 +137,8 @@ schema
 
   table=issue
   {
-    _call=/scripts/counter   {}
-    _call=/scripts/name      {}
+    _call=/scripts/counter     {}
+    _call=/scripts/name    {}
     _call=/scripts/project_ref {}
     column=parent {type=$(/$TIDRef) required=false reference {table="issue" column="counter"}}
     _call=/scripts/in-use  {}
@@ -156,10 +156,10 @@ schema
     _call=/scripts/counter     {}
     _call=/scripts/issue_ref   {}
     _call=/scripts/description {}
-    column=status      {type=$(/$TIssueStatusType) required=true}
-    column=assignee    {type=$(/$TIDRef) required=false reference {table="user" column="counter"}}
     column=milestone   {type=$(/$TIDRef) required=true  reference {table="milestone" column="counter"}}
-    column=category    {type=$(/$TIDRef) required=true reference {table="category" column="counter"}}
+    column=category    {type=$(/$TIDRef) required=true  reference {table="category" column="counter"}}
+    column=status      {type=$(/$TIssueStatus) required=true}
+    column=assignee    {type=$(/$TIDRef) required=false reference {table="user" column="counter"}}
     column=status_date {type=TDateTime required=true}
     column=operator    {type=$(/$TIDRef) required=true reference {table="user" column="counter"}}
 

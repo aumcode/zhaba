@@ -1,3 +1,3 @@
 ﻿SELECT *
 FROM tbl_component
-WHERE Counter = ?pID;
+ (C_PROJECT = ?pProj_ID) AND (COUNTER = ?pID);

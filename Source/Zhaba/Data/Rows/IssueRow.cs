@@ -5,7 +5,6 @@ using NFX;
 using NFX.DataAccess.CRUD;
 
 using Zhaba.Data.Domains;
-using Zhaba.Data.QueryBuilders;
 
 namespace Zhaba.Data.Rows
 {
@@ -18,13 +17,13 @@ namespace Zhaba.Data.Rows
 
     [Field(required: true,
            kind: DataKind.Text,
-           minLength: ZhabaName.MIN_LEN,
-           maxLength: ZhabaName.MAX_LEN,
+           minLength: ZhabaMnemonic.MIN_LEN,
+           maxLength: ZhabaMnemonic.MAX_LEN,
            description: "Name",
            metadata: @"Placeholder='Name'")]
     public string Name { get; set; }
 
-    [Field]
+    [Field(description: "Parent Issue")]
     public ulong? C_Parent { get; set; }
 
   }

@@ -38,7 +38,7 @@ namespace Zhaba.Data.Domains
     }
   }
 
-  public class ZhabaIssueStatusType : ZhabaEnum
+  public class ZhabaIssueStatus : ZhabaEnum
   {
     public const int MAX_LEN = 3;
 
@@ -49,7 +49,7 @@ namespace Zhaba.Data.Domains
 
     public const string VALUE_LIST = "N: New, A: Assigned, D: Done, C: Closed";
 
-    public ZhabaIssueStatusType() : base(DBCharType.Char, "N|A|D|C") { }
+    public ZhabaIssueStatus() : base(DBCharType.Char, "N|A|D|C") { }
 
     public static string MapDescription(string value)
     {

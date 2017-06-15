@@ -10,14 +10,14 @@ namespace Zhaba.Data.Rows
   {
     [Field(key: true,
            required: true,
-           minLength: ZhabaName.MIN_LEN,
-           maxLength: ZhabaName.MAX_LEN)]
+           minLength: ZhabaMnemonic.MIN_LEN,
+           maxLength: ZhabaMnemonic.MAX_LEN)]
     public string Scope_Name { get; set; }
 
     [Field(key: true,
            required: true,
-           minLength: ZhabaName.MIN_LEN,
-           maxLength: ZhabaName.MAX_LEN)]
+           minLength: ZhabaMnemonic.MIN_LEN,
+           maxLength: ZhabaMnemonic.MAX_LEN)]
     public string Sequence_Name { get; set; }
 
     [Field(required: true)]

@@ -5,7 +5,6 @@ using NFX;
 using NFX.DataAccess.CRUD;
 
 using Zhaba.Data.Domains;
-using Zhaba.Data.QueryBuilders;
 
 namespace Zhaba.Data.Rows
 {
@@ -18,8 +17,8 @@ namespace Zhaba.Data.Rows
 
     [Field(required: true,
            kind: DataKind.Text,
-           minLength: ZhabaName.MIN_LEN,
-           maxLength: ZhabaName.MAX_LEN,
+           minLength: ZhabaMnemonic.MIN_LEN,
+           maxLength: ZhabaMnemonic.MAX_LEN,
            description: "Name",
            metadata: @"Placeholder='Name'")]
     public string Name { get; set; }
@@ -41,19 +40,5 @@ namespace Zhaba.Data.Rows
     [Field(kind: DataKind.Date,
            description: "Completion Date")]
     public DateTime Complete_Date { get; set; }
-
-
-    public override Exception Validate(string targetName)
-    {
-      var error = base.Validate(targetName);
-      if (error != null) return error;
-
-      var qry = QProject.MilestoneByUK<MilestoneRow>(C_Project, Name);
-      var exists = ZApp.Data.CRUD.LoadRow(qry);
-      if (exists != null && exists.Counter != Counter)
-        return new CRUDRowValidationException(this.Schema.Name, "Key combination is already defined. Revise key fields");
-
-      return null;
-    }
   }
 }

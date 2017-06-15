@@ -21,15 +21,15 @@ namespace Zhaba.Data.Rows
     public string Login { get; set; }
 
     [Field(required: true,
-           minLength: ZhabaName.MIN_LEN,
-           maxLength: ZhabaName.MAX_LEN,
+           minLength: ZhabaHumanName.MIN_LEN,
+           maxLength: ZhabaHumanName.MAX_LEN,
            description: "First Name",
            metadata: @"Placeholder='User First Name'")]
     public string First_Name { get; set; }
 
     [Field(required: true,
-           minLength: ZhabaName.MIN_LEN,
-           maxLength: ZhabaName.MAX_LEN,
+           minLength: ZhabaHumanName.MIN_LEN,
+           maxLength: ZhabaHumanName.MAX_LEN,
            description: "Last Name",
            metadata: @"Placeholder='User Last Name'")]
     public string Last_Name { get; set; }
@@ -48,7 +48,7 @@ namespace Zhaba.Data.Rows
     private string m_UserRights;
     [NonSerialized] private Rights m_CachedRights;
 
-    [Field(required: false, nonUI: true, maxLength: Domains.ZhabaSecurityRights.MAX_LEN)]
+    [Field(required: true, nonUI: true, maxLength: Domains.ZhabaSecurityRights.MAX_LEN)]
     public string User_Rights
       {
         get { return m_UserRights; }
@@ -96,5 +96,21 @@ namespace Zhaba.Data.Rows
         }
       }
 
+    public override Exception Validate(string targetName)
+    {
+      var error = base.Validate(targetName);
+      if (error!=null) return error;
+
+      try
+      {
+        m_CachedRights = Domains.ZhabaSecurityRights.MapToRights(this.User_Rights);
+      }
+      catch(Exception errRights)
+      {
+        return new CRUDFieldValidationException(Schema.Name, "User_Rights", "User '{0}' wrong rights: {1}".Args(Login, errRights.ToMessageWithType()), errRights);
+      }
+
+      return null;
+    }
   }
 }

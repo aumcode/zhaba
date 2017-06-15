@@ -16,8 +16,8 @@ namespace Zhaba.Data.Rows
 
     [Field(required: true,
            kind: DataKind.Text,
-           minLength: ZhabaName.MIN_LEN,
-           maxLength: ZhabaName.MAX_LEN,
+           minLength: ZhabaMnemonic.MIN_LEN,
+           maxLength: ZhabaMnemonic.MAX_LEN,
            description: "Name",
            metadata: @"Placeholder='Name'")]
     public string Name { get; set; }

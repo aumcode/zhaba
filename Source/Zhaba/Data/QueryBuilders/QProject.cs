@@ -67,5 +67,23 @@ namespace Zhaba.Data.QueryBuilders
         new Query.Param("pFilter", filter)
       };
     }
+
+    public static Query<TRow> AreaByID<TRow>(ulong projID, ulong id) where TRow : Row
+    {
+      return new Query<TRow>("SQL.CRUD.Area.ByID")
+      {
+        new Query.Param("pProj_ID", projID),
+        new Query.Param("pID", id)
+      };
+    }
+
+    public static Query<TRow> ComponentByID<TRow>(ulong projID, ulong id) where TRow : Row
+    {
+      return new Query<TRow>("SQL.CRUD.Component.ByID")
+      {
+        new Query.Param("pProj_ID", projID),
+        new Query.Param("pID", id)
+      };
+    }
   }
 }

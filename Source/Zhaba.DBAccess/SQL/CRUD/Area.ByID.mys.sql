@@ -1,3 +1,3 @@
 ﻿SELECT *
 FROM tbl_area
-WHERE Counter = ?pID;
+ (C_PROJECT = ?pProj_ID) AND (Counter = ?pID);

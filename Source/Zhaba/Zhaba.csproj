@@ -60,6 +60,9 @@
     <Compile Include="Data\QueryBuilders\QCommon.cs" />
     <Compile Include="Data\QueryBuilders\QProject.cs" />
     <Compile Include="Data\QueryBuilders\QUser.cs" />
+    <Compile Include="Data\Rows\CategoryRow.cs" />
+    <Compile Include="Data\Rows\IssueAreaRow.cs" />
+    <Compile Include="Data\Rows\IssueComponent.cs" />
     <Compile Include="Data\Rows\Rows.cs" />
     <Compile Include="Data\Filters\UserFilterForm.cs" />
     <Compile Include="Data\Forms\ZhabaForm.cs" />

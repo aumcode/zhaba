@@ -10,12 +10,12 @@ using NFX.RelationalModel;
 
 namespace Zhaba.Data.Domains
 {
-  public class ZhabaName : ZhabaDomain
+  public class ZhabaHumanName : ZhabaDomain
   {
-    public const int MIN_LEN = 3;
+    public const int MIN_LEN = 1;
     public const int MAX_LEN = 32;
 
-    public ZhabaName() : base() { }
+    public ZhabaHumanName() : base() { }
 
     public override string GetTypeName(RDBMSCompiler compiler)
     {
@@ -38,7 +38,7 @@ namespace Zhaba.Data.Domains
   public class ZhabaMnemonic : ZhabaDomain
   {
     public const int MIN_LEN = 1;
-    public const int MAX_LEN = 25;
+    public const int MAX_LEN = 80;
 
     public override string GetTypeName(RDBMSCompiler compiler)
     {
