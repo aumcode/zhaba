@@ -87,7 +87,6 @@
     <Compile Include="Exceptions.cs" />
     <Compile Include="Security\Permissions\SiteUserPermission.cs" />
     <Compile Include="Security\Permissions\ZhabaPermission.cs" />
-    <Compile Include="Security\SecurityUtils.cs" />
     <Compile Include="Security\ULongIDCredentials.cs" />
     <Compile Include="Web\ZhabaControl.cs" />
     <Compile Include="Web\ControlClassification.cs" />

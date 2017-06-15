@@ -37,12 +37,7 @@
 
   <title>?[:Title]</title>
 
-  <link href="/static/css/vendors/font-awesome.min.css" rel="stylesheet">
-  <link href="/static/css/main.css" rel="stylesheet">
-  <link href="/static/common.css" rel="stylesheet">
-  <link href="/static/css/navigation.css" rel="stylesheet">
-  <link href="/static/css/tables.css" rel="stylesheet">
-  <link href="/static/css/forms.css" rel="stylesheet">
+  <link href="/static/css/common.css" rel="stylesheet">
   @[includeStyles();]
 
   <script src="/stock/site/script/jquery-2.1.4.min.js"></script>
@@ -53,19 +48,13 @@
   @[renderStyles();]
 </head>
 
-<body class="nav-md">
-  <div class="container body">
-    <div class="main_container">
-      @[renderBody();]
-      <div class="clearfix"></div>
+<body>
+  @[renderBody();]
 
-      <!-- footer content -->
-      <footer class="zhaba-footer">
-        <div class="pull-right">Zhaba 1.0 ©2016 All Rights Reserved</div>
-      </footer>
-      <div class="clearfix"></div>
-    </div>
-  </div>
+  <!-- footer content -->
+  <footer>
+    <div style="text-align: center;">Zhaba 1.0 ©2017 All Rights Reserved</div>
+  </footer>
 
 <script src="/static/js/custom.js"></script>
 @[renderScripts();]

@@ -60,7 +60,7 @@ namespace Zhaba.Security
       if (credentials is IDPasswordCredentials)
       {
         var idPwdCredentials = credentials as IDPasswordCredentials;
-        return authenticateByIdPassword(idPwdCredentials.ID, idPwdCredentials.Password);
+        return authenticateByIdPassword(idPwdCredentials.ID, idPwdCredentials.Password, idPwdCredentials.SecurePassword);
       }
 
       if (credentials is ULongIDCredentials)
@@ -137,7 +137,7 @@ namespace Zhaba.Security
           Rights.None) { DataRow = userRow };
     }
 
-    private User authenticateByIdPassword(string login, string password)
+    private User authenticateByIdPassword(string login, string password, SecureBuffer buffer)
     {
       var userRow = ZApp.Data.Users.GetUser(login.ToUpperInvariant());
       if (userRow == null ||
@@ -145,7 +145,6 @@ namespace Zhaba.Security
           !userRow.Login.EqualsIgnoreCase(login))
         return ZhabaUser.Invalid;
 
-      var buffer = IDPasswordCredentials.PlainPasswordToSecureBuffer(password);
       var needRehash = true;
       if (!App.SecurityManager.PasswordManager.Verify(buffer, HashedPassword.FromString(userRow.Password), out needRehash))
         return ZhabaUser.Invalid;

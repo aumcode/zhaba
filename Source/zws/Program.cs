@@ -28,14 +28,5 @@ namespace zws
         Environment.ExitCode = -1;
       }
     }
-
-    private class SequenceStartRow : TypedRow
-    {
-      [Field]
-      public ulong? ID { get; set; }
-
-      [Field]
-      public string Scope { get; set; }
-    }
   }
 }

@@ -14,7 +14,6 @@ namespace Zhaba.Web
     public const string HOME         = "/";
     public const string USER         = "/user";
     public const string USER_LOGIN   = USER + "/login";
-    public const string USER_SIGN_UP = USER + "/sign-up";
 
     public const string COMMON            = "/common";
     public const string COMMON_USERS      = COMMON + "/users";

@@ -31,7 +31,6 @@ namespace Zhaba.Data.Forms
 
     public Security.ZhabaUser ZhabaUser { get { return ZhabaSession.ZhabaUser; } }
 
-
     protected void Log(MessageType tp, string from, string text, Exception error = null, Guid? related = null)
     {
       App.Log.Write(new Message
@@ -59,7 +58,6 @@ namespace Zhaba.Data.Forms
       if (session != null) CSRFToken = session.CSRFToken;
     }
 
-
     public override Exception Validate(string targetName)
     {
       var error = base.Validate(targetName);
@@ -73,12 +71,11 @@ namespace Zhaba.Data.Forms
     private bool checkCSRF()
     {
       var session = ExecutionContext.Session as IZhabaSession;
-      if (session == null || CSRFToken == null) return false;
+      if (session == null) return true;
 
       return session.LastLoginType == SessionLoginType.Robot ||
-             this.CSRFToken.EqualsOrdSenseCase(session.CSRFToken);
+             (CSRFToken != null && CSRFToken.EqualsOrdSenseCase(session.CSRFToken));
     }
-
   }
 
   public abstract class ZhabaFilterForm : ZhabaForm

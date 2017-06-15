@@ -200,6 +200,9 @@
     <Folder Include="Pages\Project\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Static\css\common.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Static\js\zhb.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -31,7 +31,7 @@
 
 #[override renderBody()]
   <div class="table-responsive form-wrapper">
-    <form id="editForm" data-wv-rid="V1" method="POST" class="form-horizontal form-label-left" novalidate="">
+    <form id="editForm" data-wv-rid="V1" method="POST" novalidate="">
       @[renderControls();]
     </form>
   </div>
