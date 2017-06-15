@@ -13,13 +13,13 @@ namespace Zhaba.Data.Domains
   public class ZhabaName : ZhabaDomain
   {
     public const int MIN_LEN = 3;
-    public const int MAX_LEN = 80;
+    public const int MAX_LEN = 32;
 
     public ZhabaName() : base() { }
 
     public override string GetTypeName(RDBMSCompiler compiler)
     {
-      return "VARCHAR({0})".Args(MAX_LEN);
+      return "varchar({0})".Args(MAX_LEN);
     }
   }
 
@@ -31,18 +31,29 @@ namespace Zhaba.Data.Domains
 
     public override string GetTypeName(RDBMSCompiler compiler)
     {
-      return "VARCHAR({0})".Args(MAX_LEN);
+      return "varchar({0})".Args(MAX_LEN);
     }
   }
 
   public class ZhabaMnemonic : ZhabaDomain
   {
     public const int MIN_LEN = 1;
-    public const int MAX_LEN = 20;
+    public const int MAX_LEN = 25;
 
     public override string GetTypeName(RDBMSCompiler compiler)
     {
-      return "CHAR({0})".Args(MAX_LEN);
+      return "char({0})".Args(MAX_LEN);
+    }
+  }
+
+  public class ZhabaUserLogin : ZhabaDomain
+  {
+    public const int MIN_LEN = 3;
+    public const int MAX_LEN = 32;
+
+    public override string GetTypeName(RDBMSCompiler compiler)
+    {
+      return "varchar({0})".Args(MAX_LEN);
     }
   }
 
@@ -77,7 +88,7 @@ namespace Zhaba.Data.Domains
 
     public static string MapToValue(IConfigSectionNode node)
     {
-       if (node==null || !node.Exists) return null;
+       if (node == null || !node.Exists) return null;
 
        return node.ToJSONString(NFX.Serialization.JSON.JSONWritingOptions.Compact);
     }
@@ -95,7 +106,7 @@ namespace Zhaba.Data.Domains
     public static NFX.Security.Rights MapToRights(string content)
     {
       if (content.IsNullOrWhiteSpace()) return NFX.Security.Rights.None;
-      content = "{'"+NFX.Security.Rights.CONFIG_ROOT_SECTION+"': \n" + content + "\n}";
+      content = "{'" + NFX.Security.Rights.CONFIG_ROOT_SECTION + "': \n" + content + "\n}";
       var rights = content.AsJSONConfig(wrapRootName: null, handling: ConvertErrorHandling.Throw);
       return new NFX.Security.Rights(rights.Configuration);
     }
@@ -109,7 +120,7 @@ namespace Zhaba.Data.Domains
 
     public static string MapToValue(NFX.Security.Rights rights)
     {
-      if (rights==null || rights==NFX.Security.Rights.None) return null;
+      if (rights == null || rights == NFX.Security.Rights.None) return null;
 
       var content = rights.Root.ToJSONString(RIGHTS_OPTIONS);
       return content;

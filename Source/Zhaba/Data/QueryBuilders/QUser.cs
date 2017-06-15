@@ -10,7 +10,7 @@ namespace Zhaba.Data.QueryBuilders
 {
   public static class QUser
   {
-    public static Query<TRow> SecurityLoadByID<TRow>(ulong id) where TRow : Row
+    public static Query<TRow> GetUserById<TRow>(ulong id) where TRow : Row
     {
       return new Query<TRow>("SQL.CRUD.User.ByID")
       {

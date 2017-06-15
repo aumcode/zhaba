@@ -49,7 +49,7 @@ namespace Zhaba.Data.Forms
 
       if (FormMode == FormMode.Insert)
       {
-        row = new ProjectRow(RowULongPKAction.Default);
+        row = new ProjectRow(RowPKAction.Default);
       }
       else
       {

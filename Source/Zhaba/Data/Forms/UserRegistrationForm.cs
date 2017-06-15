@@ -12,14 +12,14 @@ using Zhaba.Security;
 
 namespace Zhaba.Data.Forms
 {
-  public class SignUpForm : ZhabaForm
+  public class UserRegistrationForm : ZhabaForm
   {
-    public static readonly string PASSWORD_SESSION_VAR = typeof(SignUpForm).FullName + "-PASSWORD";
+    public static readonly string PASSWORD_SESSION_VAR = typeof(UserRegistrationForm).FullName + "-PASSWORD";
     public static readonly string PASSWORD_FAKE = "_*-~!@#$%^'&*()_+`}{|<>?";
 
-    public SignUpForm()
+    public UserRegistrationForm()
     {
-      FormMode = FormMode.Insert; // Always Insert on sugn up
+      FormMode = FormMode.Insert; // Always Insert
     }
 
 
@@ -33,20 +33,17 @@ namespace Zhaba.Data.Forms
     public string Last_Name { get; set; }
 
     [Field(typeof(UserRow))]
-    public string Role { get; set; }
+    public string Status { get; set; }
 
-    [Field(required: true, metadata:
-            @"Placeholder ='User Password'
-              Hint='Enter your password'
-              Password=true")]
+    [Field(typeof(UserRow), "Password", minLength: Sizes.PASSWORD_MIN_LEN, maxLength: Sizes.PASSWORD_MAX_LEN)]
     public string Password { get; set; }
 
-    [Field(required: true, metadata:
-            @"Placeholder='Confirm Password'
-              Hint='Confirm your password'
-              Password=true")]
+    [Field(required: true,
+           minLength: Sizes.PASSWORD_MIN_LEN,
+           maxLength: Sizes.PASSWORD_MAX_LEN,
+           description: "Confirm Password",
+           metadata: "Placeholder='Confirm Password' Password=true Stored=true")]
     public string ConfirmPassword { get; set; }
-
 
 
     public override Exception Validate(string targetName)
@@ -92,16 +89,21 @@ namespace Zhaba.Data.Forms
    {
      saveResult = null;
 
-     var row = new UserRow(RowULongPKAction.Default);
+     var row = new UserRow(RowPKAction.Default);
      CopyFields(row);
 
      var typedPassword = ZhabaSession[PASSWORD_SESSION_VAR].AsString();
      if (typedPassword.IsNullOrWhiteSpace())
        return new CRUDFieldValidationException(this, "Password", "Password required");
 
-     var salt = "SALT";
-     row.Password_Hash = SecurityUtils.HashUserPassword(typedPassword, salt);
-     row.Password_Salt = salt;
+      using (var password = IDPasswordCredentials.PlainPasswordToSecureBuffer(typedPassword))
+        row.Password = App.SecurityManager.PasswordManager.ComputeHash(PasswordFamily.Text, password).ToString();
+
+     // fill user rights with empty config as default
+     var rightsCfg = new NFX.Environment.MemoryConfiguration();
+     rightsCfg.Create();
+     rightsCfg.Root.AddChildNode(NFX.Security.Rights.CONFIG_ROOT_SECTION);
+     row.User_Rights = rightsCfg.ToLaconicString(NFX.CodeAnalysis.Laconfig.LaconfigWritingOptions.Compact);
 
      var verror = row.ValidateAndPrepareForStore();
      if (verror != null) return verror;

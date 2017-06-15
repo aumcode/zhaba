@@ -8,13 +8,13 @@
     using { ns="NFX.Wave.Templatization" }
     using { ns="Zhaba" }
     using { ns="Zhaba.Data.Forms" }
-    base-class-name="Zhaba.Web.Pages.FormMaster<SignUpForm>"
+    base-class-name="Zhaba.Web.Pages.FormMaster<UserRegistrationForm>"
     namespace="Zhaba.Web.Pages"
   }
 #</laconf>
 
 #[class]
-  public SignUpPage(SignUpForm form, Exception error)
+  public UserRegistrationPage(UserRegistrationForm form, Exception error)
     : base(form, error)
   {
     Title = "User Registration";

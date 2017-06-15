@@ -8,10 +8,10 @@ using Zhaba.Data.Domains;
 namespace Zhaba.Data.Rows
 {
   [Table(name: "tbl_component")]
-  public class ComponentRow : ZhabaRowWithULongPK
+  public class ComponentRow : ZhabaRowProjectBase
   {
     public ComponentRow() : base() { }
-    public ComponentRow(RowULongPKAction action) : base(action) { }
+    public ComponentRow(RowPKAction action) : base(action) { }
 
 
     [Field(required: true,

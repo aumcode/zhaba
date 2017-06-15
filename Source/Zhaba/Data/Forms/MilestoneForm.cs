@@ -58,7 +58,7 @@ namespace Zhaba.Data.Forms
 
       if (FormMode == FormMode.Insert)
       {
-        row = new MilestoneRow(RowULongPKAction.Default);
+        row = new MilestoneRow(RowPKAction.Default);
         row.C_Project = ProjectID;
       }
       else

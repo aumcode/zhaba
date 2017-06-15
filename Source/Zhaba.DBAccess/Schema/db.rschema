@@ -32,9 +32,9 @@ schema
 
   table=sequence
   {
-    column=scope_name    {type=$(/$TName)   required=true}
-    column=sequence_name {type=$(/$TName)   required=true}
-    column=counter       {type=TInt(8,true) required=true}
+    column=scope_name    {type=$(/$TName)    required=true}
+    column=sequence_name {type=$(/$TName)    required=true}
+    column=counter       {type=TInt(8,true)  required=true}
 
     primary-key {column=scope_name{} column=sequence_name{}}
   }
@@ -42,12 +42,12 @@ schema
   table=user
   {
     _call=/scripts/counter {}
-    column=login           {type=$(/$TMnemonic)       required=true}
-    column=first_name      {type=$(/$TName)           required=true}
-    column=last_name       {type=$(/$TName)           required=true}
-    column=status          {type=TChar(1)             required=true}
-    column=password        {type=$(/$TPasswordHash)   required=true}
-    column=rights          {type=$(/$TSecurityRights) required=true}
+    column=login           {type=$(/$TMnemonic)        required=true}
+    column=first_name      {type=$(/$TName)            required=true}
+    column=last_name       {type=$(/$TName)            required=true}
+    column=status          {type=TChar(1)              required=true}
+    column=password        {type=$(/$TPasswordHash)    required=true}
+    column=user_rights     {type=$(/$TSecurityRights)  required=true}
     _call=/scripts/in-use  {}
 
     index=uk

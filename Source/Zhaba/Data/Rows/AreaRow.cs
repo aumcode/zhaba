@@ -8,10 +8,10 @@ using Zhaba.Data.Domains;
 namespace Zhaba.Data.Rows
 {
   [Table(name: "tbl_area")]
-  public class AreaRow : ZhabaRowWithULongPK
+  public class AreaRow : ZhabaRowProjectBase
   {
     public AreaRow() : base() { }
-    public AreaRow(RowULongPKAction action) : base(action) { }
+    public AreaRow(RowPKAction action) : base(action) { }
 
 
     [Field(required: true,

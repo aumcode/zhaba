@@ -10,14 +10,11 @@ using Zhaba.Data.QueryBuilders;
 namespace Zhaba.Data.Rows
 {
   [Table(name: "tbl_milestone")]
-  public class MilestoneRow : ZhabaRowWithULongPK
+  public class MilestoneRow : ZhabaRowProjectBase
   {
     public MilestoneRow() : base() { }
-    public MilestoneRow(RowULongPKAction action) : base(action) { }
+    public MilestoneRow(RowPKAction action) : base(action) { }
 
-
-    [Field(required: true, nonUI: true)]
-    public ulong? C_Project { get; set; }
 
     [Field(required: true,
            kind: DataKind.Text,
@@ -51,7 +48,7 @@ namespace Zhaba.Data.Rows
       var error = base.Validate(targetName);
       if (error != null) return error;
 
-      var qry = QProject.MilestoneByUK<MilestoneRow>(C_Project.Value, Name);
+      var qry = QProject.MilestoneByUK<MilestoneRow>(C_Project, Name);
       var exists = ZApp.Data.CRUD.LoadRow(qry);
       if (exists != null && exists.Counter != Counter)
         return new CRUDRowValidationException(this.Schema.Name, "Key combination is already defined. Revise key fields");

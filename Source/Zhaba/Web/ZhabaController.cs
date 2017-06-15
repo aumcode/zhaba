@@ -52,7 +52,7 @@ namespace Zhaba.Web
 
     public static object JSON_OK_ROW_ID(Row row)
     {
-      var gr = row as ZhabaRowWithULongPK;
+      var gr = row as ZhabaRowWithPK;
       if (gr==null) return NFX.Wave.SysConsts.JSON_RESULT_OK;
 
       return new {OK = true, GDID = gr.Counter};

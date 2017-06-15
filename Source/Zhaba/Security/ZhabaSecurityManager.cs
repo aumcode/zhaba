@@ -124,14 +124,14 @@ namespace Zhaba.Security
 
     private User authenticateByID(ulong userId)
     {
-      var qry = QUser.SecurityLoadByID<UserRow>(userId);
+      var qry = QUser.GetUserById<UserRow>(userId);
       var userRow = ZApp.Data.CRUD.LoadRow(qry);
       if (userRow == null) return ZhabaUser.Invalid;
 
       return new ZhabaUser(
           new ULongIDCredentials(userId),
           new AuthenticationToken(Consts.ZHABA_SECURITY_REALM, userRow.Counter),
-          userRow.Role.EqualsIgnoreCase("ADMIN") ? UserStatus.Admin : UserStatus.User,
+          userRow.Status.EqualsIgnoreCase("ADMIN") ? UserStatus.Admin : UserStatus.User,
           userRow.Login,
           "{0} {1}".Args(userRow.First_Name, userRow.Last_Name),
           Rights.None) { DataRow = userRow };
@@ -145,14 +145,15 @@ namespace Zhaba.Security
           !userRow.Login.EqualsIgnoreCase(login))
         return ZhabaUser.Invalid;
 
-      var passwordHash = SecurityUtils.HashUserPassword(password, userRow.Password_Salt);
-      if (passwordHash != userRow.Password_Hash)
+      var buffer = IDPasswordCredentials.PlainPasswordToSecureBuffer(password);
+      var needRehash = true;
+      if (!App.SecurityManager.PasswordManager.Verify(buffer, HashedPassword.FromString(userRow.Password), out needRehash))
         return ZhabaUser.Invalid;
 
       return new ZhabaUser(
         new IDPasswordCredentials(userRow.Login, password),
         new AuthenticationToken(Consts.ZHABA_SECURITY_REALM, userRow.Counter),
-        userRow.Role.EqualsOrdIgnoreCase("ADMIN") ? UserStatus.Admin : UserStatus.User,
+        userRow.Status.EqualsOrdIgnoreCase("ADMIN") ? UserStatus.Admin : UserStatus.User,
         userRow.Login,
         "{0} {1}".Args(userRow.First_Name, userRow.Last_Name),
         Rights.None) { DataRow = userRow };
