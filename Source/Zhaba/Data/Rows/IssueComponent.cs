@@ -12,10 +12,10 @@ using Zhaba.Data.QueryBuilders;
 
 namespace Zhaba.Data.Rows
 {
+  [Table(name: "tbl_issuecomponent")]
   public class IssueComponent : TypedRow
   {
     public IssueComponent() : base() {}
-
 
     [Field(required: true, nonUI: true, storeFlag: StoreFlag.OnlyLoad)]
     public ulong C_Project { get; set; }

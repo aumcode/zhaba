@@ -8,6 +8,7 @@ using Zhaba.Data.QueryBuilders;
 
 namespace Zhaba.Data.Rows
 {
+  [Table(name: "tbl_agenda")]
   public class AgendaRow : ZhabaRowWithPK
   {
     #region .ctor

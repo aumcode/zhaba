@@ -83,11 +83,17 @@ namespace Zhaba.Data.Rows
       {
         qry = QUser.GetUserById<UserRow>(C_Assignee.Value);
         var assignee = ZApp.Data.CRUD.LoadRow(qry);
-        if (assignee==null)
+        if (assignee == null)
           return new CRUDFieldValidationException(this, "C_Assignee", "Assignee user not found");
       }
       
-      // TODO: add meeting check
+      if (C_Meeting.HasValue)
+      {
+        var mQry = QCommon.MeetingByID<MeetingRow>(C_Meeting.Value);
+        var meeting = ZApp.Data.CRUD.LoadRow(mQry);
+        if (meeting == null)
+          return new CRUDFieldValidationException(this, "C_Meeting", "Non existing meeting");
+      }
 
       return null;
     }

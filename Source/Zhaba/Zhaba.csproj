@@ -67,6 +67,8 @@
     <Compile Include="Data\Rows\CategoryRow.cs" />
     <Compile Include="Data\Rows\IssueAreaRow.cs" />
     <Compile Include="Data\Rows\IssueComponent.cs" />
+    <Compile Include="Data\Rows\MeetingParticipantRow.cs" />
+    <Compile Include="Data\Rows\MeetingRow.cs" />
     <Compile Include="Data\Rows\Rows.cs" />
     <Compile Include="Data\Filters\UserFilterForm.cs" />
     <Compile Include="Data\Forms\ZhabaForm.cs" />

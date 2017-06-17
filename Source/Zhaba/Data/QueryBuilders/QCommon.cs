@@ -69,5 +69,21 @@ namespace Zhaba.Data.QueryBuilders
     {
       return new Query<TRow>("SQL.CRUD.Area.All");
     }
+
+    public static Query<TRow> AgendaByID<TRow>(ulong id) where TRow : Row
+    {
+      return new Query<TRow>("SQL.CRUD.Agenda.ByID")
+      {
+        new Query.Param("pID", id)
+      };
+    }
+
+    public static Query<TRow> MeetingByID<TRow>(ulong id) where TRow : Row
+    {
+      return new Query<TRow>("SQL.CRUD.Meeting.ByID")
+      {
+        new Query.Param("pID", id)
+      };
+    }
   }
 }

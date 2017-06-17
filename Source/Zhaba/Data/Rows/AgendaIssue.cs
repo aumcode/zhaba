@@ -11,6 +11,7 @@ using Zhaba.Data.QueryBuilders;
 
 namespace Zhaba.Data.Rows
 {
+  [Table(name: "tbl_agendaissue")]
   public class AgendaIssue : TypedRow
   {
     public AgendaIssue() : base() {}
@@ -34,11 +35,10 @@ namespace Zhaba.Data.Rows
       if (issue == null)
         return new CRUDFieldValidationException(this.Schema.Name, "C_Issue", "Non existing issue");
       
-      // TODO
-      var aQry = QProject.AreaByID<AreaRow>(C_Project, C_Agenda);
-      var area = ZApp.Data.CRUD.LoadRow(aQry);
-      if (area == null)
-        return new CRUDFieldValidationException(this.Schema.Name, "C_Area", "Non existing area");
+      var aQry = QCommon.AgendaByID<AgendaRow>(C_Agenda);
+      var agenda = ZApp.Data.CRUD.LoadRow(aQry);
+      if (agenda == null)
+        return new CRUDFieldValidationException(this.Schema.Name, "C_Agenda", "Non existing agenda");
 
       return null;
     }

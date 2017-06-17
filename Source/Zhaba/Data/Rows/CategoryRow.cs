@@ -16,7 +16,6 @@ namespace Zhaba.Data.Rows
     public CategoryRow() : base() { }
     public CategoryRow(RowPKAction action) : base(action) { }
 
-
     [Field(required: true,
            kind: DataKind.Text,
            minLength: ZhabaMnemonic.MIN_LEN,

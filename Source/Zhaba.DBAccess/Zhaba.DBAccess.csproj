@@ -74,6 +74,8 @@
   <ItemGroup>
     <Content Include="Schema\tbl.foreignkeys.MySQL.sql" />
     <Content Include="Schema\tbl.tables.MySQL.sql" />
+    <EmbeddedResource Include="SQL\CRUD\Meeting\ByID.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\Agenda\ByID.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\User.AllInfos.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\Component.All.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\Area.All.mys.sql" />

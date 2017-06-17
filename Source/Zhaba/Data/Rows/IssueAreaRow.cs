@@ -12,6 +12,7 @@ using Zhaba.Data.QueryBuilders;
 
 namespace Zhaba.Data.Rows
 {
+  [Table(name: "tbl_issuearea")]
   public class IssueAreaRow : TypedRow
   {
     public IssueAreaRow() : base() {}

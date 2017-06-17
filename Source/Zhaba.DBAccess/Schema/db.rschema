@@ -250,7 +250,7 @@ schema
     column=participant {type=$(/$TIDRef) required=true reference {table="user" column="counter"}} 
     column=participation_type {type=$(/$TMeetingParticipationType) required=true default=$(/$PHYSICAL)}
     column=admin_note {type=$(/$TNote)}   // text that admin enters, only admin can see
-    column=participation_note {type=$(/$TNote)} // text that participant enters
+    column=participant_note {type=$(/$TNote)} // text that participant enters
     primary-key {column=meeting{} column=participant{}}
   }
 }
