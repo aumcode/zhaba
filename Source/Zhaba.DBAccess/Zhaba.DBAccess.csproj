@@ -65,29 +65,27 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SQL\CRUD\Sequence.AllScopes.mys.sql" />
-    <EmbeddedResource Include="SQL\CRUD\Sequence.ByName.mys.sql" />
-    <EmbeddedResource Include="SQL\CRUD\User.ByLogin.mys.sql" />
-    <EmbeddedResource Include="SQL\CRUD\Component.ByID.mys.sql" />
-    <EmbeddedResource Include="SQL\CRUD\Sequence.ByScopeName.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\Sequence\AllScopes.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\Sequence\ByName.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\User\ByLogin.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\Component\ByID.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\Sequence\ByScopeName.mys.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Schema\tbl.foreignkeys.MySQL.sql" />
-    <Content Include="Schema\tbl.tables.MySQL.sql" />
     <EmbeddedResource Include="SQL\CRUD\Meeting\ByID.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\Agenda\ByID.mys.sql" />
-    <EmbeddedResource Include="SQL\CRUD\User.AllInfos.mys.sql" />
-    <EmbeddedResource Include="SQL\CRUD\Component.All.mys.sql" />
-    <EmbeddedResource Include="SQL\CRUD\Area.All.mys.sql" />
-    <EmbeddedResource Include="SQL\CRUD\Milestones.ByProjectID.mys.sql" />
-    <EmbeddedResource Include="SQL\CRUD\Issue.ByID.mys.sql" />
-    <EmbeddedResource Include="SQL\CRUD\Milestone.ByID.mys.sql" />
-    <EmbeddedResource Include="SQL\CRUD\Milestone.ByUK.mys.sql" />
-    <EmbeddedResource Include="SQL\CRUD\Area.ByID.mys.sql" />
-    <EmbeddedResource Include="SQL\CRUD\Project.All.mys.sql" />
-    <EmbeddedResource Include="SQL\CRUD\Project.ByID.mys.sql" />
-    <EmbeddedResource Include="SQL\IssueLog.mys.sql" />
-    <EmbeddedResource Include="SQL\CRUD\User.ByID.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\User\AllInfos.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\Component\All.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\Area\All.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\Milestone\ByProjectID.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\Issue\ByID.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\Milestone\ByID.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\Milestone\ByUK.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\Area\ByID.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\Project\All.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\Project\ByID.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\IssueLog\ByIssue.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\User\ByID.mys.sql" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
