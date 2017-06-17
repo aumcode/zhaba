@@ -71,7 +71,9 @@ namespace Zhaba.Data.Forms
     private bool checkCSRF()
     {
       var session = ExecutionContext.Session as IZhabaSession;
-      if (session == null) return true;
+      if (session==null) return true; // If session does not exist then pass. This does not violate security
+                                      // because SCRF is not security but additional check for cross-site forgery which will always apply once security passes
+                                      // however, forms are purposed not only for web, therefore if session is not there, then pass CSRF
 
       return session.LastLoginType == SessionLoginType.Robot ||
              (CSRFToken != null && CSRFToken.EqualsOrdSenseCase(session.CSRFToken));

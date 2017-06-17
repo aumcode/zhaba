@@ -1,19 +1,22 @@
 schema
 {
-  THumanName       = "ZhabaHumanName"
-  TDescription     = "ZhabaDescription"
-  TDate            = "ZhabaDate"
-  TMnemonic        = "ZhabaMnemonic"
-  TIssueStatus     = "ZhabaIssueStatus"
-  TUserStatus      = "ZhabaUserStatus"
-  TPasswordHash    = "ZhabaPasswordHash"
-  TSecurityRights  = "ZhabaSecurityRights"
-  TBool            = "ZhabaBool"
-  TIDRef           = "ZhabaIDRef"
+  THumanName      = "ZhabaHumanName"
+  TDescription    = "ZhabaDescription"
+  TDate           = "ZhabaDate"
+  TMnemonic       = "ZhabaMnemonic"
+  TIssueStatus    = "ZhabaIssueStatus"
+  TUserStatus     = "ZhabaUserStatus"
+  TPasswordHash   = "ZhabaPasswordHash"
+  TSecurityRights = "ZhabaSecurityRights"
+  TBool           = "ZhabaBool"
+  TIDRef          = "ZhabaIDRef"
+  TEMail          = "ZhabaEMail"
+  TIntPercent     = "ZhabaIntPercent"
+  TNote           = "ZhabaNote"
+  TMeetingParticipationType = "ZhabaMeetingParticipationType"
 
-
-  TRUE='T'
-  FALSE='F'
+  TRUE="T"
+  PHYSICAL="P"
 
   scripts
   {
@@ -27,7 +30,9 @@ schema
     issue_ref     {column=issue       {type=$(/$TIDRef) required=true reference {table="issue" column="counter"}}}
     component_ref {column=component   {type=$(/$TIDRef) required=true reference {table="component" column="counter"}}}
     area_ref      {column=area        {type=$(/$TIDRef) required=true reference {table="area" column="counter"}}}
+    agenda_ref    {column=agenda      {type=$(/$TIDRef) required=true reference {table="agenda" column="counter"}}}
     in-use        {column=in_use      {type=$(/$TBool)  required=true default=$(/$TRUE) }}
+    note          {column=note        {type=$(/$TNote)}}
   }
 
   table=sequence
@@ -42,12 +47,13 @@ schema
   table=user
   {
     _call=/scripts/counter {}
-    column=login           {type=$(/$TMnemonic)        required=true}
-    column=first_name      {type=$(/$THumanName)            required=true}
-    column=last_name       {type=$(/$THumanName)            required=true}
-    column=status          {type=$(/$TUserStatus)      required=true}
-    column=password        {type=$(/$TPasswordHash)    required=true}
-    column=user_rights     {type=$(/$TSecurityRights)  required=true}
+    column=login           {type=$(/$TMnemonic)       required=true}
+    column=first_name      {type=$(/$THumanName)      required=true}
+    column=last_name       {type=$(/$THumanName)      required=true}
+    column=email           {type=$(/$TEMail)          required=true}
+    column=status          {type=$(/$TUserStatus)     required=true}
+    column=password        {type=$(/$TPasswordHash)   required=true}
+    column=user_rights     {type=$(/$TSecurityRights) required=true}
     _call=/scripts/in-use  {}
 
     index=uk
@@ -57,28 +63,29 @@ schema
     }
   }
 
+  // sample: bug, nice to have, improvement, future
   table=category
   {
-    _call=/scripts/counter {}
-    _call=/scripts/name {}
+    _call=/scripts/counter     {}
+    _call=/scripts/name        {}
     _call=/scripts/description {}
-    _call=/scripts/in-use  {}
+    _call=/scripts/in-use      {}
 
     index=uk
     {
       unique=true
       column=name{}
     }
-    
   }
 
+  // sample: NFX, Zhaba, NFX.HowTo, XYZ.Web
   table=project
   {
-    _call=/scripts/counter {}
-    _call=/scripts/name {}
+    _call=/scripts/counter     {}
+    _call=/scripts/name        {}
     _call=/scripts/description {}
     _call=/scripts/creator_ref {}
-    _call=/scripts/in-use  {}
+    _call=/scripts/in-use      {}
 
     index=uk
     {
@@ -87,40 +94,45 @@ schema
     }
   }
 
+  // sample: Glue, Logging, OrderProcessor
   table=component
   {
-    _call=/scripts/counter {}
-    _call=/scripts/name {}
+    _call=/scripts/counter     {}
+    _call=/scripts/name        {}
     _call=/scripts/description {}
     _call=/scripts/project_ref {}
-    _call=/scripts/in-use  {}
+    _call=/scripts/in-use      {}
 
     index=uk
     {
       unique=true
+      column=project{}
       column=name{}
     }
   }
 
+  // sample: UI.js, API.Controllers, UI.Design, Legal Docs
   table=area
   {
-    _call=/scripts/counter {}
-    _call=/scripts/name {}
+    _call=/scripts/counter     {}
+    _call=/scripts/name        {}
     _call=/scripts/description {}
     _call=/scripts/project_ref {}
-    _call=/scripts/in-use  {}
+    _call=/scripts/in-use      {}
 
     index=uk
     {
       unique=true
-      column=name{}
+      column=project {}
+      column=name {}
     }
   }
 
+  // sample: August Release, NFX4 Linux
   table=milestone
   {
     _call=/scripts/counter     {}
-    _call=/scripts/name    {}
+    _call=/scripts/name        {}
     _call=/scripts/description {}
     _call=/scripts/project_ref {}
     _call=/scripts/in-use      {}
@@ -131,14 +143,16 @@ schema
     index=uk
     {
       unique=true
-      column=name{}
+      column=project {}
+      column=name {}
     }
   }
 
+  // sample: "User pic absent", "Div by zero on OK click", etc.
   table=issue
   {
     _call=/scripts/counter     {}
-    _call=/scripts/name    {}
+    _call=/scripts/name        {}
     _call=/scripts/project_ref {}
     column=parent {type=$(/$TIDRef) required=false reference {table="issue" column="counter"}}
     _call=/scripts/in-use  {}
@@ -146,11 +160,12 @@ schema
     index=uk
     {
       unique=true
-      column=project{}
-      column=name{}
+      column=project {}
+      column=name {}
     }
   }
 
+  // sample: 06.12.2017 assign OPan by VLap - 10%; 06.14.2017 progress by OPan - 50% note="was able to reproduce today"
   table=issuelog
   {
     _call=/scripts/counter     {}
@@ -162,16 +177,20 @@ schema
     column=assignee    {type=$(/$TIDRef) required=false reference {table="user" column="counter"}}
     column=status_date {type=TDateTime required=true}
     column=operator    {type=$(/$TIDRef) required=true reference {table="user" column="counter"}}
+    column=completeness {type=$(/$TIntPercent) required=true default=0}
+    _call=/scripts/note {}
+    column=meeting {type=$(/$TIDRef) required=false reference {table="meeting" column="counter"}}
 
     index=uk
     {
       unique=true
-      column=issue{}
-      column=status_date{}
-      column=operator{}
+      column=issue {}
+      column=status_date {}
+      column=operator {}
     }
-}
+  }
 
+  // sample: "division by zero" -> Logging, DBAccess
   table=issuecomponent
   {
     _call=/scripts/issue_ref     {}
@@ -179,10 +198,59 @@ schema
     primary-key {column=issue{} column=component{}}
   }
 
+  // sample: "division by zero" -> BackEnd, Framework
   table=issuearea
   {
     _call=/scripts/issue_ref {}
     _call=/scripts/area_ref  {}
     primary-key {column=issue{} column=area{}}
+  }
+
+  // sample: 1. Weekly review of NFX, 2. Zhaba daily standup.
+  table=agenda
+  {
+    _call=/scripts/counter     {}
+    _call=/scripts/name        {}
+    _call=/scripts/description {}
+    column=start_date {type=TDateTime required=true}
+    column=end_date   {type=TDateTime required=true}
+    _call=/scripts/creator_ref {}
+  }
+  
+  // sample: Zhaba daily standup -> issue1, issue2, ...
+  table=agendadissue
+  {
+    _call=/scripts/agenda_ref {}
+    _call=/scripts/issue_ref {}
+    primary-key {column=agenda{} column=issue{}}
+  }
+
+  // sample:  Zhaba daily standup -> 06.12.2017 host=VLap notes="..."
+  table=meeting
+  {
+    _call=/scripts/counter    {}
+    _call=/scripts/agenda_ref {}
+    column=date {type=TDateTime required=true}
+    column=host {type=$(/$TIDRef) required=true reference {table="user" column="counter"}}
+    _call=/scripts/note {} // populates by host
+
+    index=uk
+    {
+      unique=true
+      column=agenda {}
+      column=date {}
+      column=host {}
+    }
+  }
+
+  // sample: meeting1 -> User A, User B, User X
+  table=meetingparticipant
+  {
+    column=meeting {type=$(/$TIDRef) required=true reference {table="meeting" column="counter"}}
+    column=participant {type=$(/$TIDRef) required=true reference {table="user" column="counter"}} 
+    column=participation_type {type=$(/$TMeetingParticipationType) required=true default=$(/$PHYSICAL)}
+    column=admin_note {type=$(/$TNote)}   // text that admin enters, only admin can see
+    column=participation_note {type=$(/$TNote)} // text that participant enters
+    primary-key {column=meeting{} column=participant{}}
   }
 }

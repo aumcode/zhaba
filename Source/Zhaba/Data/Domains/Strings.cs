@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using NFX;
+﻿using NFX;
 using NFX.Environment;
 using NFX.RelationalModel;
 
@@ -50,6 +44,17 @@ namespace Zhaba.Data.Domains
   {
     public const int MIN_LEN = 3;
     public const int MAX_LEN = 32;
+
+    public override string GetTypeName(RDBMSCompiler compiler)
+    {
+      return "varchar({0})".Args(MAX_LEN);
+    }
+  }
+
+  public class ZhabaEMail : ZhabaDomain
+  {
+    public const int MIN_LEN = 5;
+    public const int MAX_LEN = 64;
 
     public override string GetTypeName(RDBMSCompiler compiler)
     {
@@ -124,6 +129,16 @@ namespace Zhaba.Data.Domains
 
       var content = rights.Root.ToJSONString(RIGHTS_OPTIONS);
       return content;
+    }
+  }
+
+  public class ZhabaNote : ZhabaDomain
+  {
+    public const int MAX_LEN = 1024 * 2;
+
+    public override string GetTypeName(RDBMSCompiler compiler)
+    {
+      return "TEXT";
     }
   }
 }

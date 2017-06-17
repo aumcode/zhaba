@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using NFX;
 using NFX.Environment;
@@ -19,13 +16,7 @@ namespace Zhaba.Security
 
     private IPasswordManagerImplementation m_PasswordManager;
 
-    public IPasswordManager PasswordManager
-    {
-      get
-      {
-        return m_PasswordManager;
-      }
-    }
+    public IPasswordManager PasswordManager { get { return m_PasswordManager; } }
 
     public override bool InstrumentationEnabled
     {
@@ -34,7 +25,6 @@ namespace Zhaba.Security
     }
 
     #region Public
-
     public void Authenticate(User user)
     {
       var credentials = user.Credentials as IDPasswordCredentials;
@@ -50,50 +40,34 @@ namespace Zhaba.Security
       var id = token.Data.AsNullableULong();
       if (!id.HasValue) return ZhabaUser.Invalid;
 
-      return authenticateByID(id.Value);
+      return authenticateByCounter(id.Value);
     }
 
     public User Authenticate(Credentials credentials)
     {
       if (credentials==null) return ZhabaUser.Invalid;
 
-      if (credentials is IDPasswordCredentials)
-      {
-        var idPwdCredentials = credentials as IDPasswordCredentials;
-        return authenticateByIdPassword(idPwdCredentials.ID, idPwdCredentials.Password, idPwdCredentials.SecurePassword);
-      }
-
-      if (credentials is ULongIDCredentials)
-      {
-        var idCredentials = credentials as ULongIDCredentials;
-        return authenticateByID(idCredentials.ID);
-      }
+      var idpc = credentials as IDPasswordCredentials;
+      if (idpc != null)
+        return authenticateByIdPassword(idpc);
 
       return ZhabaUser.Invalid;
     }
 
     public AccessLevel Authorize(User user, Permission permission)
     {
-      IConfigSectionNode ACCESS_CONF_USER =  "p{level=1}".AsLaconicConfig();
-      IConfigSectionNode ACCESS_CONF_ADMIN = "p{level=100}".AsLaconicConfig();
+      if (user == null)
+        throw new SecurityException(StringConsts.ARGUMENT_ERROR + GetType().Name + ".Authorize(user==null)");
 
-      if (user == null || user.Status == UserStatus.Invalid)
-        throw new AuthorizationException();
+      if (user.Status == UserStatus.Invalid)
+        return AccessLevel.DeniedFor(user, permission);
 
-      IDPasswordCredentials credentials = user.Credentials as IDPasswordCredentials;
-      if (credentials == null)
-        throw new AuthorizationException();
-
-      IConfigSectionNode confNode = (user.Status == UserStatus.Admin ?
-        ACCESS_CONF_ADMIN : ACCESS_CONF_USER);
-
-      return new AccessLevel(user, permission, confNode);
+      var node = user.Rights.Root.NavigateSection(permission.FullPath);
+      return new AccessLevel(user, permission, node);
     }
-
     #endregion
 
     #region Protected
-
     protected override void DoConfigure(IConfigSectionNode node)
     {
       base.DoConfigure(node);
@@ -119,45 +93,44 @@ namespace Zhaba.Security
     }
     #endregion
 
-
     #region .pvt
-
-    private User authenticateByID(ulong userId)
+    private User authenticateByCounter(ulong userId)
     {
       var qry = QUser.GetUserById<UserRow>(userId);
       var userRow = ZApp.Data.CRUD.LoadRow(qry);
-      if (userRow == null) return ZhabaUser.Invalid;
+      if (userRow == null || !userRow.In_Use) return ZhabaUser.Invalid;
 
       return new ZhabaUser(
-          new ULongIDCredentials(userId),
+          new ZhabaCounterCredentials(userId),
           new AuthenticationToken(Consts.ZHABA_SECURITY_REALM, userRow.Counter),
-          userRow.Status.EqualsIgnoreCase("ADMIN") ? UserStatus.Admin : UserStatus.User,
+          Data.Domains.ZhabaUserStatus.MapStatus(userRow.Status),
           userRow.Login,
           "{0} {1}".Args(userRow.First_Name, userRow.Last_Name),
           Rights.None) { DataRow = userRow };
     }
 
-    private User authenticateByIdPassword(string login, string password, SecureBuffer buffer)
+    private User authenticateByIdPassword(IDPasswordCredentials idpc)
     {
-      var userRow = ZApp.Data.Users.GetUser(login.ToUpperInvariant());
+      var userRow = ZApp.Data.Users.GetUser(idpc.ID.ToUpperInvariant());
       if (userRow == null ||
-          userRow.Login.IsNullOrWhiteSpace() ||
-          !userRow.Login.EqualsIgnoreCase(login))
+          !userRow.In_Use ||
+          !userRow.Login.EqualsOrdIgnoreCase(idpc.ID))
         return ZhabaUser.Invalid;
 
       var needRehash = true;
-      if (!App.SecurityManager.PasswordManager.Verify(buffer, HashedPassword.FromString(userRow.Password), out needRehash))
+      if (!App.SecurityManager.PasswordManager.Verify(idpc.SecurePassword, HashedPassword.FromString(userRow.Password), out needRehash))
         return ZhabaUser.Invalid;
 
+      idpc.Forget();
+
       return new ZhabaUser(
-        new IDPasswordCredentials(userRow.Login, password),
+        idpc,
         new AuthenticationToken(Consts.ZHABA_SECURITY_REALM, userRow.Counter),
-        userRow.Status.EqualsOrdIgnoreCase("ADMIN") ? UserStatus.Admin : UserStatus.User,
+        Data.Domains.ZhabaUserStatus.MapStatus(userRow.Status),
         userRow.Login,
         "{0} {1}".Args(userRow.First_Name, userRow.Last_Name),
         Rights.None) { DataRow = userRow };
     }
-
     #endregion
   }
 }

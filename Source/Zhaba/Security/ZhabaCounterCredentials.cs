@@ -14,9 +14,9 @@ namespace Zhaba.Security
   /// Represents very simple uint ID textual credentials
   /// </summary>
   [Serializable]
-  public class ULongIDCredentials : Credentials, IStringRepresentableCredentials
+  public class ZhabaCounterCredentials : Credentials, IStringRepresentableCredentials
   {
-     public ULongIDCredentials(ulong id)
+     public ZhabaCounterCredentials(ulong id)
      {
        m_ID = id;
      }
@@ -25,7 +25,7 @@ namespace Zhaba.Security
      /// Warning: storing plain credentials in config file is not secure. Use this method for the most simplistic cases
      /// like unit testing
      /// </summary>
-     public ULongIDCredentials(IConfigSectionNode cfg)
+     public ZhabaCounterCredentials(IConfigSectionNode cfg)
      {
        if (cfg == null || !cfg.Exists)
          throw new SecurityException("ULongIDCredentials.ctor(cfg=null|!exists)");

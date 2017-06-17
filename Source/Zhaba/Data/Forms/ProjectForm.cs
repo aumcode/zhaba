@@ -30,9 +30,7 @@ namespace Zhaba.Data.Forms
         this.RoundtripBag[ITEM_ID_BAG_PARAM] = id.Value;
       }
       else
-      {
         FormMode = FormMode.Insert;
-      }
     }
 
     [Field(typeof(ProjectRow))]
@@ -48,9 +46,7 @@ namespace Zhaba.Data.Forms
       ProjectRow row = null;
 
       if (FormMode == FormMode.Insert)
-      {
         row = new ProjectRow(RowPKAction.Default);
-      }
       else
       {
         var id = RoundtripBag[ITEM_ID_BAG_PARAM].AsNullableULong();

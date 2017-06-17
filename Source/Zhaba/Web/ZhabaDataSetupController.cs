@@ -43,7 +43,7 @@ namespace Zhaba.Web
       }
       else
       {
-        if (!WorkContext.HasAnyVarsMatchingFieldNames(filter)) //if new filter came blank, then try to take take it from session
+        if (!WorkContext.HasAnyVarsMatchingFieldNames(filter)) //if new filter came blank, then try to take it from session
         {
           var priorFilter = ZhabaWebSession[FILTER_SESSION_KEY] as TFilter;
           if (priorFilter != null) priorFilter.CopyFields(filter);
@@ -75,15 +75,12 @@ namespace Zhaba.Web
         }
       }
       else
-      {
         form = (TForm)Activator.CreateInstance(typeof(TForm), new object[] { id });
-      }
 
       if (WorkContext.RequestedJSON)
         return new ClientRecord(form, error);
       else
         return MakePage<TPage>(form, error);
     }
-
   }
 }

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Zhaba
+﻿namespace Zhaba
 {
-  public class Consts
+  /// <summary>
+  /// System string constants
+  /// </summary>
+  public static class Consts
   {
     public const string ZHABA_TOPIC = "Zhaba";
     public const int    MINIMUM_PASSWORD_STRENGTH_SCORE_PCT = 60;

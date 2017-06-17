@@ -46,7 +46,9 @@
   <ItemGroup>
     <Compile Include="Consts.cs" />
     <Compile Include="Data\Domains\Enums.cs" />
+    <Compile Include="Data\Domains\Numerics.cs" />
     <Compile Include="Data\Domains\Strings.cs" />
+    <Compile Include="Data\Domains\Time.cs" />
     <Compile Include="Data\Filters\AreaListFilter.cs" />
     <Compile Include="Data\Filters\IssueListFilter.cs" />
     <Compile Include="Data\Filters\MilestoneListFilter.cs" />
@@ -60,6 +62,8 @@
     <Compile Include="Data\QueryBuilders\QCommon.cs" />
     <Compile Include="Data\QueryBuilders\QProject.cs" />
     <Compile Include="Data\QueryBuilders\QUser.cs" />
+    <Compile Include="Data\Rows\AgendaIssue.cs" />
+    <Compile Include="Data\Rows\AgendaRow.cs" />
     <Compile Include="Data\Rows\CategoryRow.cs" />
     <Compile Include="Data\Rows\IssueAreaRow.cs" />
     <Compile Include="Data\Rows\IssueComponent.cs" />
@@ -87,7 +91,8 @@
     <Compile Include="Exceptions.cs" />
     <Compile Include="Security\Permissions\SiteUserPermission.cs" />
     <Compile Include="Security\Permissions\ZhabaPermission.cs" />
-    <Compile Include="Security\ULongIDCredentials.cs" />
+    <Compile Include="Security\ZhabaCounterCredentials.cs" />
+    <Compile Include="StringConsts.cs" />
     <Compile Include="Web\ZhabaControl.cs" />
     <Compile Include="Web\ControlClassification.cs" />
     <Compile Include="Web\IZhabaSession.cs" />

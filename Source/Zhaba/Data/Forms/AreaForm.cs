@@ -11,7 +11,7 @@ using Zhaba.Data.QueryBuilders;
 
 namespace Zhaba.Data.Forms
 {
-  public class AreaForm : ZhabaForm
+  public class AreaForm : ProjectFormBase
   {
     public AreaForm() { }
     public AreaForm(ulong? id)

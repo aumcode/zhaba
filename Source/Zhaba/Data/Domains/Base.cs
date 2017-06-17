@@ -1,27 +1,14 @@
-﻿using NFX;
+﻿using System.Linq;
+
+using NFX;
 using NFX.RelationalModel;
 using NFX.RelationalModel.DataTypes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Zhaba.Data.Domains
 {
   public abstract class ZhabaDomain : RDBMSDomain
   {
     protected ZhabaDomain() : base() { }
-  }
-
-  public class ZhabaDate : ZhabaDomain
-  {
-    public ZhabaDate() : base() { }
-
-    public override string GetTypeName(RDBMSCompiler compiler)
-    {
-      return "DATE";
-    }
   }
 
   public abstract class ZhabaEnum : ZhabaDomain
@@ -52,21 +39,6 @@ namespace Zhaba.Data.Domains
                             compiler.GetQuotedIdentifierName(RDBMSEntityType.Column, column.TransformedName),
                             enumLine
                           );
-    }
-  }
-
-  public class ZhabaIDRef : ZhabaDomain
-  {
-    public ZhabaIDRef() : base() { }
-
-    public override string GetTypeName(RDBMSCompiler compiler)
-    {
-      return "BIGINT(8) UNSIGNED";
-    }
-
-    public override void TransformColumnName(RDBMSCompiler compiler, RDBMSEntity column)
-    {
-      column.TransformedName = "C_{0}".Args(column.TransformedName);
     }
   }
 }

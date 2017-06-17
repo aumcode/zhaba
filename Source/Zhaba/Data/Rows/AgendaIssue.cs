@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using NFX;
 using NFX.DataAccess;
@@ -12,18 +11,18 @@ using Zhaba.Data.QueryBuilders;
 
 namespace Zhaba.Data.Rows
 {
-  public class IssueAreaRow : TypedRow
+  public class AgendaIssue : TypedRow
   {
-    public IssueAreaRow() : base() {}
+    public AgendaIssue() : base() {}
 
     [Field(required: true, nonUI: true, storeFlag: StoreFlag.OnlyLoad)]
     public ulong C_Project { get; set; }
+    
+    [Field(required: true, key: true, description: "Agenda")]
+    public ulong C_Agenda { get; set; }
 
     [Field(required: true, key: true, description: "Issue" )]
     public ulong C_Issue { get; set; }
-    
-    [Field(required: true, key: true, description: "Area")]
-    public ulong C_Area { get; set; }
 
     public override Exception Validate(string targetName)
     {
@@ -35,7 +34,8 @@ namespace Zhaba.Data.Rows
       if (issue == null)
         return new CRUDFieldValidationException(this.Schema.Name, "C_Issue", "Non existing issue");
       
-      var aQry = QProject.AreaByID<AreaRow>(C_Project, C_Area);
+      // TODO
+      var aQry = QProject.AreaByID<AreaRow>(C_Project, C_Agenda);
       var area = ZApp.Data.CRUD.LoadRow(aQry);
       if (area == null)
         return new CRUDFieldValidationException(this.Schema.Name, "C_Area", "Non existing area");

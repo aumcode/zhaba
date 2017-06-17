@@ -1,7 +1,6 @@
 ﻿using System;
 
 using NFX;
-using NFX.ApplicationModel;
 using NFX.DataAccess.CRUD;
 
 namespace Zhaba.Data.Rows
@@ -117,7 +116,7 @@ namespace Zhaba.Data.Rows
     }
 
     [Field(required: true, description: "In use", dflt: true)]
-    public bool? In_Use { get; set; }
+    public bool In_Use { get; set; }
   }
 
   /// <summary>

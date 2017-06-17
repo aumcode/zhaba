@@ -5,3 +5,5 @@ CREATE SCHEMA `Zhaba`;
 
 USE `Zhaba`;
 source tables.MySQL.sql;
+delimiter ;
+source init_data.MySQL.sql;

@@ -10,10 +10,10 @@ using NFX.DataAccess.CRUD;
 using NFX.Wave;
 using NFX.Wave.MVC;
 
+using Zhaba.Data.Filters;
 using Zhaba.Data.Forms;
 using Zhaba.Data.QueryBuilders;
 using Zhaba.Data.Rows;
-using Zhaba.Data.Filters;
 
 namespace Zhaba.Web.Controllers
 {
@@ -92,9 +92,7 @@ namespace Zhaba.Web.Controllers
         }
       }
       else
-      {
         form = (TForm)Activator.CreateInstance(typeof(TForm), new object[] { ProjectRow, id });
-      }
 
       if (WorkContext.RequestedJSON)
         return new ClientRecord(form, error);

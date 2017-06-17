@@ -11,53 +11,67 @@ namespace Zhaba.Data.Rows
   [Table(name: "tbl_user")]
   public class UserRow : ZhabaRowWithPKAndInUse
   {
-    public UserRow() : base() { }
-    public UserRow(RowPKAction action) : base(action) { }
+    #region .ctor
+      public UserRow() : base() { }
+      public UserRow(RowPKAction action) : base(action) { }
+    #endregion
 
-    [Field(required: true,
-           minLength: ZhabaUserLogin.MIN_LEN,
-           maxLength: ZhabaUserLogin.MAX_LEN,
-           metadata: @"Placeholder='User Login' Hint='Enter your login'")]
-    public string Login { get; set; }
+    #region Fields
+      private string m_UserRights;
+      [NonSerialized] private Rights m_CachedRights;
+    #endregion
 
-    [Field(required: true,
-           minLength: ZhabaHumanName.MIN_LEN,
-           maxLength: ZhabaHumanName.MAX_LEN,
-           description: "First Name",
-           metadata: @"Placeholder='User First Name'")]
-    public string First_Name { get; set; }
+    #region Properties
+      [Field(required: true,
+             minLength: ZhabaUserLogin.MIN_LEN,
+             maxLength: ZhabaUserLogin.MAX_LEN,
+             metadata: @"Placeholder='User Login' Hint='Enter your login'")]
+      public string Login { get; set; }
 
-    [Field(required: true,
-           minLength: ZhabaHumanName.MIN_LEN,
-           maxLength: ZhabaHumanName.MAX_LEN,
-           description: "Last Name",
-           metadata: @"Placeholder='User Last Name'")]
-    public string Last_Name { get; set; }
+      [Field(required: true,
+             minLength: ZhabaHumanName.MIN_LEN,
+             maxLength: ZhabaHumanName.MAX_LEN,
+             description: "First Name",
+             metadata: @"Placeholder='User First Name'")]
+      public string First_Name { get; set; }
 
-    [Field(required: true,
-           maxLength: ZhabaUserStatus.MAX_LEN,
-           valueList: ZhabaUserStatus.VALUE_LIST)]
-    public string Status { get; set; }
+      [Field(required: true,
+             minLength: ZhabaHumanName.MIN_LEN,
+             maxLength: ZhabaHumanName.MAX_LEN,
+             description: "Last Name",
+             metadata: @"Placeholder='User Last Name'")]
+      public string Last_Name { get; set; }
 
-    [Field(required: true,
-           maxLength: Domains.ZhabaPasswordHash.MAX_LEN,
-           description: "Password",
-           metadata: "Placeholder='Password' Password=true Hint='User password'")]
-    public string Password { get; set; }
+      [Field(required: true,
+             kind: DataKind.EMail,
+             minLength: ZhabaEMail.MIN_LEN,
+             maxLength: ZhabaEMail.MAX_LEN,
+             description: "EMail",
+             metadata: @"Placeholder='User EMail'")]
+      public string EMail { get; set; }
 
-    private string m_UserRights;
-    [NonSerialized] private Rights m_CachedRights;
+      [Field(required: true,
+             maxLength: ZhabaUserStatus.MAX_LEN,
+             valueList: ZhabaUserStatus.VALUE_LIST)]
+      public string Status { get; set; }
 
-    [Field(required: true, nonUI: true, maxLength: Domains.ZhabaSecurityRights.MAX_LEN)]
-    public string User_Rights
-      {
-        get { return m_UserRights; }
-        set
+      [Field(required: true,
+             maxLength: Domains.ZhabaPasswordHash.MAX_LEN,
+             description: "Password",
+             metadata: "Placeholder='Password' Password=true Hint='User password'")]
+      public string Password { get; set; }
+
+      [Field(required: true, nonUI: true, maxLength: Domains.ZhabaSecurityRights.MAX_LEN)]
+      public string User_Rights
         {
-          m_UserRights = value;
-          m_CachedRights = null;
+          get { return m_UserRights; }
+          set
+          {
+            m_UserRights = value;
+            m_CachedRights = null;
+          }
         }
-      }
+
       /// <summary>
       /// Returns parsed user Rights or Rights.None if value is not set
       /// </summary>
@@ -95,6 +109,7 @@ namespace Zhaba.Data.Rows
           m_CachedRights = value;
         }
       }
+    #endregion
 
     public override Exception Validate(string targetName)
     {

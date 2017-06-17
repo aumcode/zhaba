@@ -14,7 +14,6 @@ namespace Zhaba.Data.Rows
     public IssueRow() : base() { }
     public IssueRow(RowPKAction action) : base(action) { }
 
-
     [Field(required: true,
            kind: DataKind.Text,
            minLength: ZhabaMnemonic.MIN_LEN,
@@ -25,7 +24,6 @@ namespace Zhaba.Data.Rows
 
     [Field(description: "Parent Issue")]
     public ulong? C_Parent { get; set; }
-
   }
 }
 
