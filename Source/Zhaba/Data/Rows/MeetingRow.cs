@@ -8,7 +8,6 @@ using NFX;
 using NFX.DataAccess.CRUD;
 
 using Zhaba.Data.Domains;
-using Zhaba.Data.QueryBuilders;
 
 namespace Zhaba.Data.Rows
 {
@@ -39,23 +38,5 @@ namespace Zhaba.Data.Rows
              metadata: @"Placeholder='Enter some note' ControlType='textarea'")]
       public string Note { get; set; }
     #endregion
-
-    public override Exception Validate(string targetName)
-    {
-      var error = base.Validate(targetName);
-      if (error != null) return error;
-
-      var qry = QUser.GetUserById<UserRow>(C_Host);
-      var oper = ZApp.Data.CRUD.LoadRow(qry);
-      if (oper == null)
-        return new CRUDFieldValidationException(this, "C_Operator", "Operator user not found");
-
-      var aQry = QCommon.AgendaByID<AgendaRow>(C_Agenda);
-      var agenda = ZApp.Data.CRUD.LoadRow(aQry);
-      if (agenda == null)
-        return new CRUDFieldValidationException(this.Schema.Name, "C_Agenda", "Non existing agenda");
-
-      return null;
-    }
   }
 }

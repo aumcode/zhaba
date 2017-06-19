@@ -4,7 +4,6 @@ using NFX;
 using NFX.DataAccess.CRUD;
 
 using Zhaba.Data.Domains;
-using Zhaba.Data.QueryBuilders;
 
 namespace Zhaba.Data.Rows
 {
@@ -34,18 +33,5 @@ namespace Zhaba.Data.Rows
              description: "Creator")]
       public ulong? C_Creator { get; set; }
     #endregion
-
-    public override Exception Validate(string targetName)
-    {
-      var error = base.Validate(targetName);
-      if (error != null) return error;
-
-      var qry = QUser.GetUserById<UserRow>(C_Creator.Value);
-      var user = ZApp.Data.CRUD.LoadRow(qry);
-      if (user == null)
-        return new CRUDFieldValidationException(this, "C_Creator", "Creator user not found");
-
-      return null;
-    }
   }
 }

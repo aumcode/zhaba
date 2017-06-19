@@ -1,45 +1,44 @@
 schema
 {
+  TCounter        = "ZhabaCounter"
+  TCounterRef     = "ZhabaCounterRef"
+
   THumanName      = "ZhabaHumanName"
+  TEMail          = "ZhabaEMail"
+  TUserStatus     = "ZhabaUserStatus"
+
+  TPasswordHash   = "ZhabaPasswordHash"
+  TSecurityRights = "ZhabaSecurityRights"
+
   TDescription    = "ZhabaDescription"
   TDate           = "ZhabaDate"
   TMnemonic       = "ZhabaMnemonic"
   TIssueStatus    = "ZhabaIssueStatus"
-  TUserStatus     = "ZhabaUserStatus"
-  TPasswordHash   = "ZhabaPasswordHash"
-  TSecurityRights = "ZhabaSecurityRights"
-  TBool           = "ZhabaBool"
-  TIDRef          = "ZhabaIDRef"
-  TEMail          = "ZhabaEMail"
   TIntPercent     = "ZhabaIntPercent"
   TNote           = "ZhabaNote"
-  TMeetingParticipationType = "ZhabaMeetingParticipationType"
 
+  TBool           = "ZhabaBool"
   TRUE="T"
+
+  TMeetingParticipationType = "ZhabaMeetingParticipationType" // remote, physical
   PHYSICAL="P"
 
   scripts
   {
     script-only=true
 
-    counter       {column=counter     {type=TInt(8,true) required=true primary-key {}}}
-    name          {column=name        {type=$(/$TMnemonic) required=true }}
-    description   {column=description {type=$(/$TDescription)}}
-    creator_ref   {column=creator     {type=$(/$TIDRef) required=true reference {table="user" column="counter"}}}
-    project_ref   {column=project     {type=$(/$TIDRef) required=true reference {table="project" column="counter"}}}
-    issue_ref     {column=issue       {type=$(/$TIDRef) required=true reference {table="issue" column="counter"}}}
-    component_ref {column=component   {type=$(/$TIDRef) required=true reference {table="component" column="counter"}}}
-    area_ref      {column=area        {type=$(/$TIDRef) required=true reference {table="area" column="counter"}}}
-    agenda_ref    {column=agenda      {type=$(/$TIDRef) required=true reference {table="agenda" column="counter"}}}
-    in-use        {column=in_use      {type=$(/$TBool)  required=true default=$(/$TRUE) }}
-    note          {column=note        {type=$(/$TNote)}}
+    counter       {column=counter     { type=$(/$TCounter) required=true primary-key {} comment="Integer ID" }}
+    name          {column=name        { type=$(/$TMnemonic) required=true comment="Mnemonic ID"}}
+    description   {column=description { type=$(/$TDescription) comment="Short Description" }}
+    note          {column=note        { type=$(/$TNote) comment="Text Note"}}
+    in-use        {column=in_use      { type=$(/$TBool)  required=true default=$(/$TRUE) comment="Logical Deletion Flag"}}
   }
 
   table=sequence
   {
-    column=scope_name    {type=$(/$TMnemonic) required=true}
-    column=sequence_name {type=$(/$TMnemonic) required=true}
-    column=counter       {type=TInt(8,true)   required=true}
+    column=scope_name    {type=$(/$TMnemonic) required=true comment="Scope that sequence is genereated in"}
+    column=sequence_name {type=$(/$TMnemonic) required=true comment="Sequence Name" }
+    column=counter       {type=$(/$TCounter) required=true comment="Current value of integer ID"}
 
     primary-key {column=scope_name{} column=sequence_name{}}
   }
@@ -47,13 +46,13 @@ schema
   table=user
   {
     _call=/scripts/counter {}
-    column=login           {type=$(/$TMnemonic)       required=true}
-    column=first_name      {type=$(/$THumanName)      required=true}
-    column=last_name       {type=$(/$THumanName)      required=true}
-    column=email           {type=$(/$TEMail)          required=true}
-    column=status          {type=$(/$TUserStatus)     required=true}
-    column=password        {type=$(/$TPasswordHash)   required=true}
-    column=user_rights     {type=$(/$TSecurityRights) required=true}
+    column=login           {type=$(/$TMnemonic)       required=true comment="User Login" }
+    column=first_name      {type=$(/$THumanName)      required=true comment="First Name" }
+    column=last_name       {type=$(/$THumanName)      required=true comment="Last Name" }
+    column=email           {type=$(/$TEMail)          required=true comment="User EMail" }
+    column=status          {type=$(/$TUserStatus)     required=true comment="User access role" }
+    column=password        {type=$(/$TPasswordHash)   required=true comment="User Password hash" }
+    column=user_rights     {type=$(/$TSecurityRights) required=true comment="User Permissions Configuration" }
     _call=/scripts/in-use  {}
 
     index=uk
@@ -84,7 +83,7 @@ schema
     _call=/scripts/counter     {}
     _call=/scripts/name        {}
     _call=/scripts/description {}
-    _call=/scripts/creator_ref {}
+    column=creator {type=$(/$TCounterRef) required=true reference {table="user" column="counter"} comment="Creator" }
     _call=/scripts/in-use      {}
 
     index=uk
@@ -100,14 +99,15 @@ schema
     _call=/scripts/counter     {}
     _call=/scripts/name        {}
     _call=/scripts/description {}
-    _call=/scripts/project_ref {}
+    column=project
+    { type=$(/$TCounterRef) required=true reference {table="project" column="counter"} comment="Project that component belongs to" }
     _call=/scripts/in-use      {}
 
     index=uk
     {
       unique=true
-      column=project{}
-      column=name{}
+      column=project {}
+      column=name {}
     }
   }
 
@@ -117,7 +117,8 @@ schema
     _call=/scripts/counter     {}
     _call=/scripts/name        {}
     _call=/scripts/description {}
-    _call=/scripts/project_ref {}
+    column=project
+    { type=$(/$TCounterRef) required=true reference {table="project" column="counter"} comment="Project that area belongs to" }
     _call=/scripts/in-use      {}
 
     index=uk
@@ -134,11 +135,12 @@ schema
     _call=/scripts/counter     {}
     _call=/scripts/name        {}
     _call=/scripts/description {}
-    _call=/scripts/project_ref {}
+    column=project
+    { type=$(/$TCounterRef) required=true reference {table="project" column="counter"} comment="Project that milestone belongs to" }
     _call=/scripts/in-use      {}
-    column=start_date    {type=$(/$TDate)  required=false}
-    column=plan_date     {type=$(/$TDate)  required=false}
-    column=complete_date {type=$(/$TDate)  required=false}
+    column=start_date    {type=$(/$TDate)  required=false comment="Milestone Start Date" }
+    column=plan_date     {type=$(/$TDate)  required=false comment="Milestone Plan Date" }
+    column=complete_date {type=$(/$TDate)  required=false comment="Milestone Completeness Date" }
 
     index=uk
     {
@@ -151,10 +153,11 @@ schema
   // sample: "User pic absent", "Div by zero on OK click", etc.
   table=issue
   {
-    _call=/scripts/counter     {}
-    _call=/scripts/name        {}
-    _call=/scripts/project_ref {}
-    column=parent {type=$(/$TIDRef) required=false reference {table="issue" column="counter"}}
+    _call=/scripts/counter {}
+    _call=/scripts/name    {}
+    column=project
+    { type=$(/$TCounterRef) required=true reference {table="project" column="counter"} comment="Project that issue belongs to" }
+    column=parent { type=$(/$TCounterRef) required=false reference {table="issue" column="counter"} comment="Reference to parent issue" }
     _call=/scripts/in-use  {}
 
     index=uk
@@ -168,16 +171,20 @@ schema
   // sample: "division by zero" -> Logging, DBAccess
   table=issuecomponent
   {
-    _call=/scripts/issue_ref     {}
-    _call=/scripts/component_ref {}
+    column=issue
+    { type=$(/$TCounterRef) required=true reference {table="issue" column="counter"} comment="Issue" }
+    column=component
+    { type=$(/$TCounterRef) required=true reference {table="component" column="counter"} comment="Project Component that issue linked with" }
     primary-key {column=issue{} column=component{}}
   }
 
   // sample: "division by zero" -> BackEnd, Framework
   table=issuearea
   {
-    _call=/scripts/issue_ref {}
-    _call=/scripts/area_ref  {}
+    column=issue
+    { type=$(/$TCounterRef) required=true reference {table="issue" column="counter"} comment="Issue" }
+    column=area
+    { type=$(/$TCounterRef) required=true reference {table="area" column="counter"} comment="Project Area that issue linked with" }
     primary-key {column=issue{} column=area{}}
   }
 
@@ -187,16 +194,16 @@ schema
     _call=/scripts/counter     {}
     _call=/scripts/name        {}
     _call=/scripts/description {}
-    column=start_date {type=TDateTime required=true}
-    column=end_date   {type=TDateTime required=true}
-    _call=/scripts/creator_ref {}
+    column=start_date {type=TDateTime required=true comment="Agenda Start Date" }
+    column=end_date   {type=TDateTime required=true comment="Agenda End Date" }
+    column=creator {type=$(/$TCounterRef) required=true reference {table="user" column="counter"} comment="Creator" }
   }
   
   // sample: Zhaba daily standup -> issue1, issue2, ...
   table=agendadissue
   {
-    _call=/scripts/agenda_ref {}
-    _call=/scripts/issue_ref {}
+    column=agenda { type=$(/$TCounterRef) required=true reference {table="agenda" column="counter"} comment="Agenda" }
+    column=issue { type=$(/$TCounterRef) required=true reference {table="issue" column="counter"} comment="Issues included in agenda" }
     primary-key {column=agenda{} column=issue{}}
   }
 
@@ -204,9 +211,9 @@ schema
   table=meeting
   {
     _call=/scripts/counter    {}
-    _call=/scripts/agenda_ref {}
-    column=date {type=TDateTime required=true}
-    column=host {type=$(/$TIDRef) required=true reference {table="user" column="counter"}}
+    column=agenda { type=$(/$TCounterRef) required=true reference {table="agenda" column="counter"} comment="Agenda that meeting based on" }
+    column=date {type=TDateTime required=true comment="Date of meeting"}
+    column=host {type=$(/$TCounterRef) required=true reference {table="user" column="counter"} comment="Meeting Host"}
     _call=/scripts/note {} // populates by host
 
     index=uk
@@ -221,9 +228,9 @@ schema
   // sample: meeting1 -> User A, User B, User X
   table=meetingparticipant
   {
-    column=meeting {type=$(/$TIDRef) required=true reference {table="meeting" column="counter"}}
-    column=participant {type=$(/$TIDRef) required=true reference {table="user" column="counter"}} 
-    column=participation_type {type=$(/$TMeetingParticipationType) required=true default=$(/$PHYSICAL)}
+    column=meeting {type=$(/$TCounterRef) required=true reference {table="meeting" column="counter"} comment="Meeting" }
+    column=participant {type=$(/$TCounterRef) required=true reference {table="user" column="counter"} comment="User who participates in meeting"} 
+    column=participation_type {type=$(/$TMeetingParticipationType) required=true default=$(/$PHYSICAL) comment="User Participation Type (remote, physical)"}
     column=admin_note {type=$(/$TNote)}   // text that admin enters, only admin can see
     column=participant_note {type=$(/$TNote)} // text that participant enters
     primary-key {column=meeting{} column=participant{}}
@@ -233,17 +240,17 @@ schema
   table=issuelog
   {
     _call=/scripts/counter     {}
-    _call=/scripts/issue_ref   {}
+    column=issue {type=$(/$TCounterRef) required=true reference {table="issue" column="counter"} comment="Root Issue" }
     _call=/scripts/description {}
-    column=milestone   {type=$(/$TIDRef) required=true  reference {table="milestone" column="counter"}}
-    column=category    {type=$(/$TIDRef) required=true  reference {table="category" column="counter"}}
-    column=status      {type=$(/$TIssueStatus) required=true}
-    column=assignee    {type=$(/$TIDRef) required=false reference {table="user" column="counter"}}
-    column=status_date {type=TDateTime required=true}
-    column=operator    {type=$(/$TIDRef) required=true reference {table="user" column="counter"}}
+    column=milestone   {type=$(/$TCounterRef) required=true  reference {table="milestone" column="counter"} comment="Project Milestone"}
+    column=category    {type=$(/$TCounterRef) required=true  reference {table="category" column="counter"} comment="Issue Category"}
+    column=status      {type=$(/$TIssueStatus) required=true comment="Issue Status"}
+    column=assignee    {type=$(/$TCounterRef) required=false reference {table="user" column="counter"} comment="User who works on issue"}
+    column=status_date {type=TDateTime required=true comment="Date when changes were made"}
+    column=operator    {type=$(/$TCounterRef) required=true reference {table="user" column="counter"} comment="User who made changes"}
     column=completeness {type=$(/$TIntPercent) required=true default=0 comment="0..100"}
     _call=/scripts/note {}
-    column=meeting {type=$(/$TIDRef) required=false reference {table="meeting" column="counter"}}
+    column=meeting {type=$(/$TCounterRef) required=false reference {table="meeting" column="counter"} comment="Optional reference to meeting that causes changes"}
 
     index=uk
     {

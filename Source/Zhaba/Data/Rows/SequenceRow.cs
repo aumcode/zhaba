@@ -1,5 +1,4 @@
-﻿using NFX.ApplicationModel;
-using NFX.DataAccess.CRUD;
+﻿using NFX.DataAccess.CRUD;
 
 using Zhaba.Data.Domains;
 

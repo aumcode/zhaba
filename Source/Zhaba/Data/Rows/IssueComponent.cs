@@ -8,8 +8,6 @@ using NFX;
 using NFX.DataAccess;
 using NFX.DataAccess.CRUD;
 
-using Zhaba.Data.QueryBuilders;
-
 namespace Zhaba.Data.Rows
 {
   [Table(name: "tbl_issuecomponent")]
@@ -25,24 +23,5 @@ namespace Zhaba.Data.Rows
     
     [Field(required: true, key: true, description: "Component")]
     public ulong C_Component { get; set; }
-
-
-    public override Exception Validate(string targetName)
-    {
-      var error = base.Validate(targetName);
-      if (error != null) return error;
-
-      var iQry = QProject.IssueByID<IssueRow>(C_Project, C_Issue);
-      var issue = ZApp.Data.CRUD.LoadRow(iQry);
-      if (issue == null)
-        return new CRUDFieldValidationException(this.Schema.Name, "C_Issue", "Non existing issue");
-      
-      var cQry = QProject.ComponentByID<AreaRow>(C_Project, C_Component);
-      var component = ZApp.Data.CRUD.LoadRow(cQry);
-      if (component == null)
-        return new CRUDFieldValidationException(this.Schema.Name, "C_Component", "Non existing component");
-
-      return null;
-    }
   }
 }
