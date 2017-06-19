@@ -3,12 +3,17 @@
   data-store
   {
     type="Zhaba.DataLogic.ZhabaDataStore, Zhaba.DataLogic"
-    zhaba-data-store
+    crud
     {
       type="NFX.DataAccess.MySQL.MySQLDataStore, NFX.MySQL"
       connect-string="Server=localhost;Database=zhaba;Uid=root;Pwd=thejake"
       script-assembly="Zhaba.DBAccess"
       handler-location { ns="Zhaba.DBAccess, Zhaba.DBAccess" }
+    }
+    unique-sequence-provider
+    {
+      type="Zhaba.Data.Store.ZhabaUniqueSequenceProvider, Zhaba"
+      name="unique-sequence-provider"
     }
     cache { }
   }
@@ -63,11 +68,6 @@
   }
 
 
-  unique-sequence-provider
-  {
-    type="Zhaba.Data.Store.ZhabaUniqueSequenceProvider, Zhaba"
-    name="unique-sequence-provider"
-  }
 
   wave
   {

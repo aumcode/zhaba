@@ -21,5 +21,21 @@ namespace Zhaba.DataLogic
       var qry = QUser.GetUserByLogin<UserRow>(login);
       return Store.CRUD.LoadRow(qry);
     }
+
+    public UserRow GetUserByToken(NFX.Security.AuthenticationToken token)
+    {
+      var counter = token.Data.AsNullableULong();
+      if (!counter.HasValue)
+        throw new ZhabaDataException("UserLogic.GetUserByToken(invalid token)");
+
+      var qry = QUser.GetUserById<UserRow>(counter.Value);
+      var userRow = ZApp.Data.CRUD.LoadRow(qry);
+      return userRow;
+    }
+
+    public NFX.Security.AuthenticationToken CreateToken(UserRow user)
+    {
+      return new NFX.Security.AuthenticationToken(Consts.ZHABA_SECURITY_REALM, user.Counter);
+    }
   }
 }

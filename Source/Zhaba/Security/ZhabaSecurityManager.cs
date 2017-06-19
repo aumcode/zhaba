@@ -37,15 +37,21 @@ namespace Zhaba.Security
 
     public User Authenticate(AuthenticationToken token)
     {
-      var id = token.Data.AsNullableULong();
-      if (!id.HasValue) return ZhabaUser.Invalid;
+      var userRow = ZApp.Data.Users.GetUserByToken(token);
+      if (userRow == null || !userRow.In_Use) return ZhabaUser.Invalid;
 
-      return authenticateByCounter(id.Value);
+      return new ZhabaUser(
+          BlankCredentials.Instance,
+          ZApp.Data.Users.CreateToken(userRow),
+          Data.Domains.ZhabaUserStatus.MapStatus(userRow.Status),
+          userRow.Login,
+          "{0} {1}".Args(userRow.First_Name, userRow.Last_Name),
+          userRow.Rights) { DataRow = userRow };
     }
 
     public User Authenticate(Credentials credentials)
     {
-      if (credentials==null) return ZhabaUser.Invalid;
+      if (credentials == null) return ZhabaUser.Invalid;
 
       var idpc = credentials as IDPasswordCredentials;
       if (idpc != null)
@@ -94,21 +100,6 @@ namespace Zhaba.Security
     #endregion
 
     #region .pvt
-    private User authenticateByCounter(ulong userId)
-    {
-      var qry = QUser.GetUserById<UserRow>(userId);
-      var userRow = ZApp.Data.CRUD.LoadRow(qry);
-      if (userRow == null || !userRow.In_Use) return ZhabaUser.Invalid;
-
-      return new ZhabaUser(
-          new ZhabaCounterCredentials(userId),
-          new AuthenticationToken(Consts.ZHABA_SECURITY_REALM, userRow.Counter),
-          Data.Domains.ZhabaUserStatus.MapStatus(userRow.Status),
-          userRow.Login,
-          "{0} {1}".Args(userRow.First_Name, userRow.Last_Name),
-          Rights.None) { DataRow = userRow };
-    }
-
     private User authenticateByIdPassword(IDPasswordCredentials idpc)
     {
       var userRow = ZApp.Data.Users.GetUser(idpc.ID.ToUpperInvariant());
@@ -125,11 +116,11 @@ namespace Zhaba.Security
 
       return new ZhabaUser(
         idpc,
-        new AuthenticationToken(Consts.ZHABA_SECURITY_REALM, userRow.Counter),
+        ZApp.Data.Users.CreateToken(userRow),
         Data.Domains.ZhabaUserStatus.MapStatus(userRow.Status),
         userRow.Login,
         "{0} {1}".Args(userRow.First_Name, userRow.Last_Name),
-        Rights.None) { DataRow = userRow };
+        userRow.Rights) { DataRow = userRow };
     }
     #endregion
   }

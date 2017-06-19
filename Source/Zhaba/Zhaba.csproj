@@ -79,7 +79,7 @@
     <Compile Include="Data\Forms\ProjectForm.cs" />
     <Compile Include="Data\Forms\UserRegistrationForm.cs" />
     <Compile Include="Data\Sizes.cs" />
-    <Compile Include="Data\Store\IZhabaDataStore.cs" />
+    <Compile Include="Data\IZhabaDataStore.cs" />
     <Compile Include="Data\Rows\AreaRow.cs" />
     <Compile Include="Data\Rows\ComponentRow.cs" />
     <Compile Include="Data\Rows\IssueLogRow.cs" />
@@ -91,9 +91,9 @@
     <Compile Include="Data\Domains\Base.cs" />
     <Compile Include="Data\ZhabaDTOs.cs" />
     <Compile Include="Exceptions.cs" />
+    <Compile Include="Security\Permissions\UserManagerPermission.cs" />
     <Compile Include="Security\Permissions\SiteUserPermission.cs" />
     <Compile Include="Security\Permissions\ZhabaPermission.cs" />
-    <Compile Include="Security\ZhabaCounterCredentials.cs" />
     <Compile Include="StringConsts.cs" />
     <Compile Include="Web\ZhabaControl.cs" />
     <Compile Include="Web\ControlClassification.cs" />

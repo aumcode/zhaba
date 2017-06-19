@@ -30,5 +30,9 @@ namespace Zhaba.Data
     /// Returns User by given login
     /// </summary>
     UserRow GetUser(string login);
+
+    UserRow GetUserByToken(NFX.Security.AuthenticationToken token);
+
+    NFX.Security.AuthenticationToken CreateToken(UserRow row);
   }
 }

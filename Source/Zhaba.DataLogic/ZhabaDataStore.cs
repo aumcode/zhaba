@@ -17,7 +17,7 @@ namespace Zhaba.DataLogic
 {
   public class ZhabaDataStore : ServiceWithInstrumentationBase<object>, IZhabaDataStore, IDataStoreImplementation
   {
-    public const string CONFIG_ZHABA_DS = "zhaba-data-store";
+    public const string CONFIG_CRUD_SECTION = "crud";
 
     #region .ctor
 
@@ -70,11 +70,11 @@ namespace Zhaba.DataLogic
 
     protected override void DoConfigure(IConfigSectionNode node)
     {
-      var config = node[CONFIG_ZHABA_DS];
+      var config = node[CONFIG_CRUD_SECTION];
       if (config.Exists)
         m_CRUD = FactoryUtils.MakeAndConfigure<ICRUDDataStoreImplementation>(config);
       else
-        throw new ZhabaDataException("Data Store Configuration: {0} section is missing".Args(CONFIG_ZHABA_DS));
+        throw new ZhabaDataException("Data Store Configuration: {0} section is missing".Args(CONFIG_CRUD_SECTION));
 
       base.DoConfigure(node);
     }

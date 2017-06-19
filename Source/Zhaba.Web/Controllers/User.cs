@@ -39,7 +39,7 @@ namespace Zhaba.Web.Controllers
         error = form.Save(out newUserRow);
         if (error == null)
         {
-          ZhabaWebSession.User = App.SecurityManager.Authenticate(new ZhabaCounterCredentials(newUserRow.Counter));
+          ZhabaWebSession.User = App.SecurityManager.Authenticate(new IDPasswordCredentials(form.Login, form.Password));
           ZhabaWebSession.HasJustLoggedIn(NFX.ApplicationModel.SessionLoginType.Human);
           if (WorkContext.RequestedJSON)
             return new ClientRecord(form, null);

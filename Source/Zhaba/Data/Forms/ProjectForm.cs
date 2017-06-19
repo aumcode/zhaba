@@ -46,7 +46,9 @@ namespace Zhaba.Data.Forms
       ProjectRow row = null;
 
       if (FormMode == FormMode.Insert)
+      {
         row = new ProjectRow(RowPKAction.Default);
+      }
       else
       {
         var id = RoundtripBag[ITEM_ID_BAG_PARAM].AsNullableULong();
@@ -69,10 +71,14 @@ namespace Zhaba.Data.Forms
       try
       {
         if (FormMode == FormMode.Insert)
+        {
+          row.C_Creator = ZhabaUser.DataRow.Counter;
           ZApp.Data.CRUD.Insert(row);
+        }
         else
         {
           var affected = ZApp.Data.CRUD.Update(row);
+
           if (affected < 1)
             throw HTTPStatusException.NotFound_404("Project");
         }

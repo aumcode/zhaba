@@ -165,31 +165,6 @@ schema
     }
   }
 
-  // sample: 06.12.2017 assign OPan by VLap - 10%; 06.14.2017 progress by OPan - 50% note="was able to reproduce today"
-  table=issuelog
-  {
-    _call=/scripts/counter     {}
-    _call=/scripts/issue_ref   {}
-    _call=/scripts/description {}
-    column=milestone   {type=$(/$TIDRef) required=true  reference {table="milestone" column="counter"}}
-    column=category    {type=$(/$TIDRef) required=true  reference {table="category" column="counter"}}
-    column=status      {type=$(/$TIssueStatus) required=true}
-    column=assignee    {type=$(/$TIDRef) required=false reference {table="user" column="counter"}}
-    column=status_date {type=TDateTime required=true}
-    column=operator    {type=$(/$TIDRef) required=true reference {table="user" column="counter"}}
-    column=completeness {type=$(/$TIntPercent) required=true default=0}
-    _call=/scripts/note {}
-    column=meeting {type=$(/$TIDRef) required=false reference {table="meeting" column="counter"}}
-
-    index=uk
-    {
-      unique=true
-      column=issue {}
-      column=status_date {}
-      column=operator {}
-    }
-  }
-
   // sample: "division by zero" -> Logging, DBAccess
   table=issuecomponent
   {
@@ -206,7 +181,7 @@ schema
     primary-key {column=issue{} column=area{}}
   }
 
-  // sample: 1. Weekly review of NFX, 2. Zhaba daily standup.
+    // sample: 1. Weekly review of NFX, 2. Zhaba daily standup.
   table=agenda
   {
     _call=/scripts/counter     {}
@@ -253,4 +228,30 @@ schema
     column=participant_note {type=$(/$TNote)} // text that participant enters
     primary-key {column=meeting{} column=participant{}}
   }
+
+  // sample: 06.12.2017 assign OPan by VLap - 10%; 06.14.2017 progress by OPan - 50% note="was able to reproduce today"
+  table=issuelog
+  {
+    _call=/scripts/counter     {}
+    _call=/scripts/issue_ref   {}
+    _call=/scripts/description {}
+    column=milestone   {type=$(/$TIDRef) required=true  reference {table="milestone" column="counter"}}
+    column=category    {type=$(/$TIDRef) required=true  reference {table="category" column="counter"}}
+    column=status      {type=$(/$TIssueStatus) required=true}
+    column=assignee    {type=$(/$TIDRef) required=false reference {table="user" column="counter"}}
+    column=status_date {type=TDateTime required=true}
+    column=operator    {type=$(/$TIDRef) required=true reference {table="user" column="counter"}}
+    column=completeness {type=$(/$TIntPercent) required=true default=0 comment="0..100"}
+    _call=/scripts/note {}
+    column=meeting {type=$(/$TIDRef) required=false reference {table="meeting" column="counter"}}
+
+    index=uk
+    {
+      unique=true
+      column=issue {}
+      column=status_date {}
+      column=operator {}
+    }
+  }
+
 }

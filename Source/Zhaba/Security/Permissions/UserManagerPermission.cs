@@ -3,15 +3,15 @@
 namespace Zhaba.Security.Permissions
 {
   /// <summary>
-  /// Denotes regular Zhaba site registered user
+  /// Denotes system user that can manage other users
   /// </summary>
-  public sealed class SiteUserPermission : ZhabaPermission
+  public sealed class UserManagerPermission : ZhabaPermission
   {
-    public SiteUserPermission() : base(NFX.Security.AccessLevel.VIEW) { }
+    public UserManagerPermission() : base(NFX.Security.AccessLevel.VIEW) { }
 
     public override string Description
     {
-      get { return "Denotes regular Zhaba site registered user"; }
+      get { return "Denotes system users that can manage other users"; }
     }
 
     public override bool Check(ISession sessionInstance = null)
@@ -19,7 +19,7 @@ namespace Zhaba.Security.Permissions
       var session = sessionInstance ?? ExecutionContext.Session ?? NOPSession.Instance;
       var user = session.User;
 
-      return user.IsAuthenticated;
+      return user.Status >= NFX.Security.UserStatus.System;
     }
   }
 }
