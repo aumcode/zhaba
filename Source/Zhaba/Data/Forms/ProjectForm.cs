@@ -48,6 +48,7 @@ namespace Zhaba.Data.Forms
       if (FormMode == FormMode.Insert)
       {
         row = new ProjectRow(RowPKAction.Default);
+        row.C_Creator = ZhabaUser.DataRow.Counter;
       }
       else
       {
@@ -71,10 +72,7 @@ namespace Zhaba.Data.Forms
       try
       {
         if (FormMode == FormMode.Insert)
-        {
-          row.C_Creator = ZhabaUser.DataRow.Counter;
           ZApp.Data.CRUD.Insert(row);
-        }
         else
         {
           var affected = ZApp.Data.CRUD.Update(row);
