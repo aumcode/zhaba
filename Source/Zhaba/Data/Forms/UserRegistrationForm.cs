@@ -45,7 +45,6 @@ namespace Zhaba.Data.Forms
         
     }
 
-
     [Field(typeof(UserRow))]
     public string Login { get; set; }
 
@@ -60,10 +59,10 @@ namespace Zhaba.Data.Forms
 
     [Field(typeof(UserRow))]
     public string Status { get; set; }
-
+    
     [Field(typeof(UserRow), "Password", minLength: Sizes.PASSWORD_MIN_LEN, maxLength: Sizes.PASSWORD_MAX_LEN)]
     public string Password { get; set; }
-
+    
     [Field(required: true,
            minLength: Sizes.PASSWORD_MIN_LEN,
            maxLength: Sizes.PASSWORD_MAX_LEN,
@@ -126,10 +125,12 @@ namespace Zhaba.Data.Forms
         row.Password = App.SecurityManager.PasswordManager.ComputeHash(PasswordFamily.Text, password).ToString();
 
      // fill user rights with empty config as default
-     var rightsCfg = new NFX.Environment.MemoryConfiguration();
+/*     var rightsCfg = new NFX.Environment.MemoryConfiguration();
      rightsCfg.Create();
      rightsCfg.Root.AddChildNode(NFX.Security.Rights.CONFIG_ROOT_SECTION);
-     row.User_Rights = rightsCfg.ToLaconicString(NFX.CodeAnalysis.Laconfig.LaconfigWritingOptions.Compact);
+     row.User_Rights = rightsCfg.ToLaconicString(NFX.CodeAnalysis.Laconfig.LaconfigWritingOptions.Compact);*/
+
+     row.User_Rights = "{z:{rights:{}}}";
 
      var verror = row.ValidateAndPrepareForStore();
      if (verror != null) return verror;

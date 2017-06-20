@@ -18,6 +18,7 @@
     : base(form, error)
   {
     Title = "User Registration";
+    form.Status = form.Status != null ? form.Status : "U";
   }
 
 #[override renderControls()]
@@ -43,6 +44,9 @@
     </div>
     <div class="form-group">
       <div class="data-wv" data-wv-fname="ConfirmPassword"></div>
+    </div>
+    <div class="form-group">
+      <div class="data-wv" data-wv-fname="Status"></div>
     </div>
 
     <div class="ln_solid"></div>

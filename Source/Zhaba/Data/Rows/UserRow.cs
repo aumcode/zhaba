@@ -3,7 +3,7 @@
 using NFX;
 using NFX.DataAccess.CRUD;
 using NFX.Security;
-
+using NFX.Serialization.JSON;
 using Zhaba.Data.Domains;
 
 namespace Zhaba.Data.Rows
