@@ -53,7 +53,7 @@ namespace Zhaba.Web.Controllers
     [Action]
     public object User(ulong? id, UserRegistrationForm form)
     {
-        return DataSetup_ItemDetails<UserRegistrationForm, UserRegistrationPage>(id, form, URIS.COMMON_USER);
+        return DataSetup_ItemDetails<UserRegistrationForm, UserRegistrationPage>(id, form, URIS.COMMON_USERS);
     }
 
         [Action]
