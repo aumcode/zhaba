@@ -29,6 +29,10 @@ var ZHB = (function () {
 
     ForPROJECT_ISSUE: function (pid, id) {
       return project_setup(pid) + "/issue?id=" + id;
+    },
+
+    ForUSER: function (id) {
+        return common_setup() + "/user?id={0}".args(id);
     }
   };
 

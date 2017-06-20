@@ -9,6 +9,8 @@ using NFX.Security;
 
 using Zhaba.Data.Rows;
 using Zhaba.Security;
+using Zhaba.Data.QueryBuilders;
+using NFX.Wave;
 
 namespace Zhaba.Data.Forms
 {
@@ -22,6 +24,27 @@ namespace Zhaba.Data.Forms
       FormMode = FormMode.Insert; // Always Insert
     }
 
+    public UserRegistrationForm(ulong? id)
+    {
+        if(id.HasValue)
+        {
+          FormMode = FormMode.Edit;
+          var qry = QCommon.ProjectByID<UserRow>(id.Value);
+          var row = ZApp.Data.CRUD.LoadRow(qry);
+          if (row != null)
+            row.CopyFields(this);
+          else
+            throw HTTPStatusException.NotFound_404("Project");
+
+          this.RoundtripBag[ITEM_ID_BAG_PARAM] = id.Value;
+        }
+        else
+        {
+          FormMode = FormMode.Insert; // Always Insert
+        }
+        
+    }
+
 
     [Field(typeof(UserRow))]
     public string Login { get; set; }
@@ -31,6 +54,9 @@ namespace Zhaba.Data.Forms
 
     [Field(typeof(UserRow))]
     public string Last_Name { get; set; }
+
+    [Field(typeof(UserRow))]
+    public string EMail { get; set; }
 
     [Field(typeof(UserRow))]
     public string Status { get; set; }

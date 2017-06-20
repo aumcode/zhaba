@@ -1,0 +1,50 @@
+﻿#<laconf>
+  compiler
+  {
+    using { ns="System.Linq" }
+    using { ns="System.Collections.Generic" }
+    using { ns="NFX" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Wave.Templatization" }
+    using { ns="Zhaba" }
+    using { ns="Zhaba.Data.Filters" }
+    base-class-name="Zhaba.Web.Pages.SiteGridMaster<UserListFilter>"
+    namespace="Zhaba.Web.Pages.List"
+  }
+#</laconf>
+#[class]
+  public UsersPage(UserListFilter filter) : base()
+  {
+    Filter = filter;
+  }
+
+  public override string DataSourceAjaxURI { get { return URIS.COMMON_USERS; } }
+#[override renderTitle()]
+  <h1>Users</h1>
+
+#[override renderTopToolbar()]
+  @[base.renderTopToolbar();]
+  <a class="uiSmallRedButton" href="javascript:addProject()">Add</a>
+  <a class="uiSmallRedButton" href="javascript:editProject()" data-grid-link>Edit</a>
+
+#[override renderFilterControls()]
+  <div class="fView" data-wv-fname="OrderBy" data-wv-ctl="combo"></div>
+  <div class="fView" data-wv-fname="Login"></div>
+  <div class="fView" data-wv-fname="First_Name"></div>
+  <div class="fView" data-wv-fname="Last_Name"></div>
+  <div class="fView" data-wv-fname="EMail"></div>
+
+<script>
+  function editProject() {
+    var grid = WAVE.id("tblUsers");
+    if (!grid || !grid.SELECTED_ROW_KEY || !grid.SELECTED_ROW_DATA) return;
+
+    var link = ZHB.URIS.ForUSER(grid.SELECTED_ROW_KEY);
+    window.location.href = link;
+  }
+
+  function addProject() {
+    var link = "?[:URIS.ForCOMMON_USER()]";
+    window.location.href = link;
+  }
+</script>

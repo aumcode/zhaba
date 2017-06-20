@@ -19,9 +19,9 @@ namespace Zhaba.Data.Rows
     #region Fields
       private string m_UserRights;
       [NonSerialized] private Rights m_CachedRights;
-    #endregion
+        #endregion
 
-    #region Properties
+      #region Properties
       [Field(required: true,
              minLength: ZhabaUserLogin.MIN_LEN,
              maxLength: ZhabaUserLogin.MAX_LEN,

@@ -65,6 +65,14 @@ namespace Zhaba.Data.QueryBuilders
       };
     }
 
+    public static Query<TRow> UsersByFilter<TRow>(UserListFilter filter) where TRow : Row
+    {
+        return new Query<TRow>("SQL.Filters.UserList")
+        {
+            new Query.Param("pFilter", filter)
+        };
+    }
+
     public static Query<TRow> AllAreas<TRow>() where TRow : Row
     {
       return new Query<TRow>("SQL.CRUD.Area.All");

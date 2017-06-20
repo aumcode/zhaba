@@ -38,58 +38,44 @@ namespace Zhaba.Data.Forms
 
     [Field(typeof(ProjectRow))]
     public string Description { get; set; }
+    
+    [Field(targetName:"C_CREATOR", visible:false)]
+    public ulong? C_Creator { get; set; }
 
 
     protected override Exception DoSave(out object saveResult)
     {
       saveResult = null;
-      ProjectRow row = null;
-
-      if (FormMode == FormMode.Insert)
-      {
-        row = new ProjectRow(RowPKAction.Default);
-        row.C_Creator = ZhabaUser.DataRow.Counter;
-      }
-      else
-      {
-        var id = RoundtripBag[ITEM_ID_BAG_PARAM].AsNullableULong();
-        if (!id.HasValue)
-          throw HTTPStatusException.BadRequest_400("No Project ID");
-
-        var qry = QCommon.ProjectByID<ProjectRow>(id.Value);
-        row = ZApp.Data.CRUD.LoadRow(qry);
-        if (row == null)
-          throw HTTPStatusException.NotFound_404("Project");
-      }
-
-      CopyFields(row);
-
-      var verror = row.ValidateAndPrepareForStore();
-      if (verror != null) return verror;
-
-      saveResult = row;
-
       try
       {
-        if (FormMode == FormMode.Insert)
-          ZApp.Data.CRUD.Insert(row);
-        else
-        {
-          var affected = ZApp.Data.CRUD.Update(row);
 
-          if (affected < 1)
-            throw HTTPStatusException.NotFound_404("Project");
-        }
+        var id = RoundtripBag[ITEM_ID_BAG_PARAM].AsNullableULong();
+        ProjectRow row = FormMode == FormMode.Edit && id.HasValue
+          ? ZApp.Data.CRUD.LoadRow(QCommon.ProjectByID<ProjectRow>(id.Value))
+          : new ProjectRow(RowPKAction.Default){C_Creator = ZhabaUser.DataRow.Counter};
+        // var cCreator = row.C_Creator != null ? row.C_Creator : ZhabaUser.DataRow.Counter;  
+        
+        CopyFields(row, false, false, (n, f) => f.Name != "C_Creator");
+
+        // row.C_Creator = cCreator;
+
+        var verror = row.ValidateAndPrepareForStore();
+
+        if (verror != null) return verror;
+
+        ZApp.Data.CRUD.Upsert(row);
+        saveResult = row;
+
       }
-      catch (Exception error)
+      catch (DataAccessException error)
       {
-        var eda = error as DataAccessException;
-        if (eda != null && eda.KeyViolation != null)
+        if (error != null && error.KeyViolation != null)
           return new CRUDFieldValidationException(this, "Name", "This value is already used");
-
-        throw;
       }
-
+      catch (Exception ex)
+      {
+        return ex;
+      }
       return null;
     }
   }

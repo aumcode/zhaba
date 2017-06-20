@@ -58,7 +58,6 @@ namespace Zhaba.Web
       return id.HasValue ? "{0}?id={1}".Args(COMMON_PROJECT, id) : COMMON_PROJECT;
     }
 
-
     public static string ForPROJECT_SELECT(ulong projID)
     {
       return PROJECT_SELECT.Args(projID);

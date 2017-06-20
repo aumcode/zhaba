@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-using NFX;
+﻿using NFX;
 using NFX.Wave.MVC;
 
 using Zhaba.Data.Forms;
@@ -47,13 +44,19 @@ namespace Zhaba.Web.Controllers
     }
 
     [Action]
-    public object Users()
+    public object Users(UserListFilter filter)
     {
-      //return DataSetup_Index<UserListFilter, UserGrid, UsersPage>(filter);
-      return null;
+      return DataSetup_Index<UserListFilter, UserGrid, UsersPage>(filter);
+      // return null;
     }
 
     [Action]
+    public object User(ulong? id, UserRegistrationForm form)
+    {
+        return DataSetup_ItemDetails<UserRegistrationForm, UserRegistrationPage>(id, form, URIS.COMMON_USER);
+    }
+
+        [Action]
     public object Projects(ProjectListFilter filter)
     {
       return DataSetup_Index<ProjectListFilter, ProjectGrid, ProjectsPage>(filter);

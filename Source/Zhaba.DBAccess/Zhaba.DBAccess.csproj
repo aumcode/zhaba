@@ -53,6 +53,7 @@
     <Compile Include="SQL\Filters\AreaList.cs" />
     <Compile Include="SQL\Filters\ComponentList.cs" />
     <Compile Include="SQL\Filters\ProjectList.cs" />
+    <Compile Include="SQL\Filters\UserList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

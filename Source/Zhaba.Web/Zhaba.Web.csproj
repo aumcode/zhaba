@@ -68,6 +68,9 @@
     <Compile Include="Controls\Grids\ProjectGrid.nht.auto.cs">
       <DependentUpon>ProjectGrid.nht</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Grids\UserGrid.nht.auto.cs">
+      <DependentUpon>UserGrid.nht</DependentUpon>
+    </Compile>
     <Compile Include="Controls\__Masters\TableGrid.nht.auto.cs">
       <DependentUpon>TableGrid.nht</DependentUpon>
     </Compile>
@@ -110,6 +113,9 @@
     <Compile Include="Pages\List\ProjectsPage.nht.auto.cs">
       <DependentUpon>ProjectsPage.nht</DependentUpon>
     </Compile>
+    <Compile Include="Pages\List\UsersPage.nht.auto.cs">
+      <DependentUpon>UsersPage.nht</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Login.nht.auto.cs">
       <DependentUpon>Login.nht</DependentUpon>
     </Compile>
@@ -137,6 +143,7 @@
     <None Include="Controls\Grids\MilestoneGrid.nht" />
     <None Include="Controls\Grids\ComponentGrid.nht" />
     <None Include="Controls\Grids\AreaGrid.nht" />
+    <None Include="Controls\Grids\UserGrid.nht" />
     <None Include="Controls\__Masters\TableGrid.nht" />
     <None Include="packages.config" />
     <None Include="Pages\Dashboard\DashboardPage.nht" />
@@ -150,6 +157,7 @@
     <None Include="Pages\List\AreasPage.nht" />
     <None Include="Pages\List\ComponentsPage.nht" />
     <None Include="Pages\List\MilestonesPage.nht" />
+    <None Include="Pages\List\UsersPage.nht" />
     <None Include="Pages\Login.nht" />
     <None Include="Pages\Dashboard\ProjectsPage.nht" />
     <None Include="Pages\__Masters\FormMaster.nht" />
