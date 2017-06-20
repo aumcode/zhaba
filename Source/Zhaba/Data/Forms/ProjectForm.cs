@@ -53,11 +53,8 @@ namespace Zhaba.Data.Forms
         ProjectRow row = FormMode == FormMode.Edit && id.HasValue
           ? ZApp.Data.CRUD.LoadRow(QCommon.ProjectByID<ProjectRow>(id.Value))
           : new ProjectRow(RowPKAction.Default){C_Creator = ZhabaUser.DataRow.Counter};
-        // var cCreator = row.C_Creator != null ? row.C_Creator : ZhabaUser.DataRow.Counter;  
-        
-        CopyFields(row, false, false, (n, f) => f.Name != "C_Creator");
 
-        // row.C_Creator = cCreator;
+        CopyFields(row, fieldFilter: (n, f) => f.Name != "C_Creator");
 
         var verror = row.ValidateAndPrepareForStore();
 
