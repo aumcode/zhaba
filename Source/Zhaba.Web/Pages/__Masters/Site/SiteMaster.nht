@@ -53,6 +53,8 @@
             <ul class="nav child_menu">
               <li><a href=?[URIS.ForPROJECT_ISSUES(SelectedProject.Counter)]>Issues</a></li>
               <li><a href=?[URIS.ForPROJECT_MILESTONES(SelectedProject.Counter)]>Milestones</a></li>
+              <li><a href=?[URIS.ForPROJECT_COMPONENTS(SelectedProject.Counter)]>Components</a></li>
+              <li><a href=?[URIS.ForPROJECT_AREAS(SelectedProject.Counter)]>Areas</a></li>
             </ul>
           </li>
           @[}]
@@ -67,8 +69,6 @@
             <ul class="nav child_menu">
               <li><a href=?[URIS.COMMON_USERS]>Users</a></li>
               <li><a href=?[URIS.COMMON_PROJECTS]>Projects</a></li>
-              <li><a href=?[URIS.COMMON_COMPONENTS]>Components</a></li>
-              <li><a href=?[URIS.COMMON_AREAS]>Areas</a></li>
             </ul>
           </li>
           <li class="group">

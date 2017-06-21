@@ -71,11 +71,8 @@ namespace Zhaba.Web.Controllers
 
       return handled;
     }
-
-
-    protected object DataSetup_ProjectItemDetails<TForm, TPage>(ulong? id, TForm form, string postRedirect)
-      where TForm : ZhabaForm
-      where TPage : ZhabaPage
+    
+    protected override object DataSetup_ItemDetails<TForm, TPage>(object[] args, TForm form, string postRedirect)
     {
       Exception error = null;
 
@@ -92,7 +89,8 @@ namespace Zhaba.Web.Controllers
         }
       }
       else
-        form = (TForm)Activator.CreateInstance(typeof(TForm), new object[] { ProjectRow, id });
+        form = (TForm)Activator.CreateInstance(typeof(TForm), args);
+        
 
       if (WorkContext.RequestedJSON)
         return new ClientRecord(form, error);

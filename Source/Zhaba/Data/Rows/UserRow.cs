@@ -60,11 +60,7 @@ namespace Zhaba.Data.Rows
              metadata: "Placeholder='Password' Password=true Hint='User password'")]
       public string Password { get; set; }
 
-      [Field(required: true, 
-             nonUI: false, 
-             maxLength: Domains.ZhabaSecurityRights.MAX_LEN, 
-             description: "User Rights",
-             metadata: "Placeholder='Rights' Hint='User rights'")]
+      [Field(required: true, nonUI: true, maxLength: Domains.ZhabaSecurityRights.MAX_LEN)]
       public string User_Rights
         {
           get { return m_UserRights; }

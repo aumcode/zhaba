@@ -153,9 +153,9 @@
     <None Include="Pages\Edit\UserRegistrationPage.nht" />
     <None Include="Pages\Edit\ProjectPage.nht" />
     <None Include="Pages\Edit\ComponentPage.nht" />
+    <None Include="Pages\List\ComponentsPage.nht" />
     <None Include="Pages\List\IssuesPage.nht" />
     <None Include="Pages\List\AreasPage.nht" />
-    <None Include="Pages\List\ComponentsPage.nht" />
     <None Include="Pages\List\MilestonesPage.nht" />
     <None Include="Pages\List\UsersPage.nht" />
     <None Include="Pages\Login.nht" />

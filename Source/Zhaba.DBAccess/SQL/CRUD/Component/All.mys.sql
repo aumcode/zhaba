@@ -1,2 +1,2 @@
 ﻿SELECT *
-FROM tbl_component;
+FROM tbl_component

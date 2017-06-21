@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-
 using NFX;
 using NFX.DataAccess;
 using NFX.DataAccess.CRUD;
@@ -14,13 +12,14 @@ namespace Zhaba.Data.Forms
   public class AreaForm : ProjectFormBase
   {
     public AreaForm() { }
-    public AreaForm(ulong? id)
+    public AreaForm(ProjectRow project, ulong? id) 
+      : base(project)
     {
       if (id.HasValue)
       {
         FormMode = FormMode.Edit;
 
-        var qry = QCommon.AreaByID<AreaRow>(id.Value);
+        var qry = QProject.AreaByID<AreaRow>(ProjectID, id.Value);
         var row = ZApp.Data.CRUD.LoadRow(qry);
         if (row != null)
           row.CopyFields(this);
@@ -57,7 +56,7 @@ namespace Zhaba.Data.Forms
         if (!id.HasValue)
           throw HTTPStatusException.BadRequest_400("No Area ID");
 
-        var qry = QCommon.AreaByID<AreaRow>(id.Value);
+        var qry = QProject.AreaByID<AreaRow>(ProjectID, id.Value);
         row = ZApp.Data.CRUD.LoadRow(qry);
         if (row == null)
           throw HTTPStatusException.NotFound_404("Area");
@@ -73,7 +72,10 @@ namespace Zhaba.Data.Forms
       try
       {
         if (FormMode == FormMode.Insert)
+        {
+          row.C_Project = ProjectID;
           ZApp.Data.CRUD.Insert(row);
+        }
         else
         {
           var affected = ZApp.Data.CRUD.Update(row);

@@ -7,7 +7,7 @@ using Zhaba.Data.QueryBuilders;
 
 namespace Zhaba.Data.Filters
 {
-  public class AreaListFilter : ZhabaFilterForm
+  public class AreaListFilter : ProjectFilterBase
   {
     #region Nested
 
@@ -34,7 +34,7 @@ namespace Zhaba.Data.Filters
 
     protected override Exception DoSave(out object saveResult)
     {
-      var qry = QCommon.AreasByFilter<AreaFilterListRow>(this);
+      var qry = QProject.AreasByFilter<AreaFilterListRow>(this);
       saveResult = ZApp.Data.CRUD.LoadOneRowset(qry);
 
       return null;

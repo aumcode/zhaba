@@ -20,7 +20,7 @@
   }
 
 
-  public override string DataSourceAjaxURI { get { return URIS.COMMON_AREAS; } }
+  public override string DataSourceAjaxURI { get { return URIS.ForPROJECT_AREAS(Filter.ProjectID); } }
 
 #[override renderTitle()]
   <h1>Areas</h1>
@@ -40,12 +40,12 @@
     var grid = WAVE.id("tblAreas");
     if (!grid || !grid.SELECTED_ROW_KEY || !grid.SELECTED_ROW_DATA) return;
 
-    var link = ZHB.URIS.ForAREA(grid.SELECTED_ROW_KEY);
+    var link = ZHB.URIS.ForPROJECT_AREA('?[:Filter.ProjectID]', grid.SELECTED_ROW_KEY);
     window.location.href = link;
   }
 
   function addArea() {
-    var link = "?[:URIS.ForCOMMON_AREA()]";
+    var link = "?[:URIS.ForPROJECT_AREA(Filter.ProjectID)]";
     window.location.href = link;
   }
 </script>

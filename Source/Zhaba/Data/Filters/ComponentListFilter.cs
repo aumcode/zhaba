@@ -1,13 +1,11 @@
 ﻿using System;
 
 using NFX.DataAccess.CRUD;
-
-using Zhaba.Data.Forms;
 using Zhaba.Data.QueryBuilders;
 
 namespace Zhaba.Data.Filters
 {
-  public class ComponentListFilter : ZhabaFilterForm
+  public class ComponentListFilter : ProjectFilterBase
   {
     #region Nested
 
@@ -34,7 +32,7 @@ namespace Zhaba.Data.Filters
 
     protected override Exception DoSave(out object saveResult)
     {
-      var qry = QCommon.ComponentsByFilter<ComponentFilterListRow>(this);
+      var qry = QProject.ComponentsByFilter<ComponentFilterListRow>(this);
       saveResult = ZApp.Data.CRUD.LoadOneRowset(qry);
 
       return null;

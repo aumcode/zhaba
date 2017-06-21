@@ -88,7 +88,9 @@
     <EmbeddedResource Include="SQL\CRUD\IssueLog\ByIssue.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\User\ByID.mys.sql" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="SQL\CRUD\Component\ByProjectID.mys.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

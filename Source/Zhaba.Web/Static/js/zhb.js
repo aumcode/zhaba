@@ -27,6 +27,14 @@ var ZHB = (function () {
       return project_setup(pid) + "/milestone?id=" + id;
     },
 
+    ForPROJECT_COMPONENT: function (pid, id) {
+      return project_setup(pid) + "/component?counter=" + id;
+    },
+
+    ForPROJECT_AREA: function (pid, id) {
+      return project_setup(pid) + "/area?counter=" + id;
+    },
+
     ForPROJECT_ISSUE: function (pid, id) {
       return project_setup(pid) + "/issue?id=" + id;
     },

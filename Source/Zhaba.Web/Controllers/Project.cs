@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-
-using NFX;
-using NFX.Wave;
+﻿using NFX.Wave;
 using NFX.Wave.MVC;
 
 using Zhaba.Data.Forms;
 using Zhaba.Data.Filters;
-using Zhaba.Data.Rows;
 using Zhaba.Security.Permissions;
 using Zhaba.Web.Pages.List;
 using Zhaba.Web.Pages;
 using Zhaba.Web.Controls;
+using Zhaba.Web.Controls.Grids;
 
 namespace Zhaba.Web.Controllers
 {
@@ -46,7 +42,7 @@ namespace Zhaba.Web.Controllers
     [Action]
     public object Milestone(ulong? id, MilestoneForm form)
     {
-      return DataSetup_ProjectItemDetails<MilestoneForm, MilestonePage>(id, form, URIS.ForPROJECT_MILESTONES(ProjectRow.Counter));
+      return DataSetup_ItemDetails<MilestoneForm, MilestonePage>(new object[] { ProjectRow, id }, form, URIS.ForPROJECT_MILESTONES(ProjectRow.Counter));
     }
 
     [Action]
@@ -58,7 +54,31 @@ namespace Zhaba.Web.Controllers
     [Action]
     public object Issue(ulong? id, IssueForm form)
     {
-      return DataSetup_ProjectItemDetails<IssueForm, IssuePage>(id, form, URIS.ForPROJECT_ISSUES(ProjectRow.Counter));
+      return DataSetup_ItemDetails<IssueForm, IssuePage>(new object[] { ProjectRow, id }, form, URIS.ForPROJECT_ISSUES(ProjectRow.Counter));
+    }
+
+    [Action]
+    public object Components(ComponentListFilter filter)
+    {
+      return DataSetup_Index<ComponentListFilter, ComponentGrid, ComponentsPage>(filter);
+    }
+    
+    [Action]
+    public object Component(ulong? counter, ComponentForm form)
+    {
+      return DataSetup_ItemDetails<ComponentForm, ComponentPage>(new object[] { ProjectRow, counter }, form, URIS.ForPROJECT_COMPONENTS(ProjectRow.Counter));
+    }
+
+    [Action]
+    public object Areas(AreaListFilter filter)
+    {
+      return DataSetup_Index<AreaListFilter, AreaGrid, AreasPage>(filter);
+    }
+
+    [Action]
+    public object Area(ulong? counter, AreaForm form)
+    {
+      return DataSetup_ItemDetails<AreaForm, AreaPage>(new object[] { ProjectRow, counter }, form, URIS.ForPROJECT_AREAS(ProjectRow.Counter));
     }
   }
 }

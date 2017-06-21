@@ -18,42 +18,17 @@ namespace Zhaba.Web.Controllers
     {
       return new Redirect(URIS.DASHBOARD);
     }
-
-    [Action]
-    public object Components(ComponentListFilter filter)
-    {
-      return DataSetup_Index<ComponentListFilter, ComponentGrid, ComponentsPage>(filter);
-    }
-
-    [Action]
-    public object Component(ulong? id, ComponentForm form)
-    {
-      return DataSetup_ItemDetails<ComponentForm, ComponentPage>(id, form, URIS.COMMON_COMPONENTS);
-    }
-
-    [Action]
-    public object Areas(AreaListFilter filter)
-    {
-      return DataSetup_Index<AreaListFilter, AreaGrid, AreasPage>(filter);
-    }
-
-    [Action]
-    public object Area(ulong? id, AreaForm form)
-    {
-      return DataSetup_ItemDetails<AreaForm, AreaPage>(id, form, URIS.COMMON_AREAS);
-    }
-
+    
     [Action]
     public object Users(UserListFilter filter)
     {
       return DataSetup_Index<UserListFilter, UserGrid, UsersPage>(filter);
-      // return null;
     }
 
     [Action]
-    public object User(ulong? id, UserForm form)
+    public object User(ulong? id, UserRegistrationForm form)
     {
-        return DataSetup_ItemDetails<UserForm, UserRegistrationPage>(id, form, URIS.COMMON_USERS);
+        return DataSetup_ItemDetails<UserRegistrationForm, UserRegistrationPage>(new object[] { id }, form, URIS.COMMON_USERS);
     }
 
     [Action]
@@ -65,8 +40,7 @@ namespace Zhaba.Web.Controllers
     [Action]
     public object Project(ulong? id, ProjectForm form)
     {
-      return DataSetup_ItemDetails<ProjectForm, ProjectPage>(id, form, URIS.COMMON_PROJECTS);
+      return DataSetup_ItemDetails<ProjectForm, ProjectPage>(new object[] { id }, form, URIS.COMMON_PROJECTS);
     }
-
   }
 }

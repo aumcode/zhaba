@@ -56,7 +56,7 @@ namespace Zhaba.Web
       }
     }
 
-    protected object DataSetup_ItemDetails<TForm, TPage>(ulong? id, TForm form, string postRedirect)
+    protected virtual object DataSetup_ItemDetails<TForm, TPage>(object[] args, TForm form, string postRedirect)
       where TForm : ZhabaForm
       where TPage : ZhabaPage
     {
@@ -75,7 +75,7 @@ namespace Zhaba.Web
         }
       }
       else
-        form = (TForm)Activator.CreateInstance(typeof(TForm), new object[] { id });
+        form = (TForm)Activator.CreateInstance(typeof(TForm), args);
 
       if (WorkContext.RequestedJSON)
         return new ClientRecord(form, error);

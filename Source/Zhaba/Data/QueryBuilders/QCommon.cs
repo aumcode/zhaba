@@ -12,27 +12,6 @@ namespace Zhaba.Data.QueryBuilders
 {
   public static class QCommon
   {
-    public static Query<TRow> AllComponents<TRow>() where TRow : Row
-    {
-      return new Query<TRow>("SQL.CRUD.Component.All");
-    }
-
-    public static Query<TRow> ComponentsByFilter<TRow>(ComponentListFilter filter) where TRow : Row
-    {
-      return new Query<TRow>("SQL.Filters.ComponentList")
-      {
-        new Query.Param("pFilter", filter)
-      };
-    }
-
-    public static Query<TRow> ComponentByID<TRow>(ulong id) where TRow : Row
-    {
-      return new Query<TRow>("SQL.CRUD.Component.ByID")
-      {
-        new Query.Param("pID", id)
-      };
-    }
-
     public static Query<TRow> ProjectsByFilter<TRow>(ProjectListFilter filter) where TRow : Row
     {
       return new Query<TRow>("SQL.Filters.ProjectList")
@@ -48,23 +27,7 @@ namespace Zhaba.Data.QueryBuilders
         new Query.Param("pID", id)
       };
     }
-
-    public static Query<TRow> AreasByFilter<TRow>(AreaListFilter filter) where TRow : Row
-    {
-      return new Query<TRow>("SQL.Filters.AreaList")
-      {
-        new Query.Param("pFilter", filter)
-      };
-    }
-
-    public static Query<TRow> AreaByID<TRow>(ulong id) where TRow : Row
-    {
-      return new Query<TRow>("SQL.CRUD.Area.ByID")
-      {
-        new Query.Param("pID", id)
-      };
-    }
-
+    
     public static Query<TRow> UsersByFilter<TRow>(UserListFilter filter) where TRow : Row
     {
         return new Query<TRow>("SQL.Filters.UserList")

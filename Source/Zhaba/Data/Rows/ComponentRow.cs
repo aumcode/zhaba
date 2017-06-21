@@ -13,7 +13,6 @@ namespace Zhaba.Data.Rows
     #region .ctor
       public ComponentRow() : base() { }
       public ComponentRow(RowPKAction action) : base(action) { }
-      
     #endregion
 
     #region Properties
