@@ -14,28 +14,31 @@ using NFX.Wave;
 
 namespace Zhaba.Data.Forms
 {
-  public class UserRegistrationForm : ZhabaForm
+  public class UserForm : ZhabaForm
   {
-    public static readonly string PASSWORD_SESSION_VAR = typeof(UserRegistrationForm).FullName + "-PASSWORD";
+    public static readonly string PASSWORD_SESSION_VAR = typeof(UserForm).FullName + "-PASSWORD";
     public static readonly string PASSWORD_FAKE = "_*-~!@#$%^'&*()_+`}{|<>?";
 
-    public UserRegistrationForm()
+    public UserForm()
     {
       FormMode = FormMode.Insert; // Always Insert
     }
 
-    public UserRegistrationForm(ulong? id)
+    public UserForm(ulong? id)
     {
         if(id.HasValue)
         {
           FormMode = FormMode.Edit;
-          var qry = QCommon.ProjectByID<UserRow>(id.Value);
+          var qry = QCommon.UserByID<UserRow>(id.Value);
           var row = ZApp.Data.CRUD.LoadRow(qry);
           if (row != null)
             row.CopyFields(this);
           else
             throw HTTPStatusException.NotFound_404("Project");
 
+          Password = PASSWORD_FAKE;
+          ConfirmPassword = PASSWORD_FAKE;
+          ZhabaSession[PASSWORD_SESSION_VAR] = Password;
           this.RoundtripBag[ITEM_ID_BAG_PARAM] = id.Value;
         }
         else
@@ -59,13 +62,15 @@ namespace Zhaba.Data.Forms
 
     [Field(typeof(UserRow))]
     public string Status { get; set; }
-    
-    [Field(typeof(UserRow), "Password", minLength: Sizes.PASSWORD_MIN_LEN, maxLength: Sizes.PASSWORD_MAX_LEN)]
+
+    [Field(typeof(UserRow))]
+    public string User_Rights { get; set; }
+
+    [Field(typeof(UserRow), "Password", minLength: Sizes.PASSWORD_MIN_LEN)]
     public string Password { get; set; }
     
     [Field(required: true,
            minLength: Sizes.PASSWORD_MIN_LEN,
-           maxLength: Sizes.PASSWORD_MAX_LEN,
            description: "Confirm Password",
            metadata: "Placeholder='Confirm Password' Password=true Stored=true")]
     public string ConfirmPassword { get; set; }
@@ -114,32 +119,30 @@ namespace Zhaba.Data.Forms
    {
      saveResult = null;
 
-     var row = new UserRow(RowPKAction.Default);
-     CopyFields(row);
+     var id = RoundtripBag[ITEM_ID_BAG_PARAM].AsNullableULong();
+     UserRow row = FormMode == FormMode.Edit && id.HasValue ? ZApp.Data.CRUD.LoadRow(QCommon.UserByID<UserRow>(id.Value)) : new UserRow(RowPKAction.Default);
+     CopyFields(row, fieldFilter: (n, f) => f.Name != "Password");
 
      var typedPassword = ZhabaSession[PASSWORD_SESSION_VAR].AsString();
      if (typedPassword.IsNullOrWhiteSpace())
        return new CRUDFieldValidationException(this, "Password", "Password required");
 
-      using (var password = IDPasswordCredentials.PlainPasswordToSecureBuffer(typedPassword))
-        row.Password = App.SecurityManager.PasswordManager.ComputeHash(PasswordFamily.Text, password).ToString();
+     if (typedPassword != PASSWORD_FAKE || FormMode == FormMode.Insert)
+     {
+       row.Password = Password;
+       using (var password = IDPasswordCredentials.PlainPasswordToSecureBuffer(typedPassword))
+         row.Password = App.SecurityManager.PasswordManager.ComputeHash(PasswordFamily.Text, password).ToString();
+     }
 
-     // fill user rights with empty config as default
-/*     var rightsCfg = new NFX.Environment.MemoryConfiguration();
-     rightsCfg.Create();
-     rightsCfg.Root.AddChildNode(NFX.Security.Rights.CONFIG_ROOT_SECTION);
-     row.User_Rights = rightsCfg.ToLaconicString(NFX.CodeAnalysis.Laconfig.LaconfigWritingOptions.Compact);*/
-
-     row.User_Rights = "{z:{rights:{}}}";
+     row.User_Rights = row.User_Rights.IsNullOrEmpty() ? "{z:{rights:{}}}" : row.User_Rights;
 
      var verror = row.ValidateAndPrepareForStore();
      if (verror != null) return verror;
 
-     saveResult = row;
-
      try
      {
-       ZApp.Data.CRUD.Insert(row);
+       ZApp.Data.CRUD.Upsert(row);
+       saveResult = row;
      }
      catch (Exception error)
      {
@@ -149,6 +152,8 @@ namespace Zhaba.Data.Forms
 
        throw error;
      }
+
+
 
      return null;
    }

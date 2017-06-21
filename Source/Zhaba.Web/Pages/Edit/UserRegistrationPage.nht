@@ -8,13 +8,13 @@
     using { ns="NFX.Wave.Templatization" }
     using { ns="Zhaba" }
     using { ns="Zhaba.Data.Forms" }
-    base-class-name="Zhaba.Web.Pages.FormMaster<UserRegistrationForm>"
+    base-class-name="Zhaba.Web.Pages.FormMaster<UserForm>"
     namespace="Zhaba.Web.Pages"
   }
 #</laconf>
 
 #[class]
-  public UserRegistrationPage(UserRegistrationForm form, Exception error)
+  public UserRegistrationPage(UserForm form, Exception error)
     : base(form, error)
   {
     Title = "User Registration";
@@ -40,13 +40,16 @@
       <div class="data-wv" data-wv-fname="EMail"></div>
     </div>
     <div class="form-group">
-      <div class="data-wv" data-wv-fname="Password"></div>
+      <div class="data-wv" data-wv-fname="Password" data-wv-ctl="password"></div>
     </div>
     <div class="form-group">
-      <div class="data-wv" data-wv-fname="ConfirmPassword"></div>
+      <div class="data-wv" data-wv-fname="ConfirmPassword" data-wv-ctl="password"></div>
     </div>
     <div class="form-group">
       <div class="data-wv" data-wv-fname="Status"></div>
+    </div>
+    <div class="form-group">
+      <div class="data-wv" data-wv-fname="User_Rights"></div>
     </div>
 
     <div class="ln_solid"></div>

@@ -12,6 +12,6 @@ namespace Zhaba.Data
   public static class Sizes
   {
     public const int PASSWORD_MIN_LEN = 6;
-    public const int PASSWORD_MAX_LEN = 32;
+    public const int PASSWORD_MAX_LEN = 256;
   }
 }

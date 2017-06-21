@@ -51,12 +51,12 @@ namespace Zhaba.Web.Controllers
     }
 
     [Action]
-    public object User(ulong? id, UserRegistrationForm form)
+    public object User(ulong? id, UserForm form)
     {
-        return DataSetup_ItemDetails<UserRegistrationForm, UserRegistrationPage>(id, form, URIS.COMMON_USERS);
+        return DataSetup_ItemDetails<UserForm, UserRegistrationPage>(id, form, URIS.COMMON_USERS);
     }
 
-        [Action]
+    [Action]
     public object Projects(ProjectListFilter filter)
     {
       return DataSetup_Index<ProjectListFilter, ProjectGrid, ProjectsPage>(filter);
