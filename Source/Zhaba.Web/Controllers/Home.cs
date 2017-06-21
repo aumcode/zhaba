@@ -13,7 +13,7 @@ namespace Zhaba.Web.Controllers
   public class Home : ZhabaController
   {
     [Action]
-    public object Index(UserRegistrationForm form)
+    public object Index(UserForm form)
     {
       return new Redirect(URIS.USER_LOGIN);
     }
