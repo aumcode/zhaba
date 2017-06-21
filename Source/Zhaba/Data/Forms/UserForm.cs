@@ -27,8 +27,7 @@ namespace Zhaba.Data.Forms
         if(id.HasValue)
         {
           FormMode = FormMode.Edit;
-          var qry = QCommon.UserByID<UserRow>(id.Value);
-          var row = ZApp.Data.CRUD.LoadRow(qry);
+          var row = ZApp.Data.CRUD.LoadRow(QUser.GetUserById<UserRow>(id.Value));
           if (row != null)
             row.CopyFields(this);
           else
@@ -37,7 +36,7 @@ namespace Zhaba.Data.Forms
           Password = PASSWORD_FAKE;
           ConfirmPassword = PASSWORD_FAKE;
           ZhabaSession[PASSWORD_SESSION_VAR] = Password;
-          this.RoundtripBag[ITEM_ID_BAG_PARAM] = id.Value;
+          RoundtripBag[ITEM_ID_BAG_PARAM] = id.Value;
         }
         else
         {
@@ -118,7 +117,7 @@ namespace Zhaba.Data.Forms
      saveResult = null;
 
      var id = RoundtripBag[ITEM_ID_BAG_PARAM].AsNullableULong();
-     UserRow row = FormMode == FormMode.Edit && id.HasValue ? ZApp.Data.CRUD.LoadRow(QCommon.UserByID<UserRow>(id.Value)) : new UserRow(RowPKAction.Default);
+     UserRow row = FormMode == FormMode.Edit && id.HasValue ? ZApp.Data.CRUD.LoadRow(QUser.GetUserById<UserRow>(id.Value)) : new UserRow(RowPKAction.Default);
      CopyFields(row, fieldFilter: (n, f) => f.Name != "Password");
 
      var typedPassword = ZhabaSession[PASSWORD_SESSION_VAR].AsString();

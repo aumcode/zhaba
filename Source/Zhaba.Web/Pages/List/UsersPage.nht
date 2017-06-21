@@ -47,4 +47,6 @@
     var link = "?[:URIS.ForCOMMON_USER()]";
     window.location.href = link;
   }
+  
+  
 </script>
