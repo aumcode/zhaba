@@ -42,7 +42,7 @@ namespace Zhaba.DBAccess.SQL.Filters
           order = "TI." + filter.OrderBy + " ASC";
       }
 
-      cmd.Parameters.AddWithValue("pProj_ID", filter.ProjectID);
+      cmd.Parameters.AddWithValue("pProj_ID", filter.ProjectCounter);
       cmd.CommandText =
 @"SELECT
   TI.COUNTER,

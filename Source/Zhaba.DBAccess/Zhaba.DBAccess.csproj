@@ -48,6 +48,7 @@
     <Compile Include="Handlers\ZhabaFilteredMySQLQueryHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Handlers\ZhabaMySQLQueryHandler.cs" />
+    <Compile Include="SQL\Filters\IssueAreaList.cs" />
     <Compile Include="SQL\Filters\IssueList.cs" />
     <Compile Include="SQL\Filters\MilestoneList.cs" />
     <Compile Include="SQL\Filters\AreaList.cs" />

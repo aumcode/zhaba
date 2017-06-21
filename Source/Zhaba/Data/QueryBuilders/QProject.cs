@@ -109,6 +109,14 @@ namespace Zhaba.Data.QueryBuilders
       };
     }
 
+    public static Query<TRow> IssueAreaListByFilter<TRow>(IssueAreaListFilter filter) where TRow : Row
+    {
+      return new Query<TRow>("SQL.Filters.IssueAreaList")
+      {
+        new Query.Param("pFilter", filter)
+      };
+    }
+
     #endregion Issues
 
     #region Components

@@ -15,13 +15,13 @@ using Zhaba.DBAccess.Handlers;
 
 namespace Zhaba.DBAccess.SQL.Filters
 {
-  public class AreaList : ZhabaFilteredMySQLQueryHandler<AreaListFilter>
+  public class IssueAreaList : ZhabaFilteredMySQLQueryHandler<IssueAreaListFilter>
   {
-    public AreaList(MySQLDataStore store, string name) : base(store, name)
+    public IssueAreaList(MySQLDataStore store, string name) : base(store, name)
     {
     }
 
-    protected override void DoBuildCommandAndParms(MySQLCRUDQueryExecutionContext context, MySqlCommand cmd, AreaListFilter filter)
+    protected override void DoBuildCommandAndParms(MySQLCRUDQueryExecutionContext context, MySqlCommand cmd, IssueAreaListFilter filter)
     {
       string where = string.Empty;
 
@@ -32,14 +32,7 @@ namespace Zhaba.DBAccess.SQL.Filters
         cmd.Parameters.AddWithValue("pName", name);
       }
 
-      var description = filter.Description.ParseName();
-      if (description != null)
-      {
-        where += "AND (TA.DESCRIPTION LIKE ?pDescription)";
-        cmd.Parameters.AddWithValue("pDescription", description);
-      }
-
-      string order = "TA.Counter";
+      string order = "TA.NAME";
       if (filter.OrderBy.IsNotNullOrWhiteSpace())
       {
         var desc = filter.OrderBy.StartsWith("-");
@@ -49,12 +42,16 @@ namespace Zhaba.DBAccess.SQL.Filters
           order = "TA." + filter.OrderBy + " ASC";
       }
 
-      cmd.Parameters.AddWithValue("pProj_ID", filter.ProjectCounter);
+      cmd.Parameters.AddWithValue("pProject", filter.ProjectCounter);
+      cmd.Parameters.AddWithValue("pIssue", filter.IssueCounter);
       cmd.CommandText =
-@"SELECT *
+@"SELECT
+ TA.COUNTER,
+ TA.NAME,
+ CASE WHEN TIA.C_ISSUE IS NULL THEN 'F' ELSE 'T' END AS LINKED
 FROM tbl_area TA
-WHERE
-  (C_PROJECT = ?pProj_ID)
+LEFT JOIN tbl_issuearea TIA ON TIA.C_AREA = ta.COUNTER AND TIA.C_ISSUE = ?pIssue
+WHERE TA.C_PROJECT = ?pProject
   {0}
 ORDER BY {1}".Args(where, order);
     }

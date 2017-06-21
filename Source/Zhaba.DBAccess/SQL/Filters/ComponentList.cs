@@ -49,7 +49,7 @@ namespace Zhaba.DBAccess.SQL.Filters
           order = "TC." + filter.OrderBy + " ASC";
       }
 
-      cmd.Parameters.AddWithValue("pProj_ID", filter.ProjectID);
+      cmd.Parameters.AddWithValue("pProj_ID", filter.ProjectCounter);
       cmd.CommandText =
 @"SELECT *
 FROM tbl_component TC

@@ -50,10 +50,12 @@
     <Compile Include="Data\Domains\Strings.cs" />
     <Compile Include="Data\Domains\Time.cs" />
     <Compile Include="Data\Filters\AreaListFilter.cs" />
+    <Compile Include="Data\Filters\IssueAreaListFilter.cs" />
     <Compile Include="Data\Filters\IssueListFilter.cs" />
     <Compile Include="Data\Filters\MilestoneListFilter.cs" />
     <Compile Include="Data\Filters\ComponentListFilter.cs" />
     <Compile Include="Data\Filters\FilterParsers.cs" />
+    <Compile Include="Data\Filters\ProjectIssueFilterBase.cs" />
     <Compile Include="Data\Filters\ProjectFilterBase.cs" />
     <Compile Include="Data\Filters\ProjectListFilter.cs" />
     <Compile Include="Data\Filters\UserListFilter.cs" />
