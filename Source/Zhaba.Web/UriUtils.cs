@@ -1,9 +1,4 @@
 ﻿using NFX;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Zhaba.Web
 {
@@ -18,10 +13,6 @@ namespace Zhaba.Web
     public const string COMMON            = "/common";
     public const string COMMON_USERS      = COMMON + "/users";
     public const string COMMON_USER       = COMMON + "/user";
-    public const string COMMON_COMPONENTS = COMMON + "/components";
-    public const string COMMON_COMPONENT  = COMMON + "/component";
-    public const string COMMON_AREAS      = COMMON + "/areas";
-    public const string COMMON_AREA       = COMMON + "/area";
     public const string COMMON_PROJECTS   = COMMON + "/projects";
     public const string COMMON_PROJECT    = COMMON + "/project";
 
@@ -33,6 +24,9 @@ namespace Zhaba.Web
     public const string PROJECT_MILESTONES = "/project/{0}/milestones";
     public const string PROJECT_MILESTONE  = "/project/{0}/milestone";
     public const string PROJECT_AREAS      = "/project/{0}/areas";
+    public const string PROJECT_AREA       = "/project/{0}/area";
+    public const string PROJECT_COMPONENTS = "/project/{0}/components";
+    public const string PROJECT_COMPONENT  = "/project/{0}/component";
     public const string PROJECT_ISSUES     = "/project/{0}/issues";
     public const string PROJECT_ISSUE      = "/project/{0}/issue";
 
@@ -42,17 +36,7 @@ namespace Zhaba.Web
     {
       return id.HasValue ? "{0}?id={1}".Args(COMMON_USER, id) : COMMON_USER;
     }
-
-    public static string ForCOMMON_COMPONENT(ulong? id = null)
-    {
-      return id.HasValue ? "{0}?id={1}".Args(COMMON_COMPONENT, id) : COMMON_COMPONENT;
-    }
-
-    public static string ForCOMMON_AREA(ulong? id = null)
-    {
-      return id.HasValue ? "{0}?id={1}".Args(COMMON_AREA, id) : COMMON_AREA;
-    }
-
+    
     public static string ForCOMMON_PROJECT(ulong? id = null)
     {
       return id.HasValue ? "{0}?id={1}".Args(COMMON_PROJECT, id) : COMMON_PROJECT;
@@ -85,6 +69,30 @@ namespace Zhaba.Web
       return id.HasValue ?
              (PROJECT_ISSUE+"?id={1}").Args(projID, id) :
               PROJECT_ISSUE.Args(projID);
+    }
+
+    public static string ForPROJECT_COMPONENTS(ulong projCounter)
+    {
+      return PROJECT_COMPONENTS.Args(projCounter);
+    }
+
+    public static string ForPROJECT_COMPONENT(ulong projCounter, ulong? counter = null)
+    {
+      return counter.HasValue ?
+             (PROJECT_COMPONENT + "?id={1}").Args(projCounter, counter) :
+              PROJECT_COMPONENT.Args(projCounter);
+    }
+
+    public static string ForPROJECT_AREAS(ulong projCounter)
+    {
+      return PROJECT_AREAS.Args(projCounter);
+    }
+
+    public static string ForPROJECT_AREA(ulong projCounter, ulong? counter = null)
+    {
+      return counter.HasValue ?
+             (PROJECT_AREA + "?id={1}").Args(projCounter, counter) :
+              PROJECT_AREA.Args(projCounter);
     }
   }
 }

@@ -34,6 +34,6 @@
   	<div class="ln_solid"></div>
     <div class="form-group cntr form-btns-wrapper">
       <input class="btn btn-primary btn-std" type="submit" value="Save" />
-      <a class="btn btn-primary btn-std" href="?[:URIS.COMMON_COMPONENTS]">Cancel</a>
+      <a class="btn btn-primary btn-std" href="?[:URIS.ForPROJECT_ISSUES(Form.ProjectID)]">Cancel</a>
     </div>
   </div>

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-
 using NFX;
 using NFX.DataAccess;
 using NFX.DataAccess.CRUD;
@@ -11,23 +9,25 @@ using Zhaba.Data.QueryBuilders;
 
 namespace Zhaba.Data.Forms
 {
-  public class ComponentForm : ZhabaForm
+  public class ComponentForm : ProjectFormBase
   {
     public ComponentForm() { }
-    public ComponentForm(ulong? id)
+
+    public ComponentForm(ProjectRow project, ulong? counter) 
+      : base(project)
     {
-      if (id.HasValue)
+      if (counter.HasValue)
       {
         FormMode = FormMode.Edit;
 
-        var qry = QCommon.ComponentByID<ComponentRow>(id.Value);
+        var qry = QProject.ComponentByID<ComponentRow>(ProjectID, counter.Value);
         var row = ZApp.Data.CRUD.LoadRow(qry);
         if (row != null)
           row.CopyFields(this);
         else
           throw HTTPStatusException.NotFound_404("Component");
 
-        this.RoundtripBag[ITEM_ID_BAG_PARAM] = id.Value;
+        this.RoundtripBag[ITEM_ID_BAG_PARAM] = counter.Value;
       }
       else
       {
@@ -53,11 +53,11 @@ namespace Zhaba.Data.Forms
       }
       else
       {
-        var id = RoundtripBag[ITEM_ID_BAG_PARAM].AsNullableULong();
-        if (!id.HasValue)
+        var counter = RoundtripBag[ITEM_ID_BAG_PARAM].AsNullableULong();
+        if (!counter.HasValue)
           throw HTTPStatusException.BadRequest_400("No Component ID");
 
-        var qry = QCommon.ComponentByID<ComponentRow>(id.Value);
+        var qry = QProject.ComponentByID<ComponentRow>(ProjectID, counter.Value);
         row = ZApp.Data.CRUD.LoadRow(qry);
         if (row == null)
           throw HTTPStatusException.NotFound_404("Component");
@@ -73,7 +73,10 @@ namespace Zhaba.Data.Forms
       try
       {
         if (FormMode == FormMode.Insert)
+        {
+          row.C_Project = ProjectID;
           ZApp.Data.CRUD.Insert(row);
+        }
         else
         {
           var affected = ZApp.Data.CRUD.Update(row);
