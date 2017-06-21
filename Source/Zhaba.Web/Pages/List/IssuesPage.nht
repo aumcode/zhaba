@@ -19,7 +19,6 @@
     Filter = filter;
   }
 
-
   public override string DataSourceAjaxURI { get { return URIS.ForPROJECT_ISSUES(Filter.ProjectID); } }
 
 #[override renderTitle()]
@@ -33,15 +32,6 @@
 #[override renderFilterControls()]
   <div class="fView" data-wv-fname="OrderBy" data-wv-ctl="combo"></div>
   <div class="fView" data-wv-fname="Name"></div>
-  <div class="fView" data-wv-fname="Description"></div>
-  <div class="fView" data-wv-fname="Milestone"></div>
-  <div class="fView" data-wv-fname="Area"></div>
-  <div class="fView" data-wv-fname="Component"></div>
-  <div class="fView" data-wv-fname="Status"></div>
-  <div class="fView" data-wv-fname="Creator"></div>
-  <div class="fView" data-wv-fname="Owner"></div>
-  <div class="fView" data-wv-fname="CreationDateSpan"></div>
-  <div class="fView" data-wv-fname="ChangeDateSpan"></div>
 
 <script>
   function editIssue() {
