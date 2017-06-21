@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Text;
-using System.Security.Cryptography;
 
 using NFX;
 using NFX.DataAccess;
