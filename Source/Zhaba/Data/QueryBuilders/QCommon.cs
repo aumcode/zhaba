@@ -36,6 +36,13 @@ namespace Zhaba.Data.QueryBuilders
         };
     }
 
+    public static Query<TRow> UserByID<TRow>(ulong id) where TRow : Row
+    {
+      return new Query<TRow>("SQL.CRUD.User.ByID")
+      {
+        new Query.Param("pID", id)
+      };
+    }
     public static Query<TRow> AgendaByID<TRow>(ulong id) where TRow : Row
     {
       return new Query<TRow>("SQL.CRUD.Agenda.ByID")
