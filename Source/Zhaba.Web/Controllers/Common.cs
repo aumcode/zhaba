@@ -26,9 +26,9 @@ namespace Zhaba.Web.Controllers
     }
 
     [Action]
-    public object User(ulong? id, UserRegistrationForm form)
+    public object User(ulong? id, UserForm form)
     {
-        return DataSetup_ItemDetails<UserRegistrationForm, UserRegistrationPage>(new object[] { id }, form, URIS.COMMON_USERS);
+        return DataSetup_ItemDetails<UserForm, UserRegistrationPage>(new object[] { id }, form, URIS.COMMON_USERS);
     }
 
     [Action]

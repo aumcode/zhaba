@@ -20,7 +20,7 @@ namespace Zhaba.Web.Controllers
   public class User : ZhabaController
   {
     [Action("sign-up", 0, "match{methods=GET,POST}")]
-    public object SignUp(UserRegistrationForm form)
+    public object SignUp(UserForm form)
     {
       WorkContext.NeedsSession();
 
@@ -49,7 +49,7 @@ namespace Zhaba.Web.Controllers
       }
       else //GET
       {
-        form = new UserRegistrationForm();
+        form = new UserForm();
       }
 
       if (WorkContext.RequestedJSON)
