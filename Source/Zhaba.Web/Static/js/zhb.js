@@ -43,6 +43,10 @@ var ZHB = (function () {
       return project_setup(project) + "/issuearea?issue=" + issue;
     },
 
+    ForPROJECT_LINK_ISSUE_AREA: function(project, issue, area) {
+      return project_setup(project) + "/linkissuearea?issue=" + issue + "&area=" + area;
+    },
+
     ForUSER: function (id) {
         return common_setup() + "/user?id={0}".args(id);
     }

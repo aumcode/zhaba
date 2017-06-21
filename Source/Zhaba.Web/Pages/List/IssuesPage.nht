@@ -55,7 +55,6 @@
     var link = ZHB.URIS.ForPROJECT_ISSUE_AREA("?[:Filter.ProjectCounter]", grid.SELECTED_ROW_KEY);
     window.location.href = link;
   }
-
 </script>
 
 

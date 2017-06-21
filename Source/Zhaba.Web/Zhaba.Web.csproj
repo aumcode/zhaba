@@ -59,6 +59,9 @@
     <Compile Include="Controls\Grids\ComponentGrid.nht.auto.cs">
       <DependentUpon>ComponentGrid.nht</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Grids\IssueAreaGrid.nht.auto.cs">
+      <DependentUpon>IssueAreaGrid.nht</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Grids\IssueGrid.nht.auto.cs">
       <DependentUpon>IssueGrid.nht</DependentUpon>
     </Compile>
@@ -104,6 +107,9 @@
     <Compile Include="Pages\List\ComponentsPage.nht.auto.cs">
       <DependentUpon>ComponentsPage.nht</DependentUpon>
     </Compile>
+    <Compile Include="Pages\List\IssueAreaPage.nht.auto.cs">
+      <DependentUpon>IssueAreaPage.nht</DependentUpon>
+    </Compile>
     <Compile Include="Pages\List\IssuesPage.nht.auto.cs">
       <DependentUpon>IssuesPage.nht</DependentUpon>
     </Compile>
@@ -119,7 +125,7 @@
     <Compile Include="Pages\Login.nht.auto.cs">
       <DependentUpon>Login.nht</DependentUpon>
     </Compile>
-    <Compile Include="Pages\__Masters\FormMaster.nht.auto.cs">
+    <Compile Include="Controllers\FormMaster.nht.auto.cs">
       <DependentUpon>FormMaster.nht</DependentUpon>
     </Compile>
     <Compile Include="Pages\__Masters\Master.nht.auto.cs">
@@ -138,6 +144,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Controls\Grids\IssueAreaGrid.nht" />
     <None Include="Controls\Grids\IssueGrid.nht" />
     <None Include="Controls\Grids\ProjectGrid.nht" />
     <None Include="Controls\Grids\MilestoneGrid.nht" />
@@ -154,13 +161,14 @@
     <None Include="Pages\Edit\ProjectPage.nht" />
     <None Include="Pages\Edit\ComponentPage.nht" />
     <None Include="Pages\List\ComponentsPage.nht" />
+    <None Include="Pages\List\IssueAreaPage.nht" />
     <None Include="Pages\List\IssuesPage.nht" />
     <None Include="Pages\List\AreasPage.nht" />
     <None Include="Pages\List\MilestonesPage.nht" />
     <None Include="Pages\List\UsersPage.nht" />
     <None Include="Pages\Login.nht" />
     <None Include="Pages\Dashboard\ProjectsPage.nht" />
-    <None Include="Pages\__Masters\FormMaster.nht" />
+    <None Include="Controllers\FormMaster.nht" />
     <None Include="Pages\__Masters\Master.nht" />
     <None Include="Pages\__Masters\Site\SiteFormMaster.nht" />
     <None Include="Pages\__Masters\Site\SiteGridMaster.nht" />
@@ -206,9 +214,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Static\css\vendors\font-awesome.min.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Static\images\user.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Static\js\custom.js">
