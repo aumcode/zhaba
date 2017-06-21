@@ -46,7 +46,8 @@ namespace Zhaba.DBAccess.SQL.Filters
       cmd.CommandText =
 @"SELECT
   TI.COUNTER,
-  TI.NAME
+  TI.NAME,
+  TI.IN_USE
 FROM
   tbl_issue TI
 WHERE
