@@ -29,6 +29,6 @@
 
   protected override object RowDataSelector(Row row)
   {
-    return "{0}:{1}:{2}".Args(row["Counter"], row["Name"], row["Description"]);
+    return "{0}:{1}".Args(row["Counter"], row["Name"]);
   }
 

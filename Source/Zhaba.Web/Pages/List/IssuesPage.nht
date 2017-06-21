@@ -28,6 +28,7 @@
   @[base.renderTopToolbar();]
   <a class="uiSmallRedButton" href="javascript:addIssue()">Add</a>
   <a class="uiSmallRedButton" href="javascript:editIssue()" data-grid-link>Edit</a>
+  <a class="uiSmallGreenButton" href="javascript:showAreas()" data-grid-link>Areas</a>
 
 #[override renderFilterControls()]
   <div class="fView" data-wv-fname="OrderBy" data-wv-ctl="combo"></div>
@@ -46,6 +47,15 @@
     var link = "?[:URIS.ForPROJECT_ISSUE(Filter.ProjectID)]";
     window.location.href = link;
   }
+
+  function showAreas() {
+    var grid = WAVE.id("tblIssues");
+    if (!grid || !grid.SELECTED_ROW_KEY || !grid.SELECTED_ROW_DATA) return;
+
+    var link = ZHB.URIS.ForPROJECT_ISSUE_AREA("?[:Filter.ProjectID]", grid.SELECTED_ROW_KEY);
+    window.location.href = link;
+  }
+
 </script>
 
 

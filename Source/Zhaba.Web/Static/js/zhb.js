@@ -39,6 +39,10 @@ var ZHB = (function () {
       return project_setup(pid) + "/issue?id=" + id;
     },
 
+    ForPROJECT_ISSUE_AREA: function(project, issue) {
+      return project_setup(project) + "/issuearea?issue=" + issue;
+    },
+
     ForUSER: function (id) {
         return common_setup() + "/user?id={0}".args(id);
     }
