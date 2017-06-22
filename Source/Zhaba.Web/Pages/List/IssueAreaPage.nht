@@ -1,0 +1,39 @@
+﻿#<laconf>
+  compiler
+  {
+    using { ns="System.Linq" }
+    using { ns="System.Collections.Generic" }
+    using { ns="NFX" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Wave.Templatization" }
+    using { ns="Zhaba" }
+    using { ns="Zhaba.Data.Filters" }
+    base-class-name="Zhaba.Web.Pages.SiteGridMaster<IssueAreaListFilter>"
+    namespace="Zhaba.Web.Pages.List"
+  }
+#</laconf>
+
+#[class]
+  public IssueAreaPage(IssueAreaListFilter filter) : base()
+  {
+    Filter = filter;
+  }
+
+  public override string DataSourceAjaxURI { get { return URIS.FORPROJECT_ISSUE_AREA(Filter.ProjectCounter, Filter.IssueCounter); } }
+
+#[override renderTitle()]
+  <h1>Issue-Area</h1>
+
+#[override renderFilterControls()]
+  <div class="fView" data-wv-fname="OrderBy" data-wv-ctl="combo"></div>
+  <div class="fView" data-wv-fname="Name"></div>
+
+
+
+
+
+
+
+
+
+

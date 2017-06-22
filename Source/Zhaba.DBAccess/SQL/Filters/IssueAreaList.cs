@@ -46,6 +46,8 @@ namespace Zhaba.DBAccess.SQL.Filters
       cmd.Parameters.AddWithValue("pIssue", filter.IssueCounter);
       cmd.CommandText =
 @"SELECT
+ ?pProject AS C_PROJECT,
+ ?pIssue AS C_iSSUE,
  TA.COUNTER,
  TA.NAME,
  CASE WHEN TIA.C_ISSUE IS NULL THEN 'F' ELSE 'T' END AS LINKED

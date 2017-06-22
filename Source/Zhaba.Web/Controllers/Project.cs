@@ -1,8 +1,11 @@
-﻿using NFX.Wave;
+﻿using NFX;
+using NFX.Wave;
 using NFX.Wave.MVC;
 
 using Zhaba.Data.Forms;
 using Zhaba.Data.Filters;
+using Zhaba.Data.QueryBuilders;
+using Zhaba.Data.Rows;
 using Zhaba.Security.Permissions;
 using Zhaba.Web.Pages.List;
 using Zhaba.Web.Pages;
@@ -55,6 +58,56 @@ namespace Zhaba.Web.Controllers
     public object Issue(ulong? id, IssueForm form)
     {
       return DataSetup_ItemDetails<IssueForm, IssuePage>(new object[] { ProjectRow, id }, form, URIS.ForPROJECT_ISSUES(ProjectRow.Counter));
+    }
+
+    [Action]
+    public object IssueArea(IssueAreaListFilter filter, ulong? issue)
+    {
+      if (!issue.HasValue)
+        throw HTTPStatusException.BadRequest_400("Missing issue");
+
+      var qry = QProject.IssueByID<IssueRow>(ProjectRow.Counter, issue.Value);
+      var issueRow = ZApp.Data.CRUD.LoadRow(qry);
+      if (issueRow == null)
+        throw HTTPStatusException.NotFound_404("Issue Row missing/deleted");
+      
+      filter.____SetIssue(issueRow);
+
+      return DataSetup_Index<IssueAreaListFilter, IssueAreaGrid, IssueAreaPage>(filter);
+    }
+
+    [Action("linkissuearea", 1, "match { methods=POST accept-json=true }")]
+    public object LinkIssueArea(ulong? issue, ulong? area, bool link)
+    {
+      if (!issue.HasValue)
+        throw HTTPStatusException.BadRequest_400("Missing issue");
+
+      if (!area.HasValue)
+        throw HTTPStatusException.BadRequest_400("Missing area");
+
+      var issueArea = new IssueAreaRow
+      {
+        C_Project = ProjectRow.Counter,
+        C_Issue = issue.Value,
+        C_Area = area.Value
+      };
+
+      var verror = issueArea.Validate(App.DataStore.TargetName);
+      if (verror != null) throw verror;
+
+      var affected = 0;
+      if (link)
+      {
+        affected = ZApp.Data.CRUD.Insert(issueArea);
+      }
+      else
+      {
+        affected = ZApp.Data.CRUD.Delete(issueArea);
+        if (affected <= 0)
+          throw HTTPStatusException.NotFound_404("Issue-Area link not found");
+      }
+
+      return NFX.Wave.SysConsts.JSON_RESULT_OK;
     }
 
     [Action]
