@@ -42,5 +42,23 @@ namespace Zhaba.Web.Controllers
     {
       return DataSetup_ItemDetails<ProjectForm, ProjectPage>(new object[] { id }, form, URIS.COMMON_PROJECTS);
     }
+    
+    [Action]
+    public object Categories(CategoryListFilter filter)
+    {
+      return DataSetup_Index<CategoryListFilter, CategoryGrid, CategoriesPage>(filter);
+    }
+
+    [Action]
+    public object Category(ulong? id, CategoryForm form)
+    {
+        return DataSetup_ItemDetails<CategoryForm, CategoryPage>(new object[] { id}, form, URIS.COMMON_CATEGORIES);
+    }
+
+    [Action]
+    public object deletecategory(ulong? id, CategoryForm form)
+    {
+        return DataSetup_DeleteItem<CategoryForm>(new object[] { id }, form, URIS.COMMON_CATEGORIES);
+    }
   }
 }

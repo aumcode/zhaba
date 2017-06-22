@@ -48,6 +48,7 @@
     <Compile Include="Handlers\ZhabaFilteredMySQLQueryHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Handlers\ZhabaMySQLQueryHandler.cs" />
+    <Compile Include="SQL\Filters\CategoryList.cs" />
     <Compile Include="SQL\Filters\IssueAreaList.cs" />
     <Compile Include="SQL\Filters\IssueComponentList.cs" />
     <Compile Include="SQL\Filters\IssueList.cs" />
@@ -91,6 +92,7 @@
     <EmbeddedResource Include="SQL\CRUD\User\ByID.mys.sql" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="SQL\CRUD\Category\ByID.mys.sql" />
     <Content Include="SQL\CRUD\Component\ByProjectID.mys.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

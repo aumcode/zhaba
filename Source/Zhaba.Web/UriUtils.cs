@@ -15,6 +15,8 @@ namespace Zhaba.Web
     public const string COMMON_USER       = COMMON + "/user";
     public const string COMMON_PROJECTS   = COMMON + "/projects";
     public const string COMMON_PROJECT    = COMMON + "/project";
+    public const string COMMON_CATEGORIES = COMMON + "/categories";
+    public const string COMMON_CATEGORY   = COMMON + "/category";
 
     public const string DASHBOARD          = "/dashboard";
     public const string DASHBOARD_PROJECTS = DASHBOARD + "/projects";
@@ -42,7 +44,12 @@ namespace Zhaba.Web
       return id.HasValue ? "{0}?id={1}".Args(COMMON_PROJECT, id) : COMMON_PROJECT;
     }
 
-    public static string ForPROJECT_SELECT(ulong projID)
+    public static string ForCOMMON_CATEGORY(ulong? id = null)
+    {
+        return id.HasValue ? "{0}?id={1}".Args(COMMON_CATEGORY, id) : COMMON_CATEGORY;
+    }
+
+        public static string ForPROJECT_SELECT(ulong projID)
     {
       return PROJECT_SELECT.Args(projID);
     }

@@ -74,6 +74,7 @@
           <h3>Common Data</h3>
           <a href=?[URIS.COMMON_USERS]>Users</a>
           <a href=?[URIS.COMMON_PROJECTS]>Projects</a>
+		  <a href=?[URIS.COMMON_CATEGORIES]>Categories</a>
         </div>
         <div class="menuBlock">
           <h3>Reports</h3>

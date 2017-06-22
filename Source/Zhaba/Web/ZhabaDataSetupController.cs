@@ -82,5 +82,19 @@ namespace Zhaba.Web
       else
         return MakePage<TPage>(form, error);
     }
+
+    protected virtual object DataSetup_DeleteItem<TForm>(object[] args, TForm form, string postRedirect)
+    {
+      Exception error = null;
+      if (WorkContext.IsGET)
+      {
+        form = (TForm)Activator.CreateInstance(typeof(TForm), args);
+        (form as ZhabaForm).Delete(out error);
+      }
+      if (WorkContext.RequestedJSON)
+        return JSON_OK_ROW_ID(null);
+      else
+        return new Redirect(postRedirect);
+    }
   }
 }

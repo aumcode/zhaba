@@ -23,6 +23,10 @@ var ZHB = (function () {
       return common_setup() + "/project?id={0}".args(id);
     },
 
+    ForCATEGORY: function (id) {
+        return common_setup() + "/category?id={0}".args(id);
+    },
+
     ForPROJECT_MILESTONE: function (pid, id) {
       return project_setup(pid) + "/milestone?id=" + id;
     },
@@ -57,6 +61,10 @@ var ZHB = (function () {
 
     ForUSER: function (id) {
       return common_setup() + "/user?id={0}".args(id);
+    },
+
+    ForDELETE_CATEGORY: function (id) {
+        return common_setup() + "/deletecategory?id={0}".args(id);
     }
   };
 

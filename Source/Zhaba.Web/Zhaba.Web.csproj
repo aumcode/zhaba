@@ -59,6 +59,9 @@
     <Compile Include="Controls\Grids\ComponentGrid.nht.auto.cs">
       <DependentUpon>ComponentGrid.nht</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Grids\CategoryGrid.nht.auto.cs">
+      <DependentUpon>CategoryGrid.nht</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Grids\IssueAreaGrid.nht.auto.cs">
       <DependentUpon>IssueAreaGrid.nht</DependentUpon>
     </Compile>
@@ -125,6 +128,9 @@
     <Compile Include="Pages\List\ProjectsPage.nht.auto.cs">
       <DependentUpon>ProjectsPage.nht</DependentUpon>
     </Compile>
+    <Compile Include="Pages\List\categoriesPage.nht.auto.cs">
+      <DependentUpon>CategoriesPage.nht</DependentUpon>
+    </Compile>
     <Compile Include="Pages\List\UsersPage.nht.auto.cs">
       <DependentUpon>UsersPage.nht</DependentUpon>
     </Compile>
@@ -145,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Controls\Grids\IssueComponentGrid.nht" />
+    <None Include="Controls\Grids\CategoryGrid.nht" />
     <None Include="Controls\Grids\IssueAreaGrid.nht" />
     <None Include="Controls\Grids\IssueGrid.nht" />
     <None Include="Controls\Grids\ProjectGrid.nht" />
@@ -156,11 +163,13 @@
     <None Include="packages.config" />
     <None Include="Pages\Dashboard\DashboardPage.nht" />
     <None Include="Pages\Edit\AreaPage.nht" />
+    <None Include="Pages\Edit\CategoryPage.nht" />
     <None Include="Pages\Edit\IssuePage.nht" />
     <None Include="Pages\Edit\MilestonePage.nht" />
     <None Include="Pages\Edit\UserRegistrationPage.nht" />
     <None Include="Pages\Edit\ProjectPage.nht" />
     <None Include="Pages\Edit\ComponentPage.nht" />
+    <None Include="Pages\List\CategoriesPage.nht" />
     <None Include="Pages\List\ComponentsPage.nht" />
     <None Include="Pages\List\IssueAreaPage.nht" />
     <None Include="Pages\List\IssueComponentPage.nht" />

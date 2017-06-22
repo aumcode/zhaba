@@ -50,6 +50,7 @@
     <Compile Include="Data\Domains\Strings.cs" />
     <Compile Include="Data\Domains\Time.cs" />
     <Compile Include="Data\Filters\AreaListFilter.cs" />
+    <Compile Include="Data\Filters\CategoryListFilter.cs" />
     <Compile Include="Data\Filters\IssueAreaListFilter.cs" />
     <Compile Include="Data\Filters\IssueComponentListFilter.cs" />
     <Compile Include="Data\Filters\IssueListFilter.cs" />
@@ -60,8 +61,10 @@
     <Compile Include="Data\Filters\ProjectFilterBase.cs" />
     <Compile Include="Data\Filters\ProjectListFilter.cs" />
     <Compile Include="Data\Filters\UserListFilter.cs" />
+    <Compile Include="Data\Forms\CategoryForm.cs" />
     <Compile Include="Data\Forms\LoginForm.cs" />
     <Compile Include="Data\Forms\ProjectFormBase.cs" />
+    <Compile Include="Data\QueryBuilders\QCategory.cs" />
     <Compile Include="Data\QueryBuilders\QSequence.cs" />
     <Compile Include="Data\QueryBuilders\QCommon.cs" />
     <Compile Include="Data\QueryBuilders\QProject.cs" />

@@ -31,7 +31,12 @@ namespace Zhaba.Data.Forms
 
     public Security.ZhabaUser ZhabaUser { get { return ZhabaSession.ZhabaUser; } }
 
-    protected void Log(MessageType tp, string from, string text, Exception error = null, Guid? related = null)
+    public void Delete(out Exception error)
+    {
+        error = DoDelete();
+    }
+
+        protected void Log(MessageType tp, string from, string text, Exception error = null, Guid? related = null)
     {
       App.Log.Write(new Message
       {
@@ -45,6 +50,11 @@ namespace Zhaba.Data.Forms
     }
 
     protected override Exception DoSave(out object saveResult)
+    {
+      throw new NotImplementedException();
+    }
+
+    protected virtual Exception DoDelete()
     {
       throw new NotImplementedException();
     }

@@ -23,9 +23,10 @@ namespace zws
       }
       catch (Exception ex)
       {
-        Console.WriteLine("Critical error:");
+        Console.WriteLine("Critical error (press Enter to continue):");
         Console.WriteLine(ex);
         Environment.ExitCode = -1;
+        Console.ReadLine();
       }
     }
   }

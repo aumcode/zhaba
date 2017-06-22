@@ -29,5 +29,6 @@ namespace Zhaba.Data.Rows
            description: "Description",
            metadata: @"Placeholder='Description' ControlType='textarea'")]
     public string Description { get; set; }
+
   }
 }
