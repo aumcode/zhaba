@@ -202,3 +202,5 @@ Source/Zhaba.DBAccess/Schema/foreignkeys.MySQL.sql
 Source/Zhaba.DBAccess/Schema/tables.MySQL.sql
 Source/zws/zws.laconf
 Source/Zhaba/Security/ZhabaSecurityManager.cs
+.vs
+.idea
