@@ -52,9 +52,6 @@
     @[if (ZhabaUser.IsAuthenticated) {]
     <div id="nav">
       <div id="profile">
-        <div id="photo">
-          <img src="/static/images/user.jpg">
-        </div>
         <div id="name">
           <h2>Hello, ?[ZhabaUser.Description]</h2>
         </div>

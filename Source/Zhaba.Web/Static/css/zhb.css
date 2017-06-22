@@ -321,9 +321,6 @@ select:disabled {
   color: #b0b0b0;
   border: 1px solid #808080;
 }
-#nav #profile #photo {
-  display: none;
-}
 #nav #menu .menuBlock a {
   display: block;
 }

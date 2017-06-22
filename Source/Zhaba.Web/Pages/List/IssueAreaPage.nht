@@ -8,7 +8,7 @@
     using { ns="NFX.Wave.Templatization" }
     using { ns="Zhaba" }
     using { ns="Zhaba.Data.Filters" }
-    base-class-name="Zhaba.Web.Pages.SiteGridMaster<IssueAreaListFilter>"
+    base-class-name="Zhaba.Web.Pages.GridMaster<IssueAreaListFilter>"
     namespace="Zhaba.Web.Pages.List"
   }
 #</laconf>

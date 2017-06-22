@@ -59,6 +59,9 @@
     <Compile Include="Controls\Grids\ComponentGrid.nht.auto.cs">
       <DependentUpon>ComponentGrid.nht</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Grids\IssueAreaGrid.nht.auto.cs">
+      <DependentUpon>IssueAreaGrid.nht</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Grids\IssueGrid.nht.auto.cs">
       <DependentUpon>IssueGrid.nht</DependentUpon>
     </Compile>
@@ -104,6 +107,9 @@
     <Compile Include="Pages\List\ComponentsPage.nht.auto.cs">
       <DependentUpon>ComponentsPage.nht</DependentUpon>
     </Compile>
+    <Compile Include="Pages\List\IssueAreaPage.nht.auto.cs">
+      <DependentUpon>IssueAreaPage.nht</DependentUpon>
+    </Compile>
     <Compile Include="Pages\List\IssuesPage.nht.auto.cs">
       <DependentUpon>IssuesPage.nht</DependentUpon>
     </Compile>
@@ -132,6 +138,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Controls\Grids\IssueAreaGrid.nht" />
     <None Include="Controls\Grids\IssueGrid.nht" />
     <None Include="Controls\Grids\ProjectGrid.nht" />
     <None Include="Controls\Grids\MilestoneGrid.nht" />
@@ -148,6 +155,7 @@
     <None Include="Pages\Edit\ProjectPage.nht" />
     <None Include="Pages\Edit\ComponentPage.nht" />
     <None Include="Pages\List\ComponentsPage.nht" />
+    <None Include="Pages\List\IssueAreaPage.nht" />
     <None Include="Pages\List\IssuesPage.nht" />
     <None Include="Pages\List\AreasPage.nht" />
     <None Include="Pages\List\MilestonesPage.nht" />
@@ -175,6 +183,7 @@
   <ItemGroup>
     <Folder Include="Filters\" />
     <Folder Include="Pages\Project\" />
+    <Folder Include="Static\images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Static\css\zhb.css">
@@ -184,9 +193,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Pages\List\ProjectsPage.nht" />
-    <Content Include="Static\images\user.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
