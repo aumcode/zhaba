@@ -1,0 +1,36 @@
+﻿body {
+  height: 100vh;
+  padding-bottom: 40px;
+  position: relative;
+
+  #body {
+    & #cont {
+      float: left;
+      padding: 0 0 1px;
+      width: ~"calc(100% - 320px)";
+
+      &.anonymous {
+        width: 100%;
+      }
+    }
+
+    & #nav {
+      float: left;
+      padding: 0 0 1px;
+      width: 320px;
+    }
+  }
+
+  & #ftr {
+    bottom: 0;
+    clear: both;
+    color: #808080;
+    font-size: 13px;
+    height: 40px;
+    position: absolute;
+    padding: 10px 0;
+    text-align: center;
+    text-transform: lowercase;
+    width: 100%;
+  }
+}

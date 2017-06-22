@@ -122,17 +122,11 @@
     <Compile Include="Pages\__Masters\FormMaster.nht.auto.cs">
       <DependentUpon>FormMaster.nht</DependentUpon>
     </Compile>
+    <Compile Include="Pages\__Masters\GridMaster.nht.auto.cs">
+      <DependentUpon>GridMaster.nht</DependentUpon>
+    </Compile>
     <Compile Include="Pages\__Masters\Master.nht.auto.cs">
       <DependentUpon>Master.nht</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\__Masters\Site\SiteFormMaster.nht.auto.cs">
-      <DependentUpon>SiteFormMaster.nht</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\__Masters\Site\SiteGridMaster.nht.auto.cs">
-      <DependentUpon>SiteGridMaster.nht</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\__Masters\Site\SiteMaster.nht.auto.cs">
-      <DependentUpon>SiteMaster.nht</DependentUpon>
     </Compile>
     <Compile Include="UriUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -162,24 +156,15 @@
     <None Include="Pages\Dashboard\ProjectsPage.nht" />
     <None Include="Pages\__Masters\FormMaster.nht" />
     <None Include="Pages\__Masters\Master.nht" />
-    <None Include="Pages\__Masters\Site\SiteFormMaster.nht" />
-    <None Include="Pages\__Masters\Site\SiteGridMaster.nht" />
-    <None Include="Pages\__Masters\Site\SiteMaster.nht" />
-    <None Include="Static\css\fonts\fontawesome-webfont.eot">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Static\css\fonts\fontawesome-webfont.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Static\css\fonts\fontawesome-webfont.woff">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Static\css\fonts\fontawesome-webfont.woff2">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Static\css\fonts\FontAwesome.otf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="Pages\__Masters\GridMaster.nht" />
+    <None Include="pre-build.cmd" />
+    <None Include="Static\less\fields.less" />
+    <None Include="Static\less\form.less" />
+    <None Include="Static\less\layout.less" />
+    <None Include="Static\less\mixins.less" />
+    <None Include="Static\less\nav.less" />
+    <None Include="Static\less\reset.less" />
+    <None Include="Static\less\zhb.less" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Zhaba\Zhaba.csproj">
@@ -192,39 +177,24 @@
     <Folder Include="Pages\Project\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Static\css\common.css">
+    <Content Include="Static\css\zhb.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Static\js\zhb.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Pages\List\ProjectsPage.nht" />
-    <Content Include="Static\common.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Static\css\fonts\fontawesome-webfont.svg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Static\css\vendors\font-awesome.min.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Static\images\user.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Static\js\custom.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Static\js\vendors\jquery.min.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>"$(SolutionDir)packages\NFX.3.4.0.1\tools\ntc" "$(ProjectDir)Pages\*.nht" -r -ext ".auto.cs" /src
-"$(SolutionDir)packages\NFX.3.4.0.1\tools\ntc" "$(ProjectDir)Pages\__Masters\*.nht" -r -ext ".auto.cs" /src
-"$(SolutionDir)packages\NFX.3.4.0.1\tools\ntc" "$(ProjectDir)Pages\List\*.nht" -r -ext ".auto.cs" /src
-"$(SolutionDir)packages\NFX.3.4.0.1\tools\ntc" "$(ProjectDir)Pages\Edit\*.nht" -r -ext ".auto.cs" /src
-"$(SolutionDir)packages\NFX.3.4.0.1\tools\ntc" "$(ProjectDir)Controls\*.nht" -r -ext ".auto.cs" /src</PreBuildEvent>
+    <PreBuildEvent>$(ProjectDir)pre-build $(SolutionDir)</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -8,7 +8,7 @@
     using { ns="NFX.Wave.Templatization" }
     using { ns="Zhaba" }
     using { ns="Zhaba.Data.Filters" }
-    base-class-name="Zhaba.Web.Pages.SiteGridMaster<AreaListFilter>"
+    base-class-name="Zhaba.Web.Pages.GridMaster<AreaListFilter>"
     namespace="Zhaba.Web.Pages.List"
   }
 #</laconf>
@@ -19,7 +19,6 @@
     Filter = filter;
   }
 
-
   public override string DataSourceAjaxURI { get { return URIS.ForPROJECT_AREAS(Filter.ProjectCounter); } }
 
 #[override renderTitle()]
@@ -27,8 +26,8 @@
 
 #[override renderTopToolbar()]
   @[base.renderTopToolbar();]
-  <a class="uiSmallRedButton" href="javascript:addArea()">Add</a>
-  <a class="uiSmallRedButton" href="javascript:editArea()" data-grid-link>Edit</a>
+  <a href="javascript:addArea()">Add</a>
+  <a href="javascript:editArea()">Edit</a>
 
 #[override renderFilterControls()]
   <div class="fView" data-wv-fname="OrderBy" data-wv-ctl="combo"></div>

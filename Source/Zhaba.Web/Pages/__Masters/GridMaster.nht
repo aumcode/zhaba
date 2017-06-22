@@ -1,6 +1,6 @@
 ﻿#<laconf>
-    compiler
-    {
+  compiler
+  {
     using { ns="System.Linq" }
     using { ns="System.Collections.Generic" }
     using { ns="NFX" }
@@ -8,12 +8,12 @@
     using { ns="NFX.Wave.Templatization" }
     using { ns="Zhaba" }
     using { ns="Zhaba.Data.Forms" }
-    base-class-name="Zhaba.Web.Pages.SiteMaster"
-    class-declaration="SiteGridMaster<TFilter>"
+    base-class-name="Zhaba.Web.Pages.Master"
+    class-declaration="GridMaster<TFilter>"
     class-constraint="where TFilter : ZhabaFilterForm"
     namespace="Zhaba.Web.Pages"
     summary="General ancestor for screens with filtering"
-    }
+  }
 #</laconf>
 
 #[class]
@@ -27,7 +27,7 @@
   protected virtual void renderAfterGrid(){}
 
 
-#[override renderSiteBody()]
+#[override renderBody()]
   <div>
     <div>@[renderTitle();]</div>
     <section id="sectTopToolbar">@[renderTopToolbar();]</section>

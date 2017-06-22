@@ -1,17 +1,16 @@
 ﻿#<laconf>
   compiler
   {
-  using { ns="NFX" }
-  using { ns="NFX.Wave" }
-  using { ns="NFX.Security" }
-  using { ns="Zhaba" }
-  using { ns="Zhaba.Web" }
-  using { ns="Zhaba.Data.Rows" }
-  using { ns="NFX.Wave.Templatization" }
-  using { ns="NFX.ApplicationModel" }
-  base-class-name="Zhaba.Web.ZhabaPage"
-  abstract="true"
-  namespace="Zhaba.Web.Pages"
+    using { ns="NFX" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Security" }
+    using { ns="Zhaba" }
+    using { ns="Zhaba.Web" }
+    using { ns="Zhaba.Data.Rows" }
+    using { ns="NFX.Wave.Templatization" }
+    using { ns="NFX.ApplicationModel" }
+    base-class-name="Zhaba.Web.ZhabaPage"
+    namespace="Zhaba.Web.Pages"
   }
 #</laconf>
 
@@ -21,7 +20,9 @@
     Title = "Zhaba Issue Tracker";
   }
 
-  protected abstract void renderBody();
+  public ProjectRow SelectedProject { get { return ZhabaSession.SelectedProject; } }
+
+  protected virtual void renderBody() { }
   protected virtual void includeStyles() { }
   protected virtual void renderStyles() { }
   protected virtual void renderScripts() { }
@@ -37,27 +38,69 @@
 
   <title>?[:Title]</title>
 
-  <link href="/static/css/common.css" rel="stylesheet">
+  <link href="/static/css/zhb.css" rel="stylesheet">
   @[includeStyles();]
+  @[renderStyles();]
+</head>
+
+<body>
+  <div id="body">
+    <div id="cont" class="?[ !ZhabaUser.IsAuthenticated ? "anonymous" : string.Empty]">
+    @[renderBody();]
+    </div>
+
+    @[if (ZhabaUser.IsAuthenticated) {]
+    <div id="nav">
+      <div id="profile">
+        <div id="photo">
+          <img src="/static/images/user.jpg">
+        </div>
+        <div id="name">
+          <h2>Hello, ?[ZhabaUser.Description]</h2>
+        </div>
+      </div>
+      <div id="menu">
+        @[if (SelectedProject != null) {]
+        <div class="menuBlock">
+          <h3>?[SelectedProject.Name]</h3>
+          <a href=?[URIS.ForPROJECT_ISSUES(SelectedProject.Counter)]>Issues</a>
+          <a href=?[URIS.ForPROJECT_MILESTONES(SelectedProject.Counter)]>Milestones</a>
+          <a href=?[URIS.ForPROJECT_COMPONENTS(SelectedProject.Counter)]>Components</a>
+          <a href=?[URIS.ForPROJECT_AREAS(SelectedProject.Counter)]>Areas</a>
+        </div>
+        @[}]
+        <div class="menuBlock">
+          <h3>Projects</h3>
+          <a href=?[URIS.DASHBOARD_PROJECTS]>Select Project</a>
+        </div>
+        <div class="menuBlock">
+          <h3>Common Data</h3>
+          <a href=?[URIS.COMMON_USERS]>Users</a>
+          <a href=?[URIS.COMMON_PROJECTS]>Projects</a>
+        </div>
+        <div class="menuBlock">
+          <h3>Reports</h3>
+          <a href="#">Timeline</a>
+          <a href="#">Roadmap</a>
+          <a href=?[URIS.DASHBOARD]>Dashboard</a>
+        </div>
+        <div class="menuBlock">
+          <a href="/user/logout">logout</a>
+        </div>
+      </div>
+    </div>
+    @[}]
+  </div>
+
+  <footer id="ftr">
+    Zhaba 1.0 ©2017 All Rights Reserved
+  </footer>
 
   <script src="/stock/site/script/jquery-2.1.4.min.js"></script>
   <script src="/stock/site/script/wv.js"></script>
   <script src="/stock/site/script/wv.gui.js"></script>
   <script src="/static/js/zhb.js"></script>
-
-  @[renderStyles();]
-</head>
-
-<body>
-  @[renderBody();]
-
-  <!-- footer content -->
-  <footer>
-    <div style="text-align: center;">Zhaba 1.0 ©2017 All Rights Reserved</div>
-  </footer>
-
-<script src="/static/js/custom.js"></script>
-@[renderScripts();]
+  @[renderScripts();]
 
 </body>
 </html>

@@ -6,7 +6,7 @@
     crud
     {
       type="NFX.DataAccess.MySQL.MySQLDataStore, NFX.MySQL"
-      connect-string="Server=localhost;Database=zhaba;Uid=root;Pwd=crazy"
+      connect-string="Server=localhost;Database=zhaba;Uid=root;Pwd=thejake"
       script-assembly="Zhaba.DBAccess"
       handler-location { ns="Zhaba.DBAccess, Zhaba.DBAccess" }
     }
@@ -73,7 +73,7 @@
   {
     server
     {
-      prefix { name="http://localhost:8080/" }
+      prefix { name="http://+:8080/" }
 
       dispatcher
       {

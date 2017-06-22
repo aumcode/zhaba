@@ -8,7 +8,7 @@
     using { ns="NFX.Wave.Templatization" }
     using { ns="Zhaba" }
     using { ns="Zhaba.Data.Filters" }
-    base-class-name="Zhaba.Web.Pages.SiteGridMaster<UserListFilter>"
+    base-class-name="Zhaba.Web.Pages.GridMaster<UserListFilter>"
     namespace="Zhaba.Web.Pages.List"
   }
 #</laconf>
@@ -24,8 +24,8 @@
 
 #[override renderTopToolbar()]
   @[base.renderTopToolbar();]
-  <a class="uiSmallRedButton" href="javascript:addProject()">Add</a>
-  <a class="uiSmallRedButton" href="javascript:editProject()" data-grid-link>Edit</a>
+  <a href="javascript:addProject()">Add</a>
+  <a href="javascript:editProject()">Edit</a>
 
 #[override renderFilterControls()]
   <div class="fView" data-wv-fname="OrderBy" data-wv-ctl="combo"></div>
@@ -47,6 +47,6 @@
     var link = "?[:URIS.ForCOMMON_USER()]";
     window.location.href = link;
   }
-  
-  
+
+
 </script>

@@ -23,12 +23,16 @@
   private readonly LoginForm m_Form;
   private readonly Exception m_LoginError;
 
-#[override renderBody()]
-<form id="frmLogin" data-wv-rid="V1" method="POST" novalidate="" style="width: 300px; margin: 100px auto;">
-  <div id="divID" data-wv-fname="ID" class="fView"></div>
-  <div id="divPassword" data-wv-fname="Password" class="fView"></div>
-  <input type="submit" value="Log In"/>
-</form>
+#[override renderEntries()]
+  <div class="entries">
+    <div id="divID" data-wv-fname="ID" class="fView"></div>
+    <div id="divPassword" data-wv-fname="Password" class="fView"></div>
+  </div>
+
+#[override renderBtns()]
+  <div class="btns">
+    <input type="submit" value="Log In"/>
+  </div>
 
 
 #[override renderScripts()]

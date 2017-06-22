@@ -8,7 +8,7 @@
     using { ns="NFX.Wave.Templatization" }
     using { ns="Zhaba" }
     using { ns="Zhaba.Data.Filters" }
-    base-class-name="Zhaba.Web.Pages.SiteGridMaster<IssueListFilter>"
+    base-class-name="Zhaba.Web.Pages.GridMaster<IssueListFilter>"
     namespace="Zhaba.Web.Pages.List"
   }
 #</laconf>
@@ -26,9 +26,9 @@
 
 #[override renderTopToolbar()]
   @[base.renderTopToolbar();]
-  <a class="uiSmallRedButton" href="javascript:addIssue()">Add</a>
-  <a class="uiSmallRedButton" href="javascript:editIssue()" data-grid-link>Edit</a>
-  <a class="uiSmallGreenButton" href="javascript:showAreas()" data-grid-link>Areas</a>
+  <a href="javascript:addIssue()">Add</a>
+  <a href="javascript:editIssue()">Edit</a>
+  <a href="javascript:showAreas()">Areas</a>
 
 #[override renderFilterControls()]
   <div class="fView" data-wv-fname="OrderBy" data-wv-ctl="combo"></div>

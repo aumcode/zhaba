@@ -9,7 +9,7 @@
    using { ns="NFX.Wave.Templatization" }
    using { ns="Zhaba" }
    using { ns="Zhaba.Data.Rows" }
-   base-class-name="Zhaba.Web.Pages.SiteMaster"
+   base-class-name="Zhaba.Web.Pages.Master"
    namespace="Zhaba.Web.Pages.Dashboard"
  }
 #</laconf>
@@ -23,11 +23,11 @@ public ProjectsPage(IEnumerable<ProjectRow> projects)
 private readonly IEnumerable<ProjectRow> m_Projects;
 
 
-#[override renderSiteBody()]
-<div class="x_content control_panel">
+#[override renderBody()]
+<div>
   @[foreach (var project in m_Projects) {]
-    <a class="btn btn-app" href="?[:URIS.ForPROJECT_SELECT(project.Counter)]">
-      <i class="fa fa-book"></i>?[project.Name]
+    <a href="?[:URIS.ForPROJECT_SELECT(project.Counter)]">
+      <i></i>?[project.Name]
     </a>
   @[}]
 </div>

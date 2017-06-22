@@ -1,17 +1,17 @@
 ﻿#<laconf>
   compiler
   {
-  using { ns="System.Linq" }
-  using { ns="System.Collections.Generic" }
-  using { ns="NFX" }
-  using { ns="NFX.Wave" }
-  using { ns="NFX.Wave.Templatization" }
-  using { ns="Zhaba" }
-  using { ns="Zhaba.Data.Forms" }
-  class-declaration="FormMaster<TForm>"
-  class-constraint="where TForm : Zhaba.Data.Forms.ZhabaForm"
-  base-class-name="Zhaba.Web.Pages.Master"
-  namespace="Zhaba.Web.Pages"
+    using { ns="System.Linq" }
+    using { ns="System.Collections.Generic" }
+    using { ns="NFX" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Wave.Templatization" }
+    using { ns="Zhaba" }
+    using { ns="Zhaba.Data.Forms" }
+    class-declaration="FormMaster<TForm>"
+    class-constraint="where TForm : Zhaba.Data.Forms.ZhabaForm"
+    base-class-name="Zhaba.Web.Pages.Master"
+    namespace="Zhaba.Web.Pages"
   }
 #</laconf>
 
@@ -25,16 +25,22 @@
   private readonly TForm m_Form;
   private readonly Exception m_ValidationError;
 
-  public TForm Form { get { return m_Form; }}
+  public TForm Form { get { return m_Form; } }
 
-  protected virtual void renderControls() { }
+  protected virtual void renderEntries() { }
+  protected virtual void renderBtns() { }
 
 #[override renderBody()]
-  <div class="table-responsive form-wrapper">
-    <form id="editForm" data-wv-rid="V1" method="POST" novalidate="">
-      @[renderControls();]
-    </form>
-  </div>
+  <form id="editForm" data-wv-rid="V1" method="POST" novalidate="">
+    <div class="content">
+      <div class="entries">
+        @[renderEntries();]
+      </div>
+      <div class="btns">
+        @[renderBtns();]
+      </div>
+    </div>
+  </form>
 
 #[override renderScripts()]
 <script>
