@@ -19,6 +19,7 @@ namespace Zhaba.Data.Filters
             [Field] public string First_Name   { get; set; }
             [Field] public string Last_Name    { get; set; }
             [Field] public string EMail        { get; set; }
+            [Field] public bool In_Use         { get; set; }
         }
         #endregion
 
@@ -37,6 +38,9 @@ namespace Zhaba.Data.Filters
 
         [Field(metadata: "Description='e-mail' Placeholder='e-mail' Hint='User e-mail'")]
         public string EMail { get; set; }
+
+        [Field(metadata: "Description='Active' Placeholder='Active' Hint='ActiveUser'")]
+        public bool In_Use { get; set; }
 
         protected override Exception DoSave(out object saveResult)
         {

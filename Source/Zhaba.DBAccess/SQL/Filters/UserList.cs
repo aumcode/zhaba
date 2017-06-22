@@ -64,7 +64,7 @@ namespace Zhaba.DBAccess.SQL.Filters
       @"SELECT *
 FROM tbl_user TP
 WHERE (1 = 1) {0}
-ORDER BY {1}".Args(where, order);
+ORDER BY IN_USE DESC, {1}".Args(where, order);
         }
     }
 }

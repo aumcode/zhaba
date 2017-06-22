@@ -63,6 +63,13 @@ namespace Zhaba.Data.Forms
     [Field(typeof(UserRow))]
     public string User_Rights { get; set; }
 
+    [Field(required: true,
+           description: "Active user",
+           metadata: "Placeholder='Active user'", 
+           dflt:true)]
+    public bool In_Use { get; set; }
+
+
     [Field(typeof(UserRow), "Password", minLength: Sizes.PASSWORD_MIN_LEN)]
     public string Password { get; set; }
     

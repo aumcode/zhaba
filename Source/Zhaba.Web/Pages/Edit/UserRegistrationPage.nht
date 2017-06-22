@@ -30,6 +30,7 @@
   <div class="data-wv" data-wv-fname="ConfirmPassword" data-wv-ctl="password"></div>
   <div class="data-wv" data-wv-fname="Status"></div>
   <div class="data-wv" data-wv-fname="User_Rights"></div>
+  <div class="data-wv" data-wv-fname="In_Use"></div>
 
 #[override renderBtns()]
   <input type="submit" value="Save" />
