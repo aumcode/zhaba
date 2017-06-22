@@ -92,6 +92,9 @@
     <Compile Include="Pages\Edit\AreaPage.nht.auto.cs">
       <DependentUpon>AreaPage.nht</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Edit\CategoryPage.nht.auto.cs">
+      <DependentUpon>CategoryPage.nht</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Edit\ComponentPage.nht.auto.cs">
       <DependentUpon>ComponentPage.nht</DependentUpon>
     </Compile>

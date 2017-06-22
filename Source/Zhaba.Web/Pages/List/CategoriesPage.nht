@@ -1,0 +1,72 @@
+﻿#<laconf>
+  compiler
+  {
+    using { ns="System.Linq" }
+    using { ns="System.Collections.Generic" }
+    using { ns="NFX" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Wave.Templatization" }
+    using { ns="Zhaba" }
+    using { ns="Zhaba.Data.Filters" }
+    base-class-name="Zhaba.Web.Pages.GridMaster<CategoryListFilter>"
+    namespace="Zhaba.Web.Pages.List"
+  }
+#</laconf>
+
+#[class]
+  public CategoriesPage(CategoryListFilter filter) : base()
+  {
+    Filter = filter;
+  }
+
+  public override string DataSourceAjaxURI { get { return URIS.COMMON_CATEGORIES; } }
+
+#[override renderTitle()]
+  <h1>Categories</h1>
+
+#[override renderTopToolbar()]
+  @[base.renderTopToolbar();]
+  <a href="javascript:addCategory()">Add</a>
+  <a href="javascript:editCategory()">Edit</a>
+  <a href="javascript:deleteCategory()">Delete</a>
+
+#[override renderFilterControls()]
+  <div class="fView" data-wv-fname="OrderBy" data-wv-ctl="combo"></div>
+  <div class="fView" data-wv-fname="Name"></div>
+  <div class="fView" data-wv-fname="Description"></div>
+
+<script>
+  function editCategory() {
+    var grid = WAVE.id("tblCategories");
+    if (!grid || !grid.SELECTED_ROW_KEY || !grid.SELECTED_ROW_DATA) return;
+
+    var link = ZHB.URIS.ForCATEGORY(grid.SELECTED_ROW_KEY);
+    window.location.href = link;
+  }
+
+  function deleteCategory() {
+    var grid = WAVE.id("tblCategories");
+    if (!grid || !grid.SELECTED_ROW_KEY || !grid.SELECTED_ROW_DATA) return;
+
+    var link = ZHB.URIS.ForDELETE_CATEGORY(grid.SELECTED_ROW_KEY);
+
+	WAVE.GUI.showConfirmationDialog(
+                'Delete category',
+                'Are you sure? \n ' + grid.SELECTED_ROW_DATA,
+                [WAVE.GUI.DLG_YES, WAVE.GUI.DLG_NO],
+                function(sender, result) {
+	               if(result == WAVE.GUI.DLG_YES) {
+				     window.location.href = link;
+				   } else {
+					 alert('You chose: ' + result);
+	               }
+                   return true;
+                });
+    
+  }
+
+  function addCategory() {
+    var link = "?[:URIS.ForCOMMON_CATEGORY()]";
+    window.location.href = link;
+  }
+</script>

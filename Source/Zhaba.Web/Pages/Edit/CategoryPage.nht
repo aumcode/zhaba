@@ -1,0 +1,31 @@
+﻿#<laconf>
+  compiler
+  {
+    using { ns="System.Linq" }
+    using { ns="System.Collections.Generic" }
+    using { ns="NFX" }
+    using { ns="NFX.DataAccess.CRUD" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Wave.Templatization" }
+    using { ns="Zhaba" }
+    using { ns="Zhaba.Data.Forms" }
+    base-class-name="Zhaba.Web.Pages.FormMaster<CategoryForm>"
+    namespace="Zhaba.Web.Pages"
+  }
+#</laconf>
+
+#[class]
+  public CategoryPage(CategoryForm form, Exception error)
+    : base(form, error)
+  {
+    Title = "{0} Project".Args((form.FormMode == FormMode.Edit) ? "Edit" : "Create");
+  }
+
+
+#[override renderEntries()]
+  <div class="data-wv" data-wv-fname="Name"></div>
+  <div class="data-wv" data-wv-fname="Description"></div>
+
+#[override renderBtns()]
+  <input type="submit" value="Save" />
+  <a href="?[:URIS.COMMON_CATEGORIES]">Cancel</a>
