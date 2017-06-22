@@ -44,7 +44,7 @@
       type="NFX.Log.Destinations.CSVFileDestination, NFX"
       name="CSVLog"
       path=$(~ZHABA_ROOT)\logs
-      file-name="{0:yyyyMMdd}-$(/$application-name).csv.log"
+      file-name="{0:yyyyMMdd}.csv.log"
     }
   }
 
