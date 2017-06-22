@@ -43,8 +43,16 @@ var ZHB = (function () {
       return project_setup(project) + "/issuearea?issue=" + issue;
     },
 
+    ForPROJECT_ISSUE_COMPONENT: function (project, issue) {
+      return project_setup(project) + "/issuecomponent?issue=" + issue;
+    },
+
     ForPROJECT_LINK_ISSUE_AREA: function (project, issue, area) {
       return project_setup(project) + "/linkissuearea?issue=" + issue + "&area=" + area;
+    },
+
+    ForPROJECT_LINK_ISSUE_COMPONENT: function (project, issue, component) {
+      return project_setup(project) + "/linkissuecomponent?issue=" + issue + "&component=" + component;
     },
 
     ForUSER: function (id) {

@@ -76,6 +76,56 @@ namespace Zhaba.Web.Controllers
       return DataSetup_Index<IssueAreaListFilter, IssueAreaGrid, IssueAreaPage>(filter);
     }
 
+    [Action]
+    public object IssueComponent(IssueComponentListFilter filter, ulong? issue)
+    {
+      if (!issue.HasValue)
+        throw HTTPStatusException.BadRequest_400("Missing issue");
+
+      var qry = QProject.IssueByID<IssueRow>(ProjectRow.Counter, issue.Value);
+      var issueRow = ZApp.Data.CRUD.LoadRow(qry);
+      if (issueRow == null)
+        throw HTTPStatusException.NotFound_404("Issue Row missing/deleted");
+
+      filter.____SetIssue(issueRow);
+
+      return DataSetup_Index<IssueComponentListFilter, IssueComponentGrid, IssueComponentPage>(filter);
+    }
+
+    [Action("linkissuecomponent", 1, "match { methods=POST accept-json=true }")]
+    public object LinkIssueComponent(ulong? issue, ulong? component, bool link)
+    {
+      if (!issue.HasValue)
+        throw HTTPStatusException.BadRequest_400("Missing issue");
+
+      if (!component.HasValue)
+        throw HTTPStatusException.BadRequest_400("Missing area");
+
+      var issueArea = new IssueComponentRow
+      {
+        C_Project = ProjectRow.Counter,
+        C_Issue = issue.Value,
+        C_Component = component.Value
+      };
+
+      var verror = issueArea.Validate(App.DataStore.TargetName);
+      if (verror != null) throw verror;
+
+      var affected = 0;
+      if (link)
+      {
+        affected = ZApp.Data.CRUD.Insert(issueArea);
+      }
+      else
+      {
+        affected = ZApp.Data.CRUD.Delete(issueArea);
+        if (affected <= 0)
+          throw HTTPStatusException.NotFound_404("Issue-Area link not found");
+      }
+
+      return NFX.Wave.SysConsts.JSON_RESULT_OK;
+    }
+
     [Action("linkissuearea", 1, "match { methods=POST accept-json=true }")]
     public object LinkIssueArea(ulong? issue, ulong? area, bool link)
     {

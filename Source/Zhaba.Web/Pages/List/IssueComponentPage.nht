@@ -8,32 +8,22 @@
     using { ns="NFX.Wave.Templatization" }
     using { ns="Zhaba" }
     using { ns="Zhaba.Data.Filters" }
-    base-class-name="Zhaba.Web.Pages.GridMaster<IssueAreaListFilter>"
+    base-class-name="Zhaba.Web.Pages.GridMaster<IssueComponentListFilter>"
     namespace="Zhaba.Web.Pages.List"
   }
 #</laconf>
 
 #[class]
-  public IssueAreaPage(IssueAreaListFilter filter) : base()
+  public IssueComponentPage(IssueComponentListFilter filter) : base()
   {
     Filter = filter;
   }
 
-  public override string DataSourceAjaxURI { get { return URIS.ForPROJECT_ISSUE_AREA(Filter.ProjectCounter, Filter.IssueCounter); } }
+  public override string DataSourceAjaxURI { get { return URIS.ForPROJECT_ISSUE_COMPONENT(Filter.ProjectCounter, Filter.IssueCounter); } }
 
 #[override renderTitle()]
-  <h1>Issue-Area</h1>
+  <h1>Issue-Component</h1>
 
 #[override renderFilterControls()]
   <div class="fView" data-wv-fname="OrderBy" data-wv-ctl="combo"></div>
   <div class="fView" data-wv-fname="Name"></div>
-
-
-
-
-
-
-
-
-
-

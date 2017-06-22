@@ -51,6 +51,7 @@
     <Compile Include="Data\Domains\Time.cs" />
     <Compile Include="Data\Filters\AreaListFilter.cs" />
     <Compile Include="Data\Filters\IssueAreaListFilter.cs" />
+    <Compile Include="Data\Filters\IssueComponentListFilter.cs" />
     <Compile Include="Data\Filters\IssueListFilter.cs" />
     <Compile Include="Data\Filters\MilestoneListFilter.cs" />
     <Compile Include="Data\Filters\ComponentListFilter.cs" />
@@ -69,7 +70,7 @@
     <Compile Include="Data\Rows\AgendaRow.cs" />
     <Compile Include="Data\Rows\CategoryRow.cs" />
     <Compile Include="Data\Rows\IssueAreaRow.cs" />
-    <Compile Include="Data\Rows\IssueComponent.cs" />
+    <Compile Include="Data\Rows\IssueComponentRow.cs" />
     <Compile Include="Data\Rows\MeetingParticipantRow.cs" />
     <Compile Include="Data\Rows\MeetingRow.cs" />
     <Compile Include="Data\Rows\Rows.cs" />

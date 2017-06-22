@@ -117,6 +117,14 @@ namespace Zhaba.Data.QueryBuilders
       };
     }
 
+    public static Query<TRow> IssueComponentListByFilter<TRow>(IssueComponentListFilter filter) where TRow : Row
+    {
+      return new Query<TRow>("SQL.Filters.IssueComponentList")
+      {
+        new Query.Param("pFilter", filter)
+      };
+    }
+
     #endregion Issues
 
     #region Components

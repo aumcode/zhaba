@@ -71,9 +71,14 @@ namespace Zhaba.Web
               PROJECT_ISSUE.Args(projID);
     }
 
-    public static string FORPROJECT_ISSUE_AREA(ulong projID, ulong issue)
+    public static string ForPROJECT_ISSUE_AREA(ulong projID, ulong issue)
     {
       return ("/project/{0}/issuearea?issue={1}").Args(projID, issue);
+    }
+
+    public static string ForPROJECT_ISSUE_COMPONENT(ulong projID, ulong issue)
+    {
+      return ("/project/{0}/issuecomponent?issue={1}").Args(projID, issue);
     }
 
     public static string ForPROJECT_COMPONENTS(ulong projCounter)

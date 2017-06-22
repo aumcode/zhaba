@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using NFX;
-using NFX.DataAccess;
+﻿using NFX.DataAccess;
 using NFX.DataAccess.CRUD;
 
 namespace Zhaba.Data.Rows
 {
   [Table(name: "tbl_issuecomponent")]
-  public class IssueComponent : TypedRow
+  public class IssueComponentRow : TypedRow
   {
-    public IssueComponent() : base() {}
+    public IssueComponentRow() : base() {}
 
     [Field(required: true, nonUI: true, storeFlag: StoreFlag.OnlyLoad)]
     public ulong C_Project { get; set; }

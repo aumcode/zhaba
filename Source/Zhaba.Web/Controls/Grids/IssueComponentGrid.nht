@@ -1,0 +1,68 @@
+﻿#<laconf>
+  compiler
+  {
+    using { ns="NFX" }
+    using { ns="NFX.DataAccess.CRUD" }
+    base-class-name="TableGrid"
+    namespace="Zhaba.Web.Controls"
+    summary="Issue Component List"
+  }
+#</laconf>
+
+#[class]
+
+  public IssueComponentGrid(RowsetBase data, string id) : base(id)
+  {
+    DataSource = data;
+    HasHead = true;
+  }
+
+  protected override object GetColumnValue(Schema.FieldDef fDef, bool isHead, object value, ref bool encode)
+  {
+    return base.GetColumnValue(fDef, isHead, value, ref encode);
+  }
+
+  protected override object GetValue(Schema.FieldDef fDef, Row row, object value, ref bool encode)
+  {
+    if (fDef.Name.EqualsIgnoreCase("LINKED"))
+    {
+        encode = false;
+        var input = "<input type='checkbox' style='display:inline-block;' {0} onchange='linkIssueComponent(event, \"{1}\", \"{2}\", \"{3}\")'/>"
+                    .Args(value.AsBool() ? "checked" : string.Empty,
+                          row["C_PROJECT"],
+                          row["C_ISSUE"],
+                          row["COUNTER"]);
+        return input;
+    }
+    return base.GetValue(fDef, row, value, ref encode);
+  }
+
+  protected override object RowDataSelector(Row row)
+  {
+    return "{0}:{1}".Args(row["Counter"], row["Name"]);
+  }
+
+#[override renderExtraScripts()]
+<script>
+  function linkIssueComponent(event, cProject, cIssue, cComponent) {
+    event = event || window.event;
+
+    var chk = event.currentTarget;
+
+    var formData = new FormData();
+    formData.append('link', chk.checked);
+
+    $.ajax({
+      url: ZHB.URIS.ForPROJECT_LINK_ISSUE_COMPONENT(cProject, cIssue, cComponent),
+      type: 'POST',
+      dataType: "json",
+      data: formData,
+      processData: false,
+      contentType: false
+    })
+    .fail(function (xhr, txt, err) {
+      WAVE.GUI.toast("The link could not be updated: " + xhr.status + "<br>" + err, "error");
+      fetchData();
+    });
+  };
+</script>
