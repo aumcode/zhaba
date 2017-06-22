@@ -26,8 +26,8 @@
 
 #[override renderTopToolbar()]
   @[base.renderTopToolbar();]
-  <a href="javascript:addMilestone()">Add</a>
-  <a href="javascript:editMilestone()">Edit</a>
+  <a href="javascript:addMilestone()" class="button">Add</a>
+  <a href="javascript:editMilestone()" class="button">Edit</a>
 
 #[override renderFilterControls()]
   <div class="fView" data-wv-fname="OrderBy" data-wv-ctl="combo"></div>

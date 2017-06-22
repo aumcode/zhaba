@@ -26,10 +26,10 @@
 
 #[override renderTopToolbar()]
   @[base.renderTopToolbar();]
-  <a href="javascript:addIssue()">Add</a>
-  <a href="javascript:editIssue()">Edit</a>
-  <a href="javascript:showAreas()">Areas</a>
-  <a href="javascript:showComponents()">Components</a>
+  <a href="javascript:addIssue()" class="button">Add</a>
+  <a href="javascript:editIssue()" class="button">Edit</a>
+  <a href="javascript:showAreas()" class="button">Areas</a>
+  <a href="javascript:showComponents()" class="button">Components</a>
 
 #[override renderFilterControls()]
   <div class="fView" data-wv-fname="OrderBy" data-wv-ctl="combo"></div>

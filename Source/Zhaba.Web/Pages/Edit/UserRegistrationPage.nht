@@ -22,15 +22,15 @@
   }
 
 #[override renderEntries()]
-  <div class="data-wv" data-wv-fname="Login"></div>
-  <div class="data-wv" data-wv-fname="First_Name"></div>
-  <div class="data-wv" data-wv-fname="Last_Name"></div>
-  <div class="data-wv" data-wv-fname="EMail"></div>
-  <div class="data-wv" data-wv-fname="Password" data-wv-ctl="password"></div>
-  <div class="data-wv" data-wv-fname="ConfirmPassword" data-wv-ctl="password"></div>
-  <div class="data-wv" data-wv-fname="Status"></div>
-  <div class="data-wv" data-wv-fname="User_Rights"></div>
-  <div class="data-wv" data-wv-fname="In_Use"></div>
+  <div class="fView" data-wv-fname="Login"></div>
+  <div class="fView" data-wv-fname="First_Name"></div>
+  <div class="fView" data-wv-fname="Last_Name"></div>
+  <div class="fView" data-wv-fname="EMail"></div>
+  <div class="fView" data-wv-fname="Password" data-wv-ctl="password"></div>
+  <div class="fView" data-wv-fname="ConfirmPassword" data-wv-ctl="password"></div>
+  <div class="fView" data-wv-fname="Status"></div>
+  <div class="fView" data-wv-fname="User_Rights"></div>
+  <div class="fView" data-wv-fname="In_Use"></div>
 
 #[override renderBtns()]
   <input type="submit" value="Save" />

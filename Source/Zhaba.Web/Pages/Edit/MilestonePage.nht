@@ -24,11 +24,11 @@
 #[render]
 
 #[override renderEntries()]
-  <div class="data-wv" data-wv-fname="Name"></div>
-  <div class="data-wv" data-wv-fname="Description"></div>
-  <div class="data-wv" data-wv-fname="Start_Date"></div>
-  <div class="data-wv" data-wv-fname="Plan_Date"></div>
-  <div class="data-wv" data-wv-fname="Complete_Date"></div>
+  <div class="fView" data-wv-fname="Name"></div>
+  <div class="fView" data-wv-fname="Description"></div>
+  <div class="fView" data-wv-fname="Start_Date"></div>
+  <div class="fView" data-wv-fname="Plan_Date"></div>
+  <div class="fView" data-wv-fname="Complete_Date"></div>
 
 #[override renderBtns()]
   <input type="submit" value="Save" />

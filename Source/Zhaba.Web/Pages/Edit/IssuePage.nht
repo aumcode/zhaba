@@ -22,15 +22,15 @@
   }
 
 #[override renderEntries()]
-  <div class="data-wv" data-wv-fname="Name"></div>
-  <div class="data-wv" data-wv-fname="Description"></div>
-  <div class="data-wv" data-wv-fname="Milestone" data-wv-ctl="combo"></div>
-  <div class="data-wv" data-wv-fname="Area" data-wv-ctl="combo"></div>
-  <div class="data-wv" data-wv-fname="Component" data-wv-ctl="combo"></div>
-  <div class="data-wv" data-wv-fname="Status" data-wv-ctl="combo"></div>
-  <div class="data-wv" data-wv-fname="Owner" data-wv-ctl="combo"></div>
+  <div class="fView" data-wv-fname="Name"></div>
+  <div class="fView" data-wv-fname="Description"></div>
+  <div class="fView" data-wv-fname="Milestone" data-wv-ctl="combo"></div>
+  <div class="fView" data-wv-fname="Area" data-wv-ctl="combo"></div>
+  <div class="fView" data-wv-fname="Component" data-wv-ctl="combo"></div>
+  <div class="fView" data-wv-fname="Status" data-wv-ctl="combo"></div>
+  <div class="fView" data-wv-fname="Owner" data-wv-ctl="combo"></div>
   @[if (Form.FormMode == FormMode.Edit) {]
-  <div class="data-wv" data-wv-fname="Comment"></div>
+  <div class="fView" data-wv-fname="Comment"></div>
   @[}]
 
 #[override renderBtns()]

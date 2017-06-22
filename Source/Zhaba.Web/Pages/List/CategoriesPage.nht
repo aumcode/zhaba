@@ -26,9 +26,9 @@
 
 #[override renderTopToolbar()]
   @[base.renderTopToolbar();]
-  <a href="javascript:addCategory()">Add</a>
-  <a href="javascript:editCategory()">Edit</a>
-  <a href="javascript:deleteCategory()">Delete</a>
+  <a href="javascript:addCategory()" class="button">Add</a>
+  <a href="javascript:editCategory()" class="button">Edit</a>
+  <a href="javascript:deleteCategory()" class="button">Delete</a>
 
 #[override renderFilterControls()]
   <div class="fView" data-wv-fname="OrderBy" data-wv-ctl="combo"></div>
@@ -62,7 +62,7 @@
 	               }
                    return true;
                 });
-    
+
   }
 
   function addCategory() {

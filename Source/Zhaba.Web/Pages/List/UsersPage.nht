@@ -24,8 +24,8 @@
 
 #[override renderTopToolbar()]
   @[base.renderTopToolbar();]
-  <a href="javascript:addProject()">Add</a>
-  <a href="javascript:editProject()">Edit</a>
+  <a href="javascript:addProject()" class="button">Add</a>
+  <a href="javascript:editProject()" class="button">Edit</a>
 
 #[override renderFilterControls()]
   <div class="fView" data-wv-fname="OrderBy" data-wv-ctl="combo"></div>
