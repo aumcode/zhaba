@@ -95,5 +95,29 @@ namespace Zhaba.Data.Forms
 
       return null;
     }
+
+    protected override Exception DoDelete()
+    {
+      Exception error = null;
+      try
+      {
+        var id = RoundtripBag[ITEM_ID_BAG_PARAM].AsNullableULong();
+        var row = id.HasValue ? ZApp.Data.CRUD.LoadRow(QProject.ComponentByID<ComponentRow>(ProjectID, id.Value)) : null;
+        if (row != null)
+        {
+          row.In_Use = false;
+          ZApp.Data.CRUD.Upsert(row);
+        }
+        else
+        {
+          error = new CRUDFieldValidationException(row, "ID", "This value is not found");
+        }
+      }
+      catch (Exception ex)
+      {
+        error = ex;
+      }
+      return error;
+    }
   }
 }

@@ -31,5 +31,5 @@
   <div class="fView" data-wv-fname="Complete_Date"></div>
 
 #[override renderBtns()]
-  <input type="submit" value="Save" />
-  <a href="?[:URIS.ForPROJECT_MILESTONES(Form.ProjectID)]">Cancel</a>
+  <input class="button" type="submit" value="Save" />
+  <a class="button" href="?[:URIS.ForPROJECT_MILESTONES(Form.ProjectID)]">Cancel</a>

@@ -29,6 +29,7 @@
   @[base.renderTopToolbar();]
   <a href="javascript:addComponent()" class="button">Add</a>
   <a href="javascript:editComponent()" class="button">Edit</a>
+  <a href="javascript:deleteComponent()" class="button">Delete</a>
 
 #[override renderFilterControls()]
   <div class="fView" data-wv-fname="OrderBy" data-wv-ctl="combo"></div>
@@ -36,6 +37,25 @@
   <div class="fView" data-wv-fname="Description"></div>
 
 <script>
+  function deleteComponent() {
+    var grid = WAVE.id("tblComponents");
+    if (!grid || !grid.SELECTED_ROW_KEY || !grid.SELECTED_ROW_DATA) return;
+
+    var link = ZHB.URIS.ForPROJECT_DELETE_COMPONENT('?[:Filter.ProjectCounter]', grid.SELECTED_ROW_KEY);
+    WAVE.GUI.showConfirmationDialog(
+      'Delete component',
+      'Are you sure? \n ' + grid.SELECTED_ROW_DATA,
+      [WAVE.GUI.DLG_YES, WAVE.GUI.DLG_NO],
+      function(sender, result) {
+        if(result == WAVE.GUI.DLG_YES) {
+          window.location.href = link;
+        } else {
+          alert('You chose: ' + result);
+          }
+      return true;
+      });
+  }
+
   function editComponent() {
     var grid = WAVE.id("tblComponents");
     if (!grid || !grid.SELECTED_ROW_KEY || !grid.SELECTED_ROW_DATA) return;
