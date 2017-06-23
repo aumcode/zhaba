@@ -8,6 +8,7 @@
     using { ns="NFX.Wave.Templatization" }
     using { ns="Zhaba" }
     using { ns="Zhaba.Data.Filters" }
+    using { ns="Zhaba.Security.Permissions" }
     base-class-name="Zhaba.Web.Pages.GridMaster<CategoryListFilter>"
     namespace="Zhaba.Web.Pages.List"
   }
@@ -25,7 +26,7 @@
   <h1>Categories</h1>
 
 #[override renderTopToolbar()]
-@[if (ZhabaUser.IsCategoryEdit) {]
+@[if(new AdminPermission().Check()) {]
   @[base.renderTopToolbar();]
   <a href="javascript:addCategory()" class="button">Add</a>
   <a href="javascript:editCategory()" class="button">Edit</a>

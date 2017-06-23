@@ -98,12 +98,9 @@
     <Compile Include="Data\Domains\Base.cs" />
     <Compile Include="Data\ZhabaDTOs.cs" />
     <Compile Include="Exceptions.cs" />
-    <Compile Include="Security\Permissions\AreaManagerPermission.cs" />
-    <Compile Include="Security\Permissions\CategoryEditPermission.cs" />
-    <Compile Include="Security\Permissions\ComponentManagerPermission.cs" />
-    <Compile Include="Security\Permissions\IssueManagerPermission.cs" />
-    <Compile Include="Security\Permissions\MilestoneManagerPermission.cs" />
-    <Compile Include="Security\Permissions\ProjectManagerPermission.cs" />
+    <Compile Include="Security\Permissions\AdminPermission.cs" />
+    <Compile Include="Security\Permissions\MeetingHostPermission.cs" />
+    <Compile Include="Security\Permissions\PMPermission.cs" />
     <Compile Include="Security\Permissions\UserManagerPermission.cs" />
     <Compile Include="Security\Permissions\SiteUserPermission.cs" />
     <Compile Include="Security\Permissions\ZhabaPermission.cs" />

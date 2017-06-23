@@ -22,7 +22,7 @@ namespace Zhaba.Data.Rows
              minLength: ZhabaMnemonic.MIN_LEN,
              maxLength: ZhabaMnemonic.MAX_LEN,
              description: "Name",
-             metadata: @"Placeholder='Name'")]
+             metadata: @"Placeholder='Name' ControlType='text'")]
       public string Name { get; set; }
 
       [Field(maxLength: ZhabaDescription.MAX_LEN,
@@ -31,15 +31,15 @@ namespace Zhaba.Data.Rows
              metadata: @"Placeholder='Description' ControlType='textarea'")]
       public string Description { get; set; }
 
-      [Field(kind: DataKind.Date,
+      [Field(kind: DataKind.Text,
              description: "Start Date")]
       public DateTime Start_Date { get; set; }
 
-      [Field(kind: DataKind.Date,
+      [Field(kind: DataKind.Text,
              description: "Plan Date")]
       public DateTime Plan_Date { get; set; }
 
-      [Field(kind: DataKind.Date,
+      [Field(kind: DataKind.Text,
              description: "Completion Date")]
       public DateTime Complete_Date { get; set; }
     #endregion

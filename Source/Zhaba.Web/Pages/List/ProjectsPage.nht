@@ -9,6 +9,7 @@
     using { ns="Zhaba" }
     using { ns="Zhaba.Web" }
     using { ns="Zhaba.Data.Filters" }
+    using { ns="Zhaba.Security.Permissions" }
     base-class-name="Zhaba.Web.Pages.GridMaster<ProjectListFilter>"
     namespace="Zhaba.Web.Pages.List"
   }
@@ -27,7 +28,7 @@
 
 #[override renderTopToolbar()]
   
-  @[if (ZhabaUser.IsProjectManager) {]
+  @[if (new PMPermission().Check()) {]
   @[base.renderTopToolbar();]
   <a href="javascript:addProject()" class="button">Add</a>
   <a href="javascript:editProject()" class="button">Edit</a>

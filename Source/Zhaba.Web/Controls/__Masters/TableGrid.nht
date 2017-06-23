@@ -55,7 +55,9 @@
    result = GetValue(def, row, result, ref encode);
 
    if (result==null) return string.Empty;
-
+   
+   if (result is DateTime) result = ((DateTime)result).ToString("MM/dd/yyyy"); 
+   
    return encode ? System.Net.WebUtility.HtmlEncode(result.ToString()) : result;
  }
 

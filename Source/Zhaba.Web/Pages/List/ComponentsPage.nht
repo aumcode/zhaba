@@ -8,6 +8,7 @@
     using { ns="NFX.Wave.Templatization" }
     using { ns="Zhaba" }
     using { ns="Zhaba.Data.Filters" }
+    using { ns="Zhaba.Security.Permissions" }
     base-class-name="Zhaba.Web.Pages.GridMaster<ComponentListFilter>"
     namespace="Zhaba.Web.Pages.List"
   }
@@ -26,7 +27,7 @@
   <h1>Components</h1>
 
 #[override renderTopToolbar()]
-@[if(ZhabaUser.IsComponentManager) {]
+@[if(new PMPermission().Check()) {]
   @[base.renderTopToolbar();]
   <a href="javascript:addComponent()" class="button">Add</a>
   <a href="javascript:editComponent()" class="button">Edit</a>

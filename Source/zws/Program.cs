@@ -11,6 +11,7 @@ namespace zws
     {
       try
       {
+        System.Globalization.CultureInfo.DefaultThreadCurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
         using (var app = new ServiceBaseApplication(args, null))
         using (var server = new WaveServer())
         {

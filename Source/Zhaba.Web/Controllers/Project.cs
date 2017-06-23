@@ -43,7 +43,7 @@ namespace Zhaba.Web.Controllers
     }
 
     [Action]
-    [MilestoneManagerPermission]
+    [PMPermission]
     public object Milestone(ulong? id, MilestoneForm form)
     {
       return DataSetup_ItemDetails<MilestoneForm, MilestonePage>(new object[] { ProjectRow, id }, form, URIS.ForPROJECT_MILESTONES(ProjectRow.Counter));
@@ -56,14 +56,14 @@ namespace Zhaba.Web.Controllers
     }
 
     [Action]
-    [IssueManagerPermission]
+    [PMPermission]
     public object Issue(ulong? id, IssueForm form)
     {
       return DataSetup_ItemDetails<IssueForm, IssuePage>(new object[] { ProjectRow, id }, form, URIS.ForPROJECT_ISSUES(ProjectRow.Counter));
     }
 
     [Action]
-    [IssueManagerPermission]
+    [PMPermission]
     public object IssueArea(IssueAreaListFilter filter, ulong? issue)
     {
       if (!issue.HasValue)
@@ -80,7 +80,7 @@ namespace Zhaba.Web.Controllers
     }
 
     [Action]
-    [IssueManagerPermission]
+    [PMPermission]
     public object IssueComponent(IssueComponentListFilter filter, ulong? issue)
     {
       if (!issue.HasValue)
@@ -97,7 +97,7 @@ namespace Zhaba.Web.Controllers
     }
 
     [Action("linkissuecomponent", 1, "match { methods=POST accept-json=true }")]
-    [IssueManagerPermission]
+    [PMPermission]
     public object LinkIssueComponent(ulong? issue, ulong? component, bool link)
     {
       if (!issue.HasValue)
@@ -132,7 +132,7 @@ namespace Zhaba.Web.Controllers
     }
 
     [Action("linkissuearea", 1, "match { methods=POST accept-json=true }")]
-    [IssueManagerPermission]
+    [PMPermission]
     public object LinkIssueArea(ulong? issue, ulong? area, bool link)
     {
       if (!issue.HasValue)
@@ -173,7 +173,7 @@ namespace Zhaba.Web.Controllers
     }
 
     [Action]
-    [ComponentManagerPermission]
+    [PMPermission]
     public object Component(ulong? counter, ComponentForm form)
     {
       return DataSetup_ItemDetails<ComponentForm, ComponentPage>(new object[] { ProjectRow, counter }, form, URIS.ForPROJECT_COMPONENTS(ProjectRow.Counter));
@@ -192,7 +192,7 @@ namespace Zhaba.Web.Controllers
     }
 
     [Action]
-    [AreaManagerPermission]
+    [PMPermission]
     public object Area(ulong? counter, AreaForm form)
     {
       return DataSetup_ItemDetails<AreaForm, AreaPage>(new object[] { ProjectRow, counter }, form, URIS.ForPROJECT_AREAS(ProjectRow.Counter));

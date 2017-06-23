@@ -8,6 +8,7 @@
     using { ns="NFX.Wave.Templatization" }
     using { ns="Zhaba" }
     using { ns="Zhaba.Data.Filters" }
+    using { ns="Zhaba.Security.Permissions" }
     base-class-name="Zhaba.Web.Pages.GridMaster<IssueListFilter>"
     namespace="Zhaba.Web.Pages.List"
   }
@@ -25,7 +26,7 @@
   <h1>Issues</h1>
 
 #[override renderTopToolbar()]
-@[if(ZhabaUser.IsIssueManager) {]
+@[if(new PMPermission().Check()) {]
   @[base.renderTopToolbar();]
   <a href="javascript:addIssue()" class="button">Add</a>
   <a href="javascript:editIssue()" class="button">Edit</a>

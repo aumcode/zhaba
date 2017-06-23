@@ -35,19 +35,19 @@ namespace Zhaba.Data.Forms
       }
     }
 
-    [Field(required: true)]
+    [Field(typeof(MilestoneRow))]
     public string Name { get; set; }
 
-    [Field(required: false)]
+    [Field(typeof(MilestoneRow))]
     public string Description { get; set; }
 
-    [Field(required: false)]
+    [Field(typeof(MilestoneRow))]
     public DateTime? Start_Date { get; set; }
 
-    [Field(required: false)]
+    [Field(typeof(MilestoneRow))]
     public DateTime? Plan_Date { get; set; }
 
-    [Field(required: false)]
+    [Field(typeof(MilestoneRow))]
     public DateTime? Complete_Date { get; set; }
 
 

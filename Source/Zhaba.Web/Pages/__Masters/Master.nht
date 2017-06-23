@@ -9,6 +9,7 @@
     using { ns="Zhaba.Data.Rows" }
     using { ns="NFX.Wave.Templatization" }
     using { ns="NFX.ApplicationModel" }
+    using { ns="Zhaba.Security.Permissions" }
     base-class-name="Zhaba.Web.ZhabaPage"
     namespace="Zhaba.Web.Pages"
   }
@@ -72,7 +73,7 @@
         </div>
         <div class="menuBlock">
           <h3>Common Data</h3>
-          @[if (ZhabaUser.IsSystem) {]
+          @[if (new UserManagerPermission().Check()) {]
           <a href=?[URIS.COMMON_USERS]>Users</a>
           @[}]
           <a href=?[URIS.COMMON_PROJECTS]>Projects</a>
