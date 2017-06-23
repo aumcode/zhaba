@@ -92,6 +92,7 @@
     <EmbeddedResource Include="SQL\CRUD\User\ByID.mys.sql" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="SQL\CRUD\Component\DeleteComponent.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\Category\ByID.mys.sql" />
     <Content Include="SQL\CRUD\Component\ByProjectID.mys.sql" />
   </ItemGroup>

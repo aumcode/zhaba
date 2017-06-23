@@ -172,17 +172,21 @@ namespace Zhaba.Web.Controllers
       return DataSetup_Index<ComponentListFilter, ComponentGrid, ComponentsPage>(filter);
     }
 
-    [Action]
+    [Action("component", 0, "match { methods=POST,GET }")]
     [PMPermission]
     public object Component(ulong? counter, ComponentForm form)
     {
       return DataSetup_ItemDetails<ComponentForm, ComponentPage>(new object[] { ProjectRow, counter }, form, URIS.ForPROJECT_COMPONENTS(ProjectRow.Counter));
     }
 
-    [Action]
-    public object DeleteComponent(ulong? counter, ComponentForm form)
+    [Action("component", 0, "match { methods=DELETE accept-json=true }")]
+    [PMPermission]
+    public object Component_DELETE(ulong counter)
     {
-      return DataSetup_DeleteItem(new object[] { ProjectRow, counter }, form, URIS.ForPROJECT_COMPONENTS(ProjectRow.Counter));
+      //return DataSetup_DeleteItem(new object[] { ProjectRow, counter }, null, URIS.ForPROJECT_COMPONENTS(ProjectRow.Counter));
+      
+      ZApp.Data.CRUD.ExecuteWithoutFetch(QProject.DeleteByID(ProjectRow.Counter, counter));
+      return NFX.Wave.SysConsts.JSON_RESULT_OK;
     }
 
     [Action]
@@ -199,6 +203,7 @@ namespace Zhaba.Web.Controllers
     }
 
     [Action]
+    [PMPermission]
     public object DeleteArea(ulong? counter, AreaForm form)
     {
       return DataSetup_DeleteItem(new object[] { ProjectRow, counter }, form, URIS.ForPROJECT_AREAS(ProjectRow.Counter));

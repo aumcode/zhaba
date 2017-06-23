@@ -16,15 +16,15 @@ var ZHB = (function () {
     },
 
     ForAREA: function (id) {
-      return common_setup() + "/area?id={0}".args(id);
+      return common_setup() + "/area?id="+id;
     },
 
     ForPROJECT: function (id) {
-      return common_setup() + "/project?id={0}".args(id);
+      return common_setup() + "/project?id="+id;
     },
 
     ForCATEGORY: function (id) {
-        return common_setup() + "/category?id={0}".args(id);
+        return common_setup() + "/category?id="+id;
     },
 
     ForPROJECT_MILESTONE: function (pid, id) {
@@ -44,11 +44,11 @@ var ZHB = (function () {
     },
 
     ForPROJECT_DELETE_COMPONENT: function (project, counter) {
-      return project_setup(project) + "/deletecomponent?counter={0}".args(counter);
+      return project_setup(project) + "/component?counter="+counter;
     },
 
     ForPROJECT_DELETE_AREA: function (project, counter) {
-      return project_setup(project) + "/deletearea?counter={0}".args(counter);
+      return project_setup(project) + "/deletearea?counter="+counter;
     },
 
     ForPROJECT_ISSUE_AREA: function (project, issue) {

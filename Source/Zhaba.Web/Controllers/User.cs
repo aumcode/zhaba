@@ -19,6 +19,7 @@ namespace Zhaba.Web.Controllers
 {
   public class User : ZhabaController
   {
+  /*
     [Action("sign-up", 0, "match{methods=GET,POST}")]
     public object SignUp(UserForm form)
     {
@@ -58,7 +59,7 @@ namespace Zhaba.Web.Controllers
         return MakePage<UserRegistrationPage>(form, error);
     }
 
-
+    */
     [Action]
     public object LogIn(LoginForm form)
     {

@@ -35,4 +35,5 @@ namespace Zhaba.Data
 
     NFX.Security.AuthenticationToken CreateToken(UserRow row);
   }
+
 }

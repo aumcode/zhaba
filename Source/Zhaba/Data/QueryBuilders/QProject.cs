@@ -143,6 +143,15 @@ namespace Zhaba.Data.QueryBuilders
       };
     }
 
+    public static Query DeleteByID(ulong projCounter, ulong counter)
+    {
+      return new Query("SQL.CRUD.Component.DeleteComponent")
+      {
+        new Query.Param("pProj_Counter", projCounter),
+        new Query.Param("pCounter", counter)
+      };
+    }
+
     /// <summary>
     /// Get all components by filter
     /// </summary>
