@@ -43,6 +43,14 @@ var ZHB = (function () {
       return project_setup(pid) + "/issue?id=" + id;
     },
 
+    ForPROJECT_DELETE_COMPONENT: function (project, counter) {
+      return project_setup(project) + "/deletecomponent?counter={0}".args(counter);
+    },
+
+    ForPROJECT_DELETE_AREA: function (project, counter) {
+      return project_setup(project) + "/deletearea?counter={0}".args(counter);
+    },
+
     ForPROJECT_ISSUE_AREA: function (project, issue) {
       return project_setup(project) + "/issuearea?issue=" + issue;
     },

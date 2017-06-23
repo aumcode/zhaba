@@ -33,5 +33,5 @@
   <div class="fView" data-wv-fname="In_Use"></div>
 
 #[override renderBtns()]
-  <input type="submit" value="Save" />
-  <a href="?[:URIS.COMMON_USERS]">Cancel</a>
+  <input class="button" type="submit" value="Save" />
+  <a class="button" href="?[:URIS.COMMON_USERS]">Cancel</a>

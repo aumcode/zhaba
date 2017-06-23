@@ -54,7 +54,7 @@ namespace Zhaba.DBAccess.SQL.Filters
 @"SELECT *
 FROM tbl_component TC
 WHERE
-  (C_PROJECT = ?pProj_ID)
+  (C_PROJECT = ?pProj_ID) AND (IN_USE = 'T')
   {0}
 ORDER BY {1}".Args(where, order);
     }

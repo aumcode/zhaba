@@ -174,6 +174,12 @@ namespace Zhaba.Web.Controllers
     }
 
     [Action]
+    public object DeleteComponent(ulong? counter, ComponentForm form)
+    {
+      return DataSetup_DeleteItem(new object[] { ProjectRow, counter }, form, URIS.ForPROJECT_COMPONENTS(ProjectRow.Counter));
+    }
+
+    [Action]
     public object Areas(AreaListFilter filter)
     {
       return DataSetup_Index<AreaListFilter, AreaGrid, AreasPage>(filter);
@@ -184,6 +190,12 @@ namespace Zhaba.Web.Controllers
     public object Area(ulong? counter, AreaForm form)
     {
       return DataSetup_ItemDetails<AreaForm, AreaPage>(new object[] { ProjectRow, counter }, form, URIS.ForPROJECT_AREAS(ProjectRow.Counter));
+    }
+
+    [Action]
+    public object DeleteArea(ulong? counter, AreaForm form)
+    {
+      return DataSetup_DeleteItem(new object[] { ProjectRow, counter }, form, URIS.ForPROJECT_AREAS(ProjectRow.Counter));
     }
   }
 }
