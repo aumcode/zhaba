@@ -101,6 +101,8 @@
     <Compile Include="Security\Permissions\AreaManagerPermission.cs" />
     <Compile Include="Security\Permissions\CategoryEditPermission.cs" />
     <Compile Include="Security\Permissions\ComponentManagerPermission.cs" />
+    <Compile Include="Security\Permissions\IssueManagerPermission.cs" />
+    <Compile Include="Security\Permissions\MilestoneManagerPermission.cs" />
     <Compile Include="Security\Permissions\ProjectManagerPermission.cs" />
     <Compile Include="Security\Permissions\UserManagerPermission.cs" />
     <Compile Include="Security\Permissions\SiteUserPermission.cs" />

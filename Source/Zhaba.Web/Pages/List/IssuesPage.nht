@@ -25,11 +25,13 @@
   <h1>Issues</h1>
 
 #[override renderTopToolbar()]
+@[if(ZhabaUser.IsIssueManager) {]
   @[base.renderTopToolbar();]
   <a href="javascript:addIssue()" class="button">Add</a>
   <a href="javascript:editIssue()" class="button">Edit</a>
   <a href="javascript:showAreas()" class="button">Areas</a>
   <a href="javascript:showComponents()" class="button">Components</a>
+@[}]
 
 #[override renderFilterControls()]
   <div class="fView" data-wv-fname="OrderBy" data-wv-ctl="combo"></div>

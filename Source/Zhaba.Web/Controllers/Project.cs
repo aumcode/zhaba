@@ -43,6 +43,7 @@ namespace Zhaba.Web.Controllers
     }
 
     [Action]
+    [MilestoneManagerPermission]
     public object Milestone(ulong? id, MilestoneForm form)
     {
       return DataSetup_ItemDetails<MilestoneForm, MilestonePage>(new object[] { ProjectRow, id }, form, URIS.ForPROJECT_MILESTONES(ProjectRow.Counter));
@@ -55,12 +56,14 @@ namespace Zhaba.Web.Controllers
     }
 
     [Action]
+    [IssueManagerPermission]
     public object Issue(ulong? id, IssueForm form)
     {
       return DataSetup_ItemDetails<IssueForm, IssuePage>(new object[] { ProjectRow, id }, form, URIS.ForPROJECT_ISSUES(ProjectRow.Counter));
     }
 
     [Action]
+    [IssueManagerPermission]
     public object IssueArea(IssueAreaListFilter filter, ulong? issue)
     {
       if (!issue.HasValue)
@@ -77,6 +80,7 @@ namespace Zhaba.Web.Controllers
     }
 
     [Action]
+    [IssueManagerPermission]
     public object IssueComponent(IssueComponentListFilter filter, ulong? issue)
     {
       if (!issue.HasValue)
@@ -93,6 +97,7 @@ namespace Zhaba.Web.Controllers
     }
 
     [Action("linkissuecomponent", 1, "match { methods=POST accept-json=true }")]
+    [IssueManagerPermission]
     public object LinkIssueComponent(ulong? issue, ulong? component, bool link)
     {
       if (!issue.HasValue)
@@ -127,6 +132,7 @@ namespace Zhaba.Web.Controllers
     }
 
     [Action("linkissuearea", 1, "match { methods=POST accept-json=true }")]
+    [IssueManagerPermission]
     public object LinkIssueArea(ulong? issue, ulong? area, bool link)
     {
       if (!issue.HasValue)

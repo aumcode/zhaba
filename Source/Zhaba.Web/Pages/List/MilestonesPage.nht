@@ -25,10 +25,11 @@
   <h1>Milestones</h1>
 
 #[override renderTopToolbar()]
+@[if(ZhabaUser.IsMilestoneManager) {]
   @[base.renderTopToolbar();]
   <a href="javascript:addMilestone()" class="button">Add</a>
   <a href="javascript:editMilestone()" class="button">Edit</a>
-
+@[}]
 #[override renderFilterControls()]
   <div class="fView" data-wv-fname="OrderBy" data-wv-ctl="combo"></div>
   <div class="fView" data-wv-fname="Name"></div>

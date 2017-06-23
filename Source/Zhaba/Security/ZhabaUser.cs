@@ -88,5 +88,23 @@ namespace Zhaba.Security
         return (node.RootPath == '/' + ComponentManagerPermission.PATH) || IsAdmin || IsProjectManager;
       }
     }
+
+    public bool IsMilestoneManager
+    {
+      get
+      {
+        var node = Rights.Root.NavigateSection('/' + MilestoneManagerPermission.PATH);
+        return (node.RootPath == '/' + MilestoneManagerPermission.PATH) || IsAdmin || IsProjectManager;
+      }
+    }
+
+    public bool IsIssueManager
+    { 
+      get 
+      {
+        var node = Rights.Root.NavigateSection('/' + IssueManagerPermission.PATH);
+        return (node.RootPath == '/' + IssueManagerPermission.PATH) || IsAdmin || IsProjectManager;
+      }
+    }
   }
 }
