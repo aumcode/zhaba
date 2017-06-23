@@ -70,7 +70,7 @@ namespace Zhaba.Web.Controllers
       var issueRow = ZApp.Data.CRUD.LoadRow(qry);
       if (issueRow == null)
         throw HTTPStatusException.NotFound_404("Issue Row missing/deleted");
-      
+
       filter.____SetIssue(issueRow);
 
       return DataSetup_Index<IssueAreaListFilter, IssueAreaGrid, IssueAreaPage>(filter);
@@ -165,8 +165,9 @@ namespace Zhaba.Web.Controllers
     {
       return DataSetup_Index<ComponentListFilter, ComponentGrid, ComponentsPage>(filter);
     }
-    
+
     [Action]
+    [ComponentManagerPermission]
     public object Component(ulong? counter, ComponentForm form)
     {
       return DataSetup_ItemDetails<ComponentForm, ComponentPage>(new object[] { ProjectRow, counter }, form, URIS.ForPROJECT_COMPONENTS(ProjectRow.Counter));
@@ -179,6 +180,7 @@ namespace Zhaba.Web.Controllers
     }
 
     [Action]
+    [AreaManagerPermission]
     public object Area(ulong? counter, AreaForm form)
     {
       return DataSetup_ItemDetails<AreaForm, AreaPage>(new object[] { ProjectRow, counter }, form, URIS.ForPROJECT_AREAS(ProjectRow.Counter));

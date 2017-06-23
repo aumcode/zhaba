@@ -25,9 +25,11 @@
   <h1>Areas</h1>
 
 #[override renderTopToolbar()]
+@[if (ZhabaUser.IsAreaManager) {]
   @[base.renderTopToolbar();]
   <a href="javascript:addArea()" class="button">Add</a>
   <a href="javascript:editArea()" class="button">Edit</a>
+@[}]
 
 #[override renderFilterControls()]
   <div class="fView" data-wv-fname="OrderBy" data-wv-ctl="combo"></div>

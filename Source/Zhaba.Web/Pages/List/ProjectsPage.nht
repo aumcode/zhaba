@@ -7,6 +7,7 @@
     using { ns="NFX.Wave" }
     using { ns="NFX.Wave.Templatization" }
     using { ns="Zhaba" }
+    using { ns="Zhaba.Web" }
     using { ns="Zhaba.Data.Filters" }
     base-class-name="Zhaba.Web.Pages.GridMaster<ProjectListFilter>"
     namespace="Zhaba.Web.Pages.List"
@@ -25,9 +26,12 @@
   <h1>Projects</h1>
 
 #[override renderTopToolbar()]
+  
+  @[if (ZhabaUser.IsProjectManager) {]
   @[base.renderTopToolbar();]
   <a href="javascript:addProject()" class="button">Add</a>
   <a href="javascript:editProject()" class="button">Edit</a>
+  @[}]
 
 #[override renderFilterControls()]
   <div class="fView" data-wv-fname="OrderBy" data-wv-ctl="combo"></div>

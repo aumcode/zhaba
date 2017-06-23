@@ -40,6 +40,7 @@ namespace Zhaba.Web.Controllers
     }
 
     [Action]
+    [ProjectManagerPermission]
     public object Project(ulong? id, ProjectForm form)
     {
       return DataSetup_ItemDetails<ProjectForm, ProjectPage>(new object[] { id }, form, URIS.COMMON_PROJECTS);
@@ -52,12 +53,14 @@ namespace Zhaba.Web.Controllers
     }
 
     [Action]
+    [CategoryEditPermission]
     public object Category(ulong? id, CategoryForm form)
     {
         return DataSetup_ItemDetails<CategoryForm, CategoryPage>(new object[] { id}, form, URIS.COMMON_CATEGORIES);
     }
 
     [Action]
+    [CategoryEditPermission]
     public object deletecategory(ulong? id, CategoryForm form)
     {
         return DataSetup_DeleteItem<CategoryForm>(new object[] { id }, form, URIS.COMMON_CATEGORIES);

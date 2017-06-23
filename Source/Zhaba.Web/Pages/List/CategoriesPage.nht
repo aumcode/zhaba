@@ -25,10 +25,12 @@
   <h1>Categories</h1>
 
 #[override renderTopToolbar()]
+@[if (ZhabaUser.IsCategoryEdit) {]
   @[base.renderTopToolbar();]
   <a href="javascript:addCategory()" class="button">Add</a>
   <a href="javascript:editCategory()" class="button">Edit</a>
   <a href="javascript:deleteCategory()" class="button">Delete</a>
+@[}]
 
 #[override renderFilterControls()]
   <div class="fView" data-wv-fname="OrderBy" data-wv-ctl="combo"></div>
