@@ -20,15 +20,17 @@ namespace Zhaba.Web.Controllers
     }
     
     [Action]
+    [UserManagerPermission]
     public object Users(UserListFilter filter)
     {
       return DataSetup_Index<UserListFilter, UserGrid, UsersPage>(filter);
     }
 
     [Action]
+    [UserManagerPermission]
     public object User(ulong? id, UserForm form)
     {
-        return DataSetup_ItemDetails<UserForm, UserRegistrationPage>(new object[] { id }, form, URIS.COMMON_USERS);
+      return DataSetup_ItemDetails<UserForm, UserRegistrationPage>(new object[] { id }, form, URIS.COMMON_USERS);
     }
 
     [Action]

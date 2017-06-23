@@ -6,7 +6,6 @@
     crud
     {
       type="NFX.DataAccess.MySQL.MySQLDataStore, NFX.MySQL"
-      // connect-string="Server=localhost;Database=zhaba;Uid=root;Pwd=thejake"
       connect-string="Server=localhost;Database=zhaba;Uid=$(~MYSQL_ADMIN_USERID);Pwd=$(~MYSQL_ADMIN_PASSWORD)"
       script-assembly="Zhaba.DBAccess"
       handler-location { ns="Zhaba.DBAccess, Zhaba.DBAccess" }

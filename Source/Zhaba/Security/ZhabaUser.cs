@@ -42,5 +42,14 @@ namespace Zhaba.Security
         return Status > UserStatus.User;
       }
     }
+
+    public bool IsSystem
+    {
+      get
+      {
+        return Status == UserStatus.System;
+      }
+    }
+
   }
 }
