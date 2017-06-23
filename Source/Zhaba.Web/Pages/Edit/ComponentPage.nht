@@ -23,8 +23,8 @@
 
 
 #[override renderEntries()]
-  <div class="data-wv" data-wv-fname="Name"></div>
-  <div class="data-wv" data-wv-fname="Description"></div>
+  <div class="fView" data-wv-fname="Name"></div>
+  <div class="fView" data-wv-fname="Description"></div>
 
 #[override renderBtns()]
   <input type="submit" value="Save" />

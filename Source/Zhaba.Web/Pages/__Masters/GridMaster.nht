@@ -20,36 +20,38 @@
   public virtual TFilter Filter { get; set; }
   public virtual string DataSourceAjaxURI { get; set; }
 
-  protected virtual void renderTitle(){}
-  protected virtual void renderTopToolbar(){}
-  protected virtual void renderFilterControls(){}
-  protected virtual void renderBeforeGrid(){}
-  protected virtual void renderAfterGrid(){}
+  protected virtual void renderTitle() { }
+  protected virtual void renderTopToolbar() { }
+  protected virtual void renderFilterControls() { }
+  protected virtual void renderBeforeGrid() { }
+  protected virtual void renderAfterGrid() { }
 
 
 #[override renderBody()]
-  <div>
-    <div>@[renderTitle();]</div>
-    <section id="sectTopToolbar">@[renderTopToolbar();]</section>
+  <div class="grid">
+    <div id="title">
+      @[renderTitle();]
+    </div>
+    <div id="toolBar">@[renderTopToolbar();]</div>
     <form id="frmFilter" data-wv-rid="V1" novalidate>
       @[renderFilterControls();]
     </form>
-    <section id="sectBeforeGrid">@[renderBeforeGrid();]</section>
-    <section id="sectGrid"></section>
-    <section id="sectAfterGrid">@[renderAfterGrid();]</section>
+    <div id="beforeGrid">@[renderBeforeGrid();]</div>
+    <div id="grid"></div>
+    <div id="afterGrid">@[renderAfterGrid();]</div>
   </div>
 
 #[override renderScripts()]
 <script>
   //assign your values to override
   var ON_GRID_ROW_SELECTION = function(key, data){
-                                $("#sectTopToolbar").find("a[data-grid-link]").each(function(){
+                                $("#topToolBar").find("a[data-grid-link]").each(function(){
                                   $(this).show();
                                 });
                               };
 
   BEFORE_REFILTER = function() {
-                      $("#sectTopToolbar").find("a[data-grid-link]").each(function(){
+                      $("#topToolBar").find("a[data-grid-link]").each(function(){
                         $(this).hide();
                       });
                     };
@@ -57,16 +59,16 @@
   var ON_CLEAR_FILTERS = function(){};
 
   var ON_REFILTER_SUCCESS = function(grid) {
-                              $("#sectGrid").html(grid);
+                              $("#grid").html(grid);
                               REC.resetModified();
 
-                              $("#sectGrid table")[0].onGridRowSelection = function(table, key, data) {
+                              $("#grid table")[0].onGridRowSelection = function(table, key, data) {
                                   ON_GRID_ROW_SELECTION(key, data);
                               };
                             };
 
   var ON_REFILTER_FAIL = function(xhr, status, error) {
-                           $("#sectGrid").html("Please revise filter values: " + error);
+                           $("#grid").html("Please revise filter values: " + error);
                          };
 
   var REC = new WAVE.RecordModel.Record(?[:FormJSON(Filter, null)]);

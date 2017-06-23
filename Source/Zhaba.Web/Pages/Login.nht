@@ -24,16 +24,11 @@
   private readonly Exception m_LoginError;
 
 #[override renderEntries()]
-  <div class="entries">
-    <div id="divID" data-wv-fname="ID" class="fView"></div>
-    <div id="divPassword" data-wv-fname="Password" class="fView"></div>
-  </div>
+  <div id="divID" data-wv-fname="ID" class="fView"></div>
+  <div id="divPassword" data-wv-fname="Password" class="fView"></div>
 
 #[override renderBtns()]
-  <div class="btns">
-    <input type="submit" value="Log In"/>
-  </div>
-
+  <input type="submit" value="Log In" class="button"/>
 
 #[override renderScripts()]
 <script>

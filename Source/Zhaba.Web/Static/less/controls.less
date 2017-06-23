@@ -1,0 +1,236 @@
+﻿.fView {
+  display: block;
+  padding-bottom: 10px;
+
+  & label {
+    display: block;
+  }
+
+  & input[type=text],
+  & input[type=password],
+  & input[type=date],
+  & input[type=datetime],
+  & input[type=tel],
+  & select {
+    background-color: #f0f0e0;
+    border: 1px solid #e0e0e0;
+    width: 100%;
+
+    &:focus {
+      background-color: #ffffc0;
+      border: 1px solid #808080;
+    }
+
+    &:disabled {
+      background-color: #e0e0e0;
+      color: #b0b0b0;
+      border: 1px solid #808080;
+    }
+  }
+
+  & input[type=text],
+  & input[type=password],
+  & input[type=date],
+  & input[type=datetime],
+  & input[type=tel] {
+    padding: 8px 4px;
+  }
+
+  & select {
+    padding: 6px 4px;
+  }
+
+  & fieldset {
+    border: 1px solid #bfbfbf;
+    padding: 8px;
+    & label {
+      display: inline-block;
+    }
+  }
+
+  & textarea {
+    display: block;
+    width: 100%;
+  }
+
+  & .wvError {
+    color: yellow;
+    background: #ff8080;
+  }
+
+  & .wvRequired {
+    &:after {
+      content: " *";
+      color: #FB2E50;
+    }
+  }
+
+  & .wvModified {
+  }
+}
+
+//==============================dialog
+
+.wvCurtain,
+.wvDialogBase {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAF0lEQVQImWNgQAW+cAKJxs3xZWBgYAAANwIBz+0UkPgAAAAASUVORK5CYII=) repeat;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  min-height: 100%;
+  min-width: 100%;
+}
+
+.wvDialogBase {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.wvDialogContent {
+  display: block;
+  position: fixed;
+  background: #3866de;
+  border: 1px solid #808080;
+  border-radius: 4px;
+  padding: 6px;
+  color: white;
+  box-shadow: 6px 6px 10px #888888;
+  margin: 10px 0;
+}
+
+.dlgYellow .wvDialogContent {
+  background: #ffff00;
+}
+
+.dlgGreen .wvDialogContent {
+  background: linear-gradient(to bottom, #bfd255 0%,#8eb92a 50%,#588701 51%,#9ecb2d 100%);
+}
+
+.wvDialogHeader {
+  background: #2020c0;
+  color: white;
+  font-size: 1.37em;
+  font-weight: bold;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.dlgYellow .wvDialogHeader {
+  background: red;
+}
+
+.dlgGreen .wvDialogHeader {
+  background: linear-gradient(to bottom, #45484d 0%,#000000 100%);
+}
+
+.wvDialogBody {
+  display: block;
+  background: #fefef0;
+  color: black;
+  border: 1px solid #7070ff;
+  padding: 4px;
+  margin-top: 6px;
+  border-radius: 4px;
+  overflow: auto;
+  max-height: calc(100% - 46px);
+}
+
+.wvToast {
+  display: block;
+  position: fixed;
+  background: black;
+  border: 1px solid #808080;
+  width: auto;
+  padding: 8px;
+  top: 45%;
+  left: 50%;
+  color: white;
+  box-shadow: 2px 2px 10px #888888;
+}
+
+.wvToast_warning {
+  display: block;
+  position: fixed;
+  background: yellow;
+  border: 1px solid #bcbc00;
+  width: auto;
+  padding: 8px;
+  top: 45%;
+  left: 50%;
+  color: black;
+  box-shadow: 2px 2px 10px #888888;
+}
+
+.wvToast_error {
+  display: block;
+  position: fixed;
+  background: #ff2020;
+  border: 1px solid #ff8080;
+  width: auto;
+  padding: 8px;
+  top: 45%;
+  left: 50%;
+  color: white;
+  box-shadow: 2px 2px 10px #888888;
+}
+
+//==============================buttons
+button,
+input[type=button],
+input[type=submit] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+a {
+  .mix-transition(text-decoration .15s ease-in-out);
+}
+
+.mix-button(@fontsize, @color, @bgcolor, @padding, @borderColor: darken(@bgcolor, 8%)) {
+  &, &:visited {
+    background: @bgcolor;
+    border: solid 1.5px;
+    border-color: @borderColor;
+    color: @color;
+    cursor: pointer;
+    display: inline-block;
+    font-size: @fontsize;
+    line-height: 1;
+    padding: @padding;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: none;
+    vertical-align: bottom;
+    white-space: nowrap;
+    .mix-transition(background .15s linear);
+  }
+
+  &:hover:enabled, &:hover {
+    background: #ffffff;
+    color: darken(@bgcolor, 8%);
+    text-decoration: none;
+  }
+
+  &:active:enabled, &:active {
+    .mix-box-shadow(inset 0 0 6px rgba(5,32,53,.3));
+  }
+
+  &:focus {
+    text-decoration: none;
+    .mix-box-shadow(0 0 5px rgba(5,32,53,.3));
+  }
+}
+
+.button {
+  .mix-button(14px, #fff, #5AA0FE, 4px 12px);
+}
+
+.red-button {
+  .mix-button(14px, #fff, #FB2E50, 4px 12px);
+}
+
+.green-button {
+  .mix-button(14px, #fff, #4EF0AA, 4px 12px);
+}

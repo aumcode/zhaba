@@ -186,11 +186,9 @@
     <None Include="Pages\__Masters\Master.nht" />
     <None Include="Pages\__Masters\GridMaster.nht" />
     <None Include="pre-build.cmd" />
-    <None Include="Static\less\fields.less" />
-    <None Include="Static\less\form.less" />
+    <None Include="Static\less\controls.less" />
     <None Include="Static\less\layout.less" />
     <None Include="Static\less\mixins.less" />
-    <None Include="Static\less\nav.less" />
     <None Include="Static\less\reset.less" />
     <None Include="Static\less\zhb.less" />
   </ItemGroup>

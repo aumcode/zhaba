@@ -32,10 +32,18 @@
 
     destination
     {
-        type="NFX.Log.Destinations.DebugDestination, NFX"
-        name="log-debug-destination"
+      type="NFX.Log.Destinations.DebugDestination, NFX"
+      name="log-debug-destination"
       min-level="Debug"
       path=$(~ZHABA_ROOT)\logs
+    }
+
+    destination
+    {
+      type="NFX.Log.Destinations.CSVFileDestination, NFX"
+      name="CSVLog"
+      path=$(~ZHABA_ROOT)\logs
+      file-name="{0:yyyyMMdd}.csv.log"
     }
   }
 

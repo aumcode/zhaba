@@ -27,8 +27,8 @@
 
 #[override renderTopToolbar()]
   @[base.renderTopToolbar();]
-  <a href="javascript:addComponent()">Add</a>
-  <a href="javascript:editComponent()">Edit</a>
+  <a href="javascript:addComponent()" class="button">Add</a>
+  <a href="javascript:editComponent()" class="button">Edit</a>
 
 #[override renderFilterControls()]
   <div class="fView" data-wv-fname="OrderBy" data-wv-ctl="combo"></div>
