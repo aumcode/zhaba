@@ -475,7 +475,7 @@ body #body #cont.anonymous {
   width: 100%;
 }
 body #body #nav {
-  background: #f70add;
+  background: #71c3e8;
   color: #fff;
   width: 320px;
 }
@@ -503,7 +503,7 @@ body #ftr {
   width: 100%;
 }
 .grid #title {
-  background: #f70add;
+  background: #f9a179;
   color: #fff;
   padding: 8px 16px;
 }
@@ -546,9 +546,15 @@ body #ftr {
   width: 100%;
 }
 .grid #grid table thead td {
-  background: #00fb56;
+  background: #749aff;
   color: #fff;
   text-align: center;
+}
+.grid #grid table tbody tr {
+  cursor: pointer;
+}
+.grid #grid table tbody tr.selectedGridTableRow {
+  background: #cffff6;
 }
 .grid #grid table td {
   border: 1px solid #808080;

@@ -5,11 +5,13 @@
   .mix-flex-align-item(stretch);
   .mix-flexbox();
   .mix-justify-content(center);
+
   & #body {
     .mix-flex-align-item(stretch);
     .mix-flexbox();
     .mix-flex-wrap(wrap);
     width: 100%;
+
     & #cont {
       width: ~"calc(100% - 320px)";
 
@@ -19,7 +21,7 @@
     }
 
     & #nav {
-      background: #f70add;
+      background: #71c3e8;
       color: #fff;
       width: 320px;
 
@@ -60,7 +62,7 @@
 
 .grid {
   & #title {
-    background: #f70add;
+    background: #f9a179;
     color: #fff;
     padding: 8px 16px;
 
@@ -104,12 +106,18 @@
       width: 100%;
 
       & thead td {
-        background: #00fb56;
+        background: #749aff;
         color: #fff;
         text-align: center;
       }
 
-      & tbody td {
+      & tbody {
+        & tr {
+          cursor: pointer;
+          &.selectedGridTableRow {
+            background: #cffff6;
+          }
+        }
       }
 
       & td {
