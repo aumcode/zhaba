@@ -58,11 +58,13 @@ namespace Zhaba.Data.Domains
     public const int MAX_LEN = 3;
 
     public const string NEW = "N";
+    public const string REOPEN = "R";
     public const string ASSIGNED = "A";
     public const string DONE = "D";
+    public const string DEFER = "F";
     public const string CLOSED = "C";
 
-    public const string VALUE_LIST = "N: New, A: Assigned, D: Done, C: Closed";
+    public const string VALUE_LIST = "N: New, R: Reopen, A: Assigned, D: Done, F: Defer, C: Closed";
 
     public ZhabaIssueStatus() : base(DBCharType.Char, "N|A|D|C") { }
 
@@ -70,14 +72,18 @@ namespace Zhaba.Data.Domains
     {
       if (value.EqualsOrdIgnoreCase(NEW))
         return "New";
+      if (value.EqualsOrdIgnoreCase(REOPEN))
+        return "Reopen";
       if (value.EqualsOrdIgnoreCase(ASSIGNED))
         return "Assigned";
       if (value.EqualsOrdIgnoreCase(DONE))
         return "Done";
+      if (value.EqualsOrdIgnoreCase(DEFER))
+        return "Defer";
       if (value.EqualsOrdIgnoreCase(CLOSED))
         return "Closed";
 
-      return "New";
+      return "Invalid";
     }
   }
 

@@ -212,7 +212,8 @@ schema
   {
     _call=/scripts/counter    {}
     column=agenda { type=$(/$TCounterRef) required=true reference {table="agenda" column="counter"} comment="Agenda that meeting based on" }
-    column=date {type=TDateTime required=true comment="Date of meeting"}
+    column=start_date {type=TDateTime required=true comment="Start date of meeting"}
+    column=end_date {type=TDateTime required=false comment="End date of meeting"}
     column=host {type=$(/$TCounterRef) required=true reference {table="user" column="counter"} comment="Meeting Host"}
     _call=/scripts/note {} // populates by host
 
@@ -220,7 +221,7 @@ schema
     {
       unique=true
       column=agenda {}
-      column=date {}
+      column=start_date {}
       column=host {}
     }
   }
@@ -243,6 +244,7 @@ schema
     column=issue {type=$(/$TCounterRef) required=true reference {table="issue" column="counter"} comment="Root Issue" }
     column=status_date {type=TDateTime required=true comment="Date when changes were made"}
     column=operator    {type=$(/$TCounterRef) required=true reference {table="user" column="counter"} comment="User who made changes"}
+    column=priority  {type=TInt required=true comment="Issue Priority"}
     _call=/scripts/description {}
     column=milestone   {type=$(/$TCounterRef) required=true  reference {table="milestone" column="counter"} comment="Project Milestone"}
     column=category    {type=$(/$TCounterRef) required=true  reference {table="category" column="counter"} comment="Issue Category"}
