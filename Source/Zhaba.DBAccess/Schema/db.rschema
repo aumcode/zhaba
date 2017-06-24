@@ -97,10 +97,10 @@ schema
   table=component
   {
     _call=/scripts/counter     {}
-    _call=/scripts/name        {}
-    _call=/scripts/description {}
     column=project
     { type=$(/$TCounterRef) required=true reference {table="project" column="counter"} comment="Project that component belongs to" }
+    _call=/scripts/name        {}
+    _call=/scripts/description {}
     _call=/scripts/in-use      {}
 
     index=uk
@@ -115,10 +115,10 @@ schema
   table=area
   {
     _call=/scripts/counter     {}
-    _call=/scripts/name        {}
-    _call=/scripts/description {}
     column=project
     { type=$(/$TCounterRef) required=true reference {table="project" column="counter"} comment="Project that area belongs to" }
+    _call=/scripts/name        {}
+    _call=/scripts/description {}
     _call=/scripts/in-use      {}
 
     index=uk
@@ -133,10 +133,10 @@ schema
   table=milestone
   {
     _call=/scripts/counter     {}
-    _call=/scripts/name        {}
-    _call=/scripts/description {}
     column=project
     { type=$(/$TCounterRef) required=true reference {table="project" column="counter"} comment="Project that milestone belongs to" }
+    _call=/scripts/name        {}
+    _call=/scripts/description {}
     _call=/scripts/in-use      {}
     column=start_date    {type=$(/$TDate)  required=false comment="Milestone Start Date" }
     column=plan_date     {type=$(/$TDate)  required=false comment="Milestone Plan Date" }
@@ -154,9 +154,9 @@ schema
   table=issue
   {
     _call=/scripts/counter {}
-    _call=/scripts/name    {}
     column=project
     { type=$(/$TCounterRef) required=true reference {table="project" column="counter"} comment="Project that issue belongs to" }
+    _call=/scripts/name    {}
     column=parent { type=$(/$TCounterRef) required=false reference {table="issue" column="counter"} comment="Reference to parent issue" }
     _call=/scripts/in-use  {}
 
@@ -241,13 +241,12 @@ schema
   {
     _call=/scripts/counter     {}
     column=issue {type=$(/$TCounterRef) required=true reference {table="issue" column="counter"} comment="Root Issue" }
+    column=status_date {type=TDateTime required=true comment="Date when changes were made"}
+    column=operator    {type=$(/$TCounterRef) required=true reference {table="user" column="counter"} comment="User who made changes"}
     _call=/scripts/description {}
     column=milestone   {type=$(/$TCounterRef) required=true  reference {table="milestone" column="counter"} comment="Project Milestone"}
     column=category    {type=$(/$TCounterRef) required=true  reference {table="category" column="counter"} comment="Issue Category"}
     column=status      {type=$(/$TIssueStatus) required=true comment="Issue Status"}
-    column=assignee    {type=$(/$TCounterRef) required=false reference {table="user" column="counter"} comment="User who works on issue"}
-    column=status_date {type=TDateTime required=true comment="Date when changes were made"}
-    column=operator    {type=$(/$TCounterRef) required=true reference {table="user" column="counter"} comment="User who made changes"}
     column=completeness {type=$(/$TIntPercent) required=true default=0 comment="0..100"}
     _call=/scripts/note {}
     column=meeting {type=$(/$TCounterRef) required=false reference {table="meeting" column="counter"} comment="Optional reference to meeting that causes changes"}
@@ -260,5 +259,4 @@ schema
       column=operator {}
     }
   }
-
 }
