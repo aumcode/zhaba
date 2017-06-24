@@ -143,9 +143,9 @@ namespace Zhaba.Data.QueryBuilders
       };
     }
 
-    public static Query DeleteByID(ulong projCounter, ulong counter)
+    public static Query DeleteComponentByID(ulong projCounter, ulong counter)
     {
-      return new Query("SQL.CRUD.Component.DeleteComponent")
+      return new Query("SQL.CRUD.Component.Delete")
       {
         new Query.Param("pProj_Counter", projCounter),
         new Query.Param("pCounter", counter)
@@ -181,7 +181,7 @@ namespace Zhaba.Data.QueryBuilders
         new Query.Param("pFilter", filter)
       };
     }
-
+    
     /// <summary>
     /// Get area by ID
     /// </summary>
@@ -190,6 +190,15 @@ namespace Zhaba.Data.QueryBuilders
     public static Query<TRow> AreaByID<TRow>(ulong projCounter, ulong counter) where TRow : Row
     {
       return new Query<TRow>("SQL.CRUD.Area.ByID")
+      {
+        new Query.Param("pProj_Counter", projCounter),
+        new Query.Param("pCounter", counter)
+      };
+    }
+
+    public static Query DeleteAreaByID(ulong projCounter, ulong counter)
+    {
+      return new Query("SQL.CRUD.Area.Delete")
       {
         new Query.Param("pProj_Counter", projCounter),
         new Query.Param("pCounter", counter)

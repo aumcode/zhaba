@@ -28,5 +28,13 @@ namespace Zhaba.Data.QueryBuilders
             new Query.Param("pID", id)
             };
         }
-    }
+
+        public static Query DeleteCategoryByID(ulong id)
+        {
+            return new Query("SQL.CRUD.Category.Delete")
+            {
+            new Query.Param("pID", id)
+            };
+        }
+  }
 }

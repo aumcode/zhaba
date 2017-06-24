@@ -185,7 +185,7 @@ namespace Zhaba.Web.Controllers
     {
       //return DataSetup_DeleteItem(new object[] { ProjectRow, counter }, null, URIS.ForPROJECT_COMPONENTS(ProjectRow.Counter));
       
-      ZApp.Data.CRUD.ExecuteWithoutFetch(QProject.DeleteByID(ProjectRow.Counter, counter));
+      ZApp.Data.CRUD.ExecuteWithoutFetch(QProject.DeleteComponentByID(ProjectRow.Counter, counter));
       return NFX.Wave.SysConsts.JSON_RESULT_OK;
     }
 
@@ -195,18 +195,19 @@ namespace Zhaba.Web.Controllers
       return DataSetup_Index<AreaListFilter, AreaGrid, AreasPage>(filter);
     }
 
-    [Action]
+    [Action("area", 0, "match { methods=POST,GET }")]
     [PMPermission]
     public object Area(ulong? counter, AreaForm form)
     {
       return DataSetup_ItemDetails<AreaForm, AreaPage>(new object[] { ProjectRow, counter }, form, URIS.ForPROJECT_AREAS(ProjectRow.Counter));
     }
 
-    [Action]
+    [Action("area", 0, "match { methods=DELETE accept-json=true }")]
     [PMPermission]
-    public object DeleteArea(ulong? counter, AreaForm form)
+    public object Area_DELETE(ulong counter)
     {
-      return DataSetup_DeleteItem(new object[] { ProjectRow, counter }, form, URIS.ForPROJECT_AREAS(ProjectRow.Counter));
+      ZApp.Data.CRUD.ExecuteWithoutFetch(QProject.DeleteAreaByID(ProjectRow.Counter, counter));
+      return NFX.Wave.SysConsts.JSON_RESULT_OK;
     }
   }
 }

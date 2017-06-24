@@ -7,6 +7,7 @@ using Zhaba.Security.Permissions;
 using Zhaba.Web.Pages;
 using Zhaba.Web.Controls.Grids;
 using Zhaba.Web.Pages.List;
+using Zhaba.Data.QueryBuilders;
 
 namespace Zhaba.Web.Controllers
 {
@@ -52,18 +53,19 @@ namespace Zhaba.Web.Controllers
       return DataSetup_Index<CategoryListFilter, CategoryGrid, CategoriesPage>(filter);
     }
 
-    [Action]
+    [Action("category", 0, "match { methods=POST,GET }")]
     [AdminPermission]
     public object Category(ulong? id, CategoryForm form)
     {
         return DataSetup_ItemDetails<CategoryForm, CategoryPage>(new object[] { id}, form, URIS.COMMON_CATEGORIES);
     }
 
-    [Action]
+    [Action("category", 0, "match { methods=DELETE accept-json=true }")]
     [AdminPermission]
-    public object deletecategory(ulong? id, CategoryForm form)
+    public object Category_DELETE(ulong id)
     {
-        return DataSetup_DeleteItem<CategoryForm>(new object[] { id }, form, URIS.COMMON_CATEGORIES);
+      ZApp.Data.CRUD.ExecuteWithoutFetch(QCategory.DeleteCategoryByID(id));
+      return NFX.Wave.SysConsts.JSON_RESULT_OK;
     }
   }
 }
