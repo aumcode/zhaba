@@ -250,7 +250,7 @@ create table `tbl_issueassign`
  `C_CLOSE_OPER`   BIGINT(8) UNSIGNED  comment 'Operator assignee',
  `C_OPEN_MEETING` BIGINT(8) UNSIGNED  comment 'Open meeting',
  `C_CLOSE_MEETING`    BIGINT(8) UNSIGNED  comment 'Close meeting',
- `TEXT`           TEXT            comment 'Note',
+ `NOTE`           TEXT            comment 'Note',
   constraint `pk_tbl_issueassign_counter` primary key (`COUNTER`),
   constraint `fk_tbl_issueassign_issue` foreign key (`C_ISSUE`) references `tbl_issue`(`COUNTER`),
   constraint `fk_tbl_issueassign_user` foreign key (`C_USER`) references `tbl_user`(`COUNTER`),
