@@ -261,4 +261,34 @@ schema
       column=operator {}
     }
   }
+
+  // sample: 
+  table=issueassign
+  {
+    _call=/scripts/counter {}
+    column=issue
+    { type=$(/$TCounterRef) required=true reference {table="issue" column="counter"} comment="Issue" }
+    column=user
+    { type=$(/$TCounterRef) required=true reference {table="user" column="counter"} comment="User" }
+    column=open_ts {type=TDateTime required=true comment="Issue assignment time for the user" }
+    
+    column=close_ts {type=TDateTime required=false comment="Issue colse time for the user" default='2500-01-01 00:00:00' }
+    column=open_oper
+    { type=$(/$TCounterRef) required=true reference {table="user" column="counter"} comment="Operator assignee" }
+    column=close_oper
+    { type=$(/$TCounterRef) required=false reference {table="user" column="counter"} comment="Operator assignee" }
+    column=open_meeting
+    { type=$(/$TCounterRef) required=false reference {table="meeting" column="counter"} comment="Open meeting" }
+    column=close_meeting
+    { type=$(/$TCounterRef) required=false reference {table="meeting" column="counter"} comment="Close meeting" }
+    column = text {type=$(/$TNote) required=false  comment="Note"}
+
+    index=uk
+    {
+      unique=true
+      column=issue {}
+      column=user {}
+      column=open_ts {}
+    }
+  }
 }
