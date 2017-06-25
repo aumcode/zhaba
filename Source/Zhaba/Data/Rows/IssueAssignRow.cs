@@ -1,9 +1,5 @@
 ﻿using NFX.DataAccess.CRUD;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Zhaba.Data.Domains;
 
 namespace Zhaba.Data.Rows

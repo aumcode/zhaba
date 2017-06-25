@@ -65,6 +65,7 @@
     <Compile Include="Data\Forms\LoginForm.cs" />
     <Compile Include="Data\Forms\ProjectFormBase.cs" />
     <Compile Include="Data\QueryBuilders\QCategory.cs" />
+    <Compile Include="Data\QueryBuilders\QIssueLog.cs" />
     <Compile Include="Data\QueryBuilders\QSequence.cs" />
     <Compile Include="Data\QueryBuilders\QCommon.cs" />
     <Compile Include="Data\QueryBuilders\QProject.cs" />

@@ -40,9 +40,6 @@ namespace Zhaba.Data.Rows
              description: "Status")]
       public string Status { get; set; }
 
-      [Field(description: "Assignee")]
-      public ulong? C_Assignee { get; set; }
-
       [Field(required: true,
              kind: DataKind.DateTime,
              description: "Status Date")]
