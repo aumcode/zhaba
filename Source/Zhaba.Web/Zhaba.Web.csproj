@@ -31,15 +31,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NFX, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NFX.3.4.0.1\lib\NFX.dll</HintPath>
+      <HintPath>..\..\packages\NFX.3.5.0.0\lib\NFX.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="NFX.Wave, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NFX.3.4.0.1\lib\NFX.Wave.dll</HintPath>
+      <HintPath>..\..\packages\NFX.Wave.3.5.0.0\lib\NFX.Wave.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="NFX.Web, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NFX.3.4.0.1\lib\NFX.Web.dll</HintPath>
+      <HintPath>..\..\packages\NFX.Web.3.5.0.0\lib\NFX.Web.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -53,6 +53,7 @@
     <Compile Include="Controllers\Project.cs" />
     <Compile Include="Controllers\Home.cs" />
     <Compile Include="Controllers\ProjectControllerBase.cs" />
+    <Compile Include="Controllers\Task.cs" />
     <Compile Include="Controllers\User.cs" />
     <Compile Include="Controls\Grids\AreaGrid.nht.auto.cs">
       <DependentUpon>AreaGrid.nht</DependentUpon>

@@ -2,6 +2,7 @@
 
 using NFX;
 using NFX.Environment;
+using NFX.Log;
 using NFX.Security;
 using NFX.ServiceModel;
 
@@ -15,6 +16,11 @@ namespace Zhaba.Security
     public const string CONFIG_PASSWORD_MANAGER_SECTION = "password-manager";
 
     private IPasswordManagerImplementation m_PasswordManager;
+
+    public void LogSecurityMessage(Message msg, User user = null)
+    {
+      throw new NotImplementedException();
+    }
 
     public IPasswordManager PasswordManager { get { return m_PasswordManager; } }
 
@@ -71,6 +77,12 @@ namespace Zhaba.Security
       var node = user.Rights.Root.NavigateSection(permission.FullPath);
       return new AccessLevel(user, permission, node);
     }
+
+    public IConfigSectionNode GetUserLogArchiveDimensions(User user)
+    {
+      throw new NotImplementedException();
+    }
+
     #endregion
 
     #region Protected
@@ -123,5 +135,8 @@ namespace Zhaba.Security
         userRow.Rights) { DataRow = userRow };
     }
     #endregion
+
+    public SecurityLogMask LogMask { get; set; }
+    public MessageType LogLevel { get; set; }
   }
 }
