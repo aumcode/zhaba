@@ -4,7 +4,8 @@ namespace Zhaba.Web
 {
   public static class URIS
   {
-    public const string PROJECT_ID_PARAM = "projID";
+    public const string PROJECT_ID_PARAM  = "projID";
+    public const string ISSUE_ID_PARAM    = "issueID";
 
     public const string HOME         = "/";
     public const string USER         = "/user";
@@ -31,6 +32,8 @@ namespace Zhaba.Web
     public const string PROJECT_COMPONENT  = "/project/{0}/component";
     public const string PROJECT_ISSUES     = "/project/{0}/issues";
     public const string PROJECT_ISSUE      = "/project/{0}/issue";
+
+    public const string PROJECT_ISSUE_ISSUEASSIGN = "/project/{0}/issue/{1}/issueassign";
 
 
 

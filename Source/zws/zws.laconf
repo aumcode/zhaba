@@ -135,9 +135,17 @@
             type="NFX.Wave.Handlers.MVCHandler, NFX.Wave"
             type-location { assembly="Zhaba.Web.dll" ns { name="Zhaba.Web.Controllers" }}
 
-            match
+             match
             {
               order = 10
+              path="/project/{projID}/issue/{issueID}/{mvc-action}"
+              var{ query-name="*" }
+              var{ name=type default='Issue' }
+            }
+
+            match
+            {
+              order = 20
               path="/project/{projID}/{mvc-action}"
               var{ query-name="*" }
               var{ name=type default='Project' }
@@ -145,7 +153,7 @@
 
             match
             {
-              order = 20
+              order = 30
               path="/user/{mvc-action}"
               var{ name=type default='User' }
               var{ query-name="*" }
@@ -153,7 +161,7 @@
 
             match
             {
-              order = 30
+              order = 40
               path="/common/{mvc-action}"
               var{ name=type default='Common' }
               var{ query-name="*" }
@@ -161,7 +169,7 @@
 
             match
             {
-              order = 30
+              order = 50
               path="/dashboard/{mvc-action}"
               var{ name=type default='Dashboard' }
               var{ query-name="*" }

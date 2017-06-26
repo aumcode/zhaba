@@ -62,14 +62,17 @@
     <Compile Include="Data\Filters\ProjectListFilter.cs" />
     <Compile Include="Data\Filters\UserListFilter.cs" />
     <Compile Include="Data\Forms\CategoryForm.cs" />
+    <Compile Include="Data\Forms\IssueAssignForm.cs" />
     <Compile Include="Data\Forms\LoginForm.cs" />
     <Compile Include="Data\Forms\ProjectFormBase.cs" />
     <Compile Include="Data\QueryBuilders\QCategory.cs" />
+    <Compile Include="Data\QueryBuilders\QIssueAssign.cs" />
     <Compile Include="Data\QueryBuilders\QIssueLog.cs" />
     <Compile Include="Data\QueryBuilders\QSequence.cs" />
     <Compile Include="Data\QueryBuilders\QCommon.cs" />
     <Compile Include="Data\QueryBuilders\QProject.cs" />
     <Compile Include="Data\QueryBuilders\QUser.cs" />
+    <Compile Include="Data\QueryBuilders\TRow.cs" />
     <Compile Include="Data\Rows\AgendaIssue.cs" />
     <Compile Include="Data\Rows\AgendaRow.cs" />
     <Compile Include="Data\Rows\CategoryRow.cs" />

@@ -26,6 +26,7 @@ namespace Zhaba.DataLogic
     {
       m_Users = new ZhabaUserLogic(this);
       m_SequenceProvider = new ZhabaSequenceProvider();
+      m_IssueLog = new ZhabaIssueLogLogic(this);
     }
 
     protected override void Destructor()
@@ -41,6 +42,7 @@ namespace Zhaba.DataLogic
     private ICRUDDataStoreImplementation m_CRUD;
     private ZhabaUserLogic m_Users;
     private ZhabaSequenceProvider m_SequenceProvider;
+    private ZhabaIssueLogLogic m_IssueLog;
 
     #endregion
 
@@ -48,6 +50,7 @@ namespace Zhaba.DataLogic
     public ICRUDDataStore CRUD { get { return m_CRUD; } }
     public IUniqueSequenceProvider SequenceProvider { get { return m_SequenceProvider; } }
     public IUserLogic Users { get { return m_Users; } }
+    public IIssueLogLogic IssueLog { get { return m_IssueLog; } }
 
     public override bool InstrumentationEnabled
     {

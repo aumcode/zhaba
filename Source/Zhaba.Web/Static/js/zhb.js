@@ -8,6 +8,8 @@ var ZHB = (function () {
 
   function project_setup(pid) { return "/project/{0}".args(pid); }
 
+  function issue_setup(pid, iid) { return project_setup(pid) + "/issue/{0}".args(iid); }
+
   function common_setup() { return "/common"; }
 
   published.URIS = {
@@ -73,6 +75,10 @@ var ZHB = (function () {
 
     ForDELETE_CATEGORY: function (id) {
         return common_setup() + "/category?id={0}".args(id);
+    },
+
+    ForISSUE_ISSUEASSIGN: function (pid, iid, id) {
+      return issue_setup(pid, iid) + "/issueassign?id={0}".args(id);
     }
   };
 

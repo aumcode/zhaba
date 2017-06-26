@@ -92,6 +92,12 @@
     <EmbeddedResource Include="SQL\CRUD\User\ByID.mys.sql" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="SQL\CRUD\IssueLog\FindLastByIssue.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\IssueAssign\FindByIssueAndUserAndDate.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\IssueAssign\FindByCounter.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\IssueAssign\FindByIssueAndUser.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\IssueAssign\FindByUser.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\IssueAssign\FindByIssue.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\Component\Delete.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\Category\ByID.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\Area\Delete.mys.sql" />

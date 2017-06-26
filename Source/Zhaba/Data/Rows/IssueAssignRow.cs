@@ -21,17 +21,17 @@ namespace Zhaba.Data.Rows
     public DateTime Open_TS { get; set; }
 
     [Field(required: false, kind: DataKind.DateTime, description: "Issue close time for the user")]
-    public DateTime Close_TS { get; set; }
+    public DateTime? Close_TS { get; set; }
     [Field(required: true, description: "Operator assignee")]
     public ulong C_OpenOper { get; set; }
     [Field(required: false, description: "Operator assignee")]
-    public ulong C_CloseOper { get; set; }
+    public ulong? C_CloseOper { get; set; }
 
 
     [Field(required: false, description: "Open meeting")]
-    public ulong C_OpenMeeting { get; set; }
+    public ulong? C_OpenMeeting { get; set; }
     [Field(required: false, description: "Close meeting")]
-    public ulong C_CloseMeeting { get; set; }
+    public ulong? C_CloseMeeting { get; set; }
     [Field(required: false,
            kind: DataKind.Text,
            minLength: ZhabaMnemonic.MIN_LEN,

@@ -32,6 +32,7 @@
   <a href="javascript:editIssue()" class="button">Edit</a>
   <a href="javascript:showAreas()" class="button">Areas</a>
   <a href="javascript:showComponents()" class="button">Components</a>
+  <a href="javascript:addAssignee()" class="button">Add Assignee</a>
 @[}]
 
 #[override renderFilterControls()]
@@ -65,6 +66,13 @@
     if (!grid || !grid.SELECTED_ROW_KEY || !grid.SELECTED_ROW_DATA) return;
 
     var link = ZHB.URIS.ForPROJECT_ISSUE_COMPONENT("?[:Filter.ProjectCounter]", grid.SELECTED_ROW_KEY);
+    window.location.href = link;
+  }
+
+  function addAssignee() {
+    var grid = WAVE.id("tblIssues");
+    if (!grid || !grid.SELECTED_ROW_KEY || !grid.SELECTED_ROW_DATA) return;
+    var link =  ZHB.URIS.ForISSUE_ISSUEASSIGN("?[:Filter.ProjectCounter]",grid.SELECTED_ROW_KEY, "");
     window.location.href = link;
   }
 </script>

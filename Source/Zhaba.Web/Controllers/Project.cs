@@ -57,13 +57,6 @@ namespace Zhaba.Web.Controllers
 
     [Action]
     [PMPermission]
-    public object Issue(ulong? id, IssueForm form)
-    {
-      return DataSetup_ItemDetails<IssueForm, IssuePage>(new object[] { ProjectRow, id }, form, URIS.ForPROJECT_ISSUES(ProjectRow.Counter));
-    }
-
-    [Action]
-    [PMPermission]
     public object IssueArea(IssueAreaListFilter filter, ulong? issue)
     {
       if (!issue.HasValue)
@@ -209,5 +202,8 @@ namespace Zhaba.Web.Controllers
       ZApp.Data.CRUD.ExecuteWithoutFetch(QProject.DeleteAreaByID(ProjectRow.Counter, counter));
       return NFX.Wave.SysConsts.JSON_RESULT_OK;
     }
+
+
+
   }
 }

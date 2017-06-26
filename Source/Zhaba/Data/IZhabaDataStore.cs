@@ -15,6 +15,7 @@ namespace Zhaba.Data
     ICache Cache { get; }
 
     IUserLogic Users { get; }
+    IIssueLogLogic IssueLog { get; }
   }
 
 
@@ -34,6 +35,20 @@ namespace Zhaba.Data
     UserRow GetUserByToken(NFX.Security.AuthenticationToken token);
 
     NFX.Security.AuthenticationToken CreateToken(UserRow row);
+  }
+
+  /// <summary>
+  /// Work with Issue Log
+  /// </summary>
+  public interface IIssueLogLogic : IStoreLogic
+  {
+    /// <summary>
+    /// Work with Issue Log
+    /// </summary>
+    void AddCreateIssueEvent(UserRow user, IssueRow issue, MilestoneRow milestone);
+    void AssigneeToIssue(UserRow oper, DateTime date, IssueRow issue, UserRow assignee, MilestoneRow milestone);
+    void UnAssigneeToIssue(UserRow oper, DateTime date, IssueRow issue, UserRow assignee, MilestoneRow milestone);
+    void SetCompletness(UserRow user, int percent, string note);
   }
 
 }

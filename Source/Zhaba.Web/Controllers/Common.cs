@@ -8,6 +8,7 @@ using Zhaba.Web.Pages;
 using Zhaba.Web.Controls.Grids;
 using Zhaba.Web.Pages.List;
 using Zhaba.Data.QueryBuilders;
+using System;
 
 namespace Zhaba.Web.Controllers
 {
@@ -66,6 +67,13 @@ namespace Zhaba.Web.Controllers
     {
       ZApp.Data.CRUD.ExecuteWithoutFetch(QCategory.DeleteCategoryByID(id));
       return NFX.Wave.SysConsts.JSON_RESULT_OK;
+    }
+
+    [Action("usersforpm", 0, "match { method=GET accept-json=true}")]
+    [PMPermission]
+    public object UsersForPM(UserListFilter filter) 
+    {
+      throw new NotImplementedException();
     }
   }
 }

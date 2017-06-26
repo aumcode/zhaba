@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Controllers\Common.cs" />
     <Compile Include="Controllers\Dashboard.cs" />
+    <Compile Include="Controllers\Issue.cs" />
     <Compile Include="Controllers\Project.cs" />
     <Compile Include="Controllers\Home.cs" />
     <Compile Include="Controllers\ProjectControllerBase.cs" />
@@ -110,6 +111,9 @@
     <Compile Include="Pages\Edit\UserRegistrationPage.nht.auto.cs">
       <DependentUpon>UserRegistrationPage.nht</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Edit\IssueAssignPage.nht.auto.cs">
+      <DependentUpon>IssueAssignPage.nht</DependentUpon>
+    </Compile>
     <Compile Include="Pages\List\AreasPage.nht.auto.cs">
       <DependentUpon>AreasPage.nht</DependentUpon>
     </Compile>
@@ -167,6 +171,7 @@
     <None Include="Pages\Dashboard\DashboardPage.nht" />
     <None Include="Pages\Edit\AreaPage.nht" />
     <None Include="Pages\Edit\CategoryPage.nht" />
+    <None Include="Pages\Edit\IssueAssignPage.nht" />
     <None Include="Pages\Edit\IssuePage.nht" />
     <None Include="Pages\Edit\MilestonePage.nht" />
     <None Include="Pages\Edit\UserRegistrationPage.nht" />
