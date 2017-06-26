@@ -24,5 +24,10 @@ namespace Zhaba.Data.QueryBuilders
     {
       return new Query<TRow>("SQL.CRUD.User.AllInfos");
     }
+
+    public static Query<TRow> findAllActiveUser<TRow>() where TRow : Row
+    {
+      return new Query<TRow>("SQL.CRUD.User.FindAllActiveUser");
+    }
   }
 }

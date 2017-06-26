@@ -22,8 +22,11 @@
   }
 
   #[override renderEntries()]
-  <div class="fView" data-wv-fname="User" data-wv-ctl="combo"></div>
+  <div class="fView" data-wv-fname="С_User"></div>
   <div class="fView" data-wv-fname="Open_TS"></div>
+  <div class="fView" data-wv-fname="Close_TS"></div>
+  <div class="fView" data-wv-fname="Note"></div>
+
 
   @[if (Form.FormMode == FormMode.Edit) {]
   <div class="fView" data-wv-fname="Comment"></div>

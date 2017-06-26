@@ -90,6 +90,7 @@
     <Compile Include="Data\Forms\MilestoneForm.cs" />
     <Compile Include="Data\Forms\ProjectForm.cs" />
     <Compile Include="Data\Forms\UserForm.cs" />
+    <Compile Include="Data\Rows\UserForPM.cs" />
     <Compile Include="Data\Sizes.cs" />
     <Compile Include="Data\IZhabaDataStore.cs" />
     <Compile Include="Data\Rows\AreaRow.cs" />
