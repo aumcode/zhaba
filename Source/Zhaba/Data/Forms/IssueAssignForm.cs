@@ -4,6 +4,8 @@ using Zhaba.Data.QueryBuilders;
 using Zhaba.Data.Rows;
 using NFX;
 using NFX.Wave;
+using NFX.Serialization.JSON;
+using System.Collections.Generic;
 
 namespace Zhaba.Data.Forms
 {
@@ -24,6 +26,10 @@ namespace Zhaba.Data.Forms
           throw HTTPStatusException.NotFound_404("Project");
         this.RoundtripBag[ITEM_ID_BAG_PARAM] = counter.Value;
       }
+      else 
+      {
+        Open_TS = DateTime.Now;
+      }
     }
     #endregion
 
@@ -34,15 +40,15 @@ namespace Zhaba.Data.Forms
     [Field(typeof(IssueAssignRow))]
     public ulong C_Issue { get; set; }
     [Field(typeof(IssueAssignRow))]
-    public ulong C_User { get; set; }
+    public string C_User { get; set; }
     [Field(typeof(IssueAssignRow))]
     public DateTime Open_TS { get; set; }
     [Field(typeof(IssueAssignRow))]
     public DateTime? Close_TS { get; set; }
     [Field(typeof(IssueAssignRow))]
-    public ulong? C_CloseMeeting { get; set; }
+    public ulong? C_Close_Meeting { get; set; }
     [Field(typeof(IssueAssignRow))]
-    public ulong? C_OpenMeeting { get; set; }
+    public ulong? C_Open_Meeting { get; set; }
     [Field(typeof(IssueAssignRow))]
     public string Note { get; set; }
 
@@ -65,12 +71,12 @@ namespace Zhaba.Data.Forms
         var counter = RoundtripBag[ITEM_ID_BAG_PARAM].AsNullableULong();
         IssueAssignRow row = FormMode == FormMode.Edit && counter.HasValue  
         ? ZApp.Data.CRUD.LoadRow(QIssueAssign.findIssueAssignByCounter<IssueAssignRow>(counter.Value)) 
-        : new IssueAssignRow(RowPKAction.Default) { C_OpenOper = ZhabaUser.DataRow.Counter };
+        : new IssueAssignRow(RowPKAction.Default) { C_Issue = Issue.Counter, C_Open_Oper = ZhabaUser.DataRow.Counter};
         
-        CopyFields(row, fieldFilter: (n, f) => f.Name != "C_OpenOper" && f.Name != "C_CloseOper");
+        CopyFields(row, fieldFilter: (n, f) => f.Name != "C_Open_Oper" && f.Name != "C_Close_Oper" && f.Name != "C_Issue");
 
         result = row.ValidateAndPrepareForStore();
-        if (result != null) 
+        if (result == null) 
         {
           ZApp.Data.CRUD.Upsert(row);
           saveResult = row;
@@ -88,6 +94,22 @@ namespace Zhaba.Data.Forms
     public void ____SetIssue(IssueRow issue)
     {
       m_Issue = issue;
+    }
+
+    public override JSONDataMap GetClientFieldValueList(object callerContext, Schema.FieldDef fdef, string targetName, string isoLang) 
+    {
+      var user = fdef.Name.EqualsIgnoreCase("C_User");
+      JSONDataMap result = null;
+      if (user) 
+      {
+        var users =  ZApp.Data.CRUD.LoadEnumerable<UserForPM>(QUser.FindAllActiveUserAndNotAssignedOnDate<UserForPM>(Issue.Counter, DateTime.Now)) ;
+        result = new JSONDataMap();
+        foreach (UserForPM item in users)
+        {
+          result.Add(item.Counter.ToString(), item.FullName);
+        }
+      }
+      return result;
     }
     #endregion
   }

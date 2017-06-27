@@ -48,9 +48,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LogicBase.cs" />
+    <Compile Include="StringConsts.cs" />
     <Compile Include="ZhabaDataStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ZhabaIssueLogLogic.cs" />
+    <Compile Include="IssueLog\ZhabaIssueLogLogic.cs" />
     <Compile Include="ZhabaUserLogic.cs" />
     <Compile Include="ZhabaUniqueSequenceProvider.cs" />
   </ItemGroup>

@@ -22,7 +22,7 @@
   }
 
   #[override renderEntries()]
-  <div class="fView" data-wv-fname="С_User"></div>
+  <div class="fView" data-wv-fname="C_User" data-wv-ctl="combo"></div>
   <div class="fView" data-wv-fname="Open_TS"></div>
   <div class="fView" data-wv-fname="Close_TS"></div>
   <div class="fView" data-wv-fname="Note"></div>

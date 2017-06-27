@@ -1,4 +1,5 @@
 ﻿using NFX.DataAccess.CRUD;
+using System;
 
 namespace Zhaba.Data.QueryBuilders
 {
@@ -25,9 +26,18 @@ namespace Zhaba.Data.QueryBuilders
       return new Query<TRow>("SQL.CRUD.User.AllInfos");
     }
 
-    public static Query<TRow> findAllActiveUser<TRow>() where TRow : Row
+    public static Query<TRow> FindAllActiveUser<TRow>() where TRow : Row
     {
       return new Query<TRow>("SQL.CRUD.User.FindAllActiveUser");
+    }
+
+    public static Query<TRow> FindAllActiveUserAndNotAssignedOnDate<TRow>(ulong C_Issue, DateTime DateUTC) where TRow : Row
+    {
+      return new Query<TRow>("SQL.CRUD.User.FindAllActiveUserAndNotAssignedOnDate") 
+      {
+        new Query.Param("C_Issue", C_Issue),
+        new Query.Param("DateUTC", DateUTC)
+      };
     }
   }
 }

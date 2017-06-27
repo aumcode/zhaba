@@ -92,6 +92,7 @@
     <EmbeddedResource Include="SQL\CRUD\User\ByID.mys.sql" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="SQL\CRUD\User\FindAllActiveUserAndNotAssignedOnDate.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\User\FindAllActiveUser.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\IssueLog\FindLastByIssue.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\IssueAssign\FindByIssueAndUserAndDate.mys.sql" />

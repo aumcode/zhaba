@@ -65,6 +65,7 @@
     <Compile Include="Data\Forms\IssueAssignForm.cs" />
     <Compile Include="Data\Forms\LoginForm.cs" />
     <Compile Include="Data\Forms\ProjectFormBase.cs" />
+    <Compile Include="Data\IZhabaDataStore.IssueLogEvent.cs" />
     <Compile Include="Data\QueryBuilders\QCategory.cs" />
     <Compile Include="Data\QueryBuilders\QIssueAssign.cs" />
     <Compile Include="Data\QueryBuilders\QIssueLog.cs" />
