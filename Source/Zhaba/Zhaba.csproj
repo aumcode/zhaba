@@ -31,13 +31,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NFX, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NFX.3.4.0.1\lib\NFX.dll</HintPath>
+      <HintPath>..\..\packages\NFX.3.5.0.0\lib\NFX.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="NFX.Wave, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NFX.3.4.0.1\lib\NFX.Wave.dll</HintPath>
+      <HintPath>..\..\packages\NFX.Wave.3.5.0.0\lib\NFX.Wave.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="NFX.Web, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NFX.3.4.0.1\lib\NFX.Web.dll</HintPath>
+      <HintPath>..\..\packages\NFX.Web.3.5.0.0\lib\NFX.Web.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -60,6 +63,7 @@
     <Compile Include="Data\Filters\ProjectIssueFilterBase.cs" />
     <Compile Include="Data\Filters\ProjectFilterBase.cs" />
     <Compile Include="Data\Filters\ProjectListFilter.cs" />
+    <Compile Include="Data\Filters\TaskListFilter.cs" />
     <Compile Include="Data\Filters\UserListFilter.cs" />
     <Compile Include="Data\Forms\CategoryForm.cs" />
     <Compile Include="Data\Forms\IssueAssignForm.cs" />
@@ -72,6 +76,7 @@
     <Compile Include="Data\QueryBuilders\QSequence.cs" />
     <Compile Include="Data\QueryBuilders\QCommon.cs" />
     <Compile Include="Data\QueryBuilders\QProject.cs" />
+    <Compile Include="Data\QueryBuilders\QTask.cs" />
     <Compile Include="Data\QueryBuilders\QUser.cs" />
     <Compile Include="Data\QueryBuilders\TRow.cs" />
     <Compile Include="Data\Rows\AgendaIssue.cs" />
