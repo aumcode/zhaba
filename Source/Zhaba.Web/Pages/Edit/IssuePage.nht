@@ -24,11 +24,12 @@
 #[override renderEntries()]
   <div class="fView" data-wv-fname="Name"></div>
   <div class="fView" data-wv-fname="Description"></div>
-  <div class="fView" data-wv-fname="Milestone" data-wv-ctl="combo"></div>
-  <div class="fView" data-wv-fname="Area" data-wv-ctl="combo"></div>
-  <div class="fView" data-wv-fname="Component" data-wv-ctl="combo"></div>
-  <div class="fView" data-wv-fname="Status" data-wv-ctl="combo"></div>
-  <div class="fView" data-wv-fname="Owner" data-wv-ctl="combo"></div>
+  <div class="fView" data-wv-fname="Start_Date"></div>
+  <div class="fView" data-wv-fname="Plan_Date"></div>
+  <div class="fView" data-wv-fname="Complete_Date"></div>
+  <div class="fView" data-wv-fname="C_Category" data-wv-ctl="combo"></div>
+  <div class="fView" data-wv-fname="Priority"></div>
+
   @[if (Form.FormMode == FormMode.Edit) {]
   <div class="fView" data-wv-fname="Comment"></div>
   @[}]

@@ -39,7 +39,7 @@ namespace Zhaba.Data.Rows
     { 
       get 
       {
-        return (First_Name ?? "" + " " + Last_Name ?? "").Trim();
+        return First_Name + " " + Last_Name;
       } 
     }
     #endregion

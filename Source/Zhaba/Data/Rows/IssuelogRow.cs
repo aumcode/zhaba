@@ -63,6 +63,13 @@ namespace Zhaba.Data.Rows
 
       [Field(description: "Meeting")]
       public ulong? C_Meeting { get; set; }
+
+
+      [Field(required: true,
+             min: ZhabaIntPercent.MIN_VALUE,
+             max: ZhabaIntPercent.MAX_VALUE,
+             description: "Proirity")]
+      public ulong Priority { get; set; }
     #endregion
   }
 }
