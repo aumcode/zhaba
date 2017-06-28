@@ -32,14 +32,14 @@ namespace Zhaba.DBAccess.SQL.Filters
         cmd.Parameters.AddWithValue("pName", name);
       }
 
-      string order = "TI.Counter";
+      string order = "TI.IN_USE DESC";
       if (filter.OrderBy.IsNotNullOrWhiteSpace())
       {
         var desc = filter.OrderBy.StartsWith("-");
         if (desc)
-          order = "TI." + filter.OrderBy.Substring(1) + " DESC";
+          order += ",TI." + filter.OrderBy.Substring(1) + " DESC";
         else
-          order = "TI." + filter.OrderBy + " ASC";
+          order += ",TI." + filter.OrderBy + " ASC";
       }
 
       cmd.Parameters.AddWithValue("pProj_ID", filter.ProjectCounter);

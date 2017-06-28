@@ -1,4 +1,5 @@
-﻿using NFX.DataAccess.CRUD;
+﻿using System;
+using NFX.DataAccess.CRUD;
 using Zhaba.Data.Filters;
 
 namespace Zhaba.Data.QueryBuilders
@@ -125,6 +126,23 @@ namespace Zhaba.Data.QueryBuilders
       };
     }
 
+    public static Query DeleteIssueByProjectAndID(ulong C_Project, ulong C_Issue)
+    {
+      return new Query("SQL.CRUD.Issue.Delete")
+      {
+        new Query.Param("C_Project", C_Project),
+        new Query.Param("C_Issue", C_Issue)
+      };
+    }
+    
+    public static Query ReopenIssue(ulong C_Project, ulong C_Issue)
+    {
+      return new Query("SQL.CRUD.Issue.Reopen")
+      {
+        new Query.Param("C_Project", C_Project),
+        new Query.Param("C_Issue", C_Issue)
+      };
+    }
     #endregion Issues
 
     #region Components

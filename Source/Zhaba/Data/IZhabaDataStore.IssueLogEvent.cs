@@ -1,18 +1,13 @@
 ﻿using System;
-
-using NFX.DataAccess;
-using NFX.ApplicationModel.Pile;
 using NFX.DataAccess.CRUD;
-
-using Zhaba.Data.Rows;
 
 namespace Zhaba.Data
 {
- 
-  
+
+
   public abstract class IssueLogEvent : TypedRow
   {
-    [Field(required: true)] 
+    [Field(required: true)]
     public ulong C_Issue { get; set; }
 
     [Field(required: true)]
@@ -20,9 +15,6 @@ namespace Zhaba.Data
 
     [Field(required: true)]
     public DateTime DateUTC { get; set; }
-
-    [Field(required: true)]
-    public ulong C_Category { get; set; }
 
   }
 
@@ -34,9 +26,46 @@ namespace Zhaba.Data
     [Field(required: true)]
     public ulong Priority { get; set; }
 
+    [Field(required: true)]
+    public ulong C_Category { get; set; }
+
+  }
+
+  public sealed class EditIssueEvent : IssueLogEvent
+  {
+    [Field(required: true)]
+    public ulong C_Milestone { get; set; }
+
+    [Field(required: true)]
+    public ulong Priority { get; set; }
+
+    [Field(required: true)]
+    public ulong C_Category { get; set; }
+
+  }
+
+  public sealed class AssignIssueEvent : IssueLogEvent
+  {
+    [Field(required: false)]
+    public string Note { get; set; }
   }
 
   public sealed class CloseIssueEvent : IssueLogEvent
+  {
+
+  }
+
+  public sealed class ReopenIssueEvent : IssueLogEvent
+  {
+
+  }
+
+  public sealed class DoneIssueEvent : IssueLogEvent
+  {
+
+  }
+
+  public sealed class DeferIssueEvent : IssueLogEvent
   {
 
   }
@@ -50,10 +79,19 @@ namespace Zhaba.Data
     public string Description { get; set; }
   }
 
-  public sealed class AssignIssueEvent :IssueLogEvent
+  public sealed class ChangePriorityIssueEvent : IssueLogEvent
   {
-    [Field(required: false)]
-    public string Note { get; set; }
+    [Field(required: true)]
+    public ulong C_Milestone { get; set; }
+
+    [Field(required: true)]
+    public ulong Priority { get; set; }
+  }
+
+  public sealed class ChangeCategoryIssueEvent : IssueLogEvent
+  {
+    [Field(required: true)]
+    public ulong C_Category { get; set; } 
   }
 
 }

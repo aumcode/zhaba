@@ -96,6 +96,8 @@
     <EmbeddedResource Include="SQL\CRUD\User\ByID.mys.sql" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="SQL\CRUD\Issue\Reopen.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\Issue\Delete.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\User\FindAllActiveUserAndAssignedOnDate.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\IssueLog\FindMilestoneByIssue.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\User\FindAllActiveUserAndNotAssignedOnDate.mys.sql" />
