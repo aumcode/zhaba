@@ -28,7 +28,7 @@ namespace Zhaba.Data.Forms
       }
       else 
       {
-        Open_TS = DateTime.Now;
+        Open_TS = DateTime.UtcNow;
       }
     }
     #endregion
@@ -53,11 +53,27 @@ namespace Zhaba.Data.Forms
     public string Note { get; set; }
 
     public IssueRow Issue { get { return m_Issue; } }
-    public ulong IssueID { get { return m_Issue.Counter; } } 
+    public ulong IssueID { get { return m_Issue.Counter; } }
 
     #endregion
 
     #region Public
+
+    public override JSONDataMap GetClientFieldValueList(object callerContext, Schema.FieldDef fdef, string targetName, string isoLang)
+    {
+      var user = fdef.Name.EqualsIgnoreCase("C_User");
+      JSONDataMap result = null;
+      if (user)
+      {
+        var users = ZApp.Data.CRUD.LoadEnumerable<UserForPM>(QUser.FindAllActiveUserAndNotAssignedOnDate<UserForPM>(Issue.Counter, DateTime.UtcNow));
+        result = new JSONDataMap();
+        foreach (UserForPM item in users)
+        {
+          result.Add(item.Counter.ToString(), item.FullName);
+        }
+      }
+      return result;
+    }
 
     #endregion
 
@@ -80,6 +96,23 @@ namespace Zhaba.Data.Forms
         {
           ZApp.Data.CRUD.Upsert(row);
           saveResult = row;
+
+          var note = "";
+          var query = QUser.FindAllActiveUserAndAssignedOnDate<UserRow>(Issue.Counter, DateTime.UtcNow);
+          var usrs = ZApp.Data.CRUD.LoadEnumerable<UserRow>(query);
+          foreach(UserRow item in usrs) 
+          {
+            note += item.Login + "; ";
+          }
+
+          AssignIssueEvent evt = new AssignIssueEvent() 
+          {
+            C_Issue = Issue.Counter,
+            C_User = ZhabaUser.DataRow.Counter,
+            DateUTC = DateTime.UtcNow,
+            Note = note 
+          };
+          ZApp.Data.IssueLog.WriteEvent(evt);
         }
 
       } 
@@ -96,21 +129,7 @@ namespace Zhaba.Data.Forms
       m_Issue = issue;
     }
 
-    public override JSONDataMap GetClientFieldValueList(object callerContext, Schema.FieldDef fdef, string targetName, string isoLang) 
-    {
-      var user = fdef.Name.EqualsIgnoreCase("C_User");
-      JSONDataMap result = null;
-      if (user) 
-      {
-        var users =  ZApp.Data.CRUD.LoadEnumerable<UserForPM>(QUser.FindAllActiveUserAndNotAssignedOnDate<UserForPM>(Issue.Counter, DateTime.Now)) ;
-        result = new JSONDataMap();
-        foreach (UserForPM item in users)
-        {
-          result.Add(item.Counter.ToString(), item.FullName);
-        }
-      }
-      return result;
-    }
+   
     #endregion
   }
 }

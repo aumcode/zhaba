@@ -39,5 +39,15 @@ namespace Zhaba.Data.QueryBuilders
         new Query.Param("DateUTC", DateUTC)
       };
     }
+
+    public static Query<TRow> FindAllActiveUserAndAssignedOnDate<TRow>(ulong C_Issue, DateTime DateUTC) where TRow : Row
+    {
+      return new Query<TRow>("SQL.CRUD.User.FindAllActiveUserAndAssignedOnDate")
+      {
+        new Query.Param("C_Issue", C_Issue),
+        new Query.Param("DateUTC", DateUTC)
+      };
+    }
+
   }
 }
