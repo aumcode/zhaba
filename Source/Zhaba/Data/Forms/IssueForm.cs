@@ -153,15 +153,28 @@ namespace Zhaba.Data.Forms
 
       try
       {
-        CreateIssueEvent evt = new CreateIssueEvent()
-        {
-          C_Issue = row.Counter,
-          C_Milestone = Convert.ToUInt64(this.C_Milestone),
-          C_User = ZhabaUser.DataRow.Counter,
-          DateUTC = DateTime.UtcNow,
-          C_Category = Convert.ToUInt64(this.C_Category),
-          Priority = this.Priority
-        };
+        IssueLogEvent evt;
+        if (FormMode == FormMode.Insert)
+          evt = new CreateIssueEvent()
+          {
+            C_Issue = row.Counter,
+            C_Milestone = Convert.ToUInt64(this.C_Milestone),
+            C_User = ZhabaUser.DataRow.Counter,
+            DateUTC = DateTime.UtcNow,
+            C_Category = Convert.ToUInt64(this.C_Category),
+            Priority = this.Priority
+          };
+        else
+          evt = new EditIssueEvent()
+          {
+            C_Issue = row.Counter,
+            C_Milestone = Convert.ToUInt64(this.C_Milestone),
+            C_User = ZhabaUser.DataRow.Counter,
+            DateUTC = DateTime.UtcNow,
+            C_Category = Convert.ToUInt64(this.C_Category),
+            Priority = this.Priority
+          };
+
         ZApp.Data.IssueLog.WriteLogEvent(evt);
       }
       catch (Exception ex)

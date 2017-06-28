@@ -46,58 +46,102 @@ namespace Zhaba.DataLogic
 
     private void write(CreateIssueEvent evt)
     {
-      using (var tran = ZApp.Data.CRUD.BeginTransaction())
-      {
-        IssueLogRow newRow = new IssueLogRow(RowPKAction.CtorGenerateNewID) { Status = ZhabaIssueStatus.NEW };
-        IssueLogRow oldRow = tran.LoadRow(QIssueLog.FindLastIssueLogByIssue<IssueLogRow>(evt.C_Issue));
-        if (oldRow != null)
-        {
-          oldRow.CopyFields(newRow, fieldFilter: (n, f) => f.Name != "Counter");
-        }
-        newRow.C_Issue = evt.C_Issue;
-        newRow.C_Operator = evt.C_User;
-        newRow.Status_Date = evt.DateUTC;
-        newRow.C_Category = evt.C_Category;
-        newRow.C_Milestone = evt.C_Milestone;
-        newRow.Completeness = 0;
-        newRow.Priority = evt.Priority;
-        tran.Insert(newRow);
-        tran.Commit();
-      }
+      IssueLogRow newRow = NewIssueLog(evt, ZhabaIssueStatus.NEW);
+      newRow.C_Category = evt.C_Category;
+      newRow.C_Milestone = evt.C_Milestone;
+      newRow.Completeness = 0;
+      newRow.Priority = evt.Priority;
+      ZApp.Data.CRUD.Insert(newRow);
     }
 
+    private void write(EditIssueEvent evt)
+    {
+      IssueLogRow newRow = NewIssueLog(evt);
+      newRow.C_Category = evt.C_Category;
+      newRow.C_Milestone = evt.C_Milestone;
+      newRow.Completeness = 0;
+      newRow.Priority = evt.Priority;
+      newRow.Status = newRow.Status ?? ZhabaIssueStatus.NEW;
+      ZApp.Data.CRUD.Insert(newRow);
+    }
     private void write(ProceedIssueEvent evt) 
     {
-      IssueLogRow oldRow = ZApp.Data.CRUD.LoadRow<IssueLogRow>(QIssueLog.FindLastIssueLogByIssue<IssueLogRow>(evt.C_Issue));
-      if (oldRow == null) return;
-
-      IssueLogRow newRow = new IssueLogRow(RowPKAction.CtorGenerateNewID) { Status = ZhabaIssueStatus.DONE };
-      oldRow.CopyFields(newRow, fieldFilter: (n, f) => f.Name != "Counter");
-      newRow.C_Issue = evt.C_Issue;
-      newRow.C_Operator = evt.C_User;
-      newRow.Status_Date = evt.DateUTC;
-
+      IssueLogRow newRow = NewIssueLog(evt);
       newRow.Completeness = evt.Completeness;
       newRow.Description = evt.Description;
-
       ZApp.Data.CRUD.Insert(newRow);
-
     }
 
     private void write(AssignIssueEvent evt)
     {
-      IssueLogRow OldRow = ZApp.Data.CRUD.LoadRow<IssueLogRow>(QIssueLog.FindLastIssueLogByIssue<IssueLogRow>(evt.C_Issue));
-      if (OldRow == null) return;
+        IssueLogRow newRow = NewIssueLog(evt, ZhabaIssueStatus.ASSIGNED);
+        newRow.Note = evt.Note;
+        ZApp.Data.CRUD.Insert(newRow);
+    }
 
-      IssueLogRow NewRow = new IssueLogRow(RowPKAction.CtorGenerateNewID) { Status = ZhabaIssueStatus.ASSIGNED };
-      OldRow.CopyFields(NewRow, fieldFilter: (n, f) => f.Name != "Counter" && f.Name != "Status");
-      NewRow.C_Issue = evt.C_Issue;
-      NewRow.C_Operator = evt.C_User;
-      NewRow.Status_Date = evt.DateUTC;
+    private void write(CloseIssueEvent evt) 
+    {
+      IssueLogRow newRow = NewIssueLog(evt, ZhabaIssueStatus.CLOSED);
+      ZApp.Data.CRUD.Insert(newRow);
+    }
 
-      NewRow.Note = evt.Note;
+    private void write(ReopenIssueEvent evt) 
+    {
+      IssueLogRow newRow = NewIssueLog(evt,ZhabaIssueStatus.REOPEN);
+      newRow.C_Category = evt.C_Category;
+      newRow.C_Milestone = evt.C_Milestone;
+      newRow.Completeness = 0;
+      newRow.Priority = evt.Priority;
+      ZApp.Data.CRUD.Insert(newRow);
+    }
 
-      ZApp.Data.CRUD.Insert(NewRow);
+    private void write(DeferIssueEvent evt)
+    {
+      IssueLogRow newRow = NewIssueLog(evt, ZhabaIssueStatus.DEFER);
+      ZApp.Data.CRUD.Insert(newRow);
+    }
+
+    private void write(DoneIssueEvent evt)
+    {
+      IssueLogRow newRow = NewIssueLog(evt, ZhabaIssueStatus.DONE);
+      ZApp.Data.CRUD.Insert(newRow);
+    }
+
+    private void write(ChangePriorityIssueEvent evt)
+    {
+      IssueLogRow newRow = NewIssueLog(evt);
+      newRow.Priority = evt.Priority;
+      ZApp.Data.CRUD.Insert(newRow);
+    }
+
+    private void write(ChangeCategoryIssueEvent evt)
+    {
+      IssueLogRow newRow = NewIssueLog(evt);
+      newRow.C_Category = evt.C_Category;
+      ZApp.Data.CRUD.Insert(newRow);
+    }
+
+    private IssueLogRow NewIssueLog(IssueLogEvent evt, string status = null)
+    {
+      IssueLogRow result = new IssueLogRow(RowPKAction.CtorGenerateNewID) 
+      {
+        C_Issue = evt.C_Issue,
+        C_Operator = evt.C_User,
+        Status_Date = evt.DateUTC
+      };
+      IssueLogRow oldRow = ZApp.Data.CRUD.LoadRow<IssueLogRow>(QIssueLog.FindLastIssueLogByIssue<IssueLogRow>(evt.C_Issue));
+      if (oldRow != null)
+      {
+        oldRow.CopyFields(result,
+          fieldFilter: (n, f) =>
+              f.Name != "Counter" &&
+              f.Name != "C_Issue" &&
+              f.Name != "C_Operator" &&
+              f.Name != "Status_Date"
+        );
+      }
+      if (status != null) result.Status = status;
+      return result;
     }
 
     #endregion
