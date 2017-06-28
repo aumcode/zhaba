@@ -1,7 +1,11 @@
 ﻿using System;
+using NFX;
 using NFX.DataAccess.CRUD;
+using NFX.Serialization.JSON;
+using Zhaba.Data.Domains;
 using Zhaba.Data.Forms;
 using Zhaba.Data.QueryBuilders;
+using Zhaba.Data.Rows;
 
 namespace Zhaba.Data.Filters
 {
@@ -9,21 +13,46 @@ namespace Zhaba.Data.Filters
   {
     #region Nested
 
-    private class TaskListRow : TypedRow
+    private class TaskListFilterRow : TypedRow
     {
+      private string _status;
+
       [Field]
       public ulong Counter { get; set; }
+
       [Field]
       public string Name { get; set; }
+
+      [Field]
+      public string Category_Name { get; set; }
+
       [Field]
       public string Description { get; set; }
+
+      [Field]
+      public string Status
+      {
+        get { return ZhabaIssueStatus.MapDescription(_status); }
+        set { _status = value; }
+      }
+
+      [Field]
+      public DateTime Complete_Date { get; set; }
+
+      [Field]
+      public DateTime Start_Date { get; set; }
+
+      [Field]
+      public DateTime Plan_Date { get; set; }
+
+      [Field]
+      public int Completeness { get; set; }
     }
 
     #endregion
 
-
     [Field(valueList: "Name:Name Ascending,-Name:Name Descending",
-           metadata: "Description='Sort By' Hint='Sort area list by'")]
+           metadata: "Description='Sort By' Hint='Sort component list by'")]
     public string OrderBy { get; set; }
 
     [Field(metadata: "Description='Name' Placeholder='Name' Hint='Area Name'")]
@@ -32,12 +61,37 @@ namespace Zhaba.Data.Filters
     [Field(metadata: "Description='Description' Placeholder='Description' Hint='Area Description'")]
     public string Description { get; set; }
 
+    [Field(metadata: "Description='Category name' Placeholder='CategoryName' Hint='Category name'")]
+    public string C_Category { get; set; }
+    
+    [Field(metadata: "Description='Filter' Placeholder='Filter' Hint='Filter'")]
+    public string Filter { get; set; }
+
+    public override JSONDataMap GetClientFieldValueList(object callerContext, Schema.FieldDef fdef, string targetName, string isoLang)
+    {
+      JSONDataMap result = new JSONDataMap();
+
+      switch (fdef.Name)
+      {
+        case "C_Category":
+          var categories = ZApp.Data.CRUD.LoadEnumerable(QCategory.GetCategories<CategoryRow>());
+          foreach (var item in categories)
+            result.Add(item.Counter.ToString(), item.Name);
+          return result;
+        case "C_Area":
+          var areas = ZApp.Data.CRUD.LoadEnumerable(QCommon.AllAreas<AreaRow>());
+          foreach (var item in areas)
+            result.Add(item.Counter.ToString(), item.Name);
+          return result;
+        default:
+          return null;
+      }
+    }
 
     protected override Exception DoSave(out object saveResult)
     {
-      var qry = QTask.TasksByFilter<TaskListFilter>(this);
+      var qry = QTask.TasksByFilter<TaskListFilterRow>(this);
       saveResult = ZApp.Data.CRUD.LoadOneRowset(qry);
-
       return null;
     }
   }

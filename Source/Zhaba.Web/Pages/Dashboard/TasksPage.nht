@@ -1,0 +1,186 @@
+﻿#<laconf>
+ compiler
+ {
+   using { ns="System" }
+   using { ns="System.Linq" }
+   using { ns="System.Collections.Generic" }
+   using { ns="NFX" }
+   using { ns="NFX.Wave" }
+   using { ns="NFX.Wave.Templatization" }
+   using { ns="Zhaba" }
+   using { ns="Zhaba.Data.Rows" }
+   base-class-name="Zhaba.Web.Pages.Master"
+   namespace="Zhaba.Web.Pages.Dashboard"
+ }
+#</laconf>
+
+#[override renderStyles()]
+<style>
+  .wvDetailsContentHidden{
+    display:none;
+  }
+
+  .expander {
+    border: 2px solid gray;
+    background : green;
+  }
+
+  .header {
+    color: white;
+  }
+
+  .text {
+    
+  }
+
+  .container {
+    display : inline;
+    margin: 5px;
+  }
+
+  .details {
+    height : 60px;
+    background : white;
+  }
+</style>
+
+#[override renderBody()]
+<div class="grid">
+    <div id="title">
+      <div>Tasks</div>
+    </div>
+    <form id="frmFilter" data-wv-rid="V1" novalidate>
+      <div class="fView" data-wv-fname="Name"></div>
+      <div class="fView" data-wv-fname="Description"></div>
+    </form>
+    <div id="grid"></div>
+</div>
+
+#[override renderScripts()]
+<script>
+  WAVE.GUI.SUPPRESS_UNLOAD_CHECK = false;
+
+  var tasks, categories;
+  var REC = null;
+  var RECV = null;
+
+  WAVE.ajaxGetJSON(
+    "/dashboard/tasks",
+    null,
+    function (resp) {
+      let data = JSON.parse(resp);
+      tasks = data.Rows;
+      console.log(tasks);
+      renderTasks("grid");
+      initDetails();
+      initTexts();
+    },
+    function (resp) { console.log("error"); },
+    function (resp) { console.log("fail"); });
+
+  WAVE.ajaxGetJSON(
+    "/dashboard/taskfilter",
+    null,
+    function (resp) { 
+      REC = new WAVE.RecordModel.Record(JSON.parse(resp));
+      RVIEW = new WAVE.RecordModel.RecordView("V1", REC);
+
+      REC.eventBind(WAVE.RecordModel.EVT_DATA_CHANGE, function(sender, phase, oldv, newv){
+        if (phase==WAVE.RecordModel.EVT_PHASE_AFTER) scheduleFetch();
+      });
+    },
+    function (resp) { console.log("error"); },
+    function (resp) { console.log("fail"); });
+
+  var timerID = null;
+
+  function scheduleFetch(){
+    WAVE.ajaxPostJSON(
+      "/dashboard/taskfilter",
+      REC.data(),
+      function (resp) {
+        let data = JSON.parse(resp);
+        tasks = data.Rows;
+        console.log(tasks);
+        renderTasks("grid");
+        initDetails();
+      },
+      function (resp) { console.log("error"); },
+      function (resp) { console.log("fail"); });
+  }
+
+  function renderTasks(root){
+    clearGrid();
+    /***
+    div{
+      "? for(var i = 0, l = tasks.length; i<l; i++)" {
+          div
+          {
+              id=?tasks[i].Counter
+              class="expander"
+              div
+              {
+                class="header"
+                div="Name:"{ class="container" }
+                div="?tasks[i].Name"{ class="container" }
+
+                div="Status:"{ class="container" }
+                div="?tasks[i].Status"{ class="container" }
+
+                div="Start date:"{ class="container" }
+                div="?WAVE.dateTimeToString(tasks[i].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="container" }
+
+                div="Complete date:"{ class="container" }
+                div="?WAVE.dateTimeToString(tasks[i].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="container" }
+
+                div="Plan date:"{ class="container" }
+                div="?WAVE.dateTimeToString(tasks[i].Plan_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="container" }
+
+                div="Progress:"{ class="container" }
+                input{ class="text" type="text" value=?tasks[i].Completeness }
+              }
+              div
+              {
+                class="details"
+                div="Description:"{ style="margin-left : 5px" }
+                div="?tasks[i].Description"{ style="margin : 5px" }
+              }
+          }
+      }
+    }
+    ***/
+  }
+
+  function initDetails(){
+    var expanders = document.getElementsByClassName("expander");
+    for(var i = 0 , l=expanders.length; i<l; i++){
+      var details = new WAVE.GUI.Details({ 
+          titleCtrl: expanders[i].firstChild, 
+          contentCtrl: expanders[i].lastChild,
+          hideOnClick: false
+      });
+    }
+  }
+
+  function textChanged(e){
+      WAVE.ajaxPostJSON(
+      "/dashboard/changeprogress",
+      e.target.value,
+      function (resp) { console.log("success");},
+      function (resp) { console.log("error"); },
+      function (resp) { console.log("fail"); });
+  }
+
+  function initTexts(){
+    var texts = document.getElementsByClassName("text");
+    for(var i = 0 , l=texts.length; i<l; i++){
+      var text = texts[i];
+      WAVE.addEventHandler(text, "change", textChanged);
+    }
+  }
+
+  function clearGrid(){
+    document.getElementById("grid").innerHTML = "";
+  }
+
+</script>

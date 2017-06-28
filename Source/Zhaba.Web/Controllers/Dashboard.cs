@@ -2,24 +2,29 @@
 using System.Collections.Generic;
 
 using NFX;
+using NFX.DataAccess.CRUD;
+using NFX.Serialization.JSON;
 using NFX.Wave;
 using NFX.Wave.MVC;
-
+using Zhaba.Data.Filters;
 using Zhaba.Data.Forms;
 using Zhaba.Data.QueryBuilders;
 using Zhaba.Data.Rows;
 using Zhaba.Security.Permissions;
+using Zhaba.Web.Controls;
 using Zhaba.Web.Pages.Dashboard;
+using Zhaba.Web.Pages.List;
+using ProjectsPage = Zhaba.Web.Pages.Dashboard.ProjectsPage;
 
 namespace Zhaba.Web.Controllers
 {
   [SiteUserPermission]
-  public class Dashboard : ZhabaController
+  public class Dashboard : ZhabaDataSetupController
   {
     [Action]
     public object Index()
     {
-      return new DashboardPage();
+      return new TasksPage();
     }
 
     [Action]
@@ -32,6 +37,60 @@ namespace Zhaba.Web.Controllers
         return projects;
       else
         return new ProjectsPage(projects);
+    }
+
+    [Action("tasks", 0, "match { methods=POST,GET accept-json=true}")]
+    public object tasks_GET()
+    {
+      var filter = new TaskListFilter();
+      object tasks;
+      filter.Save(out tasks);
+      if (WorkContext.RequestedJSON)
+        return new JSONResult(tasks, JSONWritingOptions.CompactRowsAsMap);
+      return null;
+    }
+
+    [Action("categories", 0, "match { methods=POST,GET accept-json=true}")]
+    public object categories_GET()
+    {
+      var issues = ZApp.Data.CRUD.LoadEnumerable(QCategory.GetCategories<CategoryRow>());
+      return new JSONResult(issues, JSONWritingOptions.CompactRowsAsMap);
+    }
+
+    /// <summary>
+    /// Create json string from object model
+    /// </summary>
+    /// <param name="model">model</param>
+    /// <param name="validationError">error</param>
+    /// <returns>JSON string</returns>
+    public static string FormJSON<TModel>(TModel model, Exception validationError = null)
+        where TModel : TypedRow
+    {
+      var generator = new NFX.Wave.Client.RecordModelGenerator();
+      return generator.RowToRecordInitJSON(model, validationError).ToJSON();
+    }
+
+    [Action("taskFilter", 0, "match { methods=GET accept-json=true}")]
+    public object taskFilter_GET()
+    {
+      var filter = new TaskListFilter();
+      if (WorkContext.RequestedJSON)
+        return FormJSON(filter);
+      return null;
+    }
+
+    [Action("taskFilter", 0, "match { methods=POST accept-json=true}")]
+    public object taskFilter_POST(TaskListFilter filter)
+    {
+      object data;
+      filter.Save(out data);
+      return new JSONResult(data, JSONWritingOptions.CompactRowsAsMap);
+    }
+
+    [Action("changeProgress", 0, "match { methods=POST accept-json=true}")]
+    public void changeProgress_POST(ulong issueCounter, int value)
+    {
+      
     }
   }
 }
