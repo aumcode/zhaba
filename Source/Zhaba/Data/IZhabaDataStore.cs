@@ -5,6 +5,7 @@ using NFX.ApplicationModel.Pile;
 using NFX.DataAccess.CRUD;
 
 using Zhaba.Data.Rows;
+using Zhaba.Data.Forms;
 
 namespace Zhaba.Data
 {
@@ -15,7 +16,7 @@ namespace Zhaba.Data
     ICache Cache { get; }
 
     IUserLogic Users { get; }
-    IIssueLogic IssueLog { get; }
+    IIssueLogic Issue { get; }
   }
 
 
@@ -44,6 +45,10 @@ namespace Zhaba.Data
   public interface IIssueLogic : IStoreLogic
   {
     void WriteLogEvent(IssueLogEvent evt);
+    Exception WriteIssueForm(IssueForm from, out object saveResult);
+    Exception WriteIssueAssignForm(IssueAssignForm from, out object saveResult);
+    void CloseIssue(ulong C_Project, ulong C_Issue, ulong C_User);
+    void ReOpenIssue(ulong C_Project, ulong C_Issue, ulong C_User);
   }
 
   

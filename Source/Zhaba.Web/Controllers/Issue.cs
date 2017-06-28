@@ -75,6 +75,22 @@ namespace Zhaba.Web.Controllers
       return DataSetup_ItemDetails<IssueForm, IssuePage>(new object[] { ProjectRow, id }, form, URIS.ForPROJECT_ISSUES(ProjectRow.Counter));
     }
 
+    [Action("close", 0, "match { methods=DELETE accept-json=true }")]
+    [PMPermission]
+    public object Index_DELETE()
+    {
+      ZApp.Data.Issue.CloseIssue(ProjectRow.Counter, IssueRow.Counter, ZhabaUser.DataRow.Counter);
+      return NFX.Wave.SysConsts.JSON_RESULT_OK;
+    }
+
+    [Action("reopen", 0, "match { methods=GET accept-json=true }")]
+    [PMPermission]
+    public object Index_REOPEN()
+    {
+      ZApp.Data.Issue.ReOpenIssue(ProjectRow.Counter, IssueRow.Counter, ZhabaUser.DataRow.Counter);
+      return NFX.Wave.SysConsts.JSON_RESULT_OK;
+    }
+
     [Action("issueassign", 0, "match { methods=POST,GET }")]
     [PMPermission]
     public object IssueAssign(ulong? id, IssueAssignForm form)

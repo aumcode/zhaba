@@ -57,14 +57,7 @@ namespace Zhaba.Data
 
   public sealed class ReopenIssueEvent : IssueLogEvent
   {
-    [Field(required: true)]
-    public ulong C_Milestone { get; set; }
 
-    [Field(required: true)]
-    public ulong Priority { get; set; }
-
-    [Field(required: true)]
-    public ulong C_Category { get; set; }
   }
 
   public sealed class DoneIssueEvent : IssueLogEvent

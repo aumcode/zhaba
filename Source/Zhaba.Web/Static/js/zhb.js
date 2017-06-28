@@ -79,6 +79,14 @@ var ZHB = (function () {
 
     ForISSUE_ISSUEASSIGN: function (pid, iid, id) {
       return issue_setup(pid, iid) + "/issueassign?id={0}".args(id);
+    },
+
+    ForDELETE_ISSUE: function (pid, iid) {
+      return issue_setup(pid, iid) + "/close";
+    },
+
+    ForREOPEN_ISSUE: function (pid, iid) {
+      return issue_setup(pid, iid) + "/reopen";
     }
   };
 
