@@ -53,7 +53,6 @@
     <Compile Include="Controllers\Project.cs" />
     <Compile Include="Controllers\Home.cs" />
     <Compile Include="Controllers\ProjectControllerBase.cs" />
-    <Compile Include="Controllers\Task.cs" />
     <Compile Include="Controllers\User.cs" />
     <Compile Include="Controls\Grids\AreaGrid.nht.auto.cs">
       <DependentUpon>AreaGrid.nht</DependentUpon>
@@ -90,6 +89,9 @@
     </Compile>
     <Compile Include="Pages\Dashboard\ProjectsPage.nht.auto.cs">
       <DependentUpon>ProjectsPage.nht</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Dashboard\TasksPage.nht.auto.cs">
+      <DependentUpon>TasksPage.nht</DependentUpon>
     </Compile>
     <Compile Include="Pages\Edit\AreaPage.nht.auto.cs">
       <DependentUpon>AreaPage.nht</DependentUpon>
@@ -170,6 +172,7 @@
     <None Include="Controls\__Masters\TableGrid.nht" />
     <None Include="packages.config" />
     <None Include="Pages\Dashboard\DashboardPage.nht" />
+    <None Include="Pages\Dashboard\TasksPage.nht" />
     <None Include="Pages\Edit\AreaPage.nht" />
     <None Include="Pages\Edit\CategoryPage.nht" />
     <None Include="Pages\Edit\IssueAssignPage.nht" />

@@ -108,6 +108,7 @@
     <EmbeddedResource Include="SQL\CRUD\Category\ByID.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\Area\Delete.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\Category\Delete.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\Category\All.mys.sql" />
     <Content Include="SQL\CRUD\Component\ByProjectID.mys.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
