@@ -18,7 +18,7 @@ namespace Zhaba.Web.Controllers
     [Action]
     public object Index()
     {
-      return new Redirect(URIS.DASHBOARD_TASKS);
+      return new Redirect(URIS.DASHBOARD);
     }
     
     [Action]

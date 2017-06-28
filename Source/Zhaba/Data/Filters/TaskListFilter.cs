@@ -71,21 +71,7 @@ namespace Zhaba.Data.Filters
     {
       JSONDataMap result = new JSONDataMap();
 
-      switch (fdef.Name)
-      {
-        case "C_Category":
-          var categories = ZApp.Data.CRUD.LoadEnumerable(QCategory.GetCategories<CategoryRow>());
-          foreach (var item in categories)
-            result.Add(item.Counter.ToString(), item.Name);
-          return result;
-        case "C_Area":
-          var areas = ZApp.Data.CRUD.LoadEnumerable(QCommon.AllAreas<AreaRow>());
-          foreach (var item in areas)
-            result.Add(item.Counter.ToString(), item.Name);
-          return result;
-        default:
-          return null;
-      }
+      return null;
     }
 
     protected override Exception DoSave(out object saveResult)

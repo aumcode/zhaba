@@ -50,13 +50,6 @@ namespace Zhaba.Web.Controllers
       return null;
     }
 
-    [Action("categories", 0, "match { methods=POST,GET accept-json=true}")]
-    public object categories_GET()
-    {
-      var issues = ZApp.Data.CRUD.LoadEnumerable(QCategory.GetCategories<CategoryRow>());
-      return new JSONResult(issues, JSONWritingOptions.CompactRowsAsMap);
-    }
-
     /// <summary>
     /// Create json string from object model
     /// </summary>
