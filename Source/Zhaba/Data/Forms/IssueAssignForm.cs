@@ -82,41 +82,43 @@ namespace Zhaba.Data.Forms
     {
       Exception result = null;
       saveResult = null;
-      try 
+      try
       {
-        var counter = RoundtripBag[ITEM_ID_BAG_PARAM].AsNullableULong();
-        IssueAssignRow row = FormMode == FormMode.Edit && counter.HasValue  
-        ? ZApp.Data.CRUD.LoadRow(QIssueAssign.findIssueAssignByCounter<IssueAssignRow>(counter.Value)) 
-        : new IssueAssignRow(RowPKAction.Default) { C_Issue = Issue.Counter, C_Open_Oper = ZhabaUser.DataRow.Counter};
-        
-        CopyFields(row, fieldFilter: (n, f) => f.Name != "C_Open_Oper" && f.Name != "C_Close_Oper" && f.Name != "C_Issue");
-
-        result = row.ValidateAndPrepareForStore();
-        if (result == null) 
+        using (var trn = ZApp.Data.CRUD.BeginTransaction())
         {
-          ZApp.Data.CRUD.Upsert(row);
-          saveResult = row;
+          var counter = RoundtripBag[ITEM_ID_BAG_PARAM].AsNullableULong();
+          IssueAssignRow row = FormMode == FormMode.Edit && counter.HasValue
+          ? trn.LoadRow(QIssueAssign.findIssueAssignByCounter<IssueAssignRow>(counter.Value))
+          : new IssueAssignRow(RowPKAction.Default) { C_Issue = Issue.Counter, C_Open_Oper = ZhabaUser.DataRow.Counter };
 
-          var note = "";
-          var query = QUser.FindAllActiveUserAndAssignedOnDate<UserRow>(Issue.Counter, DateTime.UtcNow);
-          var usrs = ZApp.Data.CRUD.LoadEnumerable<UserRow>(query);
-          foreach(UserRow item in usrs) 
+          CopyFields(row, fieldFilter: (n, f) => f.Name != "C_Open_Oper" && f.Name != "C_Close_Oper" && f.Name != "C_Issue");
+
+          result = row.ValidateAndPrepareForStore();
+          if (result == null)
           {
-            note += item.Login + "; ";
+            trn.Upsert(row);
+            saveResult = row;
+
+            var note = "";
+            var query = QUser.FindAllActiveUserAndAssignedOnDate<UserRow>(Issue.Counter, DateTime.UtcNow);
+            var usrs = trn.LoadEnumerable<UserRow>(query);
+            foreach (UserRow item in usrs)
+            {
+              note += item.Login + "; ";
+            }
+
+            AssignIssueEvent evt = new AssignIssueEvent()
+            {
+              C_Issue = Issue.Counter,
+              C_User = ZhabaUser.DataRow.Counter,
+              DateUTC = DateTime.UtcNow,
+              Note = note
+            };
+            ZApp.Data.IssueLog.WriteLogEvent(evt);
           }
-
-          AssignIssueEvent evt = new AssignIssueEvent() 
-          {
-            C_Issue = Issue.Counter,
-            C_User = ZhabaUser.DataRow.Counter,
-            DateUTC = DateTime.UtcNow,
-            Note = note 
-          };
-          ZApp.Data.IssueLog.WriteEvent(evt);
         }
-
-      } 
-      catch(Exception ex) 
+      }
+      catch (Exception ex)
       {
         result = ex;
       }

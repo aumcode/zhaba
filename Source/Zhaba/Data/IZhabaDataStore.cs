@@ -15,7 +15,7 @@ namespace Zhaba.Data
     ICache Cache { get; }
 
     IUserLogic Users { get; }
-    IIssueLogLogic IssueLog { get; }
+    IIssueLogic IssueLog { get; }
   }
 
 
@@ -41,9 +41,11 @@ namespace Zhaba.Data
   /// <summary>
   /// Work with Issue Log
   /// </summary>
-  public interface IIssueLogLogic : IStoreLogic
+  public interface IIssueLogic : IStoreLogic
   {
-    void WriteEvent(IssueLogEvent evt);
+    void WriteLogEvent(IssueLogEvent evt);
   }
+
+  
 
 }
