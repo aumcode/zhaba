@@ -53,6 +53,10 @@ namespace Zhaba.Data.Filters
 
       [Field]
       public string ProjectName { get; set; }
+
+      [Field]
+      public string Note { get; set; }
+
     }
 
     #endregion

@@ -147,6 +147,9 @@
 
                 div="Progress:"{ class="container" }
                 input{ class="text" type="text" value=?tasks[i].Completeness }
+
+                div="Assigned:"{ class="container" }
+                div="?tasks[i].Note"{ class="container" }
               }
               div
               {
