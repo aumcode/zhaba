@@ -47,6 +47,12 @@ namespace Zhaba.Data.Filters
 
       [Field]
       public int Completeness { get; set; }
+
+      [Field]
+      public int C_Project { get; set; }
+
+      [Field]
+      public string ProjectName { get; set; }
     }
 
     #endregion
