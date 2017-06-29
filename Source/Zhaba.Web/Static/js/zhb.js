@@ -87,7 +87,12 @@ var ZHB = (function () {
 
     ForREOPEN_ISSUE: function (pid, iid) {
       return issue_setup(pid, iid) + "/reopen";
+    },
+
+    ForDEFER_ISSUE: function (pid, iid) {
+      return issue_setup(pid, iid) + "/defer";
     }
+
   };
 
   if (!String.prototype.args) {

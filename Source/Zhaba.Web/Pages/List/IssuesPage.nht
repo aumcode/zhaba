@@ -32,6 +32,7 @@
   <a href="javascript:editIssue()" class="button">Edit</a>
   <a href="javascript:closeIssue()" class="button">Close</a>
   <a href="javascript:reopenIssue()" class="button">Reopen</a>
+  <a href="javascript:deferIssue()" class="button">Defer</a>
   <a href="javascript:showAreas()" class="button">Areas</a>
   <a href="javascript:showComponents()" class="button">Components</a>
   <a href="javascript:addAssignee()" class="button">Add Assignee</a>
@@ -109,6 +110,24 @@
     if (!grid || !grid.SELECTED_ROW_KEY || !grid.SELECTED_ROW_DATA) return;
 
     var link = ZHB.URIS.ForREOPEN_ISSUE("?[:Filter.ProjectCounter]", grid.SELECTED_ROW_KEY);
+    WAVE.ajaxCall(
+    'GET',
+    link,
+    null,
+    function (resp) { fetchData();  console.log("success"); },
+    function (resp) { console.log("error"); },
+    function (resp) { console.log("fail"); },
+    WAVE.CONTENT_TYPE_JSON_UTF8, 
+    WAVE.CONTENT_TYPE_JSON_UTF8
+    );
+
+  }
+
+  function deferIssue() {
+   var grid = WAVE.id("tblIssues");
+    if (!grid || !grid.SELECTED_ROW_KEY || !grid.SELECTED_ROW_DATA) return;
+
+    var link = ZHB.URIS.ForDEFER_ISSUE("?[:Filter.ProjectCounter]", grid.SELECTED_ROW_KEY);
     WAVE.ajaxCall(
     'GET',
     link,

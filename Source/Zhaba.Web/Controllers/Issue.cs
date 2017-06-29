@@ -83,11 +83,20 @@ namespace Zhaba.Web.Controllers
       return NFX.Wave.SysConsts.JSON_RESULT_OK;
     }
 
+
     [Action("reopen", 0, "match { methods=GET accept-json=true }")]
     [PMPermission]
     public object Index_REOPEN()
     {
       ZApp.Data.Issue.ReOpenIssue(ProjectRow.Counter, IssueRow.Counter, ZhabaUser.DataRow.Counter);
+      return NFX.Wave.SysConsts.JSON_RESULT_OK;
+    }
+
+    [Action("defer", 0, "match { methods=GET accept-json=true }")]
+    [PMPermission]
+    public object Defer()
+    {
+      ZApp.Data.Issue.DeferIssue(ProjectRow.Counter, IssueRow.Counter, ZhabaUser.DataRow.Counter);
       return NFX.Wave.SysConsts.JSON_RESULT_OK;
     }
 

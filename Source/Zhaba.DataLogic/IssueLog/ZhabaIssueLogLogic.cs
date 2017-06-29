@@ -22,6 +22,17 @@ namespace Zhaba.DataLogic
 
     #region Public
 
+    public void DeferIssue(ulong C_Project, ulong C_Issue, ulong C_User)
+    {
+      var evt = new DeferIssueEvent()
+      {
+        C_Issue = C_Issue,
+        C_User = C_User,
+        DateUTC = DateTime.UtcNow
+      };
+      write(evt);
+    }
+
     public void ReOpenIssue(ulong C_Project, ulong C_Issue, ulong C_User)
     {
       var query = QProject.ReopenIssue(C_Project, C_Issue);
@@ -234,11 +245,13 @@ namespace Zhaba.DataLogic
       newRow.Status = newRow.Status ?? ZhabaIssueStatus.NEW;
       ZApp.Data.CRUD.Insert(newRow);
     }
+
     private void write(ProceedIssueEvent evt) 
     {
       IssueLogRow newRow = NewIssueLog(evt);
       newRow.Completeness = evt.Completeness;
       newRow.Description = evt.Description;
+      if (evt.Completeness == 100) newRow.Status = ZhabaIssueStatus.DONE;
       ZApp.Data.CRUD.Insert(newRow);
     }
 

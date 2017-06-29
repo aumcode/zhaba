@@ -49,6 +49,7 @@ namespace Zhaba.Data
     Exception WriteIssueAssignForm(IssueAssignForm from, out object saveResult);
     void CloseIssue(ulong C_Project, ulong C_Issue, ulong C_User);
     void ReOpenIssue(ulong C_Project, ulong C_Issue, ulong C_User);
+    void DeferIssue(ulong C_Project, ulong C_Issue, ulong C_User);
   }
 
   
