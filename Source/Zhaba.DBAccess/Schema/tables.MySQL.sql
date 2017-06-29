@@ -102,6 +102,7 @@ create table `tbl_milestone`
  `START_DATE`     DATE            comment 'Milestone Start Date',
  `PLAN_DATE`      DATE            comment 'Milestone Plan Date',
  `COMPLETE_DATE`  DATE            comment 'Milestone Completeness Date',
+ `NOTE`           TEXT            comment 'Text Note',
   constraint `pk_tbl_milestone_counter` primary key (`COUNTER`),
   constraint `fk_tbl_milestone_project` foreign key (`C_PROJECT`) references `tbl_project`(`COUNTER`)
 )
@@ -245,7 +246,7 @@ create table `tbl_issueassign`
  `C_ISSUE`        BIGINT(8) UNSIGNED not null comment 'Issue',
  `C_USER`         BIGINT(8) UNSIGNED not null comment 'User',
  `OPEN_TS`        DATETIME       not null comment 'Issue assignment time for the user',
- `CLOSE_TS`       DATETIME        default '2500-01-01 00:00:00'   comment 'Issue colse time for the user',
+ `CLOSE_TS`       DATETIME        default '2500-01-01 00:00:00'   comment 'Issue close time for the user',
  `C_OPEN_OPER`    BIGINT(8) UNSIGNED not null comment 'Operator assignee',
  `C_CLOSE_OPER`   BIGINT(8) UNSIGNED  comment 'Operator assignee',
  `C_OPEN_MEETING` BIGINT(8) UNSIGNED  comment 'Open meeting',
