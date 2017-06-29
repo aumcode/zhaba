@@ -124,13 +124,10 @@
               div
               {
                 class="header"
-                div="ID:"{ class="container" }
                 div="?tasks[i].Counter"{ class="issue_id container" }
 
-                div="Project:"{ class="container" }
                 div="?tasks[i].ProjectName"{ class="container" }
 
-                div="Name:"{ class="container" }
                 div="?tasks[i].Name"{ class="container" }
 
                 div="Status:"{ class="container" }
