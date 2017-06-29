@@ -42,6 +42,9 @@
     height : 60px;
     background : white;
   }
+
+  .issue_id {
+  }
 </style>
 
 #[override renderBody()]
@@ -121,6 +124,9 @@
               div
               {
                 class="header"
+                div="ID:"{ class="container" }
+                div="?tasks[i].Counter"{ class="issue_id container" }
+
                 div="Name:"{ class="container" }
                 div="?tasks[i].Name"{ class="container" }
 
@@ -163,9 +169,15 @@
   }
 
   function textChanged(e){
+      var q = e.path[1];
+      var iid = 0;
+      if($(q).find('.issue_id').length == 1) {
+        iid = parseInt($(q).find('.issue_id')[0].outerText);
+      }
+      var data = { issueCounter : iid, value :  e.target.value}
       WAVE.ajaxPostJSON(
       "/dashboard/changeprogress",
-      e.target.value,
+      data,
       function (resp) { console.log("success");},
       function (resp) { console.log("error"); },
       function (resp) { console.log("fail"); });

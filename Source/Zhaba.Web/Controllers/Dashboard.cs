@@ -83,6 +83,7 @@ namespace Zhaba.Web.Controllers
     [Action("changeProgress", 0, "match { methods=POST accept-json=true}")]
     public void changeProgress_POST(ulong issueCounter, int value)
     {
+      ZApp.Data.Issue.ChangeProgess(ZhabaUser.DataRow.Counter, issueCounter, value);
       
     }
   }

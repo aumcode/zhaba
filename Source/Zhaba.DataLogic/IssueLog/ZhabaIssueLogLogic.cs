@@ -22,6 +22,27 @@ namespace Zhaba.DataLogic
 
     #region Public
 
+    public void ChangeProgess(ulong C_User, ulong issueCounter, int value, string description = null) 
+    {
+      var evt = new ProceedIssueEvent()
+      {
+        C_Issue = issueCounter,
+        C_User = C_User,
+        DateUTC = DateTime.UtcNow, 
+        Completeness = value,
+        Description = description
+      };
+      try 
+      {
+        write(evt);
+      }
+      catch(Exception ex)
+      {
+        App.Log.Write(new NFX.Log.Message(ex));
+      }
+      
+    }
+
     public void DeferIssue(ulong C_Project, ulong C_Issue, ulong C_User)
     {
       var evt = new DeferIssueEvent()
