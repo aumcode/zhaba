@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using MySql.Data.MySqlClient;
 using NFX;
 using NFX.DataAccess.MySQL;
@@ -39,26 +40,43 @@ where {0}";
     protected override void DoBuildCommandAndParms(MySQLCRUDQueryExecutionContext context, MySqlCommand cmd,
       TaskListFilter filter)
     {
-      var where = "(T1.STATUS_DATE = (Select MAX(STATUS_DATE) from tbl_issuelog as T2 where T1.C_ISSUE = T2.C_ISSUE)) ";
-      
-      if (filter.C_USER != null)
+      var where = "(T1.STATUS_DATE = (Select MAX(STATUS_DATE) from tbl_issuelog as T2 where (T1.C_ISSUE = T2.C_ISSUE) and (STATUS_DATE <= ?pDateUTC))) ";
+      DateTime asOf;
+      cmd.Parameters.AddWithValue("pDateUTC", DateTime.TryParse(filter.AsOf, out asOf) ? asOf : App.TimeSource.UTCNow.Date);
+
+      if (filter.Due.IsNotNullOrWhiteSpace())
+      {
+        var days = int.Parse(filter.Due);
+        
+        var end = asOf.Date;
+        var start = end.AddDays(-days);
+
+        where += "AND ((TM.PLAN_DATE between ?pSTART and ?pEND) OR (TM.PLAN_DATE < ?pSTART and T1.STATUS != 'C'))";
+        cmd.Parameters.AddWithValue("pSTART", start);
+        cmd.Parameters.AddWithValue("pEND", end);
+      }
+
+      if (filter.ProjectName.IsNotNullOrWhiteSpace())
+      {
+        where += "AND (TP.NAME like ?pPName)";
+        cmd.Parameters.AddWithValue("pPName", filter.ProjectName);
+      }
+
+      if (filter.C_USER.HasValue)
       {
         where += @"
-        AND 
-        (T1.C_ISSUE IN 
-          (SELECT C_ISSUE 
-           FROM tbl_issueassign 
-           WHERE 
-             C_USER = ?C_User AND 
-             ( OPEN_TS <= ?DateUTC AND
-              (?DateUTC < CLOSE_TS OR CLOSE_TS IS NULL)
-             )
-          )
-        ) ";
-
-        DateTime asOf;
-        cmd.Parameters.AddWithValue("C_User", filter.C_USER);
-        cmd.Parameters.AddWithValue("DateUTC", DateTime.TryParse(filter.AsOf, out asOf) ? asOf : App.TimeSource.UTCNow);
+          AND 
+          (T1.C_ISSUE IN 
+            (SELECT C_ISSUE 
+             FROM tbl_issueassign 
+             WHERE 
+               C_USER = ?pC_User AND 
+               ( OPEN_TS <= ?pDateUTC AND
+                (?pDateUTC < CLOSE_TS OR CLOSE_TS IS NULL)
+               )
+            )
+          ) ";
+        cmd.Parameters.AddWithValue("pC_User", filter.C_USER);
       }
 
       try
