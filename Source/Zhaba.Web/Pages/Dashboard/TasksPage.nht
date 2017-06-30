@@ -186,7 +186,7 @@ div.colspan>div>div
         div="Progress" {class="rTableHead"}
         div="Status" {class="rTableHead"}
         div="Start" {class="rTableHead"}
-        div="Plan/Die" {class="rTableHead"}
+        div="Plan/Due" {class="rTableHead"}
         div="Complete" {class="rTableHead"}
         div="Assigned" {class="rTableHead"}
         div="Project" {class="rTableHead"}
@@ -246,7 +246,7 @@ div.colspan>div>div
                       div="Progress" {class="rTableHead"}
                       div="Status" {class="rTableHead"}
                       div="Start" {class="rTableHead"}
-                      div="Plan/Die" {class="rTableHead"}
+                      div="Plan/Due" {class="rTableHead"}
                       div="Complete" {class="rTableHead"}
                       div="Assigned" {class="rTableHead"}
                       div="Project" {class="rTableHead"}
