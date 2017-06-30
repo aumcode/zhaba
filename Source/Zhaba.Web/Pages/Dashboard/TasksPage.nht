@@ -60,7 +60,7 @@ div.colspan>div
 div.colspan>div>div
 {
     position:relative;
-    width:500px;
+    width:1500px;
     overflow:hidden;
 }
 
@@ -138,7 +138,7 @@ div.colspan>div>div
       console.log(tasks);
       renderTasks("grid");
       initDetails();
-      initTexts();
+      // initTexts();
     },
     function (resp) { console.log("error"); },
     function (resp) { console.log("fail"); });
@@ -185,9 +185,9 @@ div.colspan>div>div
         div="ID" {class="rTableHead"}
         div="Progress" {class="rTableHead"}
         div="Status" {class="rTableHead"}
-        div="Start date" {class="rTableHead"}
-        div="Complete date" {class="rTableHead"}
-        div="Plan date" {class="rTableHead"}
+        div="Start" {class="rTableHead"}
+        div="Plan/Die" {class="rTableHead"}
+        div="Complete" {class="rTableHead"}
         div="Assigned" {class="rTableHead"}
         div="Project" {class="rTableHead"}
         div="Issue" {class="rTableHead"}
@@ -202,8 +202,8 @@ div.colspan>div>div
               div="?tasks[i].Completeness" { class="rTableCell" }
               div="?tasks[i].Status"{ class="rTableCell" }
               div="?WAVE.dateTimeToString(tasks[i].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
-              div="?WAVE.dateTimeToString(tasks[i].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
               div="?WAVE.dateTimeToString(tasks[i].Plan_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
+              div="?WAVE.dateTimeToString(tasks[i].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
               div=?tasks[i].Note { class="rTableCell" }
               div="?tasks[i].ProjectName"{ class="rTableCell" }
               div="?tasks[i].Name"{ class="rTableCell" }
@@ -225,9 +225,34 @@ div.colspan>div>div
                     a = 'Close' { href="?'javascript:closeIssue('+tasks[i].C_Project+', '+tasks[i].Counter+')'" class="button" }
                     a = 'Reopen' { href="?'javascript:reopenIssue('+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button" }
                   }
-                  div="Progress:" { input{ class="text" type="text" value=?tasks[i].Completeness } }
-                  div="Description:"{ style="margin-left : 5px; width: 100px" }
-                  div="?tasks[i].Description"{ style="margin : 5px; width: 300px" }
+                  form
+                  {
+                    id="?'form-'+tasks[i].Counter"
+
+                    div="Progress:" { input{name="completeness" class="text" type="text" value=?tasks[i].Completeness } }
+                    div="Description:"{ textarea="?tasks[i].Description" { name="description" class="text"} }
+
+                    a="Send" { href="?'javascript:changeProgress('+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button" }
+                  }
+
+                  div 
+                  {
+                    class = "rTable"
+                    div 
+                    {
+                      class="rTableRow"
+                      div="ID" {class="rTableHead"}
+                      div="Progress" {class="rTableHead"}
+                      div="Status" {class="rTableHead"}
+                      div="Start" {class="rTableHead"}
+                      div="Plan/Die" {class="rTableHead"}
+                      div="Complete" {class="rTableHead"}
+                      div="Assigned" {class="rTableHead"}
+                      div="Project" {class="rTableHead"}
+                      div="Issue" {class="rTableHead"}
+                    }
+                   
+                  }
                 }
               }
             }
@@ -249,7 +274,8 @@ div.colspan>div>div
       });
     }
   }
-
+  
+  /**
   function textChanged(e){
       var q = e.path[1];
       var iid = 0;
@@ -264,7 +290,8 @@ div.colspan>div>div
       function (resp) { console.log("error"); },
       function (resp) { console.log("fail"); });
   }
-
+  **/
+  /**
   function initTexts(){
     var texts = document.getElementsByClassName("text");
     for(var i = 0 , l=texts.length; i<l; i++){
@@ -272,7 +299,7 @@ div.colspan>div>div
       WAVE.addEventHandler(text, "change", textChanged);
     }
   }
-
+  **/
   function clearGrid(){
     document.getElementById("grid").innerHTML = "";
   }
@@ -332,6 +359,30 @@ div.colspan>div>div
     console.log(pid);
     console.log(iid);
     debugger;
+  }
+
+  function changeProgress(pid, iid) {
+    var data = {
+      issueCounter: iid,
+      value: document.getElementById('form-'+iid).completeness.value, 
+      description: document.getElementById('form-'+iid).description.value
+    };
+    console.log(data);
+    WAVE.ajaxCall(
+      'POST',
+      "/dashboard/changeprogress",
+      data,
+      function (resp) { scheduleFetch();  console.log("success"); },
+      function (resp) { console.log("error"); },
+      function (resp) { console.log("fail"); },
+      WAVE.CONTENT_TYPE_JSON_UTF8, 
+      WAVE.CONTENT_TYPE_JSON_UTF8
+    );
+  }
+
+  function getDetails(iid) {
+    debugger;
+    return [];
   }
 
 </script>
