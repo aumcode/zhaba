@@ -237,6 +237,7 @@ div.colspan>div>div
 
                   div 
                   {
+                    id="?'detailsTable-'+tasks[i].Counter"
                     class = "rTable"
                     div 
                     {
@@ -251,7 +252,23 @@ div.colspan>div>div
                       div="Project" {class="rTableHead"}
                       div="Issue" {class="rTableHead"}
                     }
-                   
+                    "? for(var j = 0, k = tasks[i].Details.length; j<k; j++)" {
+                      div
+                      {
+                          id="?'detailsRow-'+tasks[i].Details[j].Counter"
+                          class="rTableRow"
+              
+                          div="?tasks[i].Details[j].Counter"{ class="rTableCell" align="right" }
+                          div="?tasks[i].Details[j].Completeness" { class="rTableCell" }
+                          div="?tasks[i].Details[j].Status"{ class="rTableCell" }
+                          div="?WAVE.dateTimeToString(tasks[i].Details[j].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
+                          div="?WAVE.dateTimeToString(tasks[i].Details[j].Plan_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
+                          div="?WAVE.dateTimeToString(tasks[i].Details[j].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
+                          div=?tasks[i].Details[j].Note { class="rTableCell" }
+                          div="?tasks[i].Details[j].ProjectName"{ class="rTableCell" }
+                          div="?tasks[i].Details[j].Name"{ class="rTableCell" }
+                      }
+                    }
                   }
                 }
               }
