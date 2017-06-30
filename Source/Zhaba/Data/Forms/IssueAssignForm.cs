@@ -26,10 +26,6 @@ namespace Zhaba.Data.Forms
           throw HTTPStatusException.NotFound_404("Project");
         this.RoundtripBag[ITEM_ID_BAG_PARAM] = counter.Value;
       }
-      else 
-      {
-        Open_TS = App.TimeSource.UTCNow;
-      }
     }
     #endregion
 
@@ -42,7 +38,7 @@ namespace Zhaba.Data.Forms
     [Field(typeof(IssueAssignRow))]
     public string C_User { get; set; }
     [Field(typeof(IssueAssignRow))]
-    public DateTime Open_TS { get; set; }
+    public DateTime Open_TS { get; set; } = App.TimeSource.UTCNow.Date;
     [Field(typeof(IssueAssignRow))]
     public DateTime? Close_TS { get; set; }
     [Field(typeof(IssueAssignRow))]

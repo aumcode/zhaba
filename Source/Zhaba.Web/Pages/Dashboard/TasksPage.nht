@@ -237,21 +237,22 @@ div.colspan>div>div
                 div
                 {
                   "?if(pmperm)" {
-                    a = 'Add Assignee' { href="?'javascript:addAssignee('+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button" }
+                    //a = 'Add Assignee' { href="?'javascript:addAssignee('+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button" }
                     a = 'Defer' { href="?'javascript:deferIssue('+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button" }
                     a = 'Close' { href="?'javascript:closeIssue('+tasks[i].C_Project+', '+tasks[i].Counter+')'" class="button" }
                     a = 'Reopen' { href="?'javascript:reopenIssue('+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button" }
                   }
-                  form
-                  {
-                    id="?'form-'+tasks[i].Counter"
+                  "? if(tasks[i].Status != 'Closed')" { 
+                    form
+                    {
+                      id="?'form-'+tasks[i].Counter"
 
-                    div="Progress:" { input{name="completeness" class="text" type="text" value=?tasks[i].Completeness } }
-                    div="Description:"{ textarea="?tasks[i].Description" { name="description" class="text"} }
+                      div="Progress:" { input{name="completeness" class="text" type="text" value=?tasks[i].Completeness } }
+                      div="Description:"{ textarea="?tasks[i].Description" { name="description" class="text"} }
 
-                    a="Send" { href="?'javascript:changeProgress('+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button" }
+                      a="Send" { href="?'javascript:changeProgress('+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button" }
+                    }
                   }
-
                   div 
                   {
                     id="?'detailsTable-'+tasks[i].Counter"

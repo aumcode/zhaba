@@ -190,6 +190,7 @@ namespace Zhaba.DataLogic
           result = row.ValidateAndPrepareForStore();
           if (result == null)
           {
+            
             trn.Upsert(row);
             saveResult = row;
 
@@ -270,6 +271,7 @@ namespace Zhaba.DataLogic
     private void write(ProceedIssueEvent evt) 
     {
       IssueLogRow newRow = NewIssueLog(evt);
+      if (newRow.Status == ZhabaIssueStatus.CLOSED) return;
       newRow.Completeness = evt.Completeness;
       newRow.Description = evt.Description;
       if (evt.Completeness == 100) newRow.Status = ZhabaIssueStatus.DONE;

@@ -107,7 +107,7 @@ namespace Zhaba.Data.Filters
       var data = saveResult as RowsetBase;
       if (data != null)
       {
-        DateTime asOf = DateTime.TryParse(this.AsOf, out asOf) ? asOf : App.TimeSource.UTCNow;
+        DateTime asOf = DateTime.TryParse(this.AsOf, out asOf) ? asOf.Date.AddHours(23).AddMinutes(59).AddSeconds(59) : App.TimeSource.UTCNow;
         foreach (var item in data)
           try
           {
