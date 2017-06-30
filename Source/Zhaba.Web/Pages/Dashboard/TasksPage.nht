@@ -129,6 +129,8 @@ div.colspan>div>div
   var REC = null;
   var RECV = null;
 
+
+
   WAVE.ajaxGetJSON(
     "/dashboard/tasks",
     null,
@@ -160,6 +162,15 @@ div.colspan>div>div
   var timerID = null;
 
   function scheduleFetch(){
+    var expanded = [];
+    var detailsList = document.getElementsByClassName("details");
+    var j=0;
+    for(var i=0, l=detailsList.length; i<l; i++) {
+      if(detailsList[i].classList.contains('wvDetailsContentVisible')) {
+        expanded[j++] = detailsList[i].id;
+      }
+
+    }
     WAVE.ajaxPostJSON(
       "/dashboard/taskfilter",
       REC.data(),
@@ -169,6 +180,11 @@ div.colspan>div>div
         console.log(tasks);
         renderTasks("grid");
         initDetails();
+        for(var i=0, l=expanded.length; i<l; i++) {
+          var item = document.getElementById(expanded[i]);
+          item.classList.toggle('wvDetailsContentVisible', true);
+          item.classList.toggle('wvDetailsContentHidden', false);
+        }
       },
       function (resp) { console.log("error"); },
       function (resp) { console.log("fail"); });
@@ -396,10 +412,10 @@ div.colspan>div>div
       WAVE.CONTENT_TYPE_JSON_UTF8
     );
   }
-
-  function getDetails(iid) {
-    debugger;
-    return [];
-  }
-
+  
+  var tickTime = 300000;
+  var timerId = setTimeout(function tick() {
+    scheduleFetch();
+    timerId = setTimeout(tick, tickTime);
+  }, tickTime);
 </script>
