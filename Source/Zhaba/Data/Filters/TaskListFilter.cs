@@ -7,6 +7,7 @@ using Zhaba.Data.Domains;
 using Zhaba.Data.Forms;
 using Zhaba.Data.QueryBuilders;
 using Zhaba.Data.Rows;
+using System.Collections.Generic;
 
 namespace Zhaba.Data.Filters
 {
@@ -57,6 +58,9 @@ namespace Zhaba.Data.Filters
 
       [Field]
       public string Note { get; set; }
+      
+      [Field]
+      public List<TaskListFilterRow> Details { get; set; }
 
     }
 
@@ -100,6 +104,30 @@ namespace Zhaba.Data.Filters
     {
       var qry = QTask.TasksByFilter<TaskListFilterRow>(this);
       saveResult = ZApp.Data.CRUD.LoadOneRowset(qry);
+      var data = saveResult as RowsetBase;
+      if (data != null)
+      {
+        DateTime asOf = DateTime.TryParse(this.AsOf, out asOf) ? asOf : App.TimeSource.UTCNow;
+        foreach (var item in data)
+          try
+          {
+            var itemLog = item as TaskListFilterRow;
+            App.Log.Write(new NFX.Log.Message(item.ToJSON()));
+            var query = QTask.FindFirst5IssueLogByIssue<TaskListFilterRow>(itemLog.Counter, asOf);
+            var list = ZApp.Data.CRUD.LoadOneRowset(query);
+            itemLog.Details = new List<TaskListFilterRow>();
+            foreach (var item1 in list)
+            {
+              var item1Log = item1 as TaskListFilterRow;
+              itemLog.Details.Add(item1Log);
+            }
+          }
+          catch (Exception ex)
+          {
+            App.Log.Write(new NFX.Log.Message(ex));
+          }
+      }
+      
       return null;
     }
   }
