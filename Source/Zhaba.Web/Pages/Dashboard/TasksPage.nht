@@ -103,8 +103,12 @@ div.colspan>div>div
       <div>Tasks</div>
     </div>
     <form id="frmFilter" data-wv-rid="V1" novalidate>
-      <div class="fView" data-wv-fname="Name"></div>
-      <div class="fView" data-wv-fname="Description"></div>
+      <div class="fView" data-wv-fname="AsOf"></div>
+      <div class="fView" data-wv-fname="Search"></div>
+      @[if (new PMPermission().Check()) {]
+      <div class="fView" data-wv-fname="C_PROJECT" data-wv-ctl="combo"></div>
+      <div class="fView" data-wv-fname="C_USER" data-wv-ctl="combo"></div>
+      @[}]
     </form>
     <div id="grid"></div>
 

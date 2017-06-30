@@ -42,14 +42,11 @@ namespace Zhaba.Web.Controllers
     [Action("tasks", 0, "match { methods=POST,GET accept-json=true}")]
     public object tasks_GET()
     {
-      
       var filter = new TaskListFilter();
-      if (!new PMPermission().Check()) filter.C_User = ZhabaUser.DataRow.Counter;
+      if (!new PMPermission().Check()) filter.C_USER = ZhabaUser.DataRow.Counter;
       object tasks;
       filter.Save(out tasks);
-      if (WorkContext.RequestedJSON)
-        return new JSONResult(tasks, JSONWritingOptions.CompactRowsAsMap);
-      return null;
+      return new JSONResult(tasks, JSONWritingOptions.CompactRowsAsMap);
     }
 
     /// <summary>
@@ -69,17 +66,15 @@ namespace Zhaba.Web.Controllers
     public object taskFilter_GET()
     {
       var filter = new TaskListFilter();
-      if (!new PMPermission().Check()) filter.C_User = ZhabaUser.DataRow.Counter;
-      if (WorkContext.RequestedJSON)
-        return FormJSON(filter);
-      return null;
+      if (!new PMPermission().Check()) filter.C_USER = ZhabaUser.DataRow.Counter;
+      return FormJSON(filter);
     }
 
     [Action("taskFilter", 0, "match { methods=POST accept-json=true}")]
     public object taskFilter_POST(TaskListFilter filter)
     {
       object data;
-      if (!new PMPermission().Check()) filter.C_User = ZhabaUser.DataRow.Counter;
+      if (!new PMPermission().Check()) filter.C_USER = ZhabaUser.DataRow.Counter;
       filter.Save(out data);
       return new JSONResult(data, JSONWritingOptions.CompactRowsAsMap);
     }
@@ -88,7 +83,6 @@ namespace Zhaba.Web.Controllers
     public void changeProgress_POST(ulong issueCounter, int value)
     {
       ZApp.Data.Issue.ChangeProgess(ZhabaUser.DataRow.Counter, issueCounter, value);
-      
     }
   }
 }

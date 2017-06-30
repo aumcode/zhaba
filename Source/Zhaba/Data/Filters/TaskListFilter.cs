@@ -61,30 +61,28 @@ namespace Zhaba.Data.Filters
 
     #endregion
 
-    [Field(valueList: "Name:Name Ascending,-Name:Name Descending",
-           metadata: "Description='Sort By' Hint='Sort component list by'")]
-    public string OrderBy { get; set; }
-
-    [Field(metadata: "Description='Name' Placeholder='Name' Hint='Area Name'")]
-    public string Name { get; set; }
-
-    [Field(metadata: "Description='Description' Placeholder='Description' Hint='Area Description'")]
-    public string Description { get; set; }
-
-    [Field(metadata: "Description='Category name' Placeholder='CategoryName' Hint='Category name'")]
-    public string C_Category { get; set; }
+    [Field(metadata: "Description='AsOf' Placeholder='AsOf' Hint='AsOf'")]
+    public string AsOf { get; set; } = App.TimeSource.UTCNow.ToString();
     
-    [Field(metadata: "Description='Filter' Placeholder='Filter' Hint='Filter'")]
-    public string Filter { get; set; }
+    [Field(metadata: "Description='Search' Placeholder='Search' Hint='Search'")]
+    public string Search { get; set; }
 
-    [Field(metadata: "Description='Filetr by user' Placeholder='User' Hint='User'")]
-    public ulong? C_User { get; set; }
+    [Field(metadata: "Description='Assign' Placeholder='Assign' Hint='Assign'")]
+    public ulong? C_USER { get; set; }
+
+    [Field(metadata: "Description='Project' Placeholder='Project' Hint='Project'")]
+    public string C_PROJECT { get; set; }
 
     public override JSONDataMap GetClientFieldValueList(object callerContext, Schema.FieldDef fdef, string targetName, string isoLang)
     {
-      JSONDataMap result = new JSONDataMap();
-
-      return null;
+      var result = new JSONDataMap();
+      if (fdef.Name.EqualsIgnoreCase("C_USER"))
+      {
+        var users = ZApp.Data.CRUD.LoadEnumerable(QUser.FindAllActiveUser<UserRow>());
+        foreach (var user in users)
+          result.Add(user.Counter.ToString(), user.First_Name);
+      }
+      return result;
     }
 
     protected override Exception DoSave(out object saveResult)
