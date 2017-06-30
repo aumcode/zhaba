@@ -141,6 +141,7 @@ schema
     column=start_date    {type=$(/$TDate)  required=false comment="Milestone Start Date" }
     column=plan_date     {type=$(/$TDate)  required=false comment="Milestone Plan Date" }
     column=complete_date {type=$(/$TDate)  required=false comment="Milestone Completeness Date" }
+    _call=/scripts/note {}
 
     index=uk
     {
