@@ -77,6 +77,9 @@ namespace Zhaba.Data.Filters
     [Field(metadata: "Description='Filter' Placeholder='Filter' Hint='Filter'")]
     public string Filter { get; set; }
 
+    [Field(metadata: "Description='Filetr by user' Placeholder='User' Hint='User'")]
+    public ulong? C_User { get; set; }
+
     public override JSONDataMap GetClientFieldValueList(object callerContext, Schema.FieldDef fdef, string targetName, string isoLang)
     {
       JSONDataMap result = new JSONDataMap();

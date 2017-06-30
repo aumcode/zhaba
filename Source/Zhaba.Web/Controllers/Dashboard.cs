@@ -42,7 +42,9 @@ namespace Zhaba.Web.Controllers
     [Action("tasks", 0, "match { methods=POST,GET accept-json=true}")]
     public object tasks_GET()
     {
+      
       var filter = new TaskListFilter();
+      if (!new PMPermission().Check()) filter.C_User = ZhabaUser.DataRow.Counter;
       object tasks;
       filter.Save(out tasks);
       if (WorkContext.RequestedJSON)
@@ -67,6 +69,7 @@ namespace Zhaba.Web.Controllers
     public object taskFilter_GET()
     {
       var filter = new TaskListFilter();
+      if (!new PMPermission().Check()) filter.C_User = ZhabaUser.DataRow.Counter;
       if (WorkContext.RequestedJSON)
         return FormJSON(filter);
       return null;
@@ -76,6 +79,7 @@ namespace Zhaba.Web.Controllers
     public object taskFilter_POST(TaskListFilter filter)
     {
       object data;
+      if (!new PMPermission().Check()) filter.C_User = ZhabaUser.DataRow.Counter;
       filter.Save(out data);
       return new JSONResult(data, JSONWritingOptions.CompactRowsAsMap);
     }

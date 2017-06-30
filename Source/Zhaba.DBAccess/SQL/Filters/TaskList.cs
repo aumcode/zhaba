@@ -37,6 +37,24 @@ namespace Zhaba.DBAccess.SQL.Filters
         //cmd.Parameters.AddWithValue("pfilterStr", filterStr);
       }
 
+      if(filter.C_User != null) 
+      {
+        where += @"
+        AND 
+        (T1.C_ISSUE IN 
+          (SELECT C_ISSUE 
+           FROM tbl_issueassign 
+           WHERE 
+             C_USER = ?C_User AND 
+             ( OPEN_TS <= ?DateUTC AND
+              (?DateUTC < CLOSE_TS OR CLOSE_TS IS NULL)
+             )
+          )
+        ) ";
+        cmd.Parameters.AddWithValue("C_User", filter.C_User);
+        cmd.Parameters.AddWithValue("DateUTC", App.TimeSource.UTCNow);// todo Здесь нужно поставить Date AsOf, если он задан! 
+      }
+
       cmd.CommandText = @"
 select 
   TI.COUNTER, 

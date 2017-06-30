@@ -9,6 +9,7 @@
    using { ns="NFX.Wave.Templatization" }
    using { ns="Zhaba" }
    using { ns="Zhaba.Data.Rows" }
+   using { ns="Zhaba.Security.Permissions" }
    base-class-name="Zhaba.Web.Pages.Master"
    namespace="Zhaba.Web.Pages.Dashboard"
  }
@@ -16,6 +17,53 @@
 
 #[override renderStyles()]
 <style>
+
+.rTable {
+  	display: table;
+  	width: 100%;
+}
+.rTableRow {
+  	display: table-row;
+}
+.rTableHeading {
+  	display: table-header-group;
+  	background-color: #ddd;
+}
+.rTableCell, .rTableHead {
+  	display: table-cell;
+  	padding: 3px 10px;
+  	border: 1px solid #999999;
+}
+.rTableHeading {
+  	display: table-header-group;
+  	background-color: #ddd;
+  	font-weight: bold;
+}
+.rTableFoot {
+  	display: table-footer-group;
+  	font-weight: bold;
+  	background-color: #ddd;
+}
+.rTableBody {
+  	display: table-row-group;
+}
+div.colspan,div.colspan+div.rTableCell
+{
+    border:0;
+}
+
+div.colspan>div
+{
+    width:1px;
+}
+
+div.colspan>div>div
+{
+    position:relative;
+    width:500px;
+    overflow:hidden;
+}
+
   .wvDetailsContentHidden{
     display:none;
   }
@@ -39,12 +87,14 @@
   }
 
   .details {
+    width: 100%;
     height : 60px;
     background : white;
   }
 
   .issue_id {
   }
+
 </style>
 
 #[override renderBody()]
@@ -57,10 +107,18 @@
       <div class="fView" data-wv-fname="Description"></div>
     </form>
     <div id="grid"></div>
+
 </div>
 
 #[override renderScripts()]
 <script>
+
+  @[if(new PMPermission().Check()) {]
+  var pmperm = true;
+  @[} else {]
+  var pmperm = false;
+  @[}]
+
   WAVE.GUI.SUPPRESS_UNLOAD_CHECK = false;
 
   var tasks, categories;
@@ -116,44 +174,59 @@
     clearGrid();
     /***
     div{
+      class = "rTable"
+      div 
+      {
+        class="rTableRow"
+        div="ID" {class="rTableHead"}
+        div="Progress" {class="rTableHead"}
+        div="Status" {class="rTableHead"}
+        div="Start date" {class="rTableHead"}
+        div="Complete date" {class="rTableHead"}
+        div="Plan date" {class="rTableHead"}
+        div="Assigned" {class="rTableHead"}
+        div="Project" {class="rTableHead"}
+        div="Issue" {class="rTableHead"}
+      }
       "? for(var i = 0, l = tasks.length; i<l; i++)" {
           div
           {
               id=?tasks[i].Counter
-              class="expander"
+              class="expander rTableRow"
+              
+              div="?tasks[i].Counter"{ class="issue_id rTableCell" align="right" }
+              div="?tasks[i].Completeness" { class="rTableCell" }
+              div="?tasks[i].Status"{ class="rTableCell" }
+              div="?WAVE.dateTimeToString(tasks[i].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
+              div="?WAVE.dateTimeToString(tasks[i].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
+              div="?WAVE.dateTimeToString(tasks[i].Plan_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
+              div=?tasks[i].Note { class="rTableCell" }
+              div="?tasks[i].ProjectName"{ class="rTableCell" }
+              div="?tasks[i].Name"{ class="rTableCell" }
+          }
+          div
+          {
+            id="?'details-'+tasks[i].Counter"
+            class="details rTableRow"
+            div
+            {
+              class="rTableCell colspan"
               div
               {
-                class="header"
-                div="?tasks[i].Counter"{ class="issue_id container" }
-
-                div="?tasks[i].ProjectName"{ class="container" }
-
-                div="?tasks[i].Name"{ class="container" }
-
-                div="Status:"{ class="container" }
-                div="?tasks[i].Status"{ class="container" }
-
-                div="Start date:"{ class="container" }
-                div="?WAVE.dateTimeToString(tasks[i].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="container" }
-
-                div="Complete date:"{ class="container" }
-                div="?WAVE.dateTimeToString(tasks[i].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="container" }
-
-                div="Plan date:"{ class="container" }
-                div="?WAVE.dateTimeToString(tasks[i].Plan_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="container" }
-
-                div="Progress:"{ class="container" }
-                input{ class="text" type="text" value=?tasks[i].Completeness }
-
-                div="Assigned:"{ class="container" }
-                div="?tasks[i].Note"{ class="container" }
+                div
+                {
+                  "?if(pmperm)" {
+                    a = 'Add Assignee' { href="?'javascript:addAssignee('+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button" }
+                    a = 'Defer' { href="?'javascript:deferIssue('+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button" }
+                    a = 'Close' { href="?'javascript:closeIssue('+tasks[i].C_Project+', '+tasks[i].Counter+')'" class="button" }
+                    a = 'Reopen' { href="?'javascript:reopenIssue('+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button" }
+                  }
+                  div="Progress:" { input{ class="text" type="text" value=?tasks[i].Completeness } }
+                  div="Description:"{ style="margin-left : 5px; width: 100px" }
+                  div="?tasks[i].Description"{ style="margin : 5px; width: 300px" }
+                }
               }
-              div
-              {
-                class="details"
-                div="Description:"{ style="margin-left : 5px" }
-                div="?tasks[i].Description"{ style="margin : 5px" }
-              }
+            }
           }
       }
     }
@@ -163,9 +236,11 @@
   function initDetails(){
     var expanders = document.getElementsByClassName("expander");
     for(var i = 0 , l=expanders.length; i<l; i++){
+      var id = "details-"+expanders[i].id;
+      var content =document.getElementById(id);
       var details = new WAVE.GUI.Details({ 
-          titleCtrl: expanders[i].firstChild, 
-          contentCtrl: expanders[i].lastChild,
+          titleCtrl: expanders[i], 
+          contentCtrl: content,
           hideOnClick: false
       });
     }
@@ -196,6 +271,63 @@
 
   function clearGrid(){
     document.getElementById("grid").innerHTML = "";
+  }
+
+  function closeIssue(pid, iid) {
+    var link = ZHB.URIS.ForDELETE_ISSUE(pid, iid);
+    WAVE.GUI.showConfirmationDialog(
+      'Close issue',
+      'Are you sure? \n ' + grid.SELECTED_ROW_DATA,
+      [WAVE.GUI.DLG_YES, WAVE.GUI.DLG_NO],
+      function(sender, result) {
+        if(result == WAVE.GUI.DLG_YES) {
+          WAVE.ajaxCall(
+          'DELETE',
+          link,
+          null,
+          function (resp) { scheduleFetch();  console.log("success"); },
+          function (resp) { console.log("error"); },
+          function (resp) { console.log("fail"); },
+          WAVE.CONTENT_TYPE_JSON_UTF8, 
+          WAVE.CONTENT_TYPE_JSON_UTF8
+          );
+        } 
+      return true;
+      });
+  }
+
+  function deferIssue(pid, iid) {
+    var link = ZHB.URIS.ForDEFER_ISSUE(pid, iid);
+    WAVE.ajaxCall(
+      'GET',
+      link,
+      null,
+      function (resp) { scheduleFetch();  console.log("success"); },
+      function (resp) { console.log("error"); },
+      function (resp) { console.log("fail"); },
+      WAVE.CONTENT_TYPE_JSON_UTF8, 
+      WAVE.CONTENT_TYPE_JSON_UTF8
+    );
+  }
+
+  function reopenIssue(pid, iid) {
+    var link = ZHB.URIS.ForREOPEN_ISSUE(pid, iid);
+    WAVE.ajaxCall(
+      'GET',
+      link,
+      null,
+      function (resp) { scheduleFetch();  console.log("success"); },
+      function (resp) { console.log("error"); },
+      function (resp) { console.log("fail"); },
+      WAVE.CONTENT_TYPE_JSON_UTF8, 
+      WAVE.CONTENT_TYPE_JSON_UTF8
+    );
+  }
+
+  function addAssignee(pid, iid) {
+    console.log(pid);
+    console.log(iid);
+    debugger;
   }
 
 </script>

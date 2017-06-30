@@ -28,7 +28,7 @@ namespace Zhaba.DataLogic
       {
         C_Issue = issueCounter,
         C_User = C_User,
-        DateUTC = DateTime.UtcNow, 
+        DateUTC = App.TimeSource.UTCNow, 
         Completeness = value,
         Description = description
       };
@@ -49,7 +49,7 @@ namespace Zhaba.DataLogic
       {
         C_Issue = C_Issue,
         C_User = C_User,
-        DateUTC = DateTime.UtcNow
+        DateUTC = App.TimeSource.UTCNow
       };
       write(evt);
     }
@@ -62,7 +62,7 @@ namespace Zhaba.DataLogic
       {
         C_Issue = C_Issue,
         C_User = C_User,
-        DateUTC = DateTime.UtcNow
+        DateUTC = App.TimeSource.UTCNow
       };
       write(evt);
     }
@@ -76,7 +76,7 @@ namespace Zhaba.DataLogic
         {
           C_Issue = C_Issue,
           C_User = C_User,
-          DateUTC = DateTime.UtcNow
+          DateUTC = App.TimeSource.UTCNow
         };
         write(evt);
       }
@@ -148,7 +148,7 @@ namespace Zhaba.DataLogic
             C_Issue = row.Counter,
             C_Milestone = Convert.ToUInt64(form.C_Milestone),
             C_User = form.ZhabaUser.DataRow.Counter,
-            DateUTC = DateTime.UtcNow,
+            DateUTC = App.TimeSource.UTCNow,
             C_Category = Convert.ToUInt64(form.C_Category),
             Priority = form.Priority
           });
@@ -158,7 +158,7 @@ namespace Zhaba.DataLogic
             C_Issue = row.Counter,
             C_Milestone = Convert.ToUInt64(form.C_Milestone),
             C_User = form.ZhabaUser.DataRow.Counter,
-            DateUTC = DateTime.UtcNow,
+            DateUTC = App.TimeSource.UTCNow,
             C_Category = Convert.ToUInt64(form.C_Category),
             Priority = form.Priority
           });
@@ -194,7 +194,7 @@ namespace Zhaba.DataLogic
             saveResult = row;
 
             var note = "";
-            var query = QUser.FindAllActiveUserAndAssignedOnDate<UserRow>(from.Issue.Counter, DateTime.UtcNow);
+            var query = QUser.FindAllActiveUserAndAssignedOnDate<UserRow>(from.Issue.Counter, App.TimeSource.UTCNow);
             var usrs = trn.LoadEnumerable<UserRow>(query);
             foreach (UserRow item in usrs)
             {
@@ -205,7 +205,7 @@ namespace Zhaba.DataLogic
             {
               C_Issue = from.Issue.Counter,
               C_User = from.ZhabaUser.DataRow.Counter,
-              DateUTC = DateTime.UtcNow,
+              DateUTC = App.TimeSource.UTCNow,
               Note = note
             };
            write(evt);

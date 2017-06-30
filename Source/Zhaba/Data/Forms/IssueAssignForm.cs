@@ -28,7 +28,7 @@ namespace Zhaba.Data.Forms
       }
       else 
       {
-        Open_TS = DateTime.UtcNow;
+        Open_TS = App.TimeSource.UTCNow;
       }
     }
     #endregion
@@ -65,7 +65,7 @@ namespace Zhaba.Data.Forms
       JSONDataMap result = null;
       if (user)
       {
-        var users = ZApp.Data.CRUD.LoadEnumerable<UserForPM>(QUser.FindAllActiveUserAndNotAssignedOnDate<UserForPM>(Issue.Counter, DateTime.UtcNow));
+        var users = ZApp.Data.CRUD.LoadEnumerable<UserForPM>(QUser.FindAllActiveUserAndNotAssignedOnDate<UserForPM>(Issue.Counter, App.TimeSource.UTCNow));
         result = new JSONDataMap();
         foreach (UserForPM item in users)
         {
