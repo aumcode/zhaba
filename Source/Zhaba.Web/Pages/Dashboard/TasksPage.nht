@@ -272,7 +272,7 @@ div.colspan>div>div
               div="?WAVE.dateTimeToString(tasks[i].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
               div="?WAVE.dateTimeToString(tasks[i].Plan_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
               div="?WAVE.dateTimeToString(tasks[i].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
-              div=?tasks[i].Note { class="rTableCell" }
+              div=?tasks[i].Assignee { class="rTableCell" }
               div="?tasks[i].ProjectName"{ class="rTableCell" }
               div="?tasks[i].Name"{ class="rTableCell" }
           }
@@ -333,7 +333,7 @@ div.colspan>div>div
                           div="?WAVE.dateTimeToString(tasks[i].Details[j].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
                           div="?WAVE.dateTimeToString(tasks[i].Details[j].Plan_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
                           div="?WAVE.dateTimeToString(tasks[i].Details[j].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
-                          div=?tasks[i].Details[j].Note { class="rTableCell" }
+                          div=?tasks[i].Details[j].Assignee { class="rTableCell" }
                           div="?tasks[i].Details[j].ProjectName"{ class="rTableCell" }
                           div="?tasks[i].Details[j].Name"{ class="rTableCell" }
                       }

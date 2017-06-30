@@ -58,6 +58,9 @@ namespace Zhaba.Data.Filters
 
       [Field]
       public string Note { get; set; }
+
+      [Field]
+      public string Assignee { get; set; }
       
       [Field]
       public List<TaskListFilterRow> Details { get; set; }

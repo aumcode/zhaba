@@ -29,7 +29,12 @@ select
   TC.NAME as CATEGORY_NAME,
   TP.COUNTER as C_PROJECT,
   TP.NAME as PROJECTNAME,
-  T1.NOTE
+  T1.NOTE,
+  (SELECT GROUP_CONCAT(_tt2.LOGIN SEPARATOR '; ')
+     FROM tbl_issueassign _tt1
+       JOIN tbl_user _tt2 ON _tt1.C_USER = _tt2.COUNTER
+     WHERE (_tt1.C_ISSUE = T1.C_ISSUE) AND ( ?pDateUTC < _tt1.CLOSE_TS OR _tt1.CLOSE_TS IS NULL )
+     GROUP BY C_ISSUE) AS ASSIGNEE
 from tbl_issuelog as T1
   join tbl_issue as TI on T1.C_ISSUE = TI.COUNTER
   join tbl_category as TC on T1.C_CATEGORY = TC.COUNTER
