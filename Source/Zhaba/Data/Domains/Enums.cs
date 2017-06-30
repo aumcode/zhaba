@@ -57,16 +57,17 @@ namespace Zhaba.Data.Domains
   {
     public const int MAX_LEN = 3;
 
-    public const string NEW = "N";
-    public const string REOPEN = "R";
-    public const string ASSIGNED = "A";
-    public const string DONE = "D";
-    public const string DEFER = "F";
-    public const string CLOSED = "C";
+    public const string NEW = "N";      // N-> A,F,X
+    public const string REOPEN = "R";   // R-> A,F,X
+    public const string ASSIGNED = "A"; // A-> D,F,X
+    public const string DONE = "D";     // D-> A,C,X
+    public const string DEFER = "F";    // F-> A,X
+    public const string CANCELED = "X"; // X-> null
+    public const string CLOSED = "C";   // C-> R
 
     public const string VALUE_LIST = "N: New, R: Reopen, A: Assigned, D: Done, F: Defer, C: Closed";
 
-    public ZhabaIssueStatus() : base(DBCharType.Char, "N|A|D|C") { }
+    public ZhabaIssueStatus() : base(DBCharType.Char, "N|A|D|C|F|X|R") { }
 
     public static string MapDescription(string value)
     {
@@ -82,6 +83,8 @@ namespace Zhaba.Data.Domains
         return "Defer";
       if (value.EqualsOrdIgnoreCase(CLOSED))
         return "Closed";
+      if (value.EqualsOrdIgnoreCase(CANCELED))
+        return "Canceled";
 
       return "Invalid";
     }
