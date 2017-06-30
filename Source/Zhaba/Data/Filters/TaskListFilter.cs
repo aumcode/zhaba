@@ -66,7 +66,7 @@ namespace Zhaba.Data.Filters
 
     #endregion
 
-    [Field(metadata: "Description='AsOf' Placeholder='AsOf' Hint='AsOf'")]
+    [Field(metadata: "Description='As of' Placeholder='As of' Hint='As of'")]
     public string AsOf { get; set; } = App.TimeSource.UTCNow.Date.ToString(CultureInfo.InvariantCulture);
     
     [Field(metadata: "Description='Search' Placeholder='Type n=*, a=*, c=*, cat=* for search. Example: n=Issue1 a=UI' Hint='Search'")]

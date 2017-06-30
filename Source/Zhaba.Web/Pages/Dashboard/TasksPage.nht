@@ -92,6 +92,19 @@ div.colspan>div>div
     background : white;
   }
 
+  .completeness {
+    position: relative;
+    background: white;
+  }
+
+  .bar{
+    text-align: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+  }
+
   .issue_id {
   }
 
@@ -129,8 +142,6 @@ div.colspan>div>div
   var tasks, categories;
   var REC = null;
   var RECV = null;
-
-
 
   WAVE.ajaxGetJSON(
     "/dashboard/tasks",
@@ -191,6 +202,38 @@ div.colspan>div>div
       function (resp) { console.log("fail"); });
   }
 
+  function getStyle(value){
+    var color = 'white';
+    if(value <= 20)
+      color = 'red';
+    else if(value > 20 && value <=40)
+      color = 'orange';
+    else if(value > 40 && value <=60)
+      color = 'yellow';
+    else if(value > 60 && value <=80)
+      color = 'lightgreen';
+    else if(value == 100)
+      color = 'green';
+    return 'width: ' + value + '%;' + ' background: ' + color; 
+  }
+
+  function getStatusStyle(value){
+    var color = 'white';
+    if(value == 'New')
+      color = 'red';
+    else if(value == 'Reopen')
+      color = 'orange';
+    else if(value == 'Assigned')
+      color = 'yellow';
+    else if(value == 'Defer')
+      color = 'black';
+    else if(value == 'Done')
+      color = 'lightgreen';
+    else if(value == 'Closed')
+      color = 'gray';
+    return 'color: ' + color; 
+  }
+
   function renderTasks(root){
     clearGrid();
     /***
@@ -216,8 +259,16 @@ div.colspan>div>div
               class="expander rTableRow"
               
               div="?tasks[i].Counter"{ class="issue_id rTableCell" align="right" }
-              div="?tasks[i].Completeness" { class="rTableCell" }
-              div="?tasks[i].Status"{ class="rTableCell" }
+              div 
+              { 
+                  class="rTableCell completeness" 
+                  div="?tasks[i].Completeness" 
+                  { 
+                    class="bar" 
+                    style="?getStyle(tasks[i].Completeness)" 
+                  }
+              }
+              div="?tasks[i].Status"{ class="rTableCell" style="?getStatusStyle(tasks[i].Status)" }
               div="?WAVE.dateTimeToString(tasks[i].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
               div="?WAVE.dateTimeToString(tasks[i].Plan_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
               div="?WAVE.dateTimeToString(tasks[i].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
