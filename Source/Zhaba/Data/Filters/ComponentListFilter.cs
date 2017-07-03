@@ -19,7 +19,7 @@ namespace Zhaba.Data.Filters
     #endregion
 
 
-    [Field(valueList: "Name:Name Ascending,-Name:Name Descending",
+    [Field(valueList: "3 ASC:Name Ascending,3 DESC:Name Descending",
            metadata: "Description='Sort By' Hint='Sort component list by'")]
     public string OrderBy { get; set; }
 

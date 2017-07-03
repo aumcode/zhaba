@@ -47,12 +47,11 @@ where {0}";
     {
       var where = "(T1.STATUS_DATE = (Select MAX(STATUS_DATE) from tbl_issuelog as T2 where (T1.C_ISSUE = T2.C_ISSUE) and (STATUS_DATE <= ?pDateUTC))) ";
       DateTime asOf;
-      cmd.Parameters.AddWithValue("pDateUTC", DateTime.TryParse(filter.AsOf, out asOf) ? asOf.Date.AddHours(23).AddMinutes(59).AddSeconds(59) : App.TimeSource.UTCNow.Date);
+      cmd.Parameters.AddWithValue("pDateUTC", DateTime.TryParse(filter.AsOf, out asOf) ? asOf.Date : App.TimeSource.UTCNow.Date);
 
       if (filter.Due.IsNotNullOrWhiteSpace())
       {
         var days = int.Parse(filter.Due);
-        
         var end = asOf.Date;
         var start = end.AddDays(-days);
 
@@ -65,6 +64,12 @@ where {0}";
       {
         where += "AND (TP.NAME like ?pPName)";
         cmd.Parameters.AddWithValue("pPName", filter.ProjectName);
+      }
+
+      if (filter.CategoryName.IsNotNullOrWhiteSpace())
+      {
+        where += "AND (TC.NAME like ?pCName)";
+        cmd.Parameters.AddWithValue("pCName", filter.CategoryName);
       }
 
       if (filter.C_USER.HasValue)
@@ -111,13 +116,6 @@ where {0}";
             where +=
               "AND Exists(select C_ISSUE from tbl_issuecomponent as _TIC join tbl_component as _TC on _TIC.C_COMPONENT = _TC.COUNTER where (_TIC.C_ISSUE = T1.C_ISSUE) and(_TC.Name like ?pCOMPONENT))";
             cmd.Parameters.AddWithValue("pCOMPONENT", componentFilter);
-          }
-
-          var categoryFilter = scfg.Navigate("$cat|$category").Value;
-          if (categoryFilter.IsNotNullOrWhiteSpace())
-          {
-            where += "AND (TC.NAME like pCATEGORY)";
-            cmd.Parameters.AddWithValue("pCATEGORY", categoryFilter);
           }
         }
         cmd.CommandText = m_Script.Args(where);

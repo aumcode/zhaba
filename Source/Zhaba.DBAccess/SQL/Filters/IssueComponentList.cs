@@ -23,14 +23,11 @@ namespace Zhaba.DBAccess.SQL.Filters
         cmd.Parameters.AddWithValue("pName", name);
       }
 
-      string order = "TA.NAME";
+      // first - number of column, second - OrderBy direction
+      var orderBy = "4 ASC";
       if (filter.OrderBy.IsNotNullOrWhiteSpace())
       {
-        var desc = filter.OrderBy.StartsWith("-");
-        if (desc)
-          order = "TA." + filter.OrderBy.Substring(1) + " DESC";
-        else
-          order = "TA." + filter.OrderBy + " ASC";
+        orderBy = filter.OrderBy;
       }
 
       cmd.Parameters.AddWithValue("pProject", filter.ProjectCounter);
@@ -46,7 +43,7 @@ FROM tbl_component TA
 LEFT JOIN tbl_issuecomponent TIA ON TIA.C_COMPONENT = ta.COUNTER AND TIA.C_ISSUE = ?pIssue
 WHERE TA.C_PROJECT = ?pProject
   {0}
-ORDER BY {1}".Args(where, order);
+ORDER BY {1}".Args(where, orderBy);
     }
   }
 }

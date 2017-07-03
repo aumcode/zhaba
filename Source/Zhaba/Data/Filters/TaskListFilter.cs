@@ -73,13 +73,16 @@ namespace Zhaba.Data.Filters
     #endregion
 
     [Field(metadata: "Description='As of' Placeholder='As of' Hint='As of'")]
-    public string AsOf { get; set; } = App.TimeSource.UTCNow.Date.ToString(CultureInfo.InvariantCulture);
+    public string AsOf { get; set; } = App.TimeSource.UTCNow.Date.ToString("d", CultureInfo.InvariantCulture);
     
-    [Field(metadata: "Description='Search' Placeholder='Type n=*, a=*, c=*, cat=* for search. Example: n=Issue1 a=UI' Hint='Search'")]
+    [Field(metadata: "Description='Search' Placeholder='Type n=*, a=*, c=* for search. Example: n=Issue1 a=UI' Hint='Search'")]
     public string Search { get; set; }
 
     [Field(metadata: "Description='Assign' Placeholder='Assign' Hint='Assign'")]
     public ulong? C_USER { get; set; }
+
+    [Field(metadata: "Description='Category' Placeholder='Category' Hint='Category'")]
+    public string CategoryName { get; set; }
 
     [Field(metadata: "Description='Project name' Placeholder='Project name' Hint='Project name'")]
     public string ProjectName { get; set; }
@@ -103,6 +106,13 @@ namespace Zhaba.Data.Filters
         foreach (var project in projects)
           result.Add(project.Name, project.Name);
       }
+
+      if (fdef.Name.EqualsIgnoreCase("CategoryName"))
+      {
+        var categories = ZApp.Data.CRUD.LoadEnumerable(QCategory.findCategoryByFilter<CategoryRow>(new CategoryListFilter()));
+        foreach (var category in categories)
+          result.Add(category.Name, category.Name);
+      }
       return result;
     }
 
@@ -113,7 +123,7 @@ namespace Zhaba.Data.Filters
       var data = saveResult as RowsetBase;
       if (data != null)
       {
-        DateTime asOf = DateTime.TryParse(this.AsOf, out asOf) ? asOf.Date.AddHours(23).AddMinutes(59).AddSeconds(59) : App.TimeSource.UTCNow;
+        DateTime asOf = DateTime.TryParse(AsOf, out asOf) ? asOf.Date : App.TimeSource.UTCNow;
         foreach (var item in data)
           try
           {

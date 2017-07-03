@@ -40,32 +40,29 @@ namespace Zhaba.DBAccess.SQL.Filters
       }
 
       List<Tuple<DateTime?, DateTime?>> dates;
-      if (filter.StartDateSpan.ParseDateSpan(out dates) && dates != null)
+      if (filter.StartDateSpan.ParseDate(out dates) && dates != null)
       {
         var sb = BuildDatesFilter("TM.START_DATE", dates, cmd);
         where += "AND ({0}) \r\n".Args(sb);
       }
 
-      if (filter.PlanDateSpan.ParseDateSpan(out dates) && dates != null)
+      if (filter.PlanDateSpan.ParseDate(out dates) && dates != null)
       {
         var sb = BuildDatesFilter("TM.PLAN_DATE", dates, cmd);
         where += "AND ({0}) \r\n".Args(sb);
       }
 
-      if (filter.CompleteDateSpan.ParseDateSpan(out dates) && dates != null)
+      if (filter.CompleteDateSpan.ParseDate(out dates) && dates != null)
       {
         var sb = BuildDatesFilter("TM.COMPLETE_DATE", dates, cmd);
         where += "AND ({0}) \r\n".Args(sb);
       }
 
-      string order = "TM.Counter";
+      // first - number of column, second - OrderBy direction
+      var orderBy = "3 ASC";
       if (filter.OrderBy.IsNotNullOrWhiteSpace())
       {
-        var desc = filter.OrderBy.StartsWith("-");
-        if (desc)
-          order = "TM." + filter.OrderBy.Substring(1) + " DESC";
-        else
-          order = "TM." + filter.OrderBy + " ASC";
+        orderBy = filter.OrderBy;
       }
 
       cmd.Parameters.AddWithValue("pProj_ID", filter.ProjectCounter);
@@ -75,7 +72,7 @@ FROM tbl_milestone TM
 WHERE
   (C_PROJECT = ?pProj_ID)
   {0}
-ORDER BY {1}".Args(where, order);
+ORDER BY {1}".Args(where, orderBy);
     }
   }
 }

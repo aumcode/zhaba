@@ -39,14 +39,11 @@ namespace Zhaba.DBAccess.SQL.Filters
         cmd.Parameters.AddWithValue("pDescription", description);
       }
 
-      string order = "TC.Counter";
+      // first - number of column, second - OrderBy direction
+      var orderBy = "1 ASC";
       if (filter.OrderBy.IsNotNullOrWhiteSpace())
       {
-        var desc = filter.OrderBy.StartsWith("-");
-        if (desc)
-          order = "TC." + filter.OrderBy.Substring(1) + " DESC";
-        else
-          order = "TC." + filter.OrderBy + " ASC";
+        orderBy = filter.OrderBy;
       }
 
       cmd.Parameters.AddWithValue("pProj_ID", filter.ProjectCounter);
@@ -56,7 +53,7 @@ FROM tbl_component TC
 WHERE
   (C_PROJECT = ?pProj_ID) AND (IN_USE = 'T')
   {0}
-ORDER BY {1}".Args(where, order);
+ORDER BY {1}".Args(where, orderBy);
     }
   }
 }

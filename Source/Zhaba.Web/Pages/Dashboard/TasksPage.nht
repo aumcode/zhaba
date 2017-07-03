@@ -71,7 +71,7 @@ div.colspan>div>div
 
   .expander {
     border: 2px solid gray;
-    background : green;
+    background : #cfddd0;
   }
 
   .header {
@@ -99,10 +99,15 @@ div.colspan>div>div
   }
 
   .bar{
-    text-align: center;
     position: absolute;
     top: 0;
     bottom: 0;
+    left: 0;
+  }
+
+  .bar-value{
+    position: absolute;
+    width: 100%;
     left: 0;
   }
 
@@ -119,6 +124,7 @@ div.colspan>div>div
     <form id="frmFilter" data-wv-rid="V1" novalidate>
       <div class="fView" data-wv-fname="AsOf"></div>
       <div class="fView" data-wv-fname="Due" data-wv-ctl="combo"></div>
+      <div class="fView" data-wv-fname="CategoryName" data-wv-ctl="combo"></div>
       @[if (new PMPermission().Check()) {]
       <div class="fView" data-wv-fname="ProjectName" data-wv-ctl="combo"></div>
       <div class="fView" data-wv-fname="C_USER" data-wv-ctl="combo"></div>
@@ -204,19 +210,29 @@ div.colspan>div>div
       function (resp) { console.log("fail"); });
   }
 
-  function getStyle(value){
-    var color = 'white';
-    if(value <= 20)
-      color = 'red';
-    else if(value > 20 && value <=40)
-      color = 'orange';
-    else if(value > 40 && value <=60)
-      color = 'yellow';
-    else if(value > 60 && value <=80)
-      color = 'lightgreen';
-    else if(value == 100)
-      color = 'green';
-    return 'width: ' + value + '%;' + ' background: ' + color; 
+  function getStatusBarStyle(value){
+    var red = 0;
+    var green = 0;
+    var color = 'rgb({0},{1}, 0)';
+    if(value <= 25)
+      red = 255;
+    else if(value > 25 && value < 65){
+      red = 255;
+      green = (value - 25) * 6;
+    }
+    else if(value == 65){
+      red = 255;
+      green = 255;
+    }
+    else if(value > 65){
+      red = 255 - ((value - 65) * 7);
+      green = 255;
+    }
+    else if(value == 100){
+      red = 0;
+      green = 255;
+    }
+    return 'width: ' + value + '%;' + ' background: ' + color.args(red, green); 
   }
 
   function getStatusStyle(value){
@@ -264,16 +280,21 @@ div.colspan>div>div
               div 
               { 
                   class="rTableCell completeness" 
-                  div="?tasks[i].Completeness" 
+                  div 
                   { 
                     class="bar" 
-                    style="?getStyle(tasks[i].Completeness)" 
+                    style="?getStatusBarStyle(tasks[i].Completeness)" 
+                  }
+                  div="?tasks[i].Completeness" 
+                  { 
+                    class="bar-value" 
+                    align="center"
                   }
               }
               div="?tasks[i].Status"{ class="rTableCell" style="?getStatusStyle(tasks[i].Status)" align="center"}
-              div="?WAVE.dateTimeToString(tasks[i].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
-              div="?WAVE.dateTimeToString(tasks[i].Plan_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
-              div="?WAVE.dateTimeToString(tasks[i].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
+              div="?WAVE.dateTimeToString(tasks[i].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+              div="?WAVE.dateTimeToString(tasks[i].Plan_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+              div="?WAVE.dateTimeToString(tasks[i].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
               div=?tasks[i].Assignee { class="rTableCell" }
               div="?tasks[i].ProjectName"{ class="rTableCell" }
               div="?tasks[i].Name"{ class="rTableCell" }

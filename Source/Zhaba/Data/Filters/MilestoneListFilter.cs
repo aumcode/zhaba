@@ -24,10 +24,10 @@ namespace Zhaba.Data.Filters
     #endregion
 
 
-    [Field(valueList: "Name:Name Ascending,-Name:Name Descending,"+
-                      "Start_Date:Start Date Ascending,-Start_Date:Start Date Descending,"+
-                      "Plan_Date:Plan Date Ascending,-Plan_Date:Plan Date Descending,"+
-                      "Complete_Date:Complete Date Ascending,-Complete_Date:Complete Date Descending",
+    [Field(valueList: "3 ASC:Name Ascending,3 DESC:Name Descending," +
+                      "6 ASC:Start Date Ascending,6 DESC:Start Date Descending," +
+                      "7 ASC:Plan Date Ascending,7 DESC:Plan Date Descending," +
+                      "8 ASC:Complete Date Ascending,8 DESC:Complete Date Descending",
            metadata: "Description='Sort By' Hint='Sort component list by'")]
     public string OrderBy { get; set; }
 

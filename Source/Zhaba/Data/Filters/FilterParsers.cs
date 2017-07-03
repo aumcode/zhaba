@@ -96,6 +96,48 @@ namespace Zhaba.Data.Filters
       return dates != null;
     }
 
+    /// <summary>
+    /// Intelligently parses a list of open/closed date spans, i.e.:
+    ///  03/02/1987-,01/12/2012-02/14/2013
+    /// </summary>
+    public static bool ParseDate(this string dateSpanFilter, out List<Tuple<DateTime?, DateTime?>> dates)
+    {
+      dates = null;
+      if (dateSpanFilter.IsNullOrWhiteSpace()) return false;
+      var segs = dateSpanFilter.Split(',', ';').Where(s => s.IsNotNullOrWhiteSpace()).ToArray();
+
+      if (segs.Length == 0) return false;
+
+      foreach (var s in segs)
+      {
+        DateTime? sd = null;
+        DateTime? ed = null;
+
+        var ih = s.IndexOf('-');
+        if (ih < 0)
+        {
+          sd = s.AsNullableDateTime();
+        }
+        else
+        {
+          var from = ih > 0 ? s.Substring(0, ih) : string.Empty;
+          var to = ih < s.Length - 1 ? s.Substring(ih + 1) : string.Empty;
+
+          sd = from.AsNullableDateTime();
+          ed = to.AsNullableDateTime();
+        }
+
+        if (sd.HasValue || ed.HasValue)
+        {
+          if (dates == null) dates = new List<Tuple<DateTime?, DateTime?>>();
+          var sdDate = sd.HasValue ? sd.Value.Date : (DateTime?) null;
+          var edDate = ed.HasValue ? ed.Value.Date : (DateTime?) null;
+          dates.Add(new Tuple<DateTime?, DateTime?>(sdDate, edDate));
+        }
+      }
+      return dates != null;
+    }
+
 
     public static string ParseName(this string nameFilter, string wc = "%")
     {

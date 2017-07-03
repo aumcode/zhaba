@@ -31,15 +31,12 @@ namespace Zhaba.DBAccess.SQL.Filters
         where += "AND (TI.NAME LIKE ?pName)";
         cmd.Parameters.AddWithValue("pName", name);
       }
-
-      string order = "TI.IN_USE DESC";
+      
+      // first - number of column, second - OrderBy direction
+      var orderBy = "3 ASC";
       if (filter.OrderBy.IsNotNullOrWhiteSpace())
       {
-        var desc = filter.OrderBy.StartsWith("-");
-        if (desc)
-          order += ",TI." + filter.OrderBy.Substring(1) + " DESC";
-        else
-          order += ",TI." + filter.OrderBy + " ASC";
+        orderBy = filter.OrderBy;
       }
 
       cmd.Parameters.AddWithValue("pProj_ID", filter.ProjectCounter);
@@ -53,7 +50,7 @@ FROM
 WHERE
   (TI.C_PROJECT = ?pProj_ID)
   {0}
-ORDER BY {1}".Args(where, order);
+ORDER BY {1}".Args(where, orderBy);
     }
   }
 }

@@ -37,22 +37,19 @@ namespace Zhaba.DBAccess.SQL.Filters
         where += "AND (TP.DESCRIPTION LIKE ?pDescription)";
         cmd.Parameters.AddWithValue("pDescription", description);
       }
-
-      string order = "TP.Counter";
+      
+      // first - number of column, second - OrderBy direction
+      var orderBy = "2 ASC";
       if (filter.OrderBy.IsNotNullOrWhiteSpace())
       {
-        var desc = filter.OrderBy.StartsWith("-");
-        if (desc)
-          order = "TP." + filter.OrderBy.Substring(1) + " DESC";
-        else
-          order = "TP." + filter.OrderBy + " ASC";
+        orderBy = filter.OrderBy;
       }
 
       cmd.CommandText =
 @"SELECT *
 FROM tbl_project TP
 WHERE (1 = 1) {0}
-ORDER BY {1}".Args(where, order);
+ORDER BY {1}".Args(where, orderBy);
     }
   }
 }

@@ -25,7 +25,7 @@ namespace Zhaba.Data.Filters
     [Field(metadata: "Description='Name' Placeholder='Component Name' Hint='Component Name'")]
     public string Name { get; set; }
 
-    [Field(valueList: "Name:Name Ascending,-Name:Name Descending",
+    [Field(valueList: "4 ASC:Name Ascending,4 DESC:Name Descending",
            metadata: "Description='Sort By' Hint='Sort component list by'")]
     public string OrderBy { get; set; }
 
