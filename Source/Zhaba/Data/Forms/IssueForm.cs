@@ -52,16 +52,22 @@ namespace Zhaba.Data.Forms
     #endregion
 
     #region Field
-    [Field]
+    [Field(typeof(IssueRow))]
     public string Name { get; set; }
 
-    [Field(required: true)]
+    [Field(required: true,
+           description: "Milestone",
+           metadata: @"Placeholder='Milestone'")]
     public String C_Milestone { get; set; }
 
-    [Field(required: true)]
+    [Field(required: true, 
+           description: "Category",
+           metadata: @"Placeholder='Category'")]
     public string C_Category { get; set; }
 
-    [Field(required: true)]
+    [Field(required: true,
+           description: "Priority",
+           metadata: @"Placeholder='Priority'")]
     public ulong Priority { get; set; }
     #endregion
 

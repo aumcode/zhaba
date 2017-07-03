@@ -51,6 +51,7 @@ namespace Zhaba.Data
     void ReOpenIssue(ulong C_Project, ulong C_Issue, ulong C_User);
     void DeferIssue(ulong C_Project, ulong C_Issue, ulong C_User);
     void ChangeProgess(ulong C_User, ulong issueCounter, int value, string description = null);
+    void ChangeStatus(ulong c_User, ulong c_Project, ulong c_Issue, string status, string note);
   }
 
   

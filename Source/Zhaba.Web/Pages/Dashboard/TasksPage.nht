@@ -10,6 +10,7 @@
    using { ns="Zhaba" }
    using { ns="Zhaba.Data.Rows" }
    using { ns="Zhaba.Security.Permissions" }
+   using { ns="Zhaba.Data.Domains" }
    base-class-name="Zhaba.Web.Pages.Master"
    namespace="Zhaba.Web.Pages.Dashboard"
  }
@@ -137,6 +138,7 @@ div.colspan>div>div
   var pmperm = false;
   @[}]
 
+  var statuses = @[Target.Write(ZhabaIssueStatus.STATUSES_JSON());];
   WAVE.GUI.SUPPRESS_UNLOAD_CHECK = false;
 
   var tasks, categories;
@@ -268,7 +270,7 @@ div.colspan>div>div
                     style="?getStyle(tasks[i].Completeness)" 
                   }
               }
-              div="?tasks[i].Status"{ class="rTableCell" style="?getStatusStyle(tasks[i].Status)" }
+              div="?tasks[i].Status"{ class="rTableCell" style="?getStatusStyle(tasks[i].Status)" align="center"}
               div="?WAVE.dateTimeToString(tasks[i].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
               div="?WAVE.dateTimeToString(tasks[i].Plan_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
               div="?WAVE.dateTimeToString(tasks[i].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
@@ -289,9 +291,12 @@ div.colspan>div>div
                 {
                   "?if(pmperm)" {
                     //a = 'Add Assignee' { href="?'javascript:addAssignee('+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button" }
-                    a = 'Defer' { href="?'javascript:deferIssue('+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button" }
-                    a = 'Close' { href="?'javascript:closeIssue('+tasks[i].C_Project+', '+tasks[i].Counter+')'" class="button" }
-                    a = 'Reopen' { href="?'javascript:reopenIssue('+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button" }
+                    //a = 'Defer' { href="?'javascript:changeStatusDialog(\"A\",'+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button" }
+                    //a = 'Close' { href="?'javascript:changeStatusDialog(\"C\",'+tasks[i].C_Project+', '+tasks[i].Counter+')'" class="button" }
+                    //a = 'Reopen' { href="?'javascript:changeStatusDialog(\"R\",'+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button" }
+                    "? for(var s=0, sl=tasks[i].NextState.length; s < sl; s++)" {
+                        a = "?statuses[tasks[i].NextState[s]]" { href="?'javascript:changeStatusDialog(\"'+tasks[i].NextState[s]+'\",'+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button"  class="button" }
+                    }
                   }
                   "? if(tasks[i].Status != 'Closed')" { 
                     form
@@ -329,7 +334,7 @@ div.colspan>div>div
               
                           div="?tasks[i].Details[j].Counter"{ class="rTableCell" align="right" }
                           div="?tasks[i].Details[j].Completeness" { class="rTableCell" }
-                          div="?tasks[i].Details[j].Status"{ class="rTableCell" }
+                          div="?tasks[i].Details[j].Status"{ class="rTableCell" align="center"}
                           div="?WAVE.dateTimeToString(tasks[i].Details[j].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
                           div="?WAVE.dateTimeToString(tasks[i].Details[j].Plan_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
                           div="?WAVE.dateTimeToString(tasks[i].Details[j].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
@@ -464,6 +469,43 @@ div.colspan>div>div
       WAVE.CONTENT_TYPE_JSON_UTF8, 
       WAVE.CONTENT_TYPE_JSON_UTF8
     );
+  }
+
+  function changeStatusDialog(state, pid, iid) {
+    var dlg = new WAVE.GUI.Dialog({
+      title: 'Change state to ' + state,
+      body: '<form id="changeStateDialogForm'+iid+'">'+
+      '<input id="status'+iid+'" name="status" type="hidden" value="'+state+'">'+
+      '<textarea id="note'+iid+'" name="note"></textarea>'+
+      '<a class="button" href="javascript:changeStatus('+ pid +',' + iid +')">Change</a>'+
+      '<button onclick="WAVE.GUI.currentDialog().cancel()">Cancel</button>'+
+      ' </form>'
+    });
+  }
+
+  function changeStatus(pid, iid) {
+    debugger;
+    var data = { 
+      C_Project: pid,
+      C_Issue: iid,
+      status: document.getElementById('status'+iid).value, 
+      note: document.getElementById('note'+iid).value
+    }
+    WAVE.ajaxCall(
+      'POST',
+      "/dashboard/changestatus",
+      data,
+      function (resp) { 
+        scheduleFetch();  
+        console.log("success"); 
+      },
+      function (resp) { console.log("error"); console.log(resp); },
+      function (resp) { console.log("fail"); console.log(resp); },
+      WAVE.CONTENT_TYPE_JSON_UTF8, 
+      WAVE.CONTENT_TYPE_JSON_UTF8
+    );
+    WAVE.GUI.currentDialog().close(); 
+    
   }
   
   var tickTime = 300000;

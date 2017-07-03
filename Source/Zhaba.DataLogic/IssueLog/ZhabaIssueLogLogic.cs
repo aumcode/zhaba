@@ -9,6 +9,7 @@ using Zhaba.Data.Forms;
 using NFX.DataAccess.CRUD;
 using NFX.DataAccess;
 using NFX.Wave;
+using System.Collections.Generic;
 
 namespace Zhaba.DataLogic
 {
@@ -21,6 +22,60 @@ namespace Zhaba.DataLogic
     #endregion
 
     #region Public
+
+    public void ChangeStatus(ulong c_User, ulong c_Project, ulong c_Issue, string status, string note = null) 
+    {
+      IssueLogEvent evt = null;
+      switch (status)
+      {
+        case ZhabaIssueStatus.REOPEN:
+          evt = new ReopenIssueEvent()
+          {
+            C_User = c_User,
+            C_Issue = c_Issue,
+            DateUTC = App.TimeSource.UTCNow,
+            Note = note
+          };
+          break;
+        case ZhabaIssueStatus.DONE:
+          evt = new DoneIssueEvent()
+          {
+            C_User = c_User,
+            C_Issue = c_Issue,
+            DateUTC = App.TimeSource.UTCNow,
+            Note = note
+          };
+          break;
+        case ZhabaIssueStatus.DEFER:
+          evt = new DeferIssueEvent()
+          {
+            C_User = c_User,
+            C_Issue = c_Issue,
+            DateUTC = App.TimeSource.UTCNow,
+            Note = note
+          };
+          break;
+        case ZhabaIssueStatus.CLOSED:
+          evt = new CloseIssueEvent()
+          {
+            C_User = c_User,
+            C_Issue = c_Issue,
+            DateUTC = App.TimeSource.UTCNow,
+            Note = note
+          };
+          break;
+        case ZhabaIssueStatus.CANCELED:
+          evt = new CancelIssueEvent()
+          {
+            C_User = c_User,
+            C_Issue = c_Issue,
+            DateUTC = App.TimeSource.UTCNow,
+            Note = note
+          };
+          break;
+      }
+      if (evt != null) WriteLogEvent(evt);
+    }
 
     public void ChangeProgess(ulong C_User, ulong issueCounter, int value, string description = null) 
     {
@@ -119,16 +174,41 @@ namespace Zhaba.DataLogic
 
       try
       {
-        if (form.FormMode == FormMode.Insert)
+        using (var trn = ZApp.Data.CRUD.BeginTransaction())
         {
-          row.C_Project = form.ProjectID;
-          ZApp.Data.CRUD.Insert(row);
-        }
-        else
-        {
-          var affected = ZApp.Data.CRUD.Update(row);
-          if (affected < 1)
-            throw HTTPStatusException.NotFound_404("Issue");
+          if (form.FormMode == FormMode.Insert)
+          {
+            row.C_Project = form.ProjectID;
+            trn.Insert(row);
+          }
+          else
+          {
+            var affected = trn.Update(row);
+            if (affected < 1)
+              throw HTTPStatusException.NotFound_404("Issue");
+          }
+
+          if (form.FormMode == FormMode.Insert)
+            write(new CreateIssueEvent()
+            {
+              C_Issue = row.Counter,
+              C_Milestone = Convert.ToUInt64(form.C_Milestone),
+              C_User = form.ZhabaUser.DataRow.Counter,
+              DateUTC = App.TimeSource.UTCNow,
+              C_Category = Convert.ToUInt64(form.C_Category),
+              Priority = form.Priority
+            });
+          else
+            write(new EditIssueEvent()
+            {
+              C_Issue = row.Counter,
+              C_Milestone = Convert.ToUInt64(form.C_Milestone),
+              C_User = form.ZhabaUser.DataRow.Counter,
+              DateUTC = App.TimeSource.UTCNow,
+              C_Category = Convert.ToUInt64(form.C_Category),
+              Priority = form.Priority
+            });
+          trn.Commit();
         }
       }
       catch (Exception error)
@@ -136,38 +216,7 @@ namespace Zhaba.DataLogic
         var eda = error as DataAccessException;
         if (eda != null && eda.KeyViolation != null)
           return new CRUDFieldValidationException(form, "Name", "This value is already used");
-
-        throw;
       }
-
-      try
-      {
-        if (form.FormMode == FormMode.Insert)
-          write(new CreateIssueEvent()
-          {
-            C_Issue = row.Counter,
-            C_Milestone = Convert.ToUInt64(form.C_Milestone),
-            C_User = form.ZhabaUser.DataRow.Counter,
-            DateUTC = App.TimeSource.UTCNow,
-            C_Category = Convert.ToUInt64(form.C_Category),
-            Priority = form.Priority
-          });
-        else
-          write(new EditIssueEvent()
-          {
-            C_Issue = row.Counter,
-            C_Milestone = Convert.ToUInt64(form.C_Milestone),
-            C_User = form.ZhabaUser.DataRow.Counter,
-            DateUTC = App.TimeSource.UTCNow,
-            C_Category = Convert.ToUInt64(form.C_Category),
-            Priority = form.Priority
-          });
-      }
-      catch (Exception ex)
-      {
-        return ex;
-      }
-
       return null;
     }
 
@@ -194,20 +243,11 @@ namespace Zhaba.DataLogic
             trn.Upsert(row);
             saveResult = row;
 
-            var note = "";
-            var query = QUser.FindAllActiveUserAndAssignedOnDate<UserRow>(from.Issue.Counter, App.TimeSource.UTCNow);
-            var usrs = trn.LoadEnumerable<UserRow>(query);
-            foreach (UserRow item in usrs)
-            {
-              note += item.Login + "; ";
-            }
-
             AssignIssueEvent evt = new AssignIssueEvent()
             {
               C_Issue = from.Issue.Counter,
               C_User = from.ZhabaUser.DataRow.Counter,
               DateUTC = App.TimeSource.UTCNow,
-              Note = note
             };
            write(evt);
           }
@@ -309,6 +349,12 @@ namespace Zhaba.DataLogic
       ZApp.Data.CRUD.Insert(newRow);
     }
 
+    private void write(CancelIssueEvent evt)
+    {
+      IssueLogRow newRow = NewIssueLog(evt, ZhabaIssueStatus.CANCELED);
+      ZApp.Data.CRUD.Insert(newRow);
+    }
+
     private void write(ChangePriorityIssueEvent evt)
     {
       IssueLogRow newRow = NewIssueLog(evt);
@@ -329,20 +375,27 @@ namespace Zhaba.DataLogic
       {
         C_Issue = evt.C_Issue,
         C_Operator = evt.C_User,
-        Status_Date = evt.DateUTC
+        Status_Date = evt.DateUTC,
       };
       IssueLogRow oldRow = ZApp.Data.CRUD.LoadRow<IssueLogRow>(QIssueLog.FindLastIssueLogByIssue<IssueLogRow>(evt.C_Issue));
       if (oldRow != null)
       {
+        if (status != null && !new List<string>(ZhabaIssueStatus.NextState(oldRow.Status)).Contains(status))
+          throw new ZhabaException("Wrong state {0} -> {1} for Issue ID = {2}".Args(oldRow.Status, status, evt.C_Issue));
+
         oldRow.CopyFields(result,
           fieldFilter: (n, f) =>
               f.Name != "Counter" &&
               f.Name != "C_Issue" &&
               f.Name != "C_Operator" &&
-              f.Name != "Status_Date"
+              f.Name != "Status_Date" 
         );
       }
+      else if (status != ZhabaIssueStatus.NEW) throw new ZhabaException("Issue(ID={0}) Log not present for status ({1})".Args(evt.C_Issue, status));
+
       if (status != null) result.Status = status;
+      if (evt.Note.IsNotNullOrWhiteSpace()) result.Note = evt.Note;
+
       return result;
     }
 

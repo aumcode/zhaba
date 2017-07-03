@@ -88,6 +88,38 @@ namespace Zhaba.Data.Domains
 
       return "Invalid";
     }
+
+    public static string[] NextState(string state)
+    {
+      switch(state) 
+      {
+        case NEW:      return new string[] { ASSIGNED, DEFER,    CANCELED };   // N-> A,F,X
+        case REOPEN:   return new string[] { ASSIGNED, DEFER,    CANCELED };   // R-> A,F,X
+        case ASSIGNED: return new string[] { DONE,     DEFER,    CANCELED };   // A-> D,F,X
+        case DONE:     return new string[] { ASSIGNED, CLOSED,   CANCELED };   // D-> A,C,X
+        case DEFER:    return new string[] { ASSIGNED, CANCELED };             // F-> A,X
+        case CLOSED:   return new string[] { REOPEN };                         // C-> R
+        case CANCELED: return new string[] { };                                // X-> null
+      }
+      return null;
+    }
+
+    public static Dictionary<string, string> STATUSES = new Dictionary<string, string> 
+    { 
+      { NEW, "New" },
+      { REOPEN, "Reopen" },
+      { ASSIGNED, "Assigned" },
+      { DONE, "Done" },
+      { DEFER, "Defer" },
+      { CLOSED, "Closed" },
+      { CANCELED, "Canceled" }
+    };
+
+    public static string STATUSES_JSON()
+    {
+      var result = STATUSES.Keys.Aggregate("{", (current, key) => current + (key+": \"" + STATUSES[key] + "\", "))+"0:0}";
+      return result;
+    }
   }
 
   public class ZhabaMeetingParticipationType : ZhabaEnum

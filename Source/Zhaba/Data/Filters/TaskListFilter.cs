@@ -65,6 +65,9 @@ namespace Zhaba.Data.Filters
       [Field]
       public List<TaskListFilterRow> Details { get; set; }
 
+      [Field]
+      public string[] NextState { get { return ZhabaIssueStatus.NextState(_status); } }
+
     }
 
     #endregion

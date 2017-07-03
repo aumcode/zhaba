@@ -5,7 +5,6 @@ using Zhaba.Data.Rows;
 using NFX;
 using NFX.Wave;
 using NFX.Serialization.JSON;
-using System.Collections.Generic;
 
 namespace Zhaba.Data.Forms
 {
@@ -83,8 +82,7 @@ namespace Zhaba.Data.Forms
     {
       m_Issue = issue;
     }
-
-   
+      
     #endregion
   }
 }

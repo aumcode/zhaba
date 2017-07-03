@@ -16,6 +16,10 @@ namespace Zhaba.Data
     [Field(required: true)]
     public DateTime DateUTC { get; set; }
 
+    [Field(required: false)]
+    public String Note { get; set; }
+
+
   }
 
   public sealed class CreateIssueEvent : IssueLogEvent
@@ -46,8 +50,7 @@ namespace Zhaba.Data
 
   public sealed class AssignIssueEvent : IssueLogEvent
   {
-    [Field(required: false)]
-    public string Note { get; set; }
+
   }
 
   public sealed class CloseIssueEvent : IssueLogEvent
@@ -66,6 +69,11 @@ namespace Zhaba.Data
   }
 
   public sealed class DeferIssueEvent : IssueLogEvent
+  {
+
+  }
+
+  public sealed class CancelIssueEvent : IssueLogEvent
   {
 
   }
