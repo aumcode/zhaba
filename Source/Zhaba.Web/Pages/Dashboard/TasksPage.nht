@@ -520,8 +520,6 @@ div.colspan>div>div
         }  
       });
   }
-  
-  
 
   function buildStatusBody(status) {
     if(status == 'A') {
