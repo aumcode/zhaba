@@ -311,12 +311,11 @@ div.colspan>div>div
                 div
                 {
                   "?if(pmperm)" {
-                    //a = 'Add Assignee' { href="?'javascript:addAssignee('+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button" }
-                    //a = 'Defer' { href="?'javascript:changeStatusDialog(\"A\",'+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button" }
-                    //a = 'Close' { href="?'javascript:changeStatusDialog(\"C\",'+tasks[i].C_Project+', '+tasks[i].Counter+')'" class="button" }
-                    //a = 'Reopen' { href="?'javascript:changeStatusDialog(\"R\",'+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button" }
                     "? for(var s=0, sl=tasks[i].NextState.length; s < sl; s++)" {
                         a = "?statuses[tasks[i].NextState[s]]" { href="?'javascript:changeStatusDialog(\"'+tasks[i].NextState[s]+'\",'+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button"  class="button" }
+                    }
+                    "? if(tasks[i].statusId=='A')" {
+                      a = "Add user" { href="?'javascript:changeStatusDialog(\"A\",'+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button"  class="button" }
                     }
                   }
                   "? if(tasks[i].Status != 'Closed')" { 
@@ -324,8 +323,8 @@ div.colspan>div>div
                     {
                       id="?'form-'+tasks[i].Counter"
 
-                      div="Progress:" { input{name="completeness" class="text" type="text" value=?tasks[i].Completeness } }
-                      div="Description:"{ textarea="?tasks[i].Description" { name="description" class="text"} }
+                      div="Progress:" { input{name="completeness" class="text" type="text" value=?tasks[i].Completeness } class="fView" }
+                      div="Description:"{ textarea="?tasks[i].Description" { name="description" class="text"} class="fView" }
 
                       a="Send" { href="?'javascript:changeProgress('+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button" }
                     }
@@ -416,43 +415,6 @@ div.colspan>div>div
     document.getElementById("grid").innerHTML = "";
   }
 
-  function closeIssue(pid, iid) {
-    var link = ZHB.URIS.ForDELETE_ISSUE(pid, iid);
-    WAVE.GUI.showConfirmationDialog(
-      'Close issue',
-      'Are you sure? \n ' + grid.SELECTED_ROW_DATA,
-      [WAVE.GUI.DLG_YES, WAVE.GUI.DLG_NO],
-      function(sender, result) {
-        if(result == WAVE.GUI.DLG_YES) {
-          WAVE.ajaxCall(
-          'DELETE',
-          link,
-          null,
-          function (resp) { scheduleFetch();  console.log("success"); },
-          function (resp) { console.log("error"); },
-          function (resp) { console.log("fail"); },
-          WAVE.CONTENT_TYPE_JSON_UTF8, 
-          WAVE.CONTENT_TYPE_JSON_UTF8
-          );
-        } 
-      return true;
-      });
-  }
-
-  function deferIssue(pid, iid) {
-    var link = ZHB.URIS.ForDEFER_ISSUE(pid, iid);
-    WAVE.ajaxCall(
-      'GET',
-      link,
-      null,
-      function (resp) { scheduleFetch();  console.log("success"); },
-      function (resp) { console.log("error"); },
-      function (resp) { console.log("fail"); },
-      WAVE.CONTENT_TYPE_JSON_UTF8, 
-      WAVE.CONTENT_TYPE_JSON_UTF8
-    );
-  }
-
   function reopenIssue(pid, iid) {
     var link = ZHB.URIS.ForREOPEN_ISSUE(pid, iid);
     WAVE.ajaxCall(
@@ -465,12 +427,6 @@ div.colspan>div>div
       WAVE.CONTENT_TYPE_JSON_UTF8, 
       WAVE.CONTENT_TYPE_JSON_UTF8
     );
-  }
-
-  function addAssignee(pid, iid) {
-    console.log(pid);
-    console.log(iid);
-    debugger;
   }
 
   function changeProgress(pid, iid) {
@@ -492,25 +448,22 @@ div.colspan>div>div
     );
   }
 
-  function changeStatusDialog(state, pid, iid) {
-    var dlg = new WAVE.GUI.Dialog({
-      title: 'Change state to ' + state,
-      body: '<form id="changeStateDialogForm'+iid+'">'+
-      '<input id="status'+iid+'" name="status" type="hidden" value="'+state+'">'+
-      '<textarea id="note'+iid+'" name="note"></textarea>'+
-      '<a class="button" href="javascript:changeStatus('+ pid +',' + iid +')">Change</a>'+
-      '<button onclick="WAVE.GUI.currentDialog().cancel()">Cancel</button>'+
-      ' </form>'
-    });
+  function changeStatusDialog(status, pid, iid) {
+    if(status == 'A') {
+      getIssueAssignForm(pid, iid, null);
+    } else {
+      getOtherForm(status, pid, iid);
+    }
+
+
   }
 
-  function changeStatus(pid, iid) {
-    debugger;
+  function changeStatus(pid, iid, status, note) {
     var data = { 
       C_Project: pid,
       C_Issue: iid,
-      status: document.getElementById('status'+iid).value, 
-      note: document.getElementById('note'+iid).value
+      status: status, 
+      note: note
     }
     WAVE.ajaxCall(
       'POST',
@@ -525,8 +478,122 @@ div.colspan>div>div
       WAVE.CONTENT_TYPE_JSON_UTF8, 
       WAVE.CONTENT_TYPE_JSON_UTF8
     );
-    WAVE.GUI.currentDialog().close(); 
-    
+  }
+  
+  function  changeAssignStatus(pid, iid, status, data) {
+    var link = ZHB.URIS.ForISSUE_ISSUEASSIGN(pid, iid, null);
+     WAVE.ajaxCall(
+          'POST',
+          link,
+          data,
+          function (resp) { 
+            scheduleFetch();  
+            console.log("success"); 
+          },
+          function (resp) { console.log("error"); console.log(resp); },
+          function (resp) { console.log("fail"); console.log(resp); },
+          WAVE.CONTENT_TYPE_JSON_UTF8, 
+          WAVE.CONTENT_TYPE_JSON_UTF8
+        ); 
+  }
+
+  function buildPopUpDialog(status, rec, pid, iid) {
+    var dlg = new WAVE.GUI.Dialog({
+        header: 'Change state to ' + statuses[status],
+        body: buildStatusBody(status),
+        footer: buildStatusFooter(),
+        onShow: function() {
+          var rv = new WAVE.RecordModel.RecordView("V2", rec);
+        },
+        onClose: function(dlg, result) {
+          if(result==WAVE.GUI.DLG_CANCEL) return WAVE.GUI.DLG_CANCEL;
+          rec.validate();
+          if (!rec.valid()) return WAVE.GUI.DLG_UNDEFINED    
+          json = rec.data(); 
+          note = rec.data().Note;  
+          if (status=='A') {
+            changeAssignStatus(pid, iid, status, rec.data());
+          } else {
+            changeStatus(pid, iid, status, note)
+          }
+          return WAVE.GUI.DLG_CANCEL;
+        }  
+      });
+  }
+
+  function buildStatusBody(status) {
+    if(status == 'A') {
+    /***
+      div
+      {
+        id="statusForm"
+        data-wv-rid="V2"
+        div { data-wv-fname="C_User" class="fView" }
+        div { data-wv-fname="Open_TS" class="fView" }
+        div { data-wv-fname="Close_TS" class="fView" }
+        div { data-wv-fname="Note" class="fView" }
+      }
+    ***/
+    } else {
+    /***
+      div
+      {
+        id="statusForm"
+        data-wv-rid="V2"
+        div { data-wv-fname="Note" class="fView" }
+      }
+    ***/
+    }
+  }
+
+  function buildStatusFooter() {
+    /***
+      div
+      {
+        a="ok" {href="javascript:WAVE.GUI.currentDialog().ok()" class="button"}
+        a="cancel" {href="javascript:WAVE.GUI.currentDialog().cancel()" class="button"}
+      }
+
+    ***/
+  }
+  
+  function getIssueAssignForm(pid, iid, iaid) {
+    var link = ZHB.URIS.ForISSUE_ISSUEASSIGN(pid, iid, iaid);
+    WAVE.ajaxCall(
+      'GET',
+      link,
+      null,
+      function (resp) { 
+        console.log("success");
+        console.log(resp); 
+        var _rec = new WAVE.RecordModel.Record(JSON.parse(resp));
+        buildPopUpDialog('A', _rec, pid, iid);
+      },
+      function (resp) { console.log("error"); console.log(resp); },
+      function (resp) { console.log("fail"); console.log(resp); }, 
+      WAVE.CONTENT_TYPE_JSON_UTF8, 
+      WAVE.CONTENT_TYPE_JSON_UTF8
+    );
+  }
+
+  function getOtherForm(status, pid, iid) {
+    var link = ZHB.URIS.ForISSUE_STATUSNOTE(pid, iid, status); 
+    WAVE.ajaxCall(
+      'GET',
+      link,
+      null,
+      function (resp) { 
+        console.log("success");
+        console.log(resp); 
+        var _rec = new WAVE.RecordModel.Record(JSON.parse(resp));
+        buildPopUpDialog(status, _rec, pid, iid);
+      },
+      function (resp) { console.log("error"); console.log(resp); },
+      function (resp) { console.log("fail"); console.log(resp); }, 
+      WAVE.CONTENT_TYPE_JSON_UTF8, 
+      WAVE.CONTENT_TYPE_JSON_UTF8
+    );
+
   }
   
   var tickTime = 300000;

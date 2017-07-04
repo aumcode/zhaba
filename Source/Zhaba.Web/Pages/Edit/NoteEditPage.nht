@@ -1,0 +1,34 @@
+﻿#<laconf>
+  compiler
+  {
+    using { ns="System.Linq" }
+    using { ns="System.Collections.Generic" }
+    using { ns="NFX" }
+    using { ns="NFX.DataAccess.CRUD" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Wave.Templatization" }
+    using { ns="Zhaba" }
+    using { ns="Zhaba.Data.Forms" }
+    base-class-name="Zhaba.Web.Pages.FormMaster<NoteEditForm>"
+    namespace="Zhaba.Web.Pages"
+  }
+#</laconf>
+
+#[class]
+  public NoteEditPage(NoteEditForm form, Exception error)
+    : base(form, error)
+  {
+    Title = "{0} Issue".Args((form.FormMode == FormMode.Edit) ? "Edit" : "Add");
+  }
+
+  #[override renderEntries()]
+
+  <div class="fView" data-wv-fname="Note"></div>
+
+
+  @[if (Form.FormMode == FormMode.Edit) {]
+  <div class="fView" data-wv-fname="Comment"></div>
+  @[}]
+
+#[override renderBtns()]
+
