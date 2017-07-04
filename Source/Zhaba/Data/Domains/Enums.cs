@@ -61,7 +61,7 @@ namespace Zhaba.Data.Domains
     public const string REOPEN = "R";   // R-> A,F,X
     public const string ASSIGNED = "A"; // A-> D,F,X
     public const string DONE = "D";     // D-> A,C,X
-    public const string DEFER = "F";    // F-> A,X
+    public const string DEFER = "F";    // F-> N,A,X
     public const string CANCELED = "X"; // X-> null
     public const string CLOSED = "C";   // C-> R
 
@@ -97,18 +97,18 @@ namespace Zhaba.Data.Domains
         case REOPEN:   return new string[] { ASSIGNED, DEFER,    CANCELED };   // R-> A,F,X
         case ASSIGNED: return new string[] { DONE,     DEFER,    CANCELED };   // A-> D,F,X
         case DONE:     return new string[] { ASSIGNED, CLOSED,   CANCELED };   // D-> A,C,X
-        case DEFER:    return new string[] { ASSIGNED, CANCELED };             // F-> A,X
+        case DEFER:    return new string[] { NEW,      ASSIGNED, CANCELED };   // F-> N,A,X
         case CLOSED:   return new string[] { REOPEN };                         // C-> R
         case CANCELED: return new string[] { };                                // X-> null
       }
       return null;
     }
 
-    public static Dictionary<string, string> STATUSES = new Dictionary<string, string> 
+    public static readonly Dictionary<string, string> STATUSES = new Dictionary<string, string> 
     { 
       { NEW, "New" },
       { REOPEN, "Reopen" },
-      { ASSIGNED, "Assignee" },
+      { ASSIGNED, "Assign" },
       { DONE, "Done" },
       { DEFER, "Defer" },
       { CLOSED, "Close" },

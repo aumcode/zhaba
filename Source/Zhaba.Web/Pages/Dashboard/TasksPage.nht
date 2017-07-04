@@ -314,7 +314,14 @@ div.colspan>div>div
                 {
                   "?if(pmperm)" {
                     "? for(var s=0, sl=tasks[i].NextState.length; s < sl; s++)" {
-                        a = "?statuses[tasks[i].NextState[s]]" { href="?'javascript:changeStatusDialog(\"'+tasks[i].NextState[s]+'\",'+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button"  class="button" }
+                        a = "?statuses[tasks[i].NextState[s]]" 
+                        { 
+                          data-nextstate=?tasks[i].NextState[s]
+                          data-cproject=?tasks[i].C_Project
+                          data-counter=?tasks[i].Counter 
+                          on-click="changeStatusDialog1"  
+                          class="button"   
+                        }
                     }
                     "? if(tasks[i].statusId=='A')" {
                       a = "Add user" { href="?'javascript:changeStatusDialog(\"A\",'+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button"  class="button" }
@@ -605,6 +612,11 @@ div.colspan>div>div
       WAVE.CONTENT_TYPE_JSON_UTF8
     );
 
+  }
+  
+  function changeStatusDialog1(a) {
+    debugger;
+    changeStatusDialog(a.target.dataset.nextstate, a.target.dataset.cproject, a.target.dataset.counter)
   }
   
   var tickTime = 300000;
