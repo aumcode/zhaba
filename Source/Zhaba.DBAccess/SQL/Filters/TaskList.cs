@@ -40,7 +40,7 @@ from tbl_issuelog as T1
   join tbl_category as TC on T1.C_CATEGORY = TC.COUNTER
   join tbl_milestone as TM on T1.C_MILESTONE = TM.COUNTER
   join tbl_project as TP on TI.C_PROJECT = TP.COUNTER
-where {0}";
+where T1.STATUS != 'X' and {0}";
 
     protected override void DoBuildCommandAndParms(MySQLCRUDQueryExecutionContext context, MySqlCommand cmd,
       TaskListFilter filter)

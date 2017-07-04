@@ -319,13 +319,19 @@ div.colspan>div>div
                     }
                   }
                   "? if(tasks[i].Status != 'Closed')" { 
-                    form
+                    div
                     {
                       id="?'form-'+tasks[i].Counter"
-
-                      div="Progress:" { input{name="completeness" class="text" type="text" value=?tasks[i].Completeness } class="fView" }
-                      div="Description:"{ textarea="?tasks[i].Description" { name="description" class="text"} class="fView" }
-
+                      div { 
+                        class="fView" 
+                        label="Progress:" { for="?'prog' + tasks[i].Counter" } 
+                        input { id="?'prog' + tasks[i].Counter" value="?tasks[i].Completeness" type="text" placeholder="Progress"} 
+                      }
+                      div { 
+                        class="fView" 
+                        label="Description:" { for="?'desc' + tasks[i].Counter" } 
+                        input { id="?'desc' + tasks[i].Counter" value="?tasks[i].Description" type="text" placeholder="Description"} 
+                      }
                       a="Send" { href="?'javascript:changeProgress('+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button" }
                     }
                   }
@@ -355,9 +361,9 @@ div.colspan>div>div
                           div="?tasks[i].Details[j].Counter"{ class="rTableCell" align="right" }
                           div="?tasks[i].Details[j].Completeness" { class="rTableCell" }
                           div="?tasks[i].Details[j].Status"{ class="rTableCell" align="center"}
-                          div="?WAVE.dateTimeToString(tasks[i].Details[j].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
-                          div="?WAVE.dateTimeToString(tasks[i].Details[j].Plan_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
-                          div="?WAVE.dateTimeToString(tasks[i].Details[j].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rTableCell" }
+                          div="?WAVE.dateTimeToString(tasks[i].Details[j].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+                          div="?WAVE.dateTimeToString(tasks[i].Details[j].Plan_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+                          div="?WAVE.dateTimeToString(tasks[i].Details[j].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
                           div=?tasks[i].Details[j].Assignee { class="rTableCell" }
                           div="?tasks[i].Details[j].ProjectName"{ class="rTableCell" }
                           div="?tasks[i].Details[j].Name"{ class="rTableCell" }
@@ -432,8 +438,8 @@ div.colspan>div>div
   function changeProgress(pid, iid) {
     var data = {
       issueCounter: iid,
-      value: document.getElementById('form-'+iid).completeness.value, 
-      description: document.getElementById('form-'+iid).description.value
+      value: document.getElementById('prog'+iid).value, 
+      description: document.getElementById('desc'+iid).value
     };
     console.log(data);
     WAVE.ajaxCall(

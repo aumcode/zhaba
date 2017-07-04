@@ -15,7 +15,7 @@ namespace Zhaba.Data.Filters
   {
     #region Nested
 
-    private class TaskListFilterRow : TypedRow
+    public class TaskListFilterRow : TypedRow
     {
       [Field]
       public string statusId { get; set; }
