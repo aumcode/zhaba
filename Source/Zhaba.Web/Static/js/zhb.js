@@ -81,6 +81,10 @@ var ZHB = (function () {
       return issue_setup(pid, iid) + "/issueassign?id={0}".args(id);
     },
 
+    ForISSUE_STATUSNOTE: function (pid, iid, status) {
+      return issue_setup(pid, iid) + "/statusnote?status={0}".args(status);
+    },
+
     ForDELETE_ISSUE: function (pid, iid) {
       return issue_setup(pid, iid) + "/close";
     },

@@ -1,0 +1,37 @@
+﻿#<laconf>
+  compiler
+  {
+    using { ns="System.Linq" }
+    using { ns="System.Collections.Generic" }
+    using { ns="NFX" }
+    using { ns="NFX.DataAccess.CRUD" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Wave.Templatization" }
+    using { ns="Zhaba" }
+    using { ns="Zhaba.Data.Forms" }
+    base-class-name="Zhaba.Web.Controls.PopUpMaster<IssueAssignForm>"
+    namespace="Zhaba.Web.Pages"
+  }
+#</laconf>
+
+#[class]
+  public IssueAssignDashboard(IssueAssignForm form, Exception error)
+    : base(form, error)
+  {
+    Title = "{0} Issue".Args((form.FormMode == FormMode.Edit) ? "Edit" : "Add");
+  }
+
+  #[override renderEntries()]
+  <div class="fView" data-wv-fname="C_User" data-wv-ctl="combo"></div>
+  <div class="fView" data-wv-fname="Open_TS"></div>
+  <div class="fView" data-wv-fname="Close_TS"></div>
+  <div class="fView" data-wv-fname="Note"></div>
+
+
+  @[if (Form.FormMode == FormMode.Edit) {]
+  <div class="fView" data-wv-fname="Comment"></div>
+  @[}]
+
+#[override renderBtns()]
+  <input class="button" type="submit" value="Save" />
+  <a class="button" href="javascript:WAVE.GUI.currentDialog().cancel()">Cancel</a>

@@ -108,11 +108,11 @@ namespace Zhaba.Data.Domains
     { 
       { NEW, "New" },
       { REOPEN, "Reopen" },
-      { ASSIGNED, "Assigned" },
+      { ASSIGNED, "Assignee" },
       { DONE, "Done" },
       { DEFER, "Defer" },
-      { CLOSED, "Closed" },
-      { CANCELED, "Canceled" }
+      { CLOSED, "Close" },
+      { CANCELED, "Cancel" }
     };
 
     public static string STATUSES_JSON()

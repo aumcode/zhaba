@@ -1,0 +1,66 @@
+﻿#<laconf>
+  compiler
+  {
+    using { ns="System.Linq" }
+    using { ns="System.Collections.Generic" }
+    using { ns="NFX" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Wave.Templatization" }
+    using { ns="Zhaba" }
+    using { ns="Zhaba.Data.Forms" }
+    class-declaration="PopUpMaster<TForm>"
+    class-constraint="where TForm : Zhaba.Data.Forms.ZhabaForm"
+    base-class-name="ZhabaControl"
+    namespace="Zhaba.Web.Controls"
+  }
+#</laconf>
+
+#[class]
+  protected PopUpMaster(TForm form, Exception error)
+  {
+    m_Form = form;
+    m_ValidationError = error;
+  }
+
+  private readonly TForm m_Form;
+  private readonly Exception m_ValidationError;
+  protected string Title;
+
+  public TForm Form { get { return m_Form; } }
+
+  protected virtual void renderEntries() { }
+  protected virtual void renderBtns() { }
+
+#[render]
+  <form id="editForm" data-wv-rid="V1" method="POST" novalidate="">
+    <div class="content">
+      <div class="entries">
+        @[renderEntries();]
+      </div>
+      <div class="btns">
+        @[renderBtns();]
+      </div>
+    </div>
+  </form>
+
+<script>
+
+  var REC = new WAVE.RecordModel.Record(?[:FormJSON(m_Form, m_ValidationError)]);
+  var RVIEW = new WAVE.RecordModel.RecordView("V1", REC);
+
+  $('#editForm').submit(function (e) {
+    if (!REC.validate())
+    {
+      WAVE.GUI.toast('Please correct all validation errors marked in red','error');
+      e.preventDefault();
+      return false;
+    }
+    REC.resetModified();
+    return true;
+  })
+
+  @[if (m_ValidationError!=null) {]
+    WAVE.GUI.toast('Please correct errors on form marked in red', 'error', 5000);
+  @[}]
+
+</script>

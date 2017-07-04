@@ -73,6 +73,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="SQL\CRUD\IssueAssign\RemoveAllUsers.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\Sequence\AllScopes.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\Sequence\ByName.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\User\ByLogin.mys.sql" />

@@ -23,7 +23,7 @@ namespace Zhaba.DataLogic
 
     #region Public
 
-    public void ChangeStatus(ulong c_User, ulong c_Project, ulong c_Issue, string status, string note = null) 
+    public void ChangeStatus(ulong c_User, ulong c_Project, ulong c_Issue, string status, string note = null, ulong? c_AssignUser=null) 
     {
       IssueLogEvent evt = null;
       switch (status)
@@ -47,6 +47,7 @@ namespace Zhaba.DataLogic
           };
           break;
         case ZhabaIssueStatus.DEFER:
+          IssueAssignClose(c_User, c_Issue);
           evt = new DeferIssueEvent()
           {
             C_User = c_User,
@@ -56,6 +57,7 @@ namespace Zhaba.DataLogic
           };
           break;
         case ZhabaIssueStatus.CLOSED:
+          IssueAssignClose(c_User, c_Issue);
           evt = new CloseIssueEvent()
           {
             C_User = c_User,
@@ -65,6 +67,7 @@ namespace Zhaba.DataLogic
           };
           break;
         case ZhabaIssueStatus.CANCELED:
+          IssueAssignClose(c_User, c_Issue);
           evt = new CancelIssueEvent()
           {
             C_User = c_User,
@@ -259,6 +262,17 @@ namespace Zhaba.DataLogic
       }
 
       return result;
+    }
+
+    public void IssueAssignClose(ulong c_User, ulong c_Issue)
+    {
+      var query = new Query("SQL.CRUD.IssueAssign.RemoveAllUsers")
+      {
+        new Query.Param("pClose_TS", App.TimeSource.UTCNow.Date),
+        new Query.Param("pC_Issue", c_Issue),
+        new Query.Param("pC_User", c_User)
+      };
+      ZApp.Data.CRUD.ExecuteWithoutFetch(query);
     }
 
     public void WriteLogEvent(IssueLogEvent evt)

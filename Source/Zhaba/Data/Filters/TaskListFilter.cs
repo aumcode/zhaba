@@ -17,7 +17,8 @@ namespace Zhaba.Data.Filters
 
     private class TaskListFilterRow : TypedRow
     {
-      private string _status;
+      [Field]
+      public string statusId { get; set; }
 
       [Field]
       public ulong Counter { get; set; }
@@ -34,8 +35,8 @@ namespace Zhaba.Data.Filters
       [Field]
       public string Status
       {
-        get { return ZhabaIssueStatus.MapDescription(_status); }
-        set { _status = value; }
+        get { return ZhabaIssueStatus.MapDescription(statusId); }
+        set { statusId = value; }
       }
 
       [Field]
@@ -66,7 +67,7 @@ namespace Zhaba.Data.Filters
       public List<TaskListFilterRow> Details { get; set; }
 
       [Field]
-      public string[] NextState { get { return ZhabaIssueStatus.NextState(_status); } }
+      public string[] NextState { get { return ZhabaIssueStatus.NextState(statusId); } }
 
     }
 
@@ -123,7 +124,7 @@ namespace Zhaba.Data.Filters
       var data = saveResult as RowsetBase;
       if (data != null)
       {
-        DateTime asOf = DateTime.TryParse(AsOf, out asOf) ? asOf.Date : App.TimeSource.UTCNow;
+        DateTime asOf = DateTime.TryParse(AsOf, out asOf) ? asOf.Date.AddHours(23).AddMinutes(59).AddSeconds(59) : App.TimeSource.UTCNow;
         foreach (var item in data)
           try
           {

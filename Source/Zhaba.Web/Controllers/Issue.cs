@@ -7,14 +7,17 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using NFX.DataAccess.CRUD;
 using Zhaba.Data.Forms;
 using Zhaba.Data.QueryBuilders;
 using Zhaba.Data.Rows;
 using Zhaba.Security.Permissions;
 using Zhaba.Web.Pages;
+using Zhaba.Data.Domains;
 
 namespace Zhaba.Web.Controllers
 {
+  //  [SiteUserPermission]
   public class Issue : ProjectControllerBase
   {
     [ThreadStatic]
@@ -53,16 +56,8 @@ namespace Zhaba.Web.Controllers
         if (pForm != null)
         {
           pForm.____SetIssue(issue);
-          continue;
+          break;
         }
-/*
-        var pFilter = arg as ProjectFilterBase;
-        if (pFilter != null)
-        {
-          pFilter.____SetProject(project);
-          continue;
-        }
-*/
       }
 
       return ret;
@@ -104,8 +99,46 @@ namespace Zhaba.Web.Controllers
     [PMPermission]
     public object IssueAssign(ulong? id, IssueAssignForm form)
     {
+      id = id == 0 ? null : id;
       return DataSetup_ItemDetails<IssueAssignForm, IssueAssignPage>(new object[] { ProjectRow, IssueRow, id }, form, URIS.ForPROJECT_ISSUES(ProjectRow.Counter));
     }
 
+    [Action("statusnote", 0, "match { methods=POST,GET }")]
+    [PMPermission]
+    public object StatusNote(ulong? id, NoteEditForm form)
+    {
+      return DataSetup_ItemDetails<NoteEditForm, NoteEditPage>(new object[] { ProjectRow, IssueRow, id }, form, URIS.ForPROJECT_ISSUES(ProjectRow.Counter));
+    }
+
+    #region .pvt
+
+    protected object DataSetup_PopUp(object[] args, IssueAssignForm form, string postRedirect)
+    {
+      Exception error = null;
+
+      if (WorkContext.IsPOST)
+      {
+        Row row;
+        error = form.Save(out row);
+        if (error == null)
+        {
+          if (WorkContext.RequestedJSON)
+            return JSON_OK_ROW_ID(row);
+          else
+            return new Redirect(postRedirect);
+        }
+      }
+      else
+        form = (IssueAssignForm)Activator.CreateInstance(typeof(IssueAssignForm), args);
+        
+
+      if (WorkContext.RequestedJSON)
+        return new ClientRecord(form, error);
+      else
+        return MakePage<IssueAssignDashboard>(form, error);
+    }
+    
+
+    #endregion
   }
 }
