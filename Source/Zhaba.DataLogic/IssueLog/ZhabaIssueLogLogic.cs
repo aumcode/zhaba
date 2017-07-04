@@ -224,7 +224,7 @@ namespace Zhaba.DataLogic
     }
 
 
-    public Exception WriteIssueAssignForm(IssueAssignForm from, out object saveResult)
+    public Exception WriteIssueAssignForm(IssueAssignForm form, out object saveResult)
     {
       Exception result = null;
       saveResult = null;
@@ -232,12 +232,12 @@ namespace Zhaba.DataLogic
       {
         using (var trn = ZApp.Data.CRUD.BeginTransaction())
         {
-          var counter = from.RoundtripBag[ZhabaForm.ITEM_ID_BAG_PARAM].AsNullableULong();
-          IssueAssignRow row = from.FormMode == FormMode.Edit && counter.HasValue
+          var counter = form.RoundtripBag[ZhabaForm.ITEM_ID_BAG_PARAM].AsNullableULong();
+          IssueAssignRow row = form.FormMode == FormMode.Edit && counter.HasValue
           ? trn.LoadRow(QIssueAssign.findIssueAssignByCounter<IssueAssignRow>(counter.Value))
-          : new IssueAssignRow(RowPKAction.Default) { C_Issue = from.Issue.Counter, C_Open_Oper = from.ZhabaUser.DataRow.Counter };
+          : new IssueAssignRow(RowPKAction.Default) { C_Issue = form.Issue.Counter, C_Open_Oper = form.ZhabaUser.DataRow.Counter };
 
-          from.CopyFields(row, fieldFilter: (n, f) => f.Name != "C_Open_Oper" && f.Name != "C_Close_Oper" && f.Name != "C_Issue");
+          form.CopyFields(row, fieldFilter: (n, f) => f.Name != "C_Open_Oper" && f.Name != "C_Close_Oper" && f.Name != "C_Issue");
 
           result = row.ValidateAndPrepareForStore();
           if (result == null)
@@ -248,9 +248,10 @@ namespace Zhaba.DataLogic
 
             AssignIssueEvent evt = new AssignIssueEvent()
             {
-              C_Issue = from.Issue.Counter,
-              C_User = from.ZhabaUser.DataRow.Counter,
+              C_Issue = form.Issue.Counter,
+              C_User = form.ZhabaUser.DataRow.Counter,
               DateUTC = App.TimeSource.UTCNow,
+              Note = form.Note
             };
            write(evt);
           }
@@ -328,14 +329,13 @@ namespace Zhaba.DataLogic
       if (newRow.Status == ZhabaIssueStatus.CLOSED) return;
       newRow.Completeness = evt.Completeness;
       newRow.Description = evt.Description;
-      if (evt.Completeness == 100) newRow.Status = ZhabaIssueStatus.DONE;
+//      if (evt.Completeness == 100) newRow.Status = ZhabaIssueStatus.DONE;
       ZApp.Data.CRUD.Insert(newRow);
     }
 
     private void write(AssignIssueEvent evt)
     {
         IssueLogRow newRow = NewIssueLog(evt, ZhabaIssueStatus.ASSIGNED);
-        newRow.Note = evt.Note;
         ZApp.Data.CRUD.Insert(newRow);
     }
 
