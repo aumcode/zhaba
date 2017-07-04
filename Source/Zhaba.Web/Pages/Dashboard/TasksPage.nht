@@ -269,6 +269,7 @@ div.colspan>div>div
         div="Assigned" {class="rTableHead"}
         div="Project" {class="rTableHead"}
         div="Issue" {class="rTableHead"}
+        div="Note"{ class="rTableHead" }
       }
       "? for(var i = 0, l = tasks.length; i<l; i++)" {
           div
@@ -298,6 +299,7 @@ div.colspan>div>div
               div=?tasks[i].Assignee { class="rTableCell" }
               div="?tasks[i].ProjectName"{ class="rTableCell" }
               div="?tasks[i].Name"{ class="rTableCell" }
+              div="?tasks[i].Note"{ class="rTableCell" }
           }
           div
           {
@@ -345,6 +347,8 @@ div.colspan>div>div
                       div="Assigned" {class="rTableHead"}
                       div="Project" {class="rTableHead"}
                       div="Issue" {class="rTableHead"}
+                      div="Note"{ class="rTableHead" }
+                      
                     }
                     "? for(var j = 0, k = tasks[i].Details.length; j<k; j++)" {
                       div
@@ -361,6 +365,7 @@ div.colspan>div>div
                           div=?tasks[i].Details[j].Assignee { class="rTableCell" }
                           div="?tasks[i].Details[j].ProjectName"{ class="rTableCell" }
                           div="?tasks[i].Details[j].Name"{ class="rTableCell" }
+                          div="?tasks[i].Details[j].Note"{ class="rTableCell" }
                       }
                     }
                   }
