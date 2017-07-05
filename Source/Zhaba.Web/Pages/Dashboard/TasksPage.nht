@@ -252,15 +252,18 @@ div.colspan>div>div
     return 'color: ' + color; 
   }
 
-  function renderTasks(root){
-    clearGrid();
+  function createBody(root){
     /***
-    div{
-      class = "rTable"
-      div 
-      {
-        class="rTableRow"
-        div="ID" {class="rTableHead"}
+    div { id="table" class = "rTable" }
+    ***/
+  }
+
+  function createHeaders(root){
+    /***
+    div 
+    {
+      class="rTableRow"
+      div="ID" {class="rTableHead"}
         div="Progress" {class="rTableHead"}
         div="Status" {class="rTableHead"}
         div="Start" {class="rTableHead"}
@@ -270,125 +273,156 @@ div.colspan>div>div
         div="Project" {class="rTableHead"}
         div="Issue" {class="rTableHead"}
         div="Note"{ class="rTableHead" }
-      }
-      "? for(var i = 0, l = tasks.length; i<l; i++)" {
-          div
-          {
-              id=?tasks[i].Counter
-              class="expander rTableRow"
-              
-              div="?tasks[i].Counter"{ class="issue_id rTableCell" align="right" }
-              div 
-              { 
-                  class="rTableCell completeness" 
-                  div 
-                  { 
-                    class="bar" 
-                    style="?getStatusBarStyle(tasks[i].Completeness)" 
-                  }
-                  div="?tasks[i].Completeness" 
-                  { 
-                    class="bar-value" 
-                    align="center"
-                  }
-              }
-              div="?tasks[i].Status"{ class="rTableCell" style="?getStatusStyle(tasks[i].Status)" align="center"}
-              div="?WAVE.dateTimeToString(tasks[i].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-              div="?WAVE.dateTimeToString(tasks[i].Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-              div="?WAVE.dateTimeToString(tasks[i].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-              div=?tasks[i].Assignee { class="rTableCell" }
-              div="?tasks[i].ProjectName"{ class="rTableCell" }
-              div="?tasks[i].Name"{ class="rTableCell" }
-              div="?tasks[i].Note"{ class="rTableCell" }
-          }
-          div
-          {
-            id="?'details-'+tasks[i].Counter"
-            class="details rTableRow"
-            div
-            {
-              class="rTableCell colspan"
-              div
-              {
-                div
-                {
-                  "?if(pmperm)" {
-                    "? for(var s=0, sl=tasks[i].NextState.length; s < sl; s++)" {
-                        a = "?statuses[tasks[i].NextState[s]]" 
-                        { 
-                          data-nextstate=?tasks[i].NextState[s]
-                          data-cproject=?tasks[i].C_Project
-                          data-counter=?tasks[i].Counter 
-                          on-click="changeStatusDialog1"  
-                          class="button"   
-                        }
-                    }
-                    "? if(tasks[i].statusId=='A')" {
-                      a = "Add user" { href="?'javascript:changeStatusDialog(\"A\",'+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button"  class="button" }
-                    }
-                  }
-                  "? if(tasks[i].Status != 'Closed')" { 
-                    div
-                    {
-                      id="?'form-'+tasks[i].Counter"
-                      div { 
-                        class="fView" 
-                        label="Progress:" { for="?'prog' + tasks[i].Counter" } 
-                        input { id="?'prog' + tasks[i].Counter" value="?tasks[i].Completeness" type="text" placeholder="Progress"} 
-                      }
-                      div { 
-                        class="fView" 
-                        label="Description:" { for="?'desc' + tasks[i].Counter" } 
-                        input { id="?'desc' + tasks[i].Counter" value="?tasks[i].Description" type="text" placeholder="Description"} 
-                      }
-                      a="Send" { href="?'javascript:changeProgress('+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button" }
-                    }
-                  }
-                  div 
-                  {
-                    id="?'detailsTable-'+tasks[i].Counter"
-                    class = "rTable"
-                    div 
-                    {
-                      class="rTableRow"
-                      div="ID" {class="rTableHead"}
-                      div="Progress" {class="rTableHead"}
-                      div="Status" {class="rTableHead"}
-                      div="Start" {class="rTableHead"}
-                      div="Plan/Due" {class="rTableHead"}
-                      div="Complete" {class="rTableHead"}
-                      div="Assigned" {class="rTableHead"}
-                      div="Project" {class="rTableHead"}
-                      div="Issue" {class="rTableHead"}
-                      div="Description"{ class="rTableHead" }
-                      
-                    }
-                    "? for(var j = 0, k = tasks[i].Details.length; j<k; j++)" {
-                      div
-                      {
-                          id="?'detailsRow-'+tasks[i].Details[j].Counter"
-                          class="rTableRow"
-              
-                          div="?tasks[i].Details[j].Counter"{ class="rTableCell" align="right" }
-                          div="?tasks[i].Details[j].Completeness" { class="rTableCell" }
-                          div="?tasks[i].Details[j].Status"{ class="rTableCell" align="center"}
-                          div="?WAVE.dateTimeToString(tasks[i].Details[j].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-                          div="?WAVE.dateTimeToString(tasks[i].Details[j].Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-                          div="?WAVE.dateTimeToString(tasks[i].Details[j].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-                          div=?tasks[i].Details[j].Assignee { class="rTableCell" }
-                          div="?tasks[i].Details[j].ProjectName"{ class="rTableCell" }
-                          div="?tasks[i].Details[j].Name"{ class="rTableCell" }
-                          div="?tasks[i].Details[j].Description"{ class="rTableCell" }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-      }
     }
     ***/
+  }
+
+  function createRow(root, i){
+    /***
+    div
+    {
+      id=?tasks[i].Counter
+      class="expander rTableRow"
+              
+      div="?tasks[i].Counter"{ class="issue_id rTableCell" align="right" }
+      div 
+      { 
+            class="rTableCell completeness" 
+            div 
+            { 
+              class="bar" 
+              style="?getStatusBarStyle(tasks[i].Completeness)" 
+            }
+            div="?tasks[i].Completeness" 
+            { 
+              class="bar-value" 
+              align="center"
+            }
+      }
+      div="?tasks[i].Status"{ class="rTableCell" style="?getStatusStyle(tasks[i].Status)" align="center"}
+      div="?WAVE.dateTimeToString(tasks[i].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+      div="?WAVE.dateTimeToString(tasks[i].Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+      div="?WAVE.dateTimeToString(tasks[i].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+      div=?tasks[i].Assignee { class="rTableCell" }
+      div="?tasks[i].ProjectName"{ class="rTableCell" }
+      div="?tasks[i].Name"{ class="rTableCell" }
+      div="?tasks[i].Note"{ class="rTableCell" }
+    }
+    ***/
+  }
+
+  function createRowDetails(root, i){
+    /***
+    div
+    {
+      id="?'details-'+tasks[i].Counter"
+      class="details rTableRow"
+      div
+      {
+        class="rTableCell colspan"
+        div
+        {
+          div
+          {
+            "?if(pmperm)" {
+              "? for(var s=0, sl=tasks[i].NextState.length; s < sl; s++)" {
+                  a = "?statuses[tasks[i].NextState[s]]" 
+                  { 
+                    data-nextstate=?tasks[i].NextState[s]
+                    data-cproject=?tasks[i].C_Project
+                    data-counter=?tasks[i].Counter 
+                    on-click="changeStatusDialog1"  
+                    class="button"   
+                  }
+              }
+              "? if(tasks[i].statusId=='A')" {
+                a = "Add user" { href="?'javascript:changeStatusDialog(\"A\",'+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button"  class="button" }
+            }
+          }
+          "? if(tasks[i].Status != 'Closed')" { 
+            div
+            {
+              id="?'form-'+tasks[i].Counter"
+              div 
+              { 
+                class="fView" 
+                label="Progress:" { for="?'prog' + tasks[i].Counter" } 
+                input { id="?'prog' + tasks[i].Counter" value="?tasks[i].Completeness" type="text" placeholder="Progress"} 
+              }
+              div 
+              { 
+                class="fView" 
+                label="Description:" { for="?'desc' + tasks[i].Counter" } 
+                input { id="?'desc' + tasks[i].Counter" value="?tasks[i].Description" type="text" placeholder="Description"} 
+              }
+              a="Send" { href="?'javascript:changeProgress('+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button" }
+            }
+          }
+          div 
+          {
+            id="?'detailsTable-'+tasks[i].Counter"
+            class = "rTable"
+          }
+        }
+      }
+    }
+  }
+    ***/
+  }
+
+  function createRowDetailsHeader(root, i){
+    /***
+    div 
+    {
+      class="rTableRow"
+      div="ID" {class="rTableHead"}
+      div="Progress" {class="rTableHead"}
+      div="Status" {class="rTableHead"}
+      div="Start" {class="rTableHead"}
+      div="Plan/Due" {class="rTableHead"}
+      div="Complete" {class="rTableHead"}
+      div="Assigned" {class="rTableHead"}
+      div="Project" {class="rTableHead"}
+      div="Issue" {class="rTableHead"}
+      div="Description"{ class="rTableHead" }
+    }
+    ***/
+  }
+
+  function createDetailsGridRow(root, i, j){
+    /***
+    div
+    {
+      id="?'detailsRow-'+tasks[i].Details[j].Counter"
+      class="rTableRow"
+              
+      div="?tasks[i].Details[j].Counter"{ class="rTableCell" align="right" }
+      div="?tasks[i].Details[j].Completeness" { class="rTableCell" }
+      div="?tasks[i].Details[j].Status"{ class="rTableCell" align="center"}
+      div="?WAVE.dateTimeToString(tasks[i].Details[j].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+      div="?WAVE.dateTimeToString(tasks[i].Details[j].Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+      div="?WAVE.dateTimeToString(tasks[i].Details[j].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+      div=?tasks[i].Details[j].Assignee { class="rTableCell" }
+      div="?tasks[i].Details[j].ProjectName"{ class="rTableCell" }
+      div="?tasks[i].Details[j].Name"{ class="rTableCell" }
+      div="?tasks[i].Details[j].Description"{ class="rTableCell" }
+    }
+    ***/
+  }
+
+  function renderTasks(root){
+    clearGrid();
+    createBody(root)
+    createHeaders("table");
+    for(var i = 0, l = tasks.length; i<l; i++)
+    {
+      var task = tasks[i];
+      createRow("table", i);
+      createRowDetails("table", i);
+      createRowDetailsHeader("detailsTable-"+task.Counter);
+      for(var j = 0, l1 = task.Details.length; j<l1; j++)
+        createDetailsGridRow("detailsTable-"+task.Counter, i, j);
+    }
   }
 
   function initDetails(){
