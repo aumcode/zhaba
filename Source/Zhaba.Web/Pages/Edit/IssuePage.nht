@@ -23,6 +23,8 @@
 
 #[override renderEntries()]
   <div class="fView" data-wv-fname="Name"></div>
+  <div class="fView" data-wv-fname="Start_Date"></div>
+  <div class="fView" data-wv-fname="Due_Date"></div>
   <div class="fView" data-wv-fname="C_Milestone" data-wv-ctl="combo"></div>
   <div class="fView" data-wv-fname="C_Category" data-wv-ctl="combo"></div>
   <div class="fView" data-wv-fname="Priority"></div>

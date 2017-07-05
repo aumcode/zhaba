@@ -40,6 +40,12 @@ namespace Zhaba.Data.Forms
           C_Category = issueLog.C_Category.ToString();
           C_Milestone = issueLog.C_Milestone.ToString();
           Priority = issueLog.Priority;
+          Start_Date = issueLog.Start_Date;
+          Due_Date = issueLog.Due_Date;
+        }
+        else
+        {
+          Start_Date = App.TimeSource.UTCNow.Date;  
         }
 
         RoundtripBag[ITEM_ID_BAG_PARAM] = counter.Value;
@@ -47,6 +53,7 @@ namespace Zhaba.Data.Forms
       else
       {
         FormMode = FormMode.Insert;
+        Start_Date = App.TimeSource.UTCNow.Date;
       }
     }
     #endregion
@@ -64,6 +71,18 @@ namespace Zhaba.Data.Forms
            description: "Category",
            metadata: @"Placeholder='Category'")]
     public string C_Category { get; set; }
+    
+    [Field(required: true, 
+      kind: DataKind.DateTime, 
+      description: "Start date",
+      metadata: @"Placeholder='Issue start date'")]
+    public DateTime Start_Date { get; set; }
+
+    [Field(required: true, 
+      kind: DataKind.DateTime, 
+      description: "Due date",
+      metadata: @"Placeholder='Issue due date'")]
+    public DateTime Due_Date { get; set; }
 
     [Field(required: true,
            description: "Priority",

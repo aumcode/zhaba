@@ -32,7 +32,12 @@ namespace Zhaba.Data
 
     [Field(required: true)]
     public ulong C_Category { get; set; }
+    
+    [Field(required: true)]
+    public DateTime Start_Date { get; set; }
 
+    [Field(required: true)]
+    public DateTime Due_Date { get; set; }
   }
 
   public sealed class EditIssueEvent : IssueLogEvent
@@ -45,6 +50,12 @@ namespace Zhaba.Data
 
     [Field(required: true)]
     public ulong C_Category { get; set; }
+
+    [Field(required: true)]
+    public DateTime Start_Date { get; set; }
+
+    [Field(required: true)]
+    public DateTime Due_Date { get; set; }
 
   }
 
@@ -82,9 +93,7 @@ namespace Zhaba.Data
   {
     [Field(required: true)]
     public int Completeness { get; set; }
-
-    [Field(required: false)]
-    public string Description { get; set; }
+    
   }
 
   public sealed class ChangePriorityIssueEvent : IssueLogEvent

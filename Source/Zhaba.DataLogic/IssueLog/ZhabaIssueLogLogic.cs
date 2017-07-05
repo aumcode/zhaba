@@ -177,16 +177,16 @@ namespace Zhaba.DataLogic
 
       try
       {
-        using (var trn = ZApp.Data.CRUD.BeginTransaction())
+        //using (var trn = ZApp.Data.CRUD.BeginTransaction())
         {
           if (form.FormMode == FormMode.Insert)
           {
             row.C_Project = form.ProjectID;
-            trn.Insert(row);
+            ZApp.Data.CRUD.Insert(row);
           }
           else
           {
-            var affected = trn.Update(row);
+            var affected =  ZApp.Data.CRUD.Update(row);
             if (affected < 1)
               throw HTTPStatusException.NotFound_404("Issue");
           }
@@ -199,7 +199,9 @@ namespace Zhaba.DataLogic
               C_User = form.ZhabaUser.DataRow.Counter,
               DateUTC = App.TimeSource.UTCNow,
               C_Category = Convert.ToUInt64(form.C_Category),
-              Priority = form.Priority
+              Priority = form.Priority,
+              Start_Date = form.Start_Date.Date,
+              Due_Date = form.Due_Date.Date
             });
           else
             write(new EditIssueEvent()
@@ -209,9 +211,11 @@ namespace Zhaba.DataLogic
               C_User = form.ZhabaUser.DataRow.Counter,
               DateUTC = App.TimeSource.UTCNow,
               C_Category = Convert.ToUInt64(form.C_Category),
-              Priority = form.Priority
+              Priority = form.Priority,
+              Start_Date = form.Start_Date.Date,
+              Due_Date = form.Due_Date.Date
             });
-          trn.Commit();
+          // trn.Commit();
         }
       }
       catch (Exception error)
@@ -309,6 +313,8 @@ namespace Zhaba.DataLogic
       newRow.C_Milestone = evt.C_Milestone;
       newRow.Completeness = 0;
       newRow.Priority = evt.Priority;
+      newRow.Start_Date = evt.Start_Date;
+      newRow.Due_Date = evt.Due_Date;
       ZApp.Data.CRUD.Insert(newRow);
     }
 
@@ -320,6 +326,8 @@ namespace Zhaba.DataLogic
       newRow.Completeness = 0;
       newRow.Priority = evt.Priority;
       newRow.Status = newRow.Status ?? ZhabaIssueStatus.NEW;
+      newRow.Start_Date = evt.Start_Date;
+      newRow.Due_Date = evt.Due_Date;
       ZApp.Data.CRUD.Insert(newRow);
     }
 
@@ -389,7 +397,7 @@ namespace Zhaba.DataLogic
       {
         C_Issue = evt.C_Issue,
         C_Operator = evt.C_User,
-        Status_Date = evt.DateUTC,
+        Status_Date = evt.DateUTC
       };
       IssueLogRow oldRow = ZApp.Data.CRUD.LoadRow<IssueLogRow>(QIssueLog.FindLastIssueLogByIssue<IssueLogRow>(evt.C_Issue));
       if (oldRow != null)
