@@ -225,14 +225,13 @@ create table `tbl_issuelog`
  `C_CATEGORY`     BIGINT(8) UNSIGNED not null comment 'Issue Category',
  `STATUS`         CHAR(1)        not null comment 'Issue Status',
  `COMPLETENESS`   int unsigned   not null default '0' comment '0..100',
- `NOTE`           TEXT            comment 'Text Note',
- `C_MEETING`      BIGINT(8) UNSIGNED  comment 'Optional reference to meeting that causes changes',
+ `START_DATE`     DATE           not null comment 'Issue start date',
+ `DUE_DATE`       DATE           not null comment 'Issue due date',
   constraint `pk_tbl_issuelog_counter` primary key (`COUNTER`),
   constraint `fk_tbl_issuelog_issue` foreign key (`C_ISSUE`) references `tbl_issue`(`COUNTER`),
   constraint `fk_tbl_issuelog_operator` foreign key (`C_OPERATOR`) references `tbl_user`(`COUNTER`),
   constraint `fk_tbl_issuelog_milestone` foreign key (`C_MILESTONE`) references `tbl_milestone`(`COUNTER`),
-  constraint `fk_tbl_issuelog_category` foreign key (`C_CATEGORY`) references `tbl_category`(`COUNTER`),
-  constraint `fk_tbl_issuelog_meeting` foreign key (`C_MEETING`) references `tbl_meeting`(`COUNTER`)
+  constraint `fk_tbl_issuelog_category` foreign key (`C_CATEGORY`) references `tbl_category`(`COUNTER`)
 )
 ;.
 
@@ -264,3 +263,20 @@ create table `tbl_issueassign`
 
 delimiter ;.
   create unique index `idx_tbl_issueassign_uk` on `tbl_issueassign`(`C_ISSUE`, `C_USER`, `OPEN_TS`);.
+delimiter ;.
+-- Table tbl_issuechat
+create table `tbl_issuechat`
+(
+ `COUNTER`        BIGINT(8) UNSIGNED not null comment 'Integer ID',
+ `C_ISSUE`        BIGINT(8) UNSIGNED not null comment 'Issue',
+ `C_USER`         BIGINT(8) UNSIGNED not null comment 'User',
+ `NOTE_DATE`      DATETIME       not null comment 'Date when changes were made',
+ `NOTE`           TEXT            comment 'Text Note',
+  constraint `pk_tbl_issuechat_counter` primary key (`COUNTER`),
+  constraint `fk_tbl_issuechat_issue` foreign key (`C_ISSUE`) references `tbl_issue`(`COUNTER`),
+  constraint `fk_tbl_issuechat_user` foreign key (`C_USER`) references `tbl_user`(`COUNTER`)
+)
+;.
+
+delimiter ;.
+  create  index `idx_tbl_issuechat_uk` on `tbl_issuechat`(`C_ISSUE`, `C_USER`, `NOTE_DATE`);.
