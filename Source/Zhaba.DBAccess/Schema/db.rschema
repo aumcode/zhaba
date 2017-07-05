@@ -245,8 +245,9 @@ schema
     column=start_date           {type=$(/$TDate) required=true comment="Issue start date"}
     column=due_date             {type=$(/$TDate) required=true comment="Issue due date"}
     column=completeness         {type=$(/$TIntPercent) required=true default=0 comment="0..100"}
-    column=milestone            {type=$(/$TCounterRef) required=true reference {table="milestone" column="counter"} comment="Project Milestone"}
     column=category             {type=$(/$TCounterRef) required=true reference {table="category" column="counter"} comment="Issue Category"}
+    column=milestone            {type=$(/$TCounterRef) required=false reference {table="milestone" column="counter"} comment="Project Milestone"}
+    column=meeting              {type=$(/$TCounterRef) required=false reference {table="meeting" column="counter"} comment="Optional reference to meeting that causes changes"}
     _call=/scripts/description  {}
     
     index=uk

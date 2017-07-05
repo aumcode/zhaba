@@ -405,7 +405,7 @@ namespace Zhaba.DataLogic
               f.Name != "Status_Date" 
         );
       }
-      else if (status != ZhabaIssueStatus.NEW) throw new ZhabaException("Issue(ID={0}) Log not present for status ({1})".Args(evt.C_Issue, status));
+      else if (status != ZhabaIssueStatus.NEW && !(evt is EditIssueEvent)) throw new ZhabaException("Issue(ID={0}) Log not present for status ({1})".Args(evt.C_Issue, status));
 
       if (status != null) result.Status = status;
       if (evt.Description.IsNotNullOrWhiteSpace()) result.Description = evt.Description;

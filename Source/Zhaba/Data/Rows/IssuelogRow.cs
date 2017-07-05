@@ -24,7 +24,7 @@ namespace Zhaba.Data.Rows
              description: "Milestone")]
        public ulong C_Milestone { get; set; }
        
-       [Field(required: false,
+       [Field(required: true,
              description: "Category")]
        public ulong C_Category { get; set; }
        

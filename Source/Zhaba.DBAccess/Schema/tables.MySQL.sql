@@ -220,18 +220,20 @@ create table `tbl_issuelog`
  `STATUS_DATE`    DATETIME       not null comment 'Date when changes were made',
  `C_OPERATOR`     BIGINT(8) UNSIGNED not null comment 'User who made changes',
  `PRIORITY`       BIGINT(8)      not null comment 'Issue Priority',
- `DESCRIPTION`    varchar(128)    comment 'Short Description',
- `C_MILESTONE`    BIGINT(8) UNSIGNED not null comment 'Project Milestone',
- `C_CATEGORY`     BIGINT(8) UNSIGNED not null comment 'Issue Category',
  `STATUS`         CHAR(1)        not null comment 'Issue Status',
- `COMPLETENESS`   int unsigned   not null default '0' comment '0..100',
  `START_DATE`     DATE           not null comment 'Issue start date',
  `DUE_DATE`       DATE           not null comment 'Issue due date',
+ `COMPLETENESS`   int unsigned   not null default '0' comment '0..100',
+ `C_CATEGORY`     BIGINT(8) UNSIGNED not null comment 'Issue Category',
+ `C_MILESTONE`    BIGINT(8) UNSIGNED  comment 'Project Milestone',
+ `C_MEETING`      BIGINT(8) UNSIGNED  comment 'Optional reference to meeting that causes changes',
+ `DESCRIPTION`    varchar(128)    comment 'Short Description',
   constraint `pk_tbl_issuelog_counter` primary key (`COUNTER`),
   constraint `fk_tbl_issuelog_issue` foreign key (`C_ISSUE`) references `tbl_issue`(`COUNTER`),
   constraint `fk_tbl_issuelog_operator` foreign key (`C_OPERATOR`) references `tbl_user`(`COUNTER`),
+  constraint `fk_tbl_issuelog_category` foreign key (`C_CATEGORY`) references `tbl_category`(`COUNTER`),
   constraint `fk_tbl_issuelog_milestone` foreign key (`C_MILESTONE`) references `tbl_milestone`(`COUNTER`),
-  constraint `fk_tbl_issuelog_category` foreign key (`C_CATEGORY`) references `tbl_category`(`COUNTER`)
+  constraint `fk_tbl_issuelog_meeting` foreign key (`C_MEETING`) references `tbl_meeting`(`COUNTER`)
 )
 ;.
 
