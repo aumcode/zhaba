@@ -2,18 +2,16 @@
 using NFX.Wave;
 using NFX.Wave.MVC;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using NFX.DataAccess.CRUD;
+using NFX.Serialization.JSON;
 using Zhaba.Data.Forms;
 using Zhaba.Data.QueryBuilders;
 using Zhaba.Data.Rows;
 using Zhaba.Security.Permissions;
 using Zhaba.Web.Pages;
-using Zhaba.Data.Domains;
+
+using Zhaba.Data.Filters;
 
 namespace Zhaba.Web.Controllers
 {
@@ -104,10 +102,30 @@ namespace Zhaba.Web.Controllers
     }
 
     [Action("statusnote", 0, "match { methods=POST,GET }")]
-    [PMPermission]
     public object StatusNote(ulong? id, NoteEditForm form)
     {
       return DataSetup_ItemDetails<NoteEditForm, NoteEditPage>(new object[] { ProjectRow, IssueRow, id }, form, URIS.ForPROJECT_ISSUES(ProjectRow.Counter));
+    }
+
+    [Action("chat", 0, "match { methods=POST,GET }")]
+    public object Chat(ulong? id, IssueChatForm form)
+    {
+      return DataSetup_ItemDetails<IssueChatForm, IssueChatPage>(new object[] { ProjectRow, IssueRow, id }, form, URIS.ForPROJECT_ISSUES(ProjectRow.Counter));
+    }
+    
+    [Action("chatlist", 0, "match { methods=GET accept-json=true}")]
+    public object ChatList_GET()
+    {
+      var filter = new IssueChatFilter {Limit = 5};
+      return Dashboard.FormJSON(filter);    
+    }
+
+    [Action("chatlist", 0, "match { methods=POST accept-json=true}")]
+    public object ChatList_POST(IssueChatFilter filter)
+    {
+      object data;
+      filter.Save(out data);
+      return new JSONResult(data, JSONWritingOptions.CompactRowsAsMap);    
     }
 
     #region .pvt

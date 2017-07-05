@@ -1,0 +1,29 @@
+﻿#<laconf>
+  compiler
+  {
+    using { ns="System.Linq" }
+    using { ns="System.Collections.Generic" }
+    using { ns="NFX" }
+    using { ns="NFX.DataAccess.CRUD" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Wave.Templatization" }
+    using { ns="Zhaba" }
+    using { ns="Zhaba.Data.Forms" }
+    base-class-name="Zhaba.Web.Pages.FormMaster<IssueChatForm>"
+    namespace="Zhaba.Web.Pages"
+  }
+#</laconf>
+
+#[class]
+  public IssueChatPage(IssueChatForm form, Exception error)
+    : base(form, error)
+  {
+    Title = "{0} Chat".Args((form.FormMode == FormMode.Edit) ? "Edit" : "Add");
+  }
+
+  #[override renderEntries()]
+  <div class="fView" data-wv-fname="Note"></div>
+
+#[override renderBtns()]
+  <input class="button" type="submit" value="Save" />
+  <a class="button" href="?[:URIS.ForPROJECT_ISSUES(Form.ProjectID)]">Cancel</a>

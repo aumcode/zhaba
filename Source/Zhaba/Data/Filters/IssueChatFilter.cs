@@ -24,10 +24,10 @@ namespace Zhaba.Data.Filters
     public string OrderBy { get; set; }
 
     [Field(metadata: "Description='Note Date' Placeholder='Note Date' Hint='Note Date'")]
-    public DateTime Note_Date { get; set; }
+    public DateTime? Note_Date { get; set; }
     
     [Field(metadata: "Description='User' Placeholder='User' Hint='User'")]
-    public ulong C_User { get; set; }
+    public ulong? C_User { get; set; }
     
     [Field(metadata: "Description='Note' Placeholder='Note' Hint='Note'")]
     public string Note { get; set; }
