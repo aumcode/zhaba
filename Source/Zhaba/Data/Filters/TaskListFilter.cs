@@ -46,7 +46,7 @@ namespace Zhaba.Data.Filters
       public DateTime Start_Date { get; set; }
 
       [Field]
-      public DateTime Plan_Date { get; set; }
+      public DateTime Due_Date { get; set; }
 
       [Field]
       public int Completeness { get; set; }
