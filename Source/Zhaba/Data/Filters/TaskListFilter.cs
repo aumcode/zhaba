@@ -58,9 +58,6 @@ namespace Zhaba.Data.Filters
       public string ProjectName { get; set; }
 
       [Field]
-      public string Note { get; set; }
-
-      [Field]
       public string Assignee { get; set; }
       
       [Field]

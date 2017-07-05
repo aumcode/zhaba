@@ -23,7 +23,7 @@ namespace Zhaba.DataLogic
 
     #region Public
 
-    public void ChangeStatus(ulong c_User, ulong c_Project, ulong c_Issue, string status, string note = null, ulong? c_AssignUser=null) 
+    public void ChangeStatus(ulong c_User, ulong c_Project, ulong c_Issue, string status, string description = null, ulong? c_AssignUser=null) 
     {
       IssueLogEvent evt = null;
       switch (status)
@@ -34,7 +34,7 @@ namespace Zhaba.DataLogic
             C_User = c_User,
             C_Issue = c_Issue,
             DateUTC = App.TimeSource.UTCNow,
-            Note = note
+            Description = description
           };
           break;
         case ZhabaIssueStatus.DONE:
@@ -43,7 +43,7 @@ namespace Zhaba.DataLogic
             C_User = c_User,
             C_Issue = c_Issue,
             DateUTC = App.TimeSource.UTCNow,
-            Note = note
+            Description = description
           };
           break;
         case ZhabaIssueStatus.DEFER:
@@ -53,7 +53,7 @@ namespace Zhaba.DataLogic
             C_User = c_User,
             C_Issue = c_Issue,
             DateUTC = App.TimeSource.UTCNow,
-            Note = note
+            Description = description
           };
           break;
         case ZhabaIssueStatus.CLOSED:
@@ -63,7 +63,7 @@ namespace Zhaba.DataLogic
             C_User = c_User,
             C_Issue = c_Issue,
             DateUTC = App.TimeSource.UTCNow,
-            Note = note
+            Description = description
           };
           break;
         case ZhabaIssueStatus.CANCELED:
@@ -73,7 +73,7 @@ namespace Zhaba.DataLogic
             C_User = c_User,
             C_Issue = c_Issue,
             DateUTC = App.TimeSource.UTCNow,
-            Note = note
+            Description = description
           };
           break;
       }
@@ -251,7 +251,7 @@ namespace Zhaba.DataLogic
               C_Issue = form.Issue.Counter,
               C_User = form.ZhabaUser.DataRow.Counter,
               DateUTC = App.TimeSource.UTCNow,
-              Note = form.Note
+              Description = form.Description
             };
            write(evt);
           }
@@ -408,7 +408,7 @@ namespace Zhaba.DataLogic
       else if (status != ZhabaIssueStatus.NEW) throw new ZhabaException("Issue(ID={0}) Log not present for status ({1})".Args(evt.C_Issue, status));
 
       if (status != null) result.Status = status;
-      if (evt.Note.IsNotNullOrWhiteSpace()) result.Note = evt.Note;
+      if (evt.Description.IsNotNullOrWhiteSpace()) result.Description = evt.Description;
 
       return result;
     }

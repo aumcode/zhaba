@@ -5,6 +5,7 @@ using Zhaba.Data.Rows;
 using NFX;
 using NFX.Wave;
 using NFX.Serialization.JSON;
+using Zhaba.Data.Domains;
 
 namespace Zhaba.Data.Forms
 {
@@ -46,6 +47,13 @@ namespace Zhaba.Data.Forms
     public ulong? C_Open_Meeting { get; set; }
     [Field(typeof(IssueAssignRow))]
     public string Note { get; set; }
+    [Field(required: false,
+      kind: DataKind.Text,
+      minLength: ZhabaMnemonic.MIN_LEN,
+      maxLength: ZhabaMnemonic.MAX_LEN,
+      description: "Description",
+      metadata: @"Placeholder='Description'")]
+    public string Description { get; set; }
 
     public IssueRow Issue { get { return m_Issue; } }
     public ulong IssueID { get { return m_Issue.Counter; } }

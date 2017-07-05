@@ -241,13 +241,13 @@ schema
     column=status_date          {type=TDateTime required=true comment="Date when changes were made"}
     column=operator             {type=$(/$TCounterRef) required=true reference {table="user" column="counter"} comment="User who made changes"}
     column=priority             {type=TInt required=true comment="Issue Priority"}
-    _call=/scripts/description  {}
-    column=milestone            {type=$(/$TCounterRef) required=true  reference {table="milestone" column="counter"} comment="Project Milestone"}
-    column=category             {type=$(/$TCounterRef) required=true  reference {table="category" column="counter"} comment="Issue Category"}
     column=status               {type=$(/$TIssueStatus) required=true comment="Issue Status"}
-    column=completeness         {type=$(/$TIntPercent) required=true default=0 comment="0..100"}
     column=start_date           {type=$(/$TDate) required=true comment="Issue start date"}
     column=due_date             {type=$(/$TDate) required=true comment="Issue due date"}
+    column=completeness         {type=$(/$TIntPercent) required=true default=0 comment="0..100"}
+    column=milestone            {type=$(/$TCounterRef) required=true reference {table="milestone" column="counter"} comment="Project Milestone"}
+    column=category             {type=$(/$TCounterRef) required=true reference {table="category" column="counter"} comment="Issue Category"}
+    _call=/scripts/description  {}
     
     index=uk
     {

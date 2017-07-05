@@ -294,7 +294,7 @@ div.colspan>div>div
               }
               div="?tasks[i].Status"{ class="rTableCell" style="?getStatusStyle(tasks[i].Status)" align="center"}
               div="?WAVE.dateTimeToString(tasks[i].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-              div="?WAVE.dateTimeToString(tasks[i].Plan_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+              div="?WAVE.dateTimeToString(tasks[i].Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
               div="?WAVE.dateTimeToString(tasks[i].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
               div=?tasks[i].Assignee { class="rTableCell" }
               div="?tasks[i].ProjectName"{ class="rTableCell" }
@@ -360,7 +360,7 @@ div.colspan>div>div
                       div="Assigned" {class="rTableHead"}
                       div="Project" {class="rTableHead"}
                       div="Issue" {class="rTableHead"}
-                      div="Note"{ class="rTableHead" }
+                      div="Description"{ class="rTableHead" }
                       
                     }
                     "? for(var j = 0, k = tasks[i].Details.length; j<k; j++)" {
@@ -373,12 +373,12 @@ div.colspan>div>div
                           div="?tasks[i].Details[j].Completeness" { class="rTableCell" }
                           div="?tasks[i].Details[j].Status"{ class="rTableCell" align="center"}
                           div="?WAVE.dateTimeToString(tasks[i].Details[j].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-                          div="?WAVE.dateTimeToString(tasks[i].Details[j].Plan_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+                          div="?WAVE.dateTimeToString(tasks[i].Details[j].Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
                           div="?WAVE.dateTimeToString(tasks[i].Details[j].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
                           div=?tasks[i].Details[j].Assignee { class="rTableCell" }
                           div="?tasks[i].Details[j].ProjectName"{ class="rTableCell" }
                           div="?tasks[i].Details[j].Name"{ class="rTableCell" }
-                          div="?tasks[i].Details[j].Note"{ class="rTableCell" }
+                          div="?tasks[i].Details[j].Description"{ class="rTableCell" }
                       }
                     }
                   }
@@ -528,7 +528,7 @@ div.colspan>div>div
           rec.validate();
           if (!rec.valid()) return WAVE.GUI.DLG_UNDEFINED    
           json = rec.data(); 
-          note = rec.data().Note;  
+          note = rec.data().Description;  
           if (status=='A') {
             changeAssignStatus(pid, iid, status, rec.data());
           } else {
@@ -549,7 +549,7 @@ div.colspan>div>div
         div { data-wv-fname="C_User" class="fView" }
         div { data-wv-fname="Open_TS" class="fView" }
         div { data-wv-fname="Close_TS" class="fView" }
-        div { data-wv-fname="Note" class="fView" }
+        div { data-wv-fname="Description" class="fView" }
       }
     ***/
     } else {
@@ -558,7 +558,7 @@ div.colspan>div>div
       {
         id="statusForm"
         data-wv-rid="V2"
-        div { data-wv-fname="Note" class="fView" }
+        div { data-wv-fname="Description" class="fView" }
       }
     ***/
     }

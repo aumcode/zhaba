@@ -17,33 +17,43 @@ namespace Zhaba.Data.Rows
     #endregion
 
     #region Properties
-      [Field(required: true, nonUI: true)]
-      public ulong C_Issue { get; set; }
-
-      [Field(required: true,
+       [Field(required: true, nonUI: true)]
+       public ulong C_Issue { get; set; }
+       
+       [Field(required: false,
              description: "Milestone")]
-      public ulong C_Milestone { get; set; }
-
-      [Field(required: true,
+       public ulong C_Milestone { get; set; }
+       
+       [Field(required: false,
              description: "Category")]
-      public ulong C_Category { get; set; }
-
-      [Field(maxLength: ZhabaDescription.MAX_LEN,
+       public ulong C_Category { get; set; }
+       
+       [Field(maxLength: ZhabaDescription.MAX_LEN,
              kind: DataKind.Text,
              description: "Description",
              metadata: @"Placeholder='Description' ControlType='textarea'")]
-      public string Description { get; set; }
-
-      [Field(required: true,
+       public string Description { get; set; }
+       
+       [Field(required: true,
              maxLength: ZhabaIssueStatus.MAX_LEN,
              valueList: ZhabaIssueStatus.VALUE_LIST,
              description: "Status")]
-      public string Status { get; set; }
-
-      [Field(required: true,
+       public string Status { get; set; }
+       
+       [Field(required: true,
              kind: DataKind.DateTime,
              description: "Status Date")]
-      public DateTime Status_Date { get; set; }
+       public DateTime Status_Date { get; set; }
+         
+      [Field(required: true,
+            kind: DataKind.Date,
+            description: "Issue Start Date")]
+      public DateTime Start_Date { get; set; }
+      
+      [Field(required: true,
+            kind: DataKind.Date,
+            description: "Issue Due Date")]
+      public DateTime Due_Date { get; set; }
 
       [Field(required: true,
              description: "Operator")]
@@ -54,12 +64,6 @@ namespace Zhaba.Data.Rows
              max: ZhabaIntPercent.MAX_VALUE,
              description: "Completeness")]
       public int Completeness { get; set; }
-
-      [Field(kind: DataKind.Text,
-             maxLength: ZhabaNote.MAX_LEN,
-             description: "Note",
-             metadata: @"Placeholder='Operator note' ControlType='textarea'")]
-      public string Note { get; set; }
 
       [Field(description: "Meeting")]
       public ulong? C_Meeting { get; set; }

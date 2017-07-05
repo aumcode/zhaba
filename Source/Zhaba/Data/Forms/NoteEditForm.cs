@@ -32,9 +32,9 @@ namespace Zhaba.Data.Forms
       metadata: @"Placeholder='Status'")]
     public string Status { get; set; }
     [Field(required: false,
-           description: "Note",
-           metadata: @"Placeholder='Note'")]
-    public string Note { get; set; }
+           description: "Description",
+           metadata: @"Placeholder='Description'")]
+    public string Description { get; set; }
     
     public IssueRow Issue { get { return m_Issue; } }
     public ulong IssueID { get { return m_Issue.Counter; } }
