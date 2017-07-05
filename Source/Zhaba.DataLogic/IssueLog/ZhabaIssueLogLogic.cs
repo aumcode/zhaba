@@ -47,7 +47,6 @@ namespace Zhaba.DataLogic
           };
           break;
         case ZhabaIssueStatus.DEFER:
-          IssueAssignClose(c_User, c_Issue);
           evt = new DeferIssueEvent()
           {
             C_User = c_User,

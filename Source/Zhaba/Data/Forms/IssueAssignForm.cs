@@ -9,13 +9,12 @@ using Zhaba.Data.Domains;
 
 namespace Zhaba.Data.Forms
 {
-  public class IssueAssignForm :ProjectFormBase
+  public class IssueAssignForm :IssueFormBase
   {
     #region .ctor
     public IssueAssignForm() { }
-    public IssueAssignForm(ProjectRow project, IssueRow issue, ulong? counter) : base(project)
+    public IssueAssignForm(ProjectRow project, IssueRow issue, ulong? counter) : base(project, issue)
     {
-      m_Issue = issue;
       if (counter.HasValue) 
       {
         FormMode = FormMode.Edit;
@@ -28,9 +27,6 @@ namespace Zhaba.Data.Forms
       }
     }
     #endregion
-
-    [NonSerialized]
-    private IssueRow m_Issue;
 
     #region Fields
     [Field(typeof(IssueAssignRow))]
@@ -54,9 +50,6 @@ namespace Zhaba.Data.Forms
       description: "Description",
       metadata: @"Placeholder='Description'")]
     public string Description { get; set; }
-
-    public IssueRow Issue { get { return m_Issue; } }
-    public ulong IssueID { get { return m_Issue.Counter; } }
 
     #endregion
 
@@ -85,12 +78,6 @@ namespace Zhaba.Data.Forms
     {
       return ZApp.Data.Issue.WriteIssueAssignForm(this, out saveResult);
     }
-
-    public void ____SetIssue(IssueRow issue)
-    {
-      m_Issue = issue;
-    }
-      
     #endregion
   }
 }

@@ -11,22 +11,17 @@ using Zhaba.Data.Rows;
 
 namespace Zhaba.Data.Forms
 {
-  public class NoteEditForm : ProjectFormBase
+  public class NoteEditForm : IssueFormBase
   {
     public NoteEditForm() { }
 
     public NoteEditForm(ProjectRow project,  IssueRow issue, string status) 
-      : base(project)
+      : base(project, issue)
     {
-      m_Issue = issue;
       FormMode = FormMode.Insert;
       Status = status;
     }
-    
-    
-    [NonSerialized]
-    private IssueRow m_Issue;
-    
+  
     [Field(required: false,
       description: "Status",
       metadata: @"Placeholder='Status'")]
@@ -36,7 +31,5 @@ namespace Zhaba.Data.Forms
            metadata: @"Placeholder='Description'")]
     public string Description { get; set; }
     
-    public IssueRow Issue { get { return m_Issue; } }
-    public ulong IssueID { get { return m_Issue.Counter; } }
   }
 }

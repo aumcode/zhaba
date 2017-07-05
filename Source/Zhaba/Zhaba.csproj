@@ -56,7 +56,9 @@
     <Compile Include="Data\Filters\AreaListFilter.cs" />
     <Compile Include="Data\Filters\CategoryListFilter.cs" />
     <Compile Include="Data\Filters\IssueAreaListFilter.cs" />
+    <Compile Include="Data\Filters\IssueChatFilter.cs" />
     <Compile Include="Data\Filters\IssueComponentListFilter.cs" />
+    <Compile Include="Data\Filters\IssueFilterBase.cs" />
     <Compile Include="Data\Filters\IssueListFilter.cs" />
     <Compile Include="Data\Filters\MilestoneListFilter.cs" />
     <Compile Include="Data\Filters\ComponentListFilter.cs" />
@@ -68,12 +70,15 @@
     <Compile Include="Data\Filters\UserListFilter.cs" />
     <Compile Include="Data\Forms\CategoryForm.cs" />
     <Compile Include="Data\Forms\IssueAssignForm.cs" />
+    <Compile Include="Data\Forms\IssueChatForm.cs" />
+    <Compile Include="Data\Forms\IssueFormBase.cs" />
     <Compile Include="Data\Forms\LoginForm.cs" />
     <Compile Include="Data\Forms\NoteEditForm.cs" />
     <Compile Include="Data\Forms\ProjectFormBase.cs" />
     <Compile Include="Data\IZhabaDataStore.IssueLogEvent.cs" />
     <Compile Include="Data\QueryBuilders\QCategory.cs" />
     <Compile Include="Data\QueryBuilders\QIssueAssign.cs" />
+    <Compile Include="Data\QueryBuilders\QIssueChat.cs" />
     <Compile Include="Data\QueryBuilders\QIssueLog.cs" />
     <Compile Include="Data\QueryBuilders\QSequence.cs" />
     <Compile Include="Data\QueryBuilders\QCommon.cs" />
@@ -86,6 +91,7 @@
     <Compile Include="Data\Rows\CategoryRow.cs" />
     <Compile Include="Data\Rows\IssueAreaRow.cs" />
     <Compile Include="Data\Rows\IssueAssignRow.cs" />
+    <Compile Include="Data\Rows\IssueChatRow.cs" />
     <Compile Include="Data\Rows\IssueComponentRow.cs" />
     <Compile Include="Data\Rows\MeetingParticipantRow.cs" />
     <Compile Include="Data\Rows\MeetingRow.cs" />
