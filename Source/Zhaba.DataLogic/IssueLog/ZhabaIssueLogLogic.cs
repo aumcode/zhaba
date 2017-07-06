@@ -26,70 +26,73 @@ namespace Zhaba.DataLogic
     public void ChangeStatus(ulong c_User, ulong c_Project, ulong c_Issue, string status, string description = null, ulong? c_AssignUser=null) 
     {
       IssueLogEvent evt = null;
-
-      if (ZhabaIssueStatus.NEW.EqualsOrdIgnoreCase(status))
+      using (var trn = ZApp.Data.CRUD.BeginTransaction())
       {
-        evt = new CreateIssueEvent()
+        if (ZhabaIssueStatus.NEW.EqualsOrdIgnoreCase(status))
         {
-          C_User = c_User,
-          C_Issue = c_Issue,
-          DateUTC = App.TimeSource.UTCNow,
-          Description = description
-        };
-      }
-      else if (ZhabaIssueStatus.REOPEN.EqualsOrdIgnoreCase(status))
-      {
-        evt = new ReopenIssueEvent()
+          evt = new CreateIssueEvent()
+          {
+            C_User = c_User,
+            C_Issue = c_Issue,
+            DateUTC = App.TimeSource.UTCNow,
+            Description = description
+          };
+        }
+        else if (ZhabaIssueStatus.REOPEN.EqualsOrdIgnoreCase(status))
         {
-          C_User = c_User,
-          C_Issue = c_Issue,
-          DateUTC = App.TimeSource.UTCNow,
-          Description = description
-        };
-      }
-      else if(ZhabaIssueStatus.DONE.EqualsOrdIgnoreCase(status))
-      {
-        evt = new DoneIssueEvent()
+          evt = new ReopenIssueEvent()
+          {
+            C_User = c_User,
+            C_Issue = c_Issue,
+            DateUTC = App.TimeSource.UTCNow,
+            Description = description
+          };
+        }
+        else if(ZhabaIssueStatus.DONE.EqualsOrdIgnoreCase(status))
         {
-          C_User = c_User,
-          C_Issue = c_Issue,
-          DateUTC = App.TimeSource.UTCNow,
-          Description = description
-        };
-      }
-      else if (ZhabaIssueStatus.DEFER.EqualsOrdIgnoreCase(status))
-      {
-        evt = new DeferIssueEvent()
+          evt = new DoneIssueEvent()
+          {
+            C_User = c_User,
+            C_Issue = c_Issue,
+            DateUTC = App.TimeSource.UTCNow,
+            Description = description
+          };
+        }
+        else if (ZhabaIssueStatus.DEFER.EqualsOrdIgnoreCase(status))
         {
-          C_User = c_User,
-          C_Issue = c_Issue,
-          DateUTC = App.TimeSource.UTCNow,
-          Description = description
-        };
-      }
-      else if (ZhabaIssueStatus.CLOSED.EqualsOrdIgnoreCase(status))
-      {
-        IssueAssignClose(c_User, c_Issue);
-        evt = new CloseIssueEvent()
+          evt = new DeferIssueEvent()
+          {
+            C_User = c_User,
+            C_Issue = c_Issue,
+            DateUTC = App.TimeSource.UTCNow,
+            Description = description
+          };
+        }
+        else if (ZhabaIssueStatus.CLOSED.EqualsOrdIgnoreCase(status))
         {
-          C_User = c_User,
-          C_Issue = c_Issue,
-          DateUTC = App.TimeSource.UTCNow,
-          Description = description
-        };
-      }
-      else if (ZhabaIssueStatus.CANCELED.EqualsOrdIgnoreCase(status))
-      {
-        IssueAssignClose(c_User, c_Issue);
-        evt = new CancelIssueEvent()
+          IssueAssignClose(c_User, c_Issue, trn);
+          evt = new CloseIssueEvent()
+          {
+            C_User = c_User,
+            C_Issue = c_Issue,
+            DateUTC = App.TimeSource.UTCNow,
+            Description = description
+          };
+        }
+        else if (ZhabaIssueStatus.CANCELED.EqualsOrdIgnoreCase(status))
         {
-          C_User = c_User,
-          C_Issue = c_Issue,
-          DateUTC = App.TimeSource.UTCNow,
-          Description = description
-        };
+          IssueAssignClose(c_User, c_Issue, trn);
+          evt = new CancelIssueEvent()
+          {
+            C_User = c_User,
+            C_Issue = c_Issue,
+            DateUTC = App.TimeSource.UTCNow,
+            Description = description
+          };
+        }
+        if (evt != null) WriteLogEvent(evt, trn);
+        trn.Commit();
       }
-      if (evt != null) WriteLogEvent(evt);
     }
 
     public void ChangeProgess(ulong C_User, ulong issueCounter, int value, string description = null) 
@@ -269,8 +272,9 @@ namespace Zhaba.DataLogic
               DateUTC = App.TimeSource.UTCNow,
               Description = form.Description
             };
-           write(evt);
+           write(evt, trn);
           }
+          trn.Commit();
         }
       }
       catch (Exception ex)
@@ -281,15 +285,16 @@ namespace Zhaba.DataLogic
       return result;
     }
 
-    public void IssueAssignClose(ulong c_User, ulong c_Issue)
+    public void IssueAssignClose(ulong c_User, ulong c_Issue, ICRUDOperations operations = null)
     {
+      operations = operations ?? ZApp.Data.CRUD;
       var query = new Query("SQL.CRUD.IssueAssign.RemoveAllUsers")
       {
         new Query.Param("pClose_TS", App.TimeSource.UTCNow.Date.AddHours(23).AddMinutes(59).AddSeconds(59)),
         new Query.Param("pC_Issue", c_Issue),
         new Query.Param("pC_User", c_User)
       };
-      ZApp.Data.CRUD.ExecuteWithoutFetch(query);
+      operations.ExecuteWithoutFetch(query);
     }
 
     public void WriteLogEvent(IssueLogEvent evt, ICRUDOperations operations = null)
