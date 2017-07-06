@@ -74,7 +74,7 @@ var ZHB = (function () {
     },
 
     ForDELETE_CATEGORY: function (id) {
-        return common_setup() + "/category?id={0}".args(id);
+      return common_setup() + "/category?id={0}".args(id);
     },
 
     ForISSUE_ISSUEASSIGN: function (pid, iid, id) {
@@ -106,10 +106,401 @@ var ZHB = (function () {
         return typeof argts[number] != 'undefined'
           ? argts[number]
           : match
-          ;
+        ;
       });
     };
   }
 
   return published;
 }());
+
+function createBody(root) {
+  var Ør = arguments[0];
+  if (WAVE.isString(Ør))
+    Ør = WAVE.id(Ør);
+  var Ø1 = WAVE.ce('div');
+  Ø1.setAttribute('id', 'table');
+  Ø1.setAttribute('class', 'rTable');
+  if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+  return Ø1;
+}
+
+function createHeaders(root) {
+  var Ør = arguments[0];
+  if (WAVE.isString(Ør))
+    Ør = WAVE.id(Ør);
+  var Ø1 = WAVE.ce('div');
+  Ø1.setAttribute('class', 'rTableRow');
+  var Ø2 = WAVE.ce('div');
+  Ø2.innerText = 'ID';
+  Ø2.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø2);
+  var Ø3 = WAVE.ce('div');
+  Ø3.innerText = 'Progress';
+  Ø3.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø3);
+  var Ø4 = WAVE.ce('div');
+  Ø4.innerText = 'Status';
+  Ø4.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø4);
+  var Ø5 = WAVE.ce('div');
+  Ø5.innerText = 'Start';
+  Ø5.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø5);
+  var Ø6 = WAVE.ce('div');
+  Ø6.innerText = 'Plan\x2FDue';
+  Ø6.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø6);
+  var Ø7 = WAVE.ce('div');
+  Ø7.innerText = 'Complete';
+  Ø7.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø7);
+  var Ø8 = WAVE.ce('div');
+  Ø8.innerText = 'Assigned';
+  Ø8.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø8);
+  var Ø9 = WAVE.ce('div');
+  Ø9.innerText = 'Project';
+  Ø9.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø9);
+  var Ø10 = WAVE.ce('div');
+  Ø10.innerText = 'Issue';
+  Ø10.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø10);
+  var Ø11 = WAVE.ce('div');
+  Ø11.innerText = 'Note';
+  Ø11.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø11);
+  if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+  return Ø1;
+}
+
+function createRow(root, task) {
+  var Ør = arguments[0];
+  if (WAVE.isString(Ør))
+    Ør = WAVE.id(Ør);
+  var Ø1 = WAVE.ce('div');
+  Ø1.setAttribute('id', task.Counter);
+  Ø1.setAttribute('class', 'expander rTableRow');
+  var Ø2 = WAVE.ce('div');
+  Ø2.innerText = task.Counter;
+  Ø2.setAttribute('class', 'issue_id rTableCell');
+  Ø2.setAttribute('align', 'right');
+  Ø1.appendChild(Ø2);
+  var Ø3 = WAVE.ce('div');
+  Ø3.setAttribute('class', 'rTableCell completeness');
+  var Ø4 = WAVE.ce('div');
+  Ø4.setAttribute('class', 'bar');
+  Ø4.setAttribute('style', getStatusBarStyle(task.Completeness));
+  Ø3.appendChild(Ø4);
+  var Ø5 = WAVE.ce('div');
+  Ø5.innerText = task.Completeness;
+  Ø5.setAttribute('data-cproject', task.C_Project);
+  Ø5.setAttribute('data-cissue', task.Counter);
+  Ø5.setAttribute('data-progress', task.Completeness);
+  Ø5.setAttribute('data-description', task.Description);
+  Ø5.setAttribute('data-status', task.statusId);
+  Ø5.addEventListener('click', changeProgress1, false);
+  Ø5.setAttribute('class', 'bar-value');
+  Ø5.setAttribute('align', 'center');
+  Ø3.appendChild(Ø5);
+  Ø1.appendChild(Ø3);
+  var Ø6 = WAVE.ce('div');
+  Ø6.innerText = task.Status;
+  Ø6.setAttribute('class', 'rTableCell');
+  Ø6.setAttribute('style', getStatusStyle(task.Status));
+  Ø6.setAttribute('align', 'center');
+  Ø1.appendChild(Ø6);
+  var Ø7 = WAVE.ce('div');
+  Ø7.innerText = WAVE.dateTimeToString(task.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+  Ø7.setAttribute('class', 'rTableCell');
+  Ø1.appendChild(Ø7);
+  var Ø8 = WAVE.ce('div');
+  Ø8.innerText = WAVE.dateTimeToString(task.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+  Ø8.setAttribute('class', 'rTableCell');
+  Ø1.appendChild(Ø8);
+  var Ø9 = WAVE.ce('div');
+  Ø9.innerText = WAVE.dateTimeToString(task.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+  Ø9.setAttribute('class', 'rTableCell');
+  Ø1.appendChild(Ø9);
+  var Ø10 = WAVE.ce('div');
+  Ø10.innerText = task.Assignee;
+  Ø10.setAttribute('class', 'rTableCell');
+  Ø1.appendChild(Ø10);
+  var Ø11 = WAVE.ce('div');
+  Ø11.innerText = task.ProjectName;
+  Ø11.setAttribute('class', 'rTableCell');
+  Ø1.appendChild(Ø11);
+  var Ø12 = WAVE.ce('div');
+  Ø12.innerText = task.Name;
+  Ø12.setAttribute('class', 'rTableCell');
+  Ø1.appendChild(Ø12);
+  var Ø13 = WAVE.ce('div');
+  Ø13.innerText = task.Description;
+  Ø13.setAttribute('class', 'rTableCell');
+  Ø1.appendChild(Ø13);
+  if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+  return Ø1;
+}
+
+function createRowDetails(root, id) {
+  var Ør = arguments[0];
+  if (WAVE.isString(Ør))
+    Ør = WAVE.id(Ør);
+  var Ø1 = WAVE.ce('div');
+  Ø1.setAttribute('id', 'details-'+id);
+  Ø1.setAttribute('class', 'details rTableRow');
+  var Ø2 = WAVE.ce('div');
+  Ø2.setAttribute('class', 'rTableCell colspan');
+  var Ø3 = WAVE.ce('div');
+  var Ø4 = WAVE.ce('div');
+  Ø4.setAttribute('id', 'tabs-'+id);
+  Ø3.appendChild(Ø4);
+  Ø2.appendChild(Ø3);
+  Ø1.appendChild(Ø2);
+  if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+  return Ø1;
+}
+
+function buildStatusButtons(root, task) {
+  var Ør = arguments[0];
+  if (WAVE.isString(Ør))
+    Ør = WAVE.id(Ør);
+  var Ø1 = WAVE.ce('div');
+  if(pmperm) {
+     for(var s=0, sl=task.NextState.length; s < sl; s++) {
+      var Ø2 = WAVE.ce('a');
+      Ø2.innerText = statuses[task.NextState[s]];
+      Ø2.setAttribute('data-nextstate', task.NextState[s]);
+      Ø2.setAttribute('data-cproject', task.C_Project);
+      Ø2.setAttribute('data-counter', task.Counter);
+      Ø2.addEventListener('click', changeStatusDialog1, false);
+      Ø2.setAttribute('class', 'button');
+      Ø1.appendChild(Ø2);
+    }
+     if(task.statusId=='A') {
+      var Ø3 = WAVE.ce('a');
+      Ø3.innerText = 'Add user';
+      Ø3.setAttribute('href', 'javascript:changeStatusDialog("A",'+task.C_Project+', '+task.Counter+')');
+      Ø3.setAttribute('class', 'button');
+      Ø1.appendChild(Ø3);
+    }
+  }
+  if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+  return Ø1;
+}
+
+function createStatusHeader(root) {
+  var Ør = arguments[0];
+  if (WAVE.isString(Ør))
+    Ør = WAVE.id(Ør);
+  var Ø1 = WAVE.ce('div');
+  Ø1.setAttribute('class', 'rTableRow');
+  var Ø2 = WAVE.ce('div');
+  Ø2.innerText = 'ID';
+  Ø2.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø2);
+  var Ø3 = WAVE.ce('div');
+  Ø3.innerText = 'Progress';
+  Ø3.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø3);
+  var Ø4 = WAVE.ce('div');
+  Ø4.innerText = 'Status';
+  Ø4.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø4);
+  var Ø5 = WAVE.ce('div');
+  Ø5.innerText = 'Start';
+  Ø5.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø5);
+  var Ø6 = WAVE.ce('div');
+  Ø6.innerText = 'Plan\x2FDue';
+  Ø6.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø6);
+  var Ø7 = WAVE.ce('div');
+  Ø7.innerText = 'Complete';
+  Ø7.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø7);
+  var Ø8 = WAVE.ce('div');
+  Ø8.innerText = 'Assigned';
+  Ø8.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø8);
+  var Ø9 = WAVE.ce('div');
+  Ø9.innerText = 'Project';
+  Ø9.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø9);
+  var Ø10 = WAVE.ce('div');
+  Ø10.innerText = 'Issue';
+  Ø10.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø10);
+  var Ø11 = WAVE.ce('div');
+  Ø11.innerText = 'Description';
+  Ø11.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø11);
+  if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+  return Ø1;
+}
+
+function createAssignmentHeader(root) {
+  var Ør = arguments[0];
+  if (WAVE.isString(Ør))
+    Ør = WAVE.id(Ør);
+  var Ø1 = WAVE.ce('div');
+  Ø1.setAttribute('class', 'rTableRow');
+  var Ø2 = WAVE.ce('div');
+  Ø2.innerText = 'ID';
+  Ø2.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø2);
+  var Ø3 = WAVE.ce('div');
+  Ø3.innerText = 'Progress';
+  Ø3.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø3);
+  var Ø4 = WAVE.ce('div');
+  Ø4.innerText = 'Status';
+  Ø4.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø4);
+  var Ø5 = WAVE.ce('div');
+  Ø5.innerText = 'Start';
+  Ø5.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø5);
+  var Ø6 = WAVE.ce('div');
+  Ø6.innerText = 'Plan\x2FDue';
+  Ø6.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø6);
+  var Ø7 = WAVE.ce('div');
+  Ø7.innerText = 'Complete';
+  Ø7.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø7);
+  var Ø8 = WAVE.ce('div');
+  Ø8.innerText = 'Assigned';
+  Ø8.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø8);
+  var Ø9 = WAVE.ce('div');
+  Ø9.innerText = 'Project';
+  Ø9.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø9);
+  var Ø10 = WAVE.ce('div');
+  Ø10.innerText = 'Issue';
+  Ø10.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø10);
+  var Ø11 = WAVE.ce('div');
+  Ø11.innerText = 'Description';
+  Ø11.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø11);
+  if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+  return Ø1;
+}
+
+function createStatusGridRow(root, details) {
+  var Ør = arguments[0];
+  if (WAVE.isString(Ør))
+    Ør = WAVE.id(Ør);
+  var Ø1 = WAVE.ce('div');
+  Ø1.setAttribute('id', 'detailsRow-'+details.Counter);
+  Ø1.setAttribute('class', 'rTableRow');
+  var Ø2 = WAVE.ce('div');
+  Ø2.innerText = details.Counter;
+  Ø2.setAttribute('class', 'rTableCell');
+  Ø2.setAttribute('align', 'right');
+  Ø1.appendChild(Ø2);
+  var Ø3 = WAVE.ce('div');
+  Ø3.innerText = details.Completeness;
+  Ø3.setAttribute('class', 'rTableCell');
+  Ø1.appendChild(Ø3);
+  var Ø4 = WAVE.ce('div');
+  Ø4.innerText = details.Status;
+  Ø4.setAttribute('class', 'rTableCell');
+  Ø4.setAttribute('align', 'center');
+  Ø1.appendChild(Ø4);
+  var Ø5 = WAVE.ce('div');
+  Ø5.innerText = WAVE.dateTimeToString(details.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+  Ø5.setAttribute('class', 'rTableCell');
+  Ø1.appendChild(Ø5);
+  var Ø6 = WAVE.ce('div');
+  Ø6.innerText = WAVE.dateTimeToString(details.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+  Ø6.setAttribute('class', 'rTableCell');
+  Ø1.appendChild(Ø6);
+  var Ø7 = WAVE.ce('div');
+  Ø7.innerText = WAVE.dateTimeToString(details.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+  Ø7.setAttribute('class', 'rTableCell');
+  Ø1.appendChild(Ø7);
+  var Ø8 = WAVE.ce('div');
+  Ø8.innerText = details.Assignee;
+  Ø8.setAttribute('class', 'rTableCell');
+  Ø1.appendChild(Ø8);
+  var Ø9 = WAVE.ce('div');
+  Ø9.innerText = details.ProjectName;
+  Ø9.setAttribute('class', 'rTableCell');
+  Ø1.appendChild(Ø9);
+  var Ø10 = WAVE.ce('div');
+  Ø10.innerText = details.Name;
+  Ø10.setAttribute('class', 'rTableCell');
+  Ø1.appendChild(Ø10);
+  var Ø11 = WAVE.ce('div');
+  Ø11.innerText = details.Description;
+  Ø11.setAttribute('class', 'rTableCell');
+  Ø1.appendChild(Ø11);
+  if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+  return Ø1;
+}
+
+function createAssignmentGridRow(root, assignment) {
+  var Ør = arguments[0];
+  if (WAVE.isString(Ør))
+    Ør = WAVE.id(Ør);
+  var Ø1 = WAVE.ce('div');
+  Ø1.setAttribute('id', 'assignmentRow-'+assignment.Counter);
+  Ø1.setAttribute('class', 'rTableRow');
+  var Ø2 = WAVE.ce('div');
+  Ø2.innerText = assignment.Counter;
+  Ø2.setAttribute('class', 'rTableCell');
+  Ø2.setAttribute('align', 'right');
+  Ø1.appendChild(Ø2);
+  if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+  return Ø1;
+}
+
+function buildStatusTab(root, task) {
+  buildStatusButtons(root, task);
+  createStatusHeader(root);
+  for (var j = 0, l = task.Details.length; j < l; j++)
+    createStatusGridRow(root, task.Details[j]);
+}
+
+function buildAssignmentTab(root, task) {
+  createAssignmentHeader(root);
+  for (var j = 0, l = task.Assignments.length; j < l; j++)
+    createAssignmentGridRow(root, task.Assignments[j]);
+}
+
+function createTabs(root, task) {
+  var statusId = "status-" + task.Counter;
+  var statusContainer = "<div id={0}></div>".args(statusId);
+
+  var assignmentId = "assignment-" + task.Counter;
+  var assignmentContainer = "<div id={0}></div>".args(assignmentId);
+
+  var tabs = new WAVE.GUI.Tabs({
+    DIV: WAVE.id(root),
+    tabs: [
+      {
+        title: "Status",
+        content: statusContainer,
+        visible: true,
+        isHtml: true
+      },
+      {
+        title: "Assignment",
+        content: assignmentContainer,
+        isHtml: true
+      },
+      {
+        title: "Chat",
+        content: "chat",
+        isHtml: false
+      }
+    ]
+  });
+
+  buildStatusTab(statusId, task)
+  buildAssignmentTab(assignmentId, task)
+}

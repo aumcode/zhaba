@@ -172,6 +172,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Static\ntc\tabs.ntc.js" />
+    <Content Include="Static\ntc\zhb.ntc.js" />
     <None Include="Controls\Grids\IssueComponentGrid.nht" />
     <None Include="Controls\Grids\CategoryGrid.nht" />
     <None Include="Controls\Grids\IssueAreaGrid.nht" />
