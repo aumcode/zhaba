@@ -31,17 +31,19 @@ namespace Zhaba.Data.Rows
              metadata: @"Placeholder='Description' ControlType='textarea'")]
       public string Description { get; set; }
 
-      [Field(kind: DataKind.Text,
+      [Field(required: true,
+             kind: DataKind.Text,
              description: "Start Date")]
-      public DateTime Start_Date { get; set; }
+      public DateTime? Start_Date { get; set; }
 
-      [Field(kind: DataKind.Text,
+      [Field(required: true,
+             kind: DataKind.Text,
              description: "Plan Date")]
-      public DateTime Plan_Date { get; set; }
+      public DateTime? Plan_Date { get; set; }
 
       [Field(kind: DataKind.Text,
              description: "Completion Date")]
-      public DateTime Complete_Date { get; set; }
+      public DateTime? Complete_Date { get; set; }
     #endregion
   }
 }

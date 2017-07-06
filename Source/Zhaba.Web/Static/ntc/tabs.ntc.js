@@ -97,9 +97,17 @@ function buildStatusButtons(root, task) {
             class="button"   
           }
       }
-      "? if(task.statusId=='A')" {
-        a = "Add user" { href="?'javascript:changeStatusDialog(\"A\",'+task.C_Project+', '+task.Counter+')'"  class="button" }
-      }
+    }
+  }
+  ***/
+}
+
+function buildAssignmentButtons(root, task) {
+  /***
+  div
+  {
+    "? if(task.statusId !='X' && task.statusId !='C' && task.statusId !='D')" {
+      a = "Add user" { href="?'javascript:changeStatusDialog(\"A\",'+task.C_Project+', '+task.Counter+')'"  class="button" }
     }
   }
   ***/
@@ -130,15 +138,12 @@ function createAssignmentHeader(root) {
   {
     class="rTableRow"
     div="ID" {class="rTableHead"}
-    div="Progress" {class="rTableHead"}
-    div="Status" {class="rTableHead"}
-    div="Start" {class="rTableHead"}
-    div="Plan/Due" {class="rTableHead"}
-    div="Complete" {class="rTableHead"}
+    div="Operator" {class="rTableHead"}
+    div="UserOpenLogin" {class="rTableHead"}
+    div="UserCloseLogin" {class="rTableHead"}
     div="Assigned" {class="rTableHead"}
-    div="Project" {class="rTableHead"}
-    div="Issue" {class="rTableHead"}
-    div="Description"{ class="rTableHead" }
+    div="Unassigned" {class="rTableHead"}
+    div="Note" {class="rTableHead"}
   }
   ***/
 }
@@ -170,17 +175,14 @@ function createAssignmentGridRow(root, assignment) {
   {
     id="?'assignmentRow-'+assignment.Counter"
     class="rTableRow"
-            
+
     div="?assignment.Counter"{ class="rTableCell" align="right" }
-    //div="?assignment.Completeness" { class="rTableCell" }
-    //div="?assignment.Status"{ class="rTableCell" align="center"}
-    //div="?WAVE.dateTimeToString(assignment.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-    //div="?WAVE.dateTimeToString(assignment.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-    //div="?WAVE.dateTimeToString(assignment.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-    //div=?assignment.Assignee { class="rTableCell" }
-    //div="?assignment.ProjectName"{ class="rTableCell" }
-    //div="?assignment.Name"{ class="rTableCell" }
-    //div="?assignment.Description"{ class="rTableCell" }
+    div="?assignment.UserLogin"{ class="rTableCell" align="right" }
+    div="?assignment.UserOpenLogin" { class="rTableCell" }
+    div="?assignment.UserCloseLogin"{ class="rTableCell" align="center"}
+    div="?WAVE.dateTimeToString(assignment.OPEN_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+    div="?WAVE.dateTimeToString(assignment.CLOSE_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+    div="?assignment.Note" {class="rTableHead"}
   }
   ***/
 }
@@ -193,6 +195,7 @@ function buildStatusTab(root, task) {
 }
 
 function buildAssignmentTab(root, task) {
+  buildAssignmentButtons(root, task);
   createAssignmentHeader(root);
   for (var j = 0, l = task.Assignments.length; j < l; j++)
     createAssignmentGridRow(root, task.Assignments[j]);
@@ -209,24 +212,30 @@ function createTabs(root, task) {
     DIV: WAVE.id(root),
     tabs: [
       {
+        name: "tStatus",
         title: "Status",
         content: statusContainer,
         visible: true,
         isHtml: true
       },
       {
+        name: "tAssignment",
         title: "Assignment",
         content: assignmentContainer,
         isHtml: true
       },
       {
+        name: "tChat",
         title: "Chat",
         content: "chat",
         isHtml: false
       }
     ]
   });
-
+  tabs.eventBind(WAVE.GUI.EVT_TABS_TAB_CHANGED, function (sender, args) {
+    debugger;
+    console.log(args);
+  });
   buildStatusTab(statusId, task)
   buildAssignmentTab(assignmentId, task)
 }
