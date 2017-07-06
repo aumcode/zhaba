@@ -428,7 +428,7 @@ div.colspan>div>div
     ***/
   }
 
-  function createRowDetailsHeader(root, i){
+  function createStatusHeader(root){
     /***
     div 
     {
@@ -447,7 +447,26 @@ div.colspan>div>div
     ***/
   }
 
-  function createDetailsGridRow(root, i, j){
+  function createAssignmentHeader(root){
+    /***
+    div 
+    {
+      class="rTableRow"
+      div="ID" {class="rTableHead"}
+      div="Progress" {class="rTableHead"}
+      div="Status" {class="rTableHead"}
+      div="Start" {class="rTableHead"}
+      div="Plan/Due" {class="rTableHead"}
+      div="Complete" {class="rTableHead"}
+      div="Assigned" {class="rTableHead"}
+      div="Project" {class="rTableHead"}
+      div="Issue" {class="rTableHead"}
+      div="Description"{ class="rTableHead" }
+    }
+    ***/
+  }
+
+  function createStatusGridRow(root, i, j){
     /***
     div
     {
@@ -468,29 +487,47 @@ div.colspan>div>div
     ***/
   }
 
-  function buildStatusTab() {
+  function createAssignmentGridRow(root, i, j){
     /***
-      div 
+    div
     {
+      id="?'assignmentRow-'+tasks[i].Assignments[j].Counter"
       class="rTableRow"
-      div="ID" {class="rTableHead"}
-      div="Progress" {class="rTableHead"}
-      div="Status" {class="rTableHead"}
-      div="Start" {class="rTableHead"}
-      div="Plan/Due" {class="rTableHead"}
-      div="Complete" {class="rTableHead"}
-      div="Assigned" {class="rTableHead"}
-      div="Project" {class="rTableHead"}
-      div="Issue" {class="rTableHead"}
-      div="Description"{ class="rTableHead" }
+              
+      div="?tasks[i].Assignments[j].Counter"{ class="rTableCell" align="right" }
+      //div="?tasks[i].Assignments[j].Completeness" { class="rTableCell" }
+      //div="?tasks[i].Assignments[j].Status"{ class="rTableCell" align="center"}
+      //div="?WAVE.dateTimeToString(tasks[i].Assignments[j].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+      //div="?WAVE.dateTimeToString(tasks[i].Assignments[j].Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+      //div="?WAVE.dateTimeToString(tasks[i].Assignments[j].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+      //div=?tasks[i].Assignments[j].Assignee { class="rTableCell" }
+      //div="?tasks[i].Assignments[j].ProjectName"{ class="rTableCell" }
+      //div="?tasks[i].Assignments[j].Name"{ class="rTableCell" }
+      //div="?tasks[i].Assignments[j].Description"{ class="rTableCell" }
     }
     ***/
+  }
+
+  function buildStatusTab(root, task, i) {
+    createStatusHeader(root);
+    for(var j = 0, l = task.Details.length; j<l; j++)
+        createStatusGridRow(root, i, j);
+  }
+
+  function buildAssignmentTab(root, task, i) {
+    createAssignmentHeader(root);
+    for(var j = 0, l = task.Assignments.length; j<l; j++)
+        createAssignmentGridRow(root, i, j);
   }
 
   var tabs;
   function createTabs(root, i){
     var statusId = "status-"+tasks[i].Counter;
     var statusContainer = "<div id={0}></div>".args(statusId);
+
+    var assignmentId = "assignment-"+tasks[i].Counter;
+    var assignmentContainer = "<div id={0}></div>".args(assignmentId);
+
     tabs = new WAVE.GUI.Tabs({
       DIV: WAVE.id(root),
       tabs: [
@@ -502,8 +539,8 @@ div.colspan>div>div
         },
         {
           title: "Assignment",
-          content: "assignments",
-          isHtml: false
+          content: assignmentContainer,
+          isHtml: true
         },
         {
           title: "Chat",
@@ -522,10 +559,9 @@ div.colspan>div>div
       var task = tasks[i];
       createRow("table", i);
       createRowDetails("table", i);
-      createTabs("tabs-"+tasks[i].Counter, i);
-      createRowDetailsHeader("status-"+task.Counter);
-      for(var j = 0, l1 = task.Details.length; j<l1; j++)
-        createDetailsGridRow("status-"+task.Counter, i, j);
+      createTabs("tabs-"+task.Counter, i);
+      buildStatusTab("status-"+task.Counter, task, i)
+      buildAssignmentTab("assignment-"+task.Counter, task, i)
     }
   }
 

@@ -22,5 +22,14 @@ namespace Zhaba.Data.QueryBuilders
         new Query.Param("dateUTC", dateUTC)
       };
     }
+
+    public static Query<TRow> FindIssueAssignByIssue<TRow>(ulong C_Issue, DateTime dateUTC) where TRow : Row
+    {
+      return new Query<TRow>("SQL.CRUD.Task.IssueAssign")
+      {
+        new Query.Param("C_Issue", C_Issue),
+        new Query.Param("dateUTC", dateUTC)
+      };
+    }
   }
 }

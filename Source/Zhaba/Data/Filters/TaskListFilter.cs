@@ -8,6 +8,7 @@ using Zhaba.Data.Forms;
 using Zhaba.Data.QueryBuilders;
 using Zhaba.Data.Rows;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Zhaba.Data.Filters
 {
@@ -15,7 +16,19 @@ namespace Zhaba.Data.Filters
   {
     #region Nested
 
-    public class TaskListFilterRow : TypedRow
+    private class IssueAssignListFilterRow : IssueAssignRow
+    {
+      [Field]
+      public string UserLogin { get; set; }
+
+      [Field]
+      public string UserOpenLogin { get; set; }
+
+      [Field]
+      public string UserCloseLogin { get; set; }
+    }
+
+    private class TaskListFilterRow : TypedRow
     {
       [Field]
       public string statusId { get; set; }
@@ -61,11 +74,13 @@ namespace Zhaba.Data.Filters
       public string Assignee { get; set; }
       
       [Field]
-      public List<TaskListFilterRow> Details { get; set; }
+      public IEnumerable<TaskListFilterRow> Details { get; set; }
+
+      [Field]
+      public IEnumerable<IssueAssignListFilterRow> Assignments { get; set; }
 
       [Field]
       public string[] NextState { get { return ZhabaIssueStatus.NextState(statusId); } }
-
     }
 
     #endregion
@@ -125,16 +140,14 @@ namespace Zhaba.Data.Filters
         foreach (var item in data)
           try
           {
-            var itemLog = item as TaskListFilterRow;
+            var itemLog = (TaskListFilterRow)item;
             App.Log.Write(new NFX.Log.Message(item.ToJSON()));
-            var query = QTask.FindFirst5IssueLogByIssue<TaskListFilterRow>(itemLog.Counter, asOf);
-            var list = ZApp.Data.CRUD.LoadOneRowset(query);
-            itemLog.Details = new List<TaskListFilterRow>();
-            foreach (var item1 in list)
-            {
-              var item1Log = item1 as TaskListFilterRow;
-              itemLog.Details.Add(item1Log);
-            }
+
+            var issueLogQuery = QTask.FindFirst5IssueLogByIssue<TaskListFilterRow>(itemLog.Counter, asOf);
+            itemLog.Details = ZApp.Data.CRUD.LoadOneRowset(issueLogQuery).AsEnumerableOf<TaskListFilterRow>();
+
+            var issueAssignQuery = QTask.FindIssueAssignByIssue<IssueAssignListFilterRow>(itemLog.Counter, asOf);
+            itemLog.Assignments = ZApp.Data.CRUD.LoadOneRowset(issueAssignQuery).AsEnumerableOf<IssueAssignListFilterRow>();
           }
           catch (Exception ex)
           {
