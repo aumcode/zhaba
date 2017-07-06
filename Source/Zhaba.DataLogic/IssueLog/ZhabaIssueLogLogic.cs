@@ -285,7 +285,7 @@ namespace Zhaba.DataLogic
     {
       var query = new Query("SQL.CRUD.IssueAssign.RemoveAllUsers")
       {
-        new Query.Param("pClose_TS", App.TimeSource.UTCNow.Date),
+        new Query.Param("pClose_TS", App.TimeSource.UTCNow.Date.AddHours(23).AddMinutes(59).AddSeconds(59)),
         new Query.Param("pC_Issue", c_Issue),
         new Query.Param("pC_User", c_User)
       };
