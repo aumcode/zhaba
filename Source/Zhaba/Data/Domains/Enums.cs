@@ -57,15 +57,15 @@ namespace Zhaba.Data.Domains
   {
     public const int MAX_LEN = 3;
 
-    public const string NEW = "N";      // N-> A,F,X
-    public const string REOPEN = "R";   // R-> A,F,X
+    public const string NEW      = "N"; // N-> A,F,X
+    public const string REOPEN   = "R"; // R-> A,F,X
     public const string ASSIGNED = "A"; // A-> D,F,X
-    public const string DONE = "D";     // D-> A,C,X
-    public const string DEFER = "F";    // F-> N,A,X
+    public const string DONE     = "D"; // D-> A,C,X
+    public const string DEFER    = "F"; // F-> N,A,X
     public const string CANCELED = "X"; // X-> null
-    public const string CLOSED = "C";   // C-> R
+    public const string CLOSED   = "C"; // C-> R
 
-    public const string VALUE_LIST = "N: New, R: Reopen, A: Assigned, D: Done, F: Defer, C: Closed";
+    public const string VALUE_LIST = "N: New, R: Reopen, A: Assigned, D: Done, F: Defer, C: Closed, X: Canceled";
 
     public ZhabaIssueStatus() : base(DBCharType.Char, "N|A|D|C|F|X|R") { }
 
@@ -89,21 +89,23 @@ namespace Zhaba.Data.Domains
       return "Invalid";
     }
 
-    public static string[] NextState(string state)
+    public static string[] NextState(string status)
     {
-      switch(state) 
-      {
-        case NEW:      return new string[] { ASSIGNED, DEFER,    CANCELED };   // N-> A,F,X
-        case REOPEN:   return new string[] { ASSIGNED, DEFER,    CANCELED };   // R-> A,F,X
-        case ASSIGNED: return new string[] { DONE,     DEFER,    CANCELED };   // A-> D,F,X
-        case DONE:     return new string[] { ASSIGNED, CLOSED,   CANCELED };   // D-> A,C,X
-        case DEFER:    return new string[] { NEW,      ASSIGNED, CANCELED };   // F-> N,A,X
-        case CLOSED:   return new string[] { REOPEN };                         // C-> R
-        case CANCELED: return new string[] { };                                // X-> null
-      }
-      return null;
+      if (NEW.EqualsOrdIgnoreCase(status))      return new string[] { ASSIGNED, DEFER,    CANCELED };   // N-> A,F,X
+      if (REOPEN.EqualsOrdIgnoreCase(status))   return new string[] { ASSIGNED, DEFER,    CANCELED };   // R-> A,F,X
+      if (ASSIGNED.EqualsOrdIgnoreCase(status)) return new string[] { DONE,     DEFER,    CANCELED };   // A-> D,F,X
+      if (DONE.EqualsOrdIgnoreCase(status))     return new string[] { ASSIGNED, CLOSED,   CANCELED };   // D-> A,C,X
+      if (DEFER.EqualsOrdIgnoreCase(status))    return new string[] { NEW,      ASSIGNED, CANCELED };   // F-> N,A,X
+      if (CLOSED.EqualsOrdIgnoreCase(status))   return new string[] { REOPEN };                         // C-> R
+      if (CANCELED.EqualsOrdIgnoreCase(status)) return new string[] { };                                // X-> null
+      return new string[] { };
     }
 
+    public static bool ValidNextStatus(string status, string next)
+    {
+      return NextState(status).Any(s => s.EqualsOrdIgnoreCase(next));
+    }
+    
     public static readonly Dictionary<string, string> STATUSES = new Dictionary<string, string> 
     { 
       { NEW, "New" },

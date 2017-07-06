@@ -44,7 +44,7 @@ namespace Zhaba.Data
   /// </summary>
   public interface IIssueLogic : IStoreLogic
   {
-    void WriteLogEvent(IssueLogEvent evt);
+    void WriteLogEvent(IssueLogEvent evt, ICRUDOperations operations = null);
     Exception WriteIssueForm(IssueForm from, out object saveResult);
     Exception WriteIssueAssignForm(IssueAssignForm form, out object saveResult);
     void CloseIssue(ulong C_Project, ulong C_Issue, ulong C_User);

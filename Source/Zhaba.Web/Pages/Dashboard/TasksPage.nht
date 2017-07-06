@@ -306,7 +306,7 @@ div.colspan>div>div
       div=?tasks[i].Assignee { class="rTableCell" }
       div="?tasks[i].ProjectName"{ class="rTableCell" }
       div="?tasks[i].Name"{ class="rTableCell" }
-      div="?tasks[i].Note"{ class="rTableCell" }
+      div="?tasks[i].Description"{ class="rTableCell" }
     }
     ***/
   }

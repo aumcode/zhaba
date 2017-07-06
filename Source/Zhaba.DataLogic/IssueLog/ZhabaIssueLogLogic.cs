@@ -26,55 +26,68 @@ namespace Zhaba.DataLogic
     public void ChangeStatus(ulong c_User, ulong c_Project, ulong c_Issue, string status, string description = null, ulong? c_AssignUser=null) 
     {
       IssueLogEvent evt = null;
-      switch (status)
+
+      if (ZhabaIssueStatus.NEW.EqualsOrdIgnoreCase(status))
       {
-        case ZhabaIssueStatus.REOPEN:
-          evt = new ReopenIssueEvent()
-          {
-            C_User = c_User,
-            C_Issue = c_Issue,
-            DateUTC = App.TimeSource.UTCNow,
-            Description = description
-          };
-          break;
-        case ZhabaIssueStatus.DONE:
-          evt = new DoneIssueEvent()
-          {
-            C_User = c_User,
-            C_Issue = c_Issue,
-            DateUTC = App.TimeSource.UTCNow,
-            Description = description
-          };
-          break;
-        case ZhabaIssueStatus.DEFER:
-          evt = new DeferIssueEvent()
-          {
-            C_User = c_User,
-            C_Issue = c_Issue,
-            DateUTC = App.TimeSource.UTCNow,
-            Description = description
-          };
-          break;
-        case ZhabaIssueStatus.CLOSED:
-          IssueAssignClose(c_User, c_Issue);
-          evt = new CloseIssueEvent()
-          {
-            C_User = c_User,
-            C_Issue = c_Issue,
-            DateUTC = App.TimeSource.UTCNow,
-            Description = description
-          };
-          break;
-        case ZhabaIssueStatus.CANCELED:
-          IssueAssignClose(c_User, c_Issue);
-          evt = new CancelIssueEvent()
-          {
-            C_User = c_User,
-            C_Issue = c_Issue,
-            DateUTC = App.TimeSource.UTCNow,
-            Description = description
-          };
-          break;
+        evt = new CreateIssueEvent()
+        {
+          C_User = c_User,
+          C_Issue = c_Issue,
+          DateUTC = App.TimeSource.UTCNow,
+          Description = description
+        };
+      }
+      else if (ZhabaIssueStatus.REOPEN.EqualsOrdIgnoreCase(status))
+      {
+        evt = new ReopenIssueEvent()
+        {
+          C_User = c_User,
+          C_Issue = c_Issue,
+          DateUTC = App.TimeSource.UTCNow,
+          Description = description
+        };
+      }
+      else if(ZhabaIssueStatus.DONE.EqualsOrdIgnoreCase(status))
+      {
+        evt = new DoneIssueEvent()
+        {
+          C_User = c_User,
+          C_Issue = c_Issue,
+          DateUTC = App.TimeSource.UTCNow,
+          Description = description
+        };
+      }
+      else if (ZhabaIssueStatus.DEFER.EqualsOrdIgnoreCase(status))
+      {
+        evt = new DeferIssueEvent()
+        {
+          C_User = c_User,
+          C_Issue = c_Issue,
+          DateUTC = App.TimeSource.UTCNow,
+          Description = description
+        };
+      }
+      else if (ZhabaIssueStatus.CLOSED.EqualsOrdIgnoreCase(status))
+      {
+        IssueAssignClose(c_User, c_Issue);
+        evt = new CloseIssueEvent()
+        {
+          C_User = c_User,
+          C_Issue = c_Issue,
+          DateUTC = App.TimeSource.UTCNow,
+          Description = description
+        };
+      }
+      else if (ZhabaIssueStatus.CANCELED.EqualsOrdIgnoreCase(status))
+      {
+        IssueAssignClose(c_User, c_Issue);
+        evt = new CancelIssueEvent()
+        {
+          C_User = c_User,
+          C_Issue = c_Issue,
+          DateUTC = App.TimeSource.UTCNow,
+          Description = description
+        };
       }
       if (evt != null) WriteLogEvent(evt);
     }
@@ -176,7 +189,7 @@ namespace Zhaba.DataLogic
 
       try
       {
-        //using (var trn = ZApp.Data.CRUD.BeginTransaction())
+        using (var trn = ZApp.Data.CRUD.BeginTransaction())
         {
           if (form.FormMode == FormMode.Insert)
           {
@@ -201,7 +214,7 @@ namespace Zhaba.DataLogic
               Priority = form.Priority,
               Start_Date = form.Start_Date.Date,
               Due_Date = form.Due_Date.Date
-            });
+            }, trn);
           else
             write(new EditIssueEvent()
             {
@@ -213,8 +226,8 @@ namespace Zhaba.DataLogic
               Priority = form.Priority,
               Start_Date = form.Start_Date.Date,
               Due_Date = form.Due_Date.Date
-            });
-          // trn.Commit();
+            }, trn);
+          trn.Commit();
         }
       }
       catch (Exception error)
@@ -279,7 +292,7 @@ namespace Zhaba.DataLogic
       ZApp.Data.CRUD.ExecuteWithoutFetch(query);
     }
 
-    public void WriteLogEvent(IssueLogEvent evt)
+    public void WriteLogEvent(IssueLogEvent evt, ICRUDOperations operations = null)
     {
       if (evt == null) throw new ZhabaDataException(StringConsts.ARGUMENT_ERROR+"WriteEvent(evt == null)");
 
@@ -287,12 +300,13 @@ namespace Zhaba.DataLogic
       if(error != null ) throw new ZhabaDataException(StringConsts.ARGUMENT_ERROR + "WriteEvent(!evt.Validate())", error);
       
       var etp = evt.GetType();
-      var mi = this.GetType().GetMethod("write", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { etp }, null);
+      var mi = this.GetType().GetMethod("write", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { etp, typeof(ICRUDOperations) }, null);
       if (mi == null) throw new ZhabaDataException(StringConsts.ARGUMENT_ERROR + "WriteEvent(evt'{0}' not matched)".Args(etp.Name), error);
 
       try
       {
-        mi.Invoke(this, new object[] { evt });
+        operations = operations ?? ZApp.Data.CRUD;
+        mi.Invoke(this, new object[] { evt, operations });
       }
       catch (Exception e)
       {
@@ -305,21 +319,23 @@ namespace Zhaba.DataLogic
 
     #region Private
 
-    private void write(CreateIssueEvent evt)
+    private void write(CreateIssueEvent evt, ICRUDOperations operations = null)
     {
-      IssueLogRow newRow = NewIssueLog(evt, ZhabaIssueStatus.NEW);
+      operations = operations ?? ZApp.Data.CRUD;
+      IssueLogRow newRow = NewIssueLog(evt, ZhabaIssueStatus.NEW, operations);
       newRow.C_Category = evt.C_Category;
       newRow.C_Milestone = evt.C_Milestone;
       newRow.Completeness = 0;
       newRow.Priority = evt.Priority;
       newRow.Start_Date = evt.Start_Date;
       newRow.Due_Date = evt.Due_Date;
-      ZApp.Data.CRUD.Insert(newRow);
+      operations.Insert(newRow);
     }
 
-    private void write(EditIssueEvent evt)
+    private void write(EditIssueEvent evt, ICRUDOperations operations = null)
     {
-      IssueLogRow newRow = NewIssueLog(evt);
+      operations = operations ?? ZApp.Data.CRUD;
+      IssueLogRow newRow = NewIssueLog(evt, operations: operations);
       newRow.C_Category = evt.C_Category;
       newRow.C_Milestone = evt.C_Milestone;
       newRow.Completeness = 0;
@@ -327,81 +343,93 @@ namespace Zhaba.DataLogic
       newRow.Status = newRow.Status ?? ZhabaIssueStatus.NEW;
       newRow.Start_Date = evt.Start_Date;
       newRow.Due_Date = evt.Due_Date;
-      ZApp.Data.CRUD.Insert(newRow);
+      operations.Insert(newRow);
     }
 
-    private void write(ProceedIssueEvent evt) 
+    private void write(ProceedIssueEvent evt, ICRUDOperations operations = null) 
     {
-      IssueLogRow newRow = NewIssueLog(evt);
+      operations = operations ?? ZApp.Data.CRUD;
+      IssueLogRow newRow = NewIssueLog(evt, operations:operations);
       if (newRow.Status == ZhabaIssueStatus.CLOSED) return;
       newRow.Completeness = evt.Completeness;
       newRow.Description = evt.Description;
 //      if (evt.Completeness == 100) newRow.Status = ZhabaIssueStatus.DONE;
-      ZApp.Data.CRUD.Insert(newRow);
+      operations.Insert(newRow);
     }
 
-    private void write(AssignIssueEvent evt)
+    private void write(AssignIssueEvent evt, ICRUDOperations operations = null)
     {
-        IssueLogRow newRow = NewIssueLog(evt, ZhabaIssueStatus.ASSIGNED);
-        ZApp.Data.CRUD.Insert(newRow);
+        operations = operations ?? ZApp.Data.CRUD;
+        IssueLogRow newRow = NewIssueLog(evt, ZhabaIssueStatus.ASSIGNED, operations);
+        operations.Insert(newRow);
     }
 
-    private void write(CloseIssueEvent evt) 
+    private void write(CloseIssueEvent evt, ICRUDOperations operations = null) 
     {
-      IssueLogRow newRow = NewIssueLog(evt, ZhabaIssueStatus.CLOSED);
-      ZApp.Data.CRUD.Insert(newRow);
+      operations = operations ?? ZApp.Data.CRUD;
+      IssueLogRow newRow = NewIssueLog(evt, ZhabaIssueStatus.CLOSED, operations);
+      operations.Insert(newRow);
     }
 
-    private void write(ReopenIssueEvent evt) 
+    private void write(ReopenIssueEvent evt, ICRUDOperations operations = null) 
     {
-      IssueLogRow newRow = NewIssueLog(evt,ZhabaIssueStatus.REOPEN);
-      ZApp.Data.CRUD.Insert(newRow);
+      operations = operations ?? ZApp.Data.CRUD;
+      IssueLogRow newRow = NewIssueLog(evt,ZhabaIssueStatus.REOPEN, operations);
+      operations.Insert(newRow);
     }
 
-    private void write(DeferIssueEvent evt)
+    private void write(DeferIssueEvent evt, ICRUDOperations operations = null)
     {
-      IssueLogRow newRow = NewIssueLog(evt, ZhabaIssueStatus.DEFER);
-      ZApp.Data.CRUD.Insert(newRow);
+      operations = operations ?? ZApp.Data.CRUD;
+      IssueLogRow newRow = NewIssueLog(evt, ZhabaIssueStatus.DEFER, operations);
+      operations.Insert(newRow);
     }
 
-    private void write(DoneIssueEvent evt)
+    private void write(DoneIssueEvent evt, ICRUDOperations operations = null)
     {
-      IssueLogRow newRow = NewIssueLog(evt, ZhabaIssueStatus.DONE);
-      ZApp.Data.CRUD.Insert(newRow);
+      operations = operations ?? ZApp.Data.CRUD;
+      IssueLogRow newRow = NewIssueLog(evt, ZhabaIssueStatus.DONE, operations);
+      operations.Insert(newRow);
     }
 
-    private void write(CancelIssueEvent evt)
+    private void write(CancelIssueEvent evt, ICRUDOperations operations = null)
     {
-      IssueLogRow newRow = NewIssueLog(evt, ZhabaIssueStatus.CANCELED);
-      ZApp.Data.CRUD.Insert(newRow);
+      operations = operations ?? ZApp.Data.CRUD;
+      IssueLogRow newRow = NewIssueLog(evt, ZhabaIssueStatus.CANCELED, operations);
+      operations.Insert(newRow);
     }
 
-    private void write(ChangePriorityIssueEvent evt)
+    private void write(ChangePriorityIssueEvent evt, ICRUDOperations operations = null)
     {
-      IssueLogRow newRow = NewIssueLog(evt);
+      operations = operations ?? ZApp.Data.CRUD;
+      IssueLogRow newRow = NewIssueLog(evt, operations: operations);
       newRow.Priority = evt.Priority;
-      ZApp.Data.CRUD.Insert(newRow);
+      operations.Insert(newRow);
     }
 
-    private void write(ChangeCategoryIssueEvent evt)
+    private void write(ChangeCategoryIssueEvent evt, ICRUDOperations operations = null)
     {
-      IssueLogRow newRow = NewIssueLog(evt);
+      operations = operations ?? ZApp.Data.CRUD;
+      IssueLogRow newRow = NewIssueLog(evt, operations: operations);
       newRow.C_Category = evt.C_Category;
-      ZApp.Data.CRUD.Insert(newRow);
+      operations.Insert(newRow);
     }
 
-    private IssueLogRow NewIssueLog(IssueLogEvent evt, string status = null)
+    private IssueLogRow NewIssueLog(IssueLogEvent evt, string status = null, ICRUDOperations operations = null)
     {
+      if (operations == null) return null;
+
       IssueLogRow result = new IssueLogRow(RowPKAction.CtorGenerateNewID) 
       {
         C_Issue = evt.C_Issue,
         C_Operator = evt.C_User,
         Status_Date = evt.DateUTC
       };
-      IssueLogRow oldRow = ZApp.Data.CRUD.LoadRow<IssueLogRow>(QIssueLog.FindLastIssueLogByIssue<IssueLogRow>(evt.C_Issue));
+      
+      IssueLogRow oldRow = operations.LoadRow<IssueLogRow>(QIssueLog.FindLastIssueLogByIssue<IssueLogRow>(evt.C_Issue));
       if (oldRow != null)
       {
-        if (status != null && !new List<string>(ZhabaIssueStatus.NextState(oldRow.Status)).Contains(status))
+        if (status != null && !ZhabaIssueStatus.ValidNextStatus(oldRow.Status, status))
           throw new ZhabaException("Wrong state {0} -> {1} for Issue ID = {2}".Args(oldRow.Status, status, evt.C_Issue));
 
         oldRow.CopyFields(result,
