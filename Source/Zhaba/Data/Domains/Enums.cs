@@ -104,6 +104,12 @@ namespace Zhaba.Data.Domains
       return null;
     }
 
+    public static bool IsNextStateValid(string currentState, string nextState)
+    {
+      var allowed = NextState(currentState);
+      return allowed.Any(a => a.EqualsOrdIgnoreCase(nextState));
+    }
+
     public static readonly Dictionary<string, string> STATUSES = new Dictionary<string, string> 
     { 
       { NEW, "New" },

@@ -401,7 +401,7 @@ namespace Zhaba.DataLogic
       IssueLogRow oldRow = ZApp.Data.CRUD.LoadRow<IssueLogRow>(QIssueLog.FindLastIssueLogByIssue<IssueLogRow>(evt.C_Issue));
       if (oldRow != null)
       {
-        if (status != null && !new List<string>(ZhabaIssueStatus.NextState(oldRow.Status)).Contains(status))
+        if (status != null && !ZhabaIssueStatus.IsNextStateValid(oldRow.Status, status))
           throw new ZhabaException("Wrong state {0} -> {1} for Issue ID = {2}".Args(oldRow.Status, status, evt.C_Issue));
 
         oldRow.CopyFields(result,
