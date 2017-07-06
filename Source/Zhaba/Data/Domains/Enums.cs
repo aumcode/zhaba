@@ -101,7 +101,7 @@ namespace Zhaba.Data.Domains
       return new string[] { };
     }
 
-    public static bool CheckNextStatus(string status, string next)
+    public static bool IsNextStateValid(string status, string next)
     {
       return NextState(status).Any(s => s.EqualsOrdIgnoreCase(next));
     }

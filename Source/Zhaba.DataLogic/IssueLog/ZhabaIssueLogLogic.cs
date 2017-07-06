@@ -355,7 +355,7 @@ namespace Zhaba.DataLogic
     {
       operations = operations ?? ZApp.Data.CRUD;
       IssueLogRow newRow = NewIssueLog(evt, operations:operations);
-      if (newRow.Status == ZhabaIssueStatus.CLOSED) return;
+      if (ZhabaIssueStatus.CLOSED.EqualsOrdIgnoreCase(newRow.Status) || ZhabaIssueStatus.CANCELED.EqualsOrdIgnoreCase(newRow.Status)) return;
       newRow.Completeness = evt.Completeness;
       newRow.Description = evt.Description;
 //      if (evt.Completeness == 100) newRow.Status = ZhabaIssueStatus.DONE;
@@ -434,7 +434,7 @@ namespace Zhaba.DataLogic
       IssueLogRow oldRow = operations.LoadRow<IssueLogRow>(QIssueLog.FindLastIssueLogByIssue<IssueLogRow>(evt.C_Issue));
       if (oldRow != null)
       {
-        if (status != null && !ZhabaIssueStatus.CheckNextStatus(oldRow.Status, status))
+        if (status != null && ZhabaIssueStatus.IsNextStateValid(oldRow.Status, status))
           throw new ZhabaException("Wrong state {0} -> {1} for Issue ID = {2}".Args(oldRow.Status, status, evt.C_Issue));
 
         oldRow.CopyFields(result,

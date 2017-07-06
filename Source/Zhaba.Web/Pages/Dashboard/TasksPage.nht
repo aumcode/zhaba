@@ -346,17 +346,24 @@ div.colspan>div>div
       div="?tasks[i].Counter"{ class="issue_id rTableCell" align="right" }
       div 
       { 
-            class="rTableCell completeness" 
-            div 
-            { 
-              class="bar" 
-              style="?getStatusBarStyle(tasks[i].Completeness)" 
-            }
-            div="?tasks[i].Completeness" 
-            { 
-              class="bar-value" 
-              align="center"
-            }
+        class="rTableCell completeness" 
+        div 
+        { 
+          class="bar" 
+          style="?getStatusBarStyle(tasks[i].Completeness)" 
+        }
+        div="?tasks[i].Completeness" 
+        { 
+          data-cproject=?tasks[i].C_Project
+          data-cissue=?tasks[i].Counter
+          data-progress=?tasks[i].Completeness
+          data-description=?tasks[i].Description
+          data-status=?tasks[i].statusId
+          on-click=changeProgress1
+        
+          class="bar-value" 
+          align="center"
+        }
       }
       div="?tasks[i].Status"{ class="rTableCell" style="?getStatusStyle(tasks[i].Status)" align="center"}
       div="?WAVE.dateTimeToString(tasks[i].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
@@ -396,25 +403,6 @@ div.colspan>div>div
               }
               "? if(tasks[i].statusId=='A')" {
                 a = "Add user" { href="?'javascript:changeStatusDialog(\"A\",'+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button"  class="button" }
-            }
-          }
-          "? if(tasks[i].Status != 'Closed')" { 
-            div
-            {
-              id="?'form-'+tasks[i].Counter"
-              div 
-              { 
-                class="fView" 
-                label="Progress:" { for="?'prog' + tasks[i].Counter" } 
-                input { id="?'prog' + tasks[i].Counter" value="?tasks[i].Completeness" type="text" placeholder="Progress"} 
-              }
-              div 
-              { 
-                class="fView" 
-                label="Description:" { for="?'desc' + tasks[i].Counter" } 
-                input { id="?'desc' + tasks[i].Counter" value="?tasks[i].Description" type="text" placeholder="Description"} 
-              }
-              a="Send" { href="?'javascript:changeProgress('+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button" }
             }
           }
           div 
@@ -597,10 +585,14 @@ div.colspan>div>div
   }
 
   function changeProgress(pid, iid) {
+    changeProgress(pid, iid, document.getElementById('prog'+iid).value, document.getElementById('desc'+iid).value);
+  }
+ 
+  function changeProgress(pid, iid, progress, description) {
     var data = {
       issueCounter: iid,
-      value: document.getElementById('prog'+iid).value, 
-      description: document.getElementById('desc'+iid).value
+      value: progress, 
+      description: description
     };
     console.log(data);
     WAVE.ajaxCall(
@@ -766,6 +758,49 @@ div.colspan>div>div
   function changeStatusDialog1(a) {
     debugger;
     changeStatusDialog(a.target.dataset.nextstate, a.target.dataset.cproject, a.target.dataset.counter)
+  }
+  
+  function buildProgressBody() {
+    /***
+      div
+      {
+        id="progressForm"
+        data-wv-rid="V3"
+        div { data-wv-fname="Value" class="fView" }
+        div { data-wv-fname="Description" class="fView" }
+      }    
+    ***/
+  }
+  
+  function changeProgress1(e) {
+    var status = e.target.dataset.status;
+    if(status == 'C' || status == 'X') return;
+    var pid = e.target.dataset.cproject;
+    var iid = e.target.dataset.cissue;
+    var rec = new WAVE.RecordModel.Record(
+      { ID: "REC_PROGRESS",
+        fields: [
+          {def: {Name: 'Value', Type: 'int', MinValue: 0, MaxValue: 100}, val: e.target.dataset.progress},
+          {def: {Name: 'Description', Type: 'string', Size: 1000, Required: false}, val: e.target.dataset.description},
+        ]
+      }
+    );
+    e.stopPropagation();
+    var dlg = new WAVE.GUI.Dialog({
+            header: 'Change progress',
+            body: buildProgressBody(),
+            footer: buildStatusFooter(),
+            onShow: function() {
+              var rv = new WAVE.RecordModel.RecordView("V3", rec);
+            },
+            onClose: function(dlg, result) {
+              if(result==WAVE.GUI.DLG_CANCEL) return WAVE.GUI.DLG_CANCEL;
+              rec.validate();
+              if (!rec.valid()) return WAVE.GUI.DLG_UNDEFINED;
+              changeProgress(pid,iid,  rec.data().Value, rec.data().Description)  
+              return WAVE.GUI.DLG_CANCEL;
+            }  
+          });     
   }
   
   var tickTime = 300000;
