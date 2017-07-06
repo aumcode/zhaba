@@ -114,6 +114,62 @@ div.colspan>div>div
   .issue_id {
   }
 
+  .wvTabsUl {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 4px;
+    max-width: 600px;
+  }
+
+    .wvTabsUl li {
+      border: 1px solid black;
+      padding: 4px;
+      cursor: pointer;
+      margin-right: 4px;
+      background-color: #f0f0f0;
+      display: inline;
+    }
+
+  .wvTabsActive {
+    border-bottom-color: #f0f0f0 !important;
+    cursor: default !important;
+  }
+
+  .wvTabsContentContainer {
+    border: 1px solid black;
+    padding: 5px;
+    background-color: #f0f0f0;
+  }
+
+  .wvTabsContentDiv {
+    background-color: white;
+    max-height: 100%;
+    height: 100%;
+    padding: 5px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  table, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+
+  .wvTabDisabled {
+    background-color: #98e4d1 !important;
+    color: #ff8282 !important;
+    cursor: default !important;
+  }
+
+  .wvTabsContentDivHidden {
+    display: none;
+  }
+
+  .wvTabsContentDivShown {
+    display: block;
+  }
+
 </style>
 
 #[override renderBody()]
@@ -360,8 +416,7 @@ div.colspan>div>div
           }
           div 
           {
-            id="?'detailsTable-'+tasks[i].Counter"
-            class = "rTable"
+            id="?'tabs-'+tasks[i].Counter"
           }
         }
       }
@@ -410,6 +465,51 @@ div.colspan>div>div
     ***/
   }
 
+  function buildStatusTab() {
+    /***
+      div 
+    {
+      class="rTableRow"
+      div="ID" {class="rTableHead"}
+      div="Progress" {class="rTableHead"}
+      div="Status" {class="rTableHead"}
+      div="Start" {class="rTableHead"}
+      div="Plan/Due" {class="rTableHead"}
+      div="Complete" {class="rTableHead"}
+      div="Assigned" {class="rTableHead"}
+      div="Project" {class="rTableHead"}
+      div="Issue" {class="rTableHead"}
+      div="Description"{ class="rTableHead" }
+    }
+    ***/
+  }
+
+  var tabs;
+  function createTabs(root, i){
+    var status = "status-"+tasks[i].Counter;
+    var statusContainer = "<div id={0}></div>".args(status);
+    tabs = new WAVE.GUI.Tabs({
+      DIV: WAVE.id(root),
+      tabs: [
+        {
+          title: "Status",
+          content: div,
+          visible: true,
+          isHtml: true
+        },
+        {
+          title: "Assignment",
+          content: "assignments",
+          isHtml: false
+        },
+        {
+          title: "Chat",
+          content: "chat",
+          isHtml: false
+        }
+      ]});
+  }
+
   function renderTasks(root){
     clearGrid();
     createBody(root)
@@ -419,9 +519,10 @@ div.colspan>div>div
       var task = tasks[i];
       createRow("table", i);
       createRowDetails("table", i);
-      createRowDetailsHeader("detailsTable-"+task.Counter);
+      createTabs("tabs-"+tasks[i].Counter, i);
+      createRowDetailsHeader("status-"+task.Counter);
       for(var j = 0, l1 = task.Details.length; j<l1; j++)
-        createDetailsGridRow("detailsTable-"+task.Counter, i, j);
+        createDetailsGridRow("status-"+task.Counter, i, j);
     }
   }
 
