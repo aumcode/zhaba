@@ -123,7 +123,9 @@ div.colspan>div>div
 
     .wvTabsUl li {
       border: 1px solid black;
-      padding: 4px;
+      padding-left: 4px;
+      padding-right: 4px;
+      padding-bottom: 6px;
       cursor: pointer;
       margin-right: 4px;
       background-color: #f0f0f0;
@@ -336,83 +338,88 @@ div.colspan>div>div
     ***/
   }
 
-  function createRow(root, i){
+  function createRow(root, task){
     /***
     div
     {
-      id=?tasks[i].Counter
+      id=?task.Counter
       class="expander rTableRow"
               
-      div="?tasks[i].Counter"{ class="issue_id rTableCell" align="right" }
+      div="?task.Counter"{ class="issue_id rTableCell" align="right" }
       div 
       { 
         class="rTableCell completeness" 
         div 
         { 
           class="bar" 
-          style="?getStatusBarStyle(tasks[i].Completeness)" 
+          style="?getStatusBarStyle(task.Completeness)" 
         }
-        div="?tasks[i].Completeness" 
+        div="?task.Completeness" 
         { 
-          data-cproject=?tasks[i].C_Project
-          data-cissue=?tasks[i].Counter
-          data-progress=?tasks[i].Completeness
-          data-description=?tasks[i].Description
-          data-status=?tasks[i].statusId
+          data-cproject=?task.C_Project
+          data-cissue=?task.Counter
+          data-progress=?task.Completeness
+          data-description=?task.Description
+          data-status=?task.statusId
           on-click=changeProgress1
         
           class="bar-value" 
           align="center"
         }
       }
-      div="?tasks[i].Status"{ class="rTableCell" style="?getStatusStyle(tasks[i].Status)" align="center"}
-      div="?WAVE.dateTimeToString(tasks[i].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-      div="?WAVE.dateTimeToString(tasks[i].Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-      div="?WAVE.dateTimeToString(tasks[i].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-      div=?tasks[i].Assignee { class="rTableCell" }
-      div="?tasks[i].ProjectName"{ class="rTableCell" }
-      div="?tasks[i].Name"{ class="rTableCell" }
-      div="?tasks[i].Description"{ class="rTableCell" }
+      div="?task.Status"{ class="rTableCell" style="?getStatusStyle(task.Status)" align="center"}
+      div="?WAVE.dateTimeToString(task.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+      div="?WAVE.dateTimeToString(task.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+      div="?WAVE.dateTimeToString(task.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+      div=?task.Assignee { class="rTableCell" }
+      div="?task.ProjectName"{ class="rTableCell" }
+      div="?task.Name"{ class="rTableCell" }
+      div="?task.Description"{ class="rTableCell" }
     }
     ***/
   }
 
-  function createRowDetails(root, i){
+  function createRowDetails(root, id){
     /***
     div
     {
-      id="?'details-'+tasks[i].Counter"
+      id="?'details-'+id"
       class="details rTableRow"
       div
       {
         class="rTableCell colspan"
         div
         {
-          div
-          {
-            "?if(pmperm)" {
-              "? for(var s=0, sl=tasks[i].NextState.length; s < sl; s++)" {
-                  a = "?statuses[tasks[i].NextState[s]]" 
-                  { 
-                    data-nextstate=?tasks[i].NextState[s]
-                    data-cproject=?tasks[i].C_Project
-                    data-counter=?tasks[i].Counter 
-                    on-click="changeStatusDialog1"  
-                    class="button"   
-                  }
-              }
-              "? if(tasks[i].statusId=='A')" {
-                a = "Add user" { href="?'javascript:changeStatusDialog(\"A\",'+tasks[i].C_Project+', '+tasks[i].Counter+')'"  class="button"  class="button" }
-            }
-          }
           div 
           {
-            id="?'tabs-'+tasks[i].Counter"
+            id="?'tabs-'+id"
           }
         }
       }
     }
+    ***/
   }
+
+  function buildStatusButtons(root, task){
+    /***
+    div
+    {
+      "?if(pmperm)" {
+        "? for(var s=0, sl=task.NextState.length; s < sl; s++)" {
+            a = "?statuses[task.NextState[s]]" 
+            { 
+              data-nextstate=?task.NextState[s]
+              data-cproject=?task.C_Project
+              data-counter=?task.Counter 
+              on-click="changeStatusDialog1"  
+              class="button"   
+            }
+        }
+        "? if(task.statusId=='A')" {
+          a = "Add user" { href="?'javascript:changeStatusDialog(\"A\",'+task.C_Project+', '+task.Counter+')'"  class="button" }
+        }
+      }
+    }
     ***/
   }
 
@@ -454,66 +461,67 @@ div.colspan>div>div
     ***/
   }
 
-  function createStatusGridRow(root, i, j){
+  function createStatusGridRow(root, details){
     /***
     div
     {
-      id="?'detailsRow-'+tasks[i].Details[j].Counter"
+      id="?'detailsRow-'+details.Counter"
       class="rTableRow"
               
-      div="?tasks[i].Details[j].Counter"{ class="rTableCell" align="right" }
-      div="?tasks[i].Details[j].Completeness" { class="rTableCell" }
-      div="?tasks[i].Details[j].Status"{ class="rTableCell" align="center"}
-      div="?WAVE.dateTimeToString(tasks[i].Details[j].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-      div="?WAVE.dateTimeToString(tasks[i].Details[j].Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-      div="?WAVE.dateTimeToString(tasks[i].Details[j].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-      div=?tasks[i].Details[j].Assignee { class="rTableCell" }
-      div="?tasks[i].Details[j].ProjectName"{ class="rTableCell" }
-      div="?tasks[i].Details[j].Name"{ class="rTableCell" }
-      div="?tasks[i].Details[j].Description"{ class="rTableCell" }
+      div="?details.Counter"{ class="rTableCell" align="right" }
+      div="?details.Completeness" { class="rTableCell" }
+      div="?details.Status"{ class="rTableCell" align="center"}
+      div="?WAVE.dateTimeToString(details.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+      div="?WAVE.dateTimeToString(details.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+      div="?WAVE.dateTimeToString(details.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+      div=?details.Assignee { class="rTableCell" }
+      div="?details.ProjectName"{ class="rTableCell" }
+      div="?details.Name"{ class="rTableCell" }
+      div="?details.Description"{ class="rTableCell" }
     }
     ***/
   }
 
-  function createAssignmentGridRow(root, i, j){
+  function createAssignmentGridRow(root, assignment){
     /***
     div
     {
-      id="?'assignmentRow-'+tasks[i].Assignments[j].Counter"
+      id="?'assignmentRow-'+assignment.Counter"
       class="rTableRow"
               
-      div="?tasks[i].Assignments[j].Counter"{ class="rTableCell" align="right" }
-      //div="?tasks[i].Assignments[j].Completeness" { class="rTableCell" }
-      //div="?tasks[i].Assignments[j].Status"{ class="rTableCell" align="center"}
-      //div="?WAVE.dateTimeToString(tasks[i].Assignments[j].Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-      //div="?WAVE.dateTimeToString(tasks[i].Assignments[j].Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-      //div="?WAVE.dateTimeToString(tasks[i].Assignments[j].Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-      //div=?tasks[i].Assignments[j].Assignee { class="rTableCell" }
-      //div="?tasks[i].Assignments[j].ProjectName"{ class="rTableCell" }
-      //div="?tasks[i].Assignments[j].Name"{ class="rTableCell" }
-      //div="?tasks[i].Assignments[j].Description"{ class="rTableCell" }
+      div="?assignment.Counter"{ class="rTableCell" align="right" }
+      //div="?assignment.Completeness" { class="rTableCell" }
+      //div="?assignment.Status"{ class="rTableCell" align="center"}
+      //div="?WAVE.dateTimeToString(assignment.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+      //div="?WAVE.dateTimeToString(assignment.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+      //div="?WAVE.dateTimeToString(assignment.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+      //div=?assignment.Assignee { class="rTableCell" }
+      //div="?assignment.ProjectName"{ class="rTableCell" }
+      //div="?assignment.Name"{ class="rTableCell" }
+      //div="?assignment.Description"{ class="rTableCell" }
     }
     ***/
   }
 
-  function buildStatusTab(root, task, i) {
+  function buildStatusTab(root, task) {
+    buildStatusButtons(root, task);
     createStatusHeader(root);
     for(var j = 0, l = task.Details.length; j<l; j++)
-        createStatusGridRow(root, i, j);
+        createStatusGridRow(root, task.Details[j]);
   }
 
-  function buildAssignmentTab(root, task, i) {
+  function buildAssignmentTab(root, task) {
     createAssignmentHeader(root);
     for(var j = 0, l = task.Assignments.length; j<l; j++)
-        createAssignmentGridRow(root, i, j);
+        createAssignmentGridRow(root, task.Assignments[j]);
   }
 
   var tabs;
-  function createTabs(root, i){
-    var statusId = "status-"+tasks[i].Counter;
+  function createTabs(root, task){
+    var statusId = "status-"+ task.Counter;
     var statusContainer = "<div id={0}></div>".args(statusId);
 
-    var assignmentId = "assignment-"+tasks[i].Counter;
+    var assignmentId = "assignment-"+ task.Counter;
     var assignmentContainer = "<div id={0}></div>".args(assignmentId);
 
     tabs = new WAVE.GUI.Tabs({
@@ -536,6 +544,9 @@ div.colspan>div>div
           isHtml: false
         }
       ]});
+
+      buildStatusTab(statusId, task)
+      buildAssignmentTab(assignmentId, task)
   }
 
   function renderTasks(root){
@@ -545,11 +556,10 @@ div.colspan>div>div
     for(var i = 0, l = tasks.length; i<l; i++)
     {
       var task = tasks[i];
-      createRow("table", i);
-      createRowDetails("table", i);
-      createTabs("tabs-"+task.Counter, i);
-      buildStatusTab("status-"+task.Counter, task, i)
-      buildAssignmentTab("assignment-"+task.Counter, task, i)
+      createRow("table", task);
+      createRowDetails("table", task.Counter);
+      createTabs("tabs-"+task.Counter, task);
+      
     }
   }
 

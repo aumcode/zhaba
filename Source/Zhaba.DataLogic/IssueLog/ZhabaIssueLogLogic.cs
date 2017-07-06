@@ -434,7 +434,7 @@ namespace Zhaba.DataLogic
       IssueLogRow oldRow = operations.LoadRow<IssueLogRow>(QIssueLog.FindLastIssueLogByIssue<IssueLogRow>(evt.C_Issue));
       if (oldRow != null)
       {
-        if (status != null && ZhabaIssueStatus.IsNextStateValid(oldRow.Status, status))
+        if (status != null && !ZhabaIssueStatus.IsNextStateValid(oldRow.Status, status))
           throw new ZhabaException("Wrong state {0} -> {1} for Issue ID = {2}".Args(oldRow.Status, status, evt.C_Issue));
 
         oldRow.CopyFields(result,

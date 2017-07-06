@@ -8,13 +8,14 @@
   TIA.CLOSE_TS,
   TIA.C_OPEN_MEETING,
   TIA.C_CLOSE_MEETING,
+  TIA.NOTE,
   TU.LOGIN as USERLOGIN,
   TUO.LOGIN as USEROPENLOGIN,
   TUC.LOGIN as USERCLOSELOGIN
 from zhaba.tbl_issueassign as TIA
   join tbl_user as TU on TU.COUNTER = TIA.C_USER
-  join tbl_user as TUO on TUO.COUNTER = TIA.C_OPEN_OPER
-  join tbl_user as TUC on TUC.COUNTER = TIA.C_CLOSE_OPER
+  left join tbl_user as TUO on TUO.COUNTER = TIA.C_OPEN_OPER
+  left join tbl_user as TUC on TUC.COUNTER = TIA.C_CLOSE_OPER
 WHERE 
   (TIA.C_ISSUE = ?C_Issue) 
   AND (TIA.OPEN_TS <= ?dateUTC)
