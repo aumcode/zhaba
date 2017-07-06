@@ -433,11 +433,11 @@ namespace Zhaba.DataLogic
           throw new ZhabaException("Wrong state {0} -> {1} for Issue ID = {2}".Args(oldRow.Status, status, evt.C_Issue));
 
         oldRow.CopyFields(result,
-          fieldFilter: (n, f) =>
-              f.Name != "Counter" &&
-              f.Name != "C_Issue" &&
-              f.Name != "C_Operator" &&
-              f.Name != "Status_Date" 
+          fieldFilter: (_, f) =>
+              !f.Name.EqualsOrdIgnoreCase("Counter") &&
+              !f.Name.EqualsOrdIgnoreCase("C_Issue") &&
+              !f.Name.EqualsOrdIgnoreCase("C_Operator") &&
+              !f.Name.EqualsOrdIgnoreCase("Status_Date") 
         );
       }
       else if (status != ZhabaIssueStatus.NEW && !(evt is EditIssueEvent)) throw new ZhabaException("Issue(ID={0}) Log not present for status ({1})".Args(evt.C_Issue, status));

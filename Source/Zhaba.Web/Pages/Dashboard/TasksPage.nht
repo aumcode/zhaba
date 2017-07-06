@@ -438,31 +438,6 @@ div.colspan>div>div
     }
   }
   
-  /**
-  function textChanged(e){
-      var q = e.path[1];
-      var iid = 0;
-      if($(q).find('.issue_id').length == 1) {
-        iid = parseInt($(q).find('.issue_id')[0].outerText);
-      }
-      var data = { issueCounter : iid, value :  e.target.value}
-      WAVE.ajaxPostJSON(
-      "/dashboard/changeprogress",
-      data,
-      function (resp) { console.log("success");},
-      function (resp) { console.log("error"); },
-      function (resp) { console.log("fail"); });
-  }
-  **/
-  /**
-  function initTexts(){
-    var texts = document.getElementsByClassName("text");
-    for(var i = 0 , l=texts.length; i<l; i++){
-      var text = texts[i];
-      WAVE.addEventHandler(text, "change", textChanged);
-    }
-  }
-  **/
   function clearGrid(){
     document.getElementById("grid").innerHTML = "";
   }
