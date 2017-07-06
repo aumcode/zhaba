@@ -34,26 +34,26 @@ namespace Zhaba.Data.Rows
              metadata: @"Placeholder='Description' ControlType='textarea'")]
        public string Description { get; set; }
        
-       [Field(required: true,
-             maxLength: ZhabaIssueStatus.MAX_LEN,
-             valueList: ZhabaIssueStatus.VALUE_LIST,
-             description: "Status")]
-       public string Status { get; set; }
+      [Field(required: true,
+       maxLength: ZhabaIssueStatus.MAX_LEN,
+       valueList: ZhabaIssueStatus.VALUE_LIST,
+       description: "Status")]
+      public string Status { get; set; }
        
-       [Field(required: true,
-             kind: DataKind.DateTime,
-             description: "Status Date")]
-       public DateTime Status_Date { get; set; }
+      [Field(required: true,
+       kind: DataKind.DateTime,
+       description: "Status Date")]
+      public DateTime? Status_Date { get; set; }
          
       [Field(required: true,
             kind: DataKind.Date,
             description: "Issue Start Date")]
-      public DateTime Start_Date { get; set; }
+      public DateTime? Start_Date { get; set; }
       
       [Field(required: true,
             kind: DataKind.Date,
             description: "Issue Due Date")]
-      public DateTime Due_Date { get; set; }
+      public DateTime? Due_Date { get; set; }
 
       [Field(required: true,
              description: "Operator")]

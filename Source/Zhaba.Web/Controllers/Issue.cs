@@ -15,7 +15,7 @@ using Zhaba.Data.Filters;
 
 namespace Zhaba.Web.Controllers
 {
-  //  [SiteUserPermission]
+  [SiteUserPermission]
   public class Issue : ProjectControllerBase
   {
     [ThreadStatic]
@@ -50,7 +50,7 @@ namespace Zhaba.Web.Controllers
       //6. Inject Project Row in forms and filters
       foreach (var arg in args)
       {
-        var pForm = arg as IssueAssignForm;
+        var pForm = arg as IssueFormBase;
         if (pForm != null)
         {
           pForm.____SetIssue(issue);

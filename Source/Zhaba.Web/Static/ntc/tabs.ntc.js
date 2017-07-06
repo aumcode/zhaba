@@ -1,4 +1,6 @@
-﻿function createBody(root) {
+﻿﻿var chatRec={};
+
+function createBody(root) {
   /***
   div { id="table" class = "rTable" }
   ***/
@@ -138,12 +140,15 @@ function createAssignmentHeader(root) {
   {
     class="rTableRow"
     div="ID" {class="rTableHead"}
-    div="Operator" {class="rTableHead"}
-    div="UserOpenLogin" {class="rTableHead"}
-    div="UserCloseLogin" {class="rTableHead"}
+    div="Progress" {class="rTableHead"}
+    div="Status" {class="rTableHead"}
+    div="Start" {class="rTableHead"}
+    div="Plan/Due" {class="rTableHead"}
+    div="Complete" {class="rTableHead"}
     div="Assigned" {class="rTableHead"}
-    div="Unassigned" {class="rTableHead"}
-    div="Note" {class="rTableHead"}
+    div="Project" {class="rTableHead"}
+    div="Issue" {class="rTableHead"}
+    div="Description"{ class="rTableHead" }
   }
   ***/
 }
@@ -187,6 +192,92 @@ function createAssignmentGridRow(root, assignment) {
   ***/
 }
 
+function createChatForm(root, task) {
+  /***
+  div
+  {
+    id="?'chatForm'+task.Counter"
+   
+    data-wv-rid="?'chatForm'+task.Counter"
+    div { data-wv-fname="Note" class="fView" data-wv-ctl="text"}
+    div 
+    { 
+      a="send" 
+      { 
+        class="button"
+        data-cissue=?task.Counter
+        data-cproject=?task.C_Project
+        on-click=sendChatMessage1 
+      }
+    }
+  }
+  ***/
+}
+
+function createChatMessage(root, task) {
+  /***
+  div
+  {
+    id="?'chatMessage-'+task.Counter"
+  }
+  ***/
+}
+
+function chatForm(task) {
+  var link='project/{0}/issue/{1}/chat?id='.args(task.C_Project, task.Counter);
+  WAVE.ajaxCall(
+    'GET',
+    link,
+    null,
+    function (resp) {
+      chatRec[task.Counter] = new WAVE.RecordModel.Record(JSON.parse(resp));
+      new WAVE.RecordModel.RecordView('chatForm' + task.Counter, chatRec[task.Counter]);
+      console.log("success"); 
+    },
+    function (resp) { console.log("error"); },
+    function (resp) { console.log("fail"); },
+    WAVE.CONTENT_TYPE_JSON_UTF8, 
+    WAVE.CONTENT_TYPE_JSON_UTF8    
+  );
+}
+
+function sendChatMessage1(e) {
+  var iid = e.target.dataset.cissue;
+  var pid = e.target.dataset.cproject;    
+  console.log(chatRec[iid]);
+  var link = "project/{0}/issue/{1}/chat".args(pid,iid);
+  WAVE.ajaxCall(
+    'POST',
+    link,
+    chatRec[iid].data(),
+    function (resp) { 
+      refreshChat(iid);  
+      console.log("success"); 
+    },
+    function (resp) { console.log("error"); console.log(resp); },
+    function (resp) { console.log("fail"); console.log(resp); },
+    WAVE.CONTENT_TYPE_JSON_UTF8, 
+    WAVE.CONTENT_TYPE_JSON_UTF8
+  ); 
+}
+  
+function refreshChat(task) {
+  var link = "/project/{0}/ussue/{1}/chatlist".args(task.C_Project, task.Counter);
+  WAVE.ajaxCall(
+    'GET',
+    link,
+    null,
+    function (resp) {
+      var rec = JSON.parse(resp);
+      console.log(rec);
+    },
+    function (resp) { console.log("error"); console.log(resp); },
+    function (resp) { console.log("fail"); console.log(resp); },
+    WAVE.CONTENT_TYPE_JSON_UTF8,
+    WAVE.CONTENT_TYPE_JSON_UTF8
+  );    
+}
+
 function buildStatusTab(root, task) {
   buildStatusButtons(root, task);
   createStatusHeader(root);
@@ -201,12 +292,22 @@ function buildAssignmentTab(root, task) {
     createAssignmentGridRow(root, task.Assignments[j]);
 }
 
+function buildChatTab(root, task) {
+  createChatForm(root, task);
+  createChatMessage(root, task);
+  chatForm(task);
+  refreshChat(task);
+};
+
 function createTabs(root, task) {
   var statusId = "status-" + task.Counter;
   var statusContainer = "<div id={0}></div>".args(statusId);
 
   var assignmentId = "assignment-" + task.Counter;
   var assignmentContainer = "<div id={0}></div>".args(assignmentId);
+  
+  var chatId = "chatTab-{0}".args(task.Counter);
+  var chatContainer = "<div id={0}></div>".args(chatId);
 
   var tabs = new WAVE.GUI.Tabs({
     DIV: WAVE.id(root),
@@ -227,15 +328,19 @@ function createTabs(root, task) {
       {
         name: "tChat",
         title: "Chat",
-        content: "chat",
-        isHtml: false
+        content: chatContainer,
+        isHtml: true
       }
     ]
   });
   tabs.eventBind(WAVE.GUI.EVT_TABS_TAB_CHANGED, function (sender, args) {
-    debugger;
     console.log(args);
+    if (args = "tChat") {
+      refreshChat(task);
+    };
   });
-  buildStatusTab(statusId, task)
-  buildAssignmentTab(assignmentId, task)
+
+  buildStatusTab(statusId, task);
+  buildAssignmentTab(assignmentId, task);
+  buildChatTab(chatId, task);
 }

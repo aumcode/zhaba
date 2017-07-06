@@ -106,22 +106,6 @@ namespace Zhaba.Data.Domains
       return NextState(status).Any(s => s.EqualsOrdIgnoreCase(next));
     }
     
-    public static readonly Dictionary<string, string> STATUSES = new Dictionary<string, string> 
-    { 
-      { NEW, "New" },
-      { REOPEN, "Reopen" },
-      { ASSIGNED, "Assign" },
-      { DONE, "Done" },
-      { DEFER, "Defer" },
-      { CLOSED, "Close" },
-      { CANCELED, "Cancel" }
-    };
-
-    public static string STATUSES_JSON()
-    {
-      var result = STATUSES.Keys.Aggregate("{", (current, key) => current + (key+": \"" + STATUSES[key] + "\", "))+"0:0}";
-      return result;
-    }
   }
 
   public class ZhabaMeetingParticipationType : ZhabaEnum

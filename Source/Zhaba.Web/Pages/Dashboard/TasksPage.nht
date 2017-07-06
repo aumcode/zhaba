@@ -201,7 +201,7 @@ div.colspan>div>div
   var pmperm = false;
   @[}]
 
-  var statuses = @[Target.Write(ZhabaIssueStatus.STATUSES_JSON());];
+  var statuses ={N:'New', R: 'Reopen', A:'Assign', D:'Done', F:'Defer', C:'Close', X:'Cancel'};
   WAVE.GUI.SUPPRESS_UNLOAD_CHECK = false;
 
   var tasks, categories;
@@ -528,7 +528,6 @@ div.colspan>div>div
   }
   
   function changeStatusDialog1(a) {
-    debugger;
     changeStatusDialog(a.target.dataset.nextstate, a.target.dataset.cproject, a.target.dataset.counter)
   }
   
@@ -553,7 +552,7 @@ div.colspan>div>div
       { ID: "REC_PROGRESS",
         fields: [
           {def: {Name: 'Value', Type: 'int', MinValue: 0, MaxValue: 100}, val: e.target.dataset.progress},
-          {def: {Name: 'Description', Type: 'string', Size: 1000, Required: false}, val: e.target.dataset.description},
+          {def: {Name: 'Description', Type: 'string', Size: 128, Required: false}, val: e.target.dataset.description},
         ]
       }
     );

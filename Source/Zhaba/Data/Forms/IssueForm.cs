@@ -76,13 +76,13 @@ namespace Zhaba.Data.Forms
       kind: DataKind.DateTime, 
       description: "Start date",
       metadata: @"Placeholder='Issue start date'")]
-    public DateTime Start_Date { get; set; }
+    public DateTime? Start_Date { get; set; }
 
     [Field(required: true, 
       kind: DataKind.DateTime, 
       description: "Due date",
       metadata: @"Placeholder='Issue due date'")]
-    public DateTime Due_Date { get; set; }
+    public DateTime? Due_Date { get; set; }
 
     [Field(required: true,
            description: "Priority",

@@ -215,8 +215,8 @@ namespace Zhaba.DataLogic
               DateUTC = App.TimeSource.UTCNow,
               C_Category = Convert.ToUInt64(form.C_Category),
               Priority = form.Priority,
-              Start_Date = form.Start_Date.Date,
-              Due_Date = form.Due_Date.Date
+              Start_Date = form.Start_Date.Value.Date,
+              Due_Date = form.Due_Date.Value.Date
             }, trn);
           else
             write(new EditIssueEvent()
@@ -227,8 +227,8 @@ namespace Zhaba.DataLogic
               DateUTC = App.TimeSource.UTCNow,
               C_Category = Convert.ToUInt64(form.C_Category),
               Priority = form.Priority,
-              Start_Date = form.Start_Date.Date,
-              Due_Date = form.Due_Date.Date
+              Start_Date = form.Start_Date.Value.Date,
+              Due_Date = form.Due_Date.Value.Date
             }, trn);
           trn.Commit();
         }

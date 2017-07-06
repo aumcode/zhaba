@@ -41,9 +41,6 @@ namespace Zhaba.Data.Forms
     #endregion
 
     #region Properties
-    
-    [Field(typeof(IssueChatRow))]
-    public ulong Count { get; set; }
 
     [Field(typeof(IssueChatRow))]
     public string Note { get; set; }
@@ -64,14 +61,21 @@ namespace Zhaba.Data.Forms
       try
       {
         var id = RoundtripBag[ITEM_ID_BAG_PARAM].AsNullableULong();
-        IssueChatRow row = FormMode == FormMode.Edit && id.HasValue 
-          ?  ZApp.Data.CRUD.LoadRow(QIssueChat.findIssueChatByIdAndIssueAndProject<IssueChatRow>(ProjectRow.Counter, Issue.Counter, id.Value)) 
-          : new IssueChatRow(RowPKAction.CtorGenerateNewID)
+        IssueChatRow row;
+        if (FormMode == FormMode.Edit && id.HasValue)
+        {
+          row = ZApp.Data.CRUD.LoadRow(
+            QIssueChat.findIssueChatByIdAndIssueAndProject<IssueChatRow>(ProjectRow.Counter, Issue.Counter, id.Value));
+        }
+        else
+        {
+          row = new IssueChatRow(RowPKAction.CtorGenerateNewID)
           {
             C_User = ZhabaUser.DataRow.Counter, 
             C_Issue = IssueID, 
             Note_Date = App.TimeSource.UTCNow
-          };
+          }; 
+        }
         
         if (row != null)
         {
