@@ -11,7 +11,8 @@
   & input[type=date],
   & input[type=datetime],
   & input[type=tel],
-  & select {
+  & select,
+  & textarea {
     background-color: #f0f0e0;
     border: 1px solid #e0e0e0;
     width: 100%;
@@ -88,15 +89,21 @@
 }
 
 .wvDialogContent {
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  left: 45%;
+  position: absolute;
+  top: 50%;
   display: block;
-  position: fixed;
-  background: #3866de;
+  background: #f0f0f0;
   border: 1px solid #808080;
-  border-radius: 4px;
-  padding: 6px;
   color: white;
   box-shadow: 6px 6px 10px #888888;
   margin: 10px 0;
+  min-width: 400px;
 }
 
 .dlgYellow .wvDialogContent {
@@ -108,12 +115,18 @@
 }
 
 .wvDialogHeader {
-  background: #2020c0;
-  color: white;
+  background: #cfddd0;
+  color: #383838;
   font-size: 1.37em;
-  font-weight: bold;
   padding: 4px;
-  border-radius: 4px;
+  height: 45px;
+}
+
+.wvDialogFooter {
+  position: relative;
+  float: right;
+  width: 100%;
+  height: 45px;
 }
 
 .dlgYellow .wvDialogHeader {
@@ -126,14 +139,11 @@
 
 .wvDialogBody {
   display: block;
-  background: #fefef0;
   color: black;
-  border: 1px solid #7070ff;
   padding: 4px;
-  margin-top: 6px;
-  border-radius: 4px;
+  margin: 5px;
   overflow: auto;
-  max-height: calc(100% - 46px);
+  max-height: calc(100% - 75px);
 }
 
 .wvToast {
@@ -193,6 +203,7 @@ a {
     background: @bgcolor;
     border: solid 1.5px;
     border-color: @borderColor;
+    border-radius: 3px;
     color: @color;
     cursor: pointer;
     display: inline-block;
@@ -208,9 +219,9 @@ a {
   }
 
   &:hover:enabled, &:hover {
-    background: #ffffff;
-    color: darken(@bgcolor, 8%);
+    background: #cfddd0;
     text-decoration: none;
+    border-color: gray;
   }
 
   &:active:enabled, &:active {
@@ -224,11 +235,11 @@ a {
 }
 
 .button {
-  .mix-button(14px, #fff, #5AA0FE, 4px 12px);
+  .mix-button(14px, black, transparent, 1px 12px, lightgray);
 }
 
 .red-button {
-  .mix-button(14px, #fff, #FB2E50, 4px 12px);
+  .mix-button(14px, black, #FB2E50, 4px 12px);
 }
 
 .green-button {

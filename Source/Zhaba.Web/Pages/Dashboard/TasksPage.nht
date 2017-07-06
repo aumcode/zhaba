@@ -459,10 +459,10 @@ div.colspan>div>div
       {
         id="statusForm"
         data-wv-rid="V2"
-        div { data-wv-fname="C_User" class="fView" }
+        div { data-wv-fname="C_User" class="fView" data-wv-ctl="combo"}
         div { data-wv-fname="Open_TS" class="fView" }
         div { data-wv-fname="Close_TS" class="fView" }
-        div { data-wv-fname="Description" class="fView" }
+        div { data-wv-fname="Description" class="fView" type="text" }
       }
     ***/
     } else {
@@ -481,8 +481,10 @@ div.colspan>div>div
     /***
       div
       {
-        a="ok" {href="javascript:WAVE.GUI.currentDialog().ok()" class="button"}
-        a="cancel" {href="javascript:WAVE.GUI.currentDialog().cancel()" class="button"}
+        align="right"
+        style="margin: 5px"
+        a="ok" {href="javascript:WAVE.GUI.currentDialog().ok()" style="margin: 5px; padding: 2px; width: 75px; height: 23px" class="button"}
+        a="cancel" {href="javascript:WAVE.GUI.currentDialog().cancel()" style="margin: 5px; padding: 2px; width: 75px; height: 23px" class="button"}
       }
 
     ***/
