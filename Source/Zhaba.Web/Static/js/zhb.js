@@ -114,6 +114,8 @@ var ZHB = (function () {
   return published;
 }());
 
+﻿var chatRec={};
+
 function createBody(root) {
   var Ør = arguments[0];
   if (WAVE.isString(Ør))
@@ -278,13 +280,22 @@ function buildStatusButtons(root, task) {
       Ø2.setAttribute('class', 'button');
       Ø1.appendChild(Ø2);
     }
-     if(task.statusId=='A') {
-      var Ø3 = WAVE.ce('a');
-      Ø3.innerText = 'Add user';
-      Ø3.setAttribute('href', 'javascript:changeStatusDialog("A",'+task.C_Project+', '+task.Counter+')');
-      Ø3.setAttribute('class', 'button');
-      Ø1.appendChild(Ø3);
-    }
+  }
+  if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+  return Ø1;
+}
+
+function buildAssignmentButtons(root, task) {
+  var Ør = arguments[0];
+  if (WAVE.isString(Ør))
+    Ør = WAVE.id(Ør);
+  var Ø1 = WAVE.ce('div');
+   if(task.statusId !='X' && task.statusId !='C' && task.statusId !='D') {
+    var Ø2 = WAVE.ce('a');
+    Ø2.innerText = 'Add user';
+    Ø2.setAttribute('href', 'javascript:changeStatusDialog("A",'+task.C_Project+', '+task.Counter+')');
+    Ø2.setAttribute('class', 'button');
+    Ø1.appendChild(Ø2);
   }
   if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
   return Ø1;
@@ -455,8 +466,124 @@ function createAssignmentGridRow(root, assignment) {
   Ø2.setAttribute('class', 'rTableCell');
   Ø2.setAttribute('align', 'right');
   Ø1.appendChild(Ø2);
+  var Ø3 = WAVE.ce('div');
+  Ø3.innerText = assignment.UserLogin;
+  Ø3.setAttribute('class', 'rTableCell');
+  Ø3.setAttribute('align', 'right');
+  Ø1.appendChild(Ø3);
+  var Ø4 = WAVE.ce('div');
+  Ø4.innerText = assignment.UserOpenLogin;
+  Ø4.setAttribute('class', 'rTableCell');
+  Ø1.appendChild(Ø4);
+  var Ø5 = WAVE.ce('div');
+  Ø5.innerText = assignment.UserCloseLogin;
+  Ø5.setAttribute('class', 'rTableCell');
+  Ø5.setAttribute('align', 'center');
+  Ø1.appendChild(Ø5);
+  var Ø6 = WAVE.ce('div');
+  Ø6.innerText = WAVE.dateTimeToString(assignment.OPEN_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+  Ø6.setAttribute('class', 'rTableCell');
+  Ø1.appendChild(Ø6);
+  var Ø7 = WAVE.ce('div');
+  Ø7.innerText = WAVE.dateTimeToString(assignment.CLOSE_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+  Ø7.setAttribute('class', 'rTableCell');
+  Ø1.appendChild(Ø7);
+  var Ø8 = WAVE.ce('div');
+  Ø8.innerText = assignment.Note;
+  Ø8.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø8);
   if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
   return Ø1;
+}
+
+function createChatForm(root, task) {
+  var Ør = arguments[0];
+  if (WAVE.isString(Ør))
+    Ør = WAVE.id(Ør);
+  var Ø1 = WAVE.ce('div');
+  Ø1.setAttribute('id', 'chatForm'+task.Counter);
+  Ø1.setAttribute('data-wv-rid', 'chatForm'+task.Counter);
+  var Ø2 = WAVE.ce('div');
+  Ø2.setAttribute('data-wv-fname', 'Note');
+  Ø2.setAttribute('class', 'fView');
+  Ø2.setAttribute('data-wv-ctl', 'textarea');
+  Ø1.appendChild(Ø2);
+  var Ø3 = WAVE.ce('div');
+  var Ø4 = WAVE.ce('a');
+  Ø4.innerText = 'send';
+  Ø4.setAttribute('class', 'button');
+  Ø4.setAttribute('data-cissue', task.Counter);
+  Ø4.setAttribute('data-cproject', task.C_Project);
+  Ø4.addEventListener('click', sendChatMessage1, false);
+  Ø3.appendChild(Ø4);
+  Ø1.appendChild(Ø3);
+  if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+  return Ø1;
+}
+
+function createChatMessage(root, task) {
+  var Ør = arguments[0];
+  if (WAVE.isString(Ør))
+    Ør = WAVE.id(Ør);
+  var Ø1 = WAVE.ce('div');
+  Ø1.setAttribute('id', 'chatMessage-'+task.Counter);
+  if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+  return Ø1;
+}
+
+function chatForm(task) {
+  var link='project/{0}/issue/{1}/chat?id='.args(task.C_Project, task.Counter);
+  WAVE.ajaxCall(
+    'GET',
+    link,
+    null,
+    function (resp) {
+      chatRec[task.Counter] = new WAVE.RecordModel.Record(JSON.parse(resp));
+      new WAVE.RecordModel.RecordView('chatForm' + task.Counter, chatRec[task.Counter]);
+      console.log("success"); 
+    },
+    function (resp) { console.log("error"); },
+    function (resp) { console.log("fail"); },
+    WAVE.CONTENT_TYPE_JSON_UTF8, 
+    WAVE.CONTENT_TYPE_JSON_UTF8    
+  );
+}
+
+function sendChatMessage1(e) {
+  var iid = e.target.dataset.cissue;
+  var pid = e.target.dataset.cproject;    
+  console.log(chatRec[iid]);
+  var link = "project/{0}/issue/{1}/chat".args(pid,iid);
+  WAVE.ajaxCall(
+    'POST',
+    link,
+    chatRec[iid].data(),
+    function (resp) { 
+      refreshChat(iid);  
+      console.log("success"); 
+    },
+    function (resp) { console.log("error"); console.log(resp); },
+    function (resp) { console.log("fail"); console.log(resp); },
+    WAVE.CONTENT_TYPE_JSON_UTF8, 
+    WAVE.CONTENT_TYPE_JSON_UTF8
+  ); 
+}
+  
+function refreshChat(task) {
+  var link = "/project/{0}/ussue/{1}/chatlist".args(task.C_Project, task.Counter);
+  WAVE.ajaxCall(
+    'GET',
+    link,
+    null,
+    function (resp) {
+      var rec = JSON.parse(resp);
+      console.log(rec);
+    },
+    function (resp) { console.log("error"); console.log(resp); },
+    function (resp) { console.log("fail"); console.log(resp); },
+    WAVE.CONTENT_TYPE_JSON_UTF8,
+    WAVE.CONTENT_TYPE_JSON_UTF8
+  );    
 }
 
 function buildStatusTab(root, task) {
@@ -467,10 +594,18 @@ function buildStatusTab(root, task) {
 }
 
 function buildAssignmentTab(root, task) {
+  buildAssignmentButtons(root, task);
   createAssignmentHeader(root);
   for (var j = 0, l = task.Assignments.length; j < l; j++)
     createAssignmentGridRow(root, task.Assignments[j]);
 }
+
+function buildChatTab(root, task) {
+  createChatForm(root, task);
+  createChatMessage(root, task);
+  chatForm(task);
+  refreshChat(task);
+};
 
 function createTabs(root, task) {
   var statusId = "status-" + task.Counter;
@@ -478,29 +613,42 @@ function createTabs(root, task) {
 
   var assignmentId = "assignment-" + task.Counter;
   var assignmentContainer = "<div id={0}></div>".args(assignmentId);
+  
+  var chatId = "chatTab-{0}".args(task.Counter);
+  var chatContainer = "<div id={0}></div>".args(chatId);
 
   var tabs = new WAVE.GUI.Tabs({
     DIV: WAVE.id(root),
     tabs: [
       {
+        name: "tStatus",
         title: "Status",
         content: statusContainer,
         visible: true,
         isHtml: true
       },
       {
+        name: "tAssignment",
         title: "Assignment",
         content: assignmentContainer,
         isHtml: true
       },
       {
+        name: "tChat",
         title: "Chat",
-        content: "chat",
-        isHtml: false
+        content: chatContainer,
+        isHtml: true
       }
     ]
   });
+  tabs.eventBind(WAVE.GUI.EVT_TABS_TAB_CHANGED, function (sender, args) {
+    console.log(args);
+    if (args = "tChat") {
+      refreshChat(task);
+    };
+  });
 
-  buildStatusTab(statusId, task)
-  buildAssignmentTab(assignmentId, task)
+  buildStatusTab(statusId, task);
+  buildAssignmentTab(assignmentId, task);
+  buildChatTab(chatId, task);
 }

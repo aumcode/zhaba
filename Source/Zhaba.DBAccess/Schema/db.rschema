@@ -138,8 +138,8 @@ schema
     _call=/scripts/name        {}
     _call=/scripts/description {}
     _call=/scripts/in-use      {}
-    column=start_date    {type=$(/$TDate)  required=false comment="Milestone Start Date" }
-    column=plan_date     {type=$(/$TDate)  required=false comment="Milestone Plan Date" }
+    column=start_date    {type=$(/$TDate)  required=true comment="Milestone Start Date" }
+    column=plan_date     {type=$(/$TDate)  required=true comment="Milestone Plan Date" }
     column=complete_date {type=$(/$TDate)  required=false comment="Milestone Completeness Date" }
     _call=/scripts/note {}
 

@@ -4,7 +4,7 @@ using NFX.DataAccess.CRUD;
 
 namespace Zhaba.Data.Rows
 {
-  [Table(name: "tbl_issuelog")]
+  [Table(name: "tbl_issuechat")]
   public class IssueChatRow :ZhabaRowWithPK
   {
     #region .ctor
@@ -43,6 +43,7 @@ namespace Zhaba.Data.Rows
     [Field(
       required: false,
       kind: DataKind.Text,
+      maxLength: 2000,
       description: "Note",
       metadata: @"Placeholder='Note'"
       )]
