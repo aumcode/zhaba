@@ -124,8 +124,7 @@ where T1.STATUS != 'X' and {0}";
         where += "AND ((TI.NAME LIKE ?pSearch) OR";
         where += "(T1.STATUS LIKE ?pSearch) OR";
         where += "(TP.NAME LIKE ?pSearch) OR";
-        where += "(T1.DESCRIPTION LIKE ?pSearch)) OR";
-        where += "(T1.NOTE LIKE ?pSearch))";
+        where += "(T1.DESCRIPTION LIKE ?pSearch))";
         cmd.Parameters.AddWithValue("pSearch", "%{0}%".Args(filter.Search));
         cmd.CommandText = m_Script.Args(where);
       }
