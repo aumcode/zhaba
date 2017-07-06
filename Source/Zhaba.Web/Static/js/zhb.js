@@ -506,7 +506,7 @@ function createChatForm(root, task) {
   var Ø2 = WAVE.ce('div');
   Ø2.setAttribute('data-wv-fname', 'Note');
   Ø2.setAttribute('class', 'fView');
-  Ø2.setAttribute('data-wv-ctl', 'text');
+  Ø2.setAttribute('data-wv-ctl', 'textarea');
   Ø1.appendChild(Ø2);
   var Ø3 = WAVE.ce('div');
   var Ø4 = WAVE.ce('a');

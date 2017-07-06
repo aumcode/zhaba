@@ -199,7 +199,7 @@ function createChatForm(root, task) {
     id="?'chatForm'+task.Counter"
    
     data-wv-rid="?'chatForm'+task.Counter"
-    div { data-wv-fname="Note" class="fView" data-wv-ctl="text"}
+    div { data-wv-fname="Note" class="fView" data-wv-ctl="textarea"}
     div 
     { 
       a="send" 
