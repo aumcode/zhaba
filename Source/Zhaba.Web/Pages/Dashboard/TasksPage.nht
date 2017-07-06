@@ -258,8 +258,11 @@ div.colspan>div>div
         initDetails();
         for(var i=0, l=expanded.length; i<l; i++) {
           var item = document.getElementById(expanded[i]);
-          item.classList.toggle('wvDetailsContentVisible', true);
-          item.classList.toggle('wvDetailsContentHidden', false);
+          debugger;
+          if(item){
+            item.classList.toggle('wvDetailsContentVisible', true);
+            item.classList.toggle('wvDetailsContentHidden', false);
+          }
         }
       },
       function (resp) { console.log("error"); },
@@ -486,14 +489,14 @@ div.colspan>div>div
 
   var tabs;
   function createTabs(root, i){
-    var status = "status-"+tasks[i].Counter;
-    var statusContainer = "<div id={0}></div>".args(status);
+    var statusId = "status-"+tasks[i].Counter;
+    var statusContainer = "<div id={0}></div>".args(statusId);
     tabs = new WAVE.GUI.Tabs({
       DIV: WAVE.id(root),
       tabs: [
         {
           title: "Status",
-          content: div,
+          content: statusContainer,
           visible: true,
           isHtml: true
         },
