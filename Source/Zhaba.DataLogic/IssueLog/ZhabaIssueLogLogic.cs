@@ -355,7 +355,7 @@ namespace Zhaba.DataLogic
     {
       operations = operations ?? ZApp.Data.CRUD;
       IssueLogRow newRow = NewIssueLog(evt, operations:operations);
-      if (newRow.Status == ZhabaIssueStatus.CLOSED) return;
+      if (ZhabaIssueStatus.CLOSED.EqualsOrdIgnoreCase(newRow.Status) || ZhabaIssueStatus.CANCELED.EqualsOrdIgnoreCase(newRow.Status)) return;
       newRow.Completeness = evt.Completeness;
       newRow.Description = evt.Description;
 //      if (evt.Completeness == 100) newRow.Status = ZhabaIssueStatus.DONE;
