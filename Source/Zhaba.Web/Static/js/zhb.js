@@ -611,7 +611,7 @@ function chatFilterForm(task) {
     link,
     null,
     function (resp) {
-      debugger;
+      // debugger;
       chatFilterRec[task.Counter] = new WAVE.RecordModel.Record(JSON.parse(resp));
       new WAVE.RecordModel.RecordView('ChatFilterForm' + task.Counter, chatFilterRec[task.Counter]);
       console.log("success");

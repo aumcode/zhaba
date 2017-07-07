@@ -596,4 +596,15 @@ div.colspan>div>div
     scheduleFetch();
     timerId = setTimeout(tick, tickTime);
   }, tickTime);
+
+  var chatTickTime = 20000;
+  var chatTimerId = setTimeout(function chatTick(){
+    if(tasks) {
+      for(var i = 0, l = tasks.length; i<l; i++) {
+        console.log("chat tick - "+tasks[i].Counter);
+        refreshChat(tasks[i]);
+      }
+    }
+    chatTimerId = setTimeout(chatTick, chatTickTime);  
+  }, chatTickTime);
 </script>
