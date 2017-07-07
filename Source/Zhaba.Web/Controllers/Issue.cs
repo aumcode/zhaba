@@ -12,6 +12,7 @@ using Zhaba.Security.Permissions;
 using Zhaba.Web.Pages;
 
 using Zhaba.Data.Filters;
+using Zhaba.Web.Pages.Reports;
 
 namespace Zhaba.Web.Controllers
 {
@@ -54,6 +55,12 @@ namespace Zhaba.Web.Controllers
         if (pForm != null)
         {
           pForm.____SetIssue(issue);
+          break;
+        }
+        var pForm1 = arg as IssueFilterBase;
+        if (pForm1 != null)
+        {
+          pForm1.____SetIssue(issue);
           break;
         }
       }
@@ -113,7 +120,7 @@ namespace Zhaba.Web.Controllers
       return DataSetup_ItemDetails<IssueChatForm, IssueChatPage>(new object[] { ProjectRow, IssueRow, id }, form, URIS.ForPROJECT_ISSUES(ProjectRow.Counter));
     }
     
-    [Action("chatlist", 0, "match { methods=GET accept-json=true}")]
+    [Action("chatlist", 0, "match { methods=GET}")]
     public object ChatList_GET()
     {
       var filter = new IssueChatFilter {Limit = 5};
@@ -128,6 +135,12 @@ namespace Zhaba.Web.Controllers
       return new JSONResult(data, JSONWritingOptions.CompactRowsAsMap);    
     }
 
+    [Action("chatreport", 0, "match { methods=GET}")]
+    public object ChatReport_GET()
+    {
+      IssueChatReport report = new IssueChatReport(ProjectRow, IssueRow);
+      return report;
+    }
     #region .pvt
 
     protected object DataSetup_PopUp(object[] args, IssueAssignForm form, string postRedirect)

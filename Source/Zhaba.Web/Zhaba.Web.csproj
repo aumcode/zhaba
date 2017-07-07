@@ -159,11 +159,17 @@
     <Compile Include="Pages\Login.nht.auto.cs">
       <DependentUpon>Login.nht</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Reports\IssueChatReport.nht.auto.cs">
+      <DependentUpon>IssueChatReport.nht</DependentUpon>
+    </Compile>
     <Compile Include="Pages\__Masters\FormMaster.nht.auto.cs">
       <DependentUpon>FormMaster.nht</DependentUpon>
     </Compile>
     <Compile Include="Pages\__Masters\GridMaster.nht.auto.cs">
       <DependentUpon>GridMaster.nht</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\__Masters\Report.nht.auto.cs">
+      <DependentUpon>Report.nht</DependentUpon>
     </Compile>
     <Compile Include="Pages\__Masters\Master.nht.auto.cs">
       <DependentUpon>Master.nht</DependentUpon>
@@ -215,7 +221,9 @@
     <None Include="Pages\List\UsersPage.nht" />
     <None Include="Pages\Login.nht" />
     <None Include="Pages\Dashboard\ProjectsPage.nht" />
+    <None Include="Pages\Reports\IssueChatReport.nht" />
     <None Include="Pages\__Masters\FormMaster.nht" />
+    <None Include="Pages\__Masters\Report.nht" />
     <None Include="Pages\__Masters\Master.nht" />
     <None Include="Pages\__Masters\GridMaster.nht" />
     <None Include="pre-build.cmd" />

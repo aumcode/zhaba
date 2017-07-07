@@ -1,0 +1,53 @@
+﻿#<laconf>
+  compiler
+  {
+    using { ns="System.Linq" }
+    using { ns="System.Collections.Generic" }
+    using { ns="NFX" }
+    using { ns="NFX.DataAccess.CRUD" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Wave.Templatization" }
+    using { ns="Zhaba" }
+    using { ns="Zhaba.Data.Forms" }
+    using { ns="Zhaba.Data.Rows" }
+    using { ns="Zhaba.Data.QueryBuilders" }
+    base-class-name="Zhaba.Web.Pages.Report"
+    namespace="Zhaba.Web.Pages.Reports"
+  }
+#</laconf>
+
+#[class]
+  public IssueChatReport(ProjectRow project, IssueRow issue)
+  {
+    m_Project = project;
+    m_Issue = issue;
+    m_List = ZApp.Data.CRUD.LoadEnumerable(QIssueChat.findByIssue<IssueChatFilterRow>(issue.Counter));
+  }
+
+  private readonly ProjectRow m_Project;
+  private readonly IssueRow m_Issue;
+  private readonly IEnumerable<IssueChatFilterRow> m_List;
+
+#[override renderBody()]
+<div>
+  <h1>Project: @[Target.Write(m_Project.Name);]</h1>
+  <h2>Issue: @[Target.Write(m_Issue.Name);]</h2>
+
+
+</div>
+<hr/>
+<div>
+  <dl>
+    @[ foreach(var item in m_List) {]
+    <dt>
+      @[Target.Write(item.Note_Date);] - @[Target.Write(item.Name);] (@[Target.Write(item.Login);])
+    </dt>
+    <dd>
+      <pre>@[Target.Write(item.Note);]</pre>
+    </dd>
+    @[}]
+  </dl>
+</div>
+
+
+

@@ -171,6 +171,22 @@ div.colspan>div>div
     display: block;
   }
 
+  div.ChatDiv {
+  }
+  
+  div.ChatItem {
+    border: 1px solid #e0e0e0
+  }
+
+
+  div.ChatItemUser {
+     background-color: cyan;  
+  }
+  div.ChatItemNote {
+     background-color: #f0f0e0;  
+  }
+
+
 </style>
 
 #[override renderBody()]
@@ -259,7 +275,6 @@ div.colspan>div>div
         initDetails();
         for(var i=0, l=expanded.length; i<l; i++) {
           var item = document.getElementById(expanded[i]);
-          debugger;
           if(item){
             item.classList.toggle('wvDetailsContentVisible', true);
             item.classList.toggle('wvDetailsContentHidden', false);
@@ -581,4 +596,15 @@ div.colspan>div>div
     scheduleFetch();
     timerId = setTimeout(tick, tickTime);
   }, tickTime);
+
+  var chatTickTime = 20000;
+  var chatTimerId = setTimeout(function chatTick(){
+    if(tasks) {
+      for(var i = 0, l = tasks.length; i<l; i++) {
+        console.log("chat tick - "+tasks[i].Counter);
+        refreshChat(tasks[i]);
+      }
+    }
+    chatTimerId = setTimeout(chatTick, chatTickTime);  
+  }, chatTickTime);
 </script>

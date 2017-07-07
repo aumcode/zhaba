@@ -1,0 +1,65 @@
+﻿#<laconf>
+  compiler
+  {
+    using { ns="NFX" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Security" }
+    using { ns="Zhaba" }
+    using { ns="Zhaba.Web" }
+    using { ns="Zhaba.Data.Rows" }
+    using { ns="NFX.Wave.Templatization" }
+    using { ns="NFX.ApplicationModel" }
+    using { ns="Zhaba.Security.Permissions" }
+    base-class-name="Zhaba.Web.ZhabaPage"
+    namespace="Zhaba.Web.Pages"
+  }
+#</laconf>
+
+#[class]
+  protected Report()
+  {
+    Title = "Zhaba Issue Tracker";
+  }
+
+  public ProjectRow SelectedProject { get { return ZhabaSession.SelectedProject; } }
+
+  protected virtual void renderBody() { }
+  protected virtual void includeStyles() { }
+  protected virtual void renderStyles() { }
+  protected virtual void renderScripts() { }
+
+#[render]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>?[:Title]</title>
+
+
+</head>
+
+<body>
+  <div id="body">
+
+
+    @[if (ZhabaUser.IsAuthenticated) {]
+    <div id="cont">
+    @[renderBody();]
+    </div>
+    @[} else {]
+      Access denied!
+    @[}]
+  </div>
+
+  <hr />
+  <footer id="ftr">
+    Zhaba 1.0 ©2017 All Rights Reserved
+  </footer>
+
+
+</body>
+</html>
