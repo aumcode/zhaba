@@ -167,7 +167,8 @@ img {
 .fView input[type=date],
 .fView input[type=datetime],
 .fView input[type=tel],
-.fView select {
+.fView select,
+.fView textarea {
   background-color: #f0f0e0;
   border: 1px solid #e0e0e0;
   width: 100%;
@@ -177,7 +178,8 @@ img {
 .fView input[type=date]:focus,
 .fView input[type=datetime]:focus,
 .fView input[type=tel]:focus,
-.fView select:focus {
+.fView select:focus,
+.fView textarea:focus {
   background-color: #ffffc0;
   border: 1px solid #808080;
 }
@@ -186,7 +188,8 @@ img {
 .fView input[type=date]:disabled,
 .fView input[type=datetime]:disabled,
 .fView input[type=tel]:disabled,
-.fView select:disabled {
+.fView select:disabled,
+.fView textarea:disabled {
   background-color: #e0e0e0;
   color: #b0b0b0;
   border: 1px solid #808080;
@@ -235,15 +238,21 @@ img {
   overflow-y: auto;
 }
 .wvDialogContent {
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  left: 45%;
+  position: absolute;
+  top: 50%;
   display: block;
-  position: fixed;
-  background: #3866de;
+  background: #f0f0f0;
   border: 1px solid #808080;
-  border-radius: 4px;
-  padding: 6px;
   color: white;
   box-shadow: 6px 6px 10px #888888;
   margin: 10px 0;
+  min-width: 400px;
 }
 .dlgYellow .wvDialogContent {
   background: #ffff00;
@@ -252,12 +261,17 @@ img {
   background: linear-gradient(to bottom, #bfd255 0%, #8eb92a 50%, #588701 51%, #9ecb2d 100%);
 }
 .wvDialogHeader {
-  background: #2020c0;
-  color: white;
+  background: #cfddd0;
+  color: #383838;
   font-size: 1.37em;
-  font-weight: bold;
   padding: 4px;
-  border-radius: 4px;
+  height: 45px;
+}
+.wvDialogFooter {
+  position: relative;
+  float: right;
+  width: 100%;
+  height: 45px;
 }
 .dlgYellow .wvDialogHeader {
   background: red;
@@ -267,14 +281,11 @@ img {
 }
 .wvDialogBody {
   display: block;
-  background: #fefef0;
   color: black;
-  border: 1px solid #7070ff;
   padding: 4px;
-  margin-top: 6px;
-  border-radius: 4px;
+  margin: 5px;
   overflow: auto;
-  max-height: calc(54%);
+  max-height: calc(25%);
 }
 .wvToast {
   display: block;
@@ -328,15 +339,16 @@ a {
 }
 .button,
 .button:visited {
-  background: #5AA0FE;
+  background: transparent;
   border: solid 1.5px;
-  border-color: #3189fe;
-  color: #fff;
+  border-color: lightgray;
+  border-radius: 3px;
+  color: black;
   cursor: pointer;
   display: inline-block;
   font-size: 14px;
   line-height: 1;
-  padding: 4px 12px;
+  padding: 1px 12px;
   text-align: center;
   text-decoration: none;
   text-shadow: none;
@@ -350,9 +362,9 @@ a {
 }
 .button:hover:enabled,
 .button:hover {
-  background: #ffffff;
-  color: #3189fe;
+  background: #cfddd0;
   text-decoration: none;
+  border-color: gray;
 }
 .button:active:enabled,
 .button:active {
@@ -371,7 +383,8 @@ a {
   background: #FB2E50;
   border: solid 1.5px;
   border-color: #fa062e;
-  color: #fff;
+  border-radius: 3px;
+  color: black;
   cursor: pointer;
   display: inline-block;
   font-size: 14px;
@@ -390,9 +403,9 @@ a {
 }
 .red-button:hover:enabled,
 .red-button:hover {
-  background: #ffffff;
-  color: #fa062e;
+  background: #cfddd0;
   text-decoration: none;
+  border-color: gray;
 }
 .red-button:active:enabled,
 .red-button:active {
@@ -411,6 +424,7 @@ a {
   background: #4EF0AA;
   border: solid 1.5px;
   border-color: #28ed98;
+  border-radius: 3px;
   color: #fff;
   cursor: pointer;
   display: inline-block;
@@ -430,9 +444,9 @@ a {
 }
 .green-button:hover:enabled,
 .green-button:hover {
-  background: #ffffff;
-  color: #28ed98;
+  background: #cfddd0;
   text-decoration: none;
+  border-color: gray;
 }
 .green-button:active:enabled,
 .green-button:active {

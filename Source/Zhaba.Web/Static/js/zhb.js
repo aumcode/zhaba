@@ -351,8 +351,8 @@ function createStatusHeader(root) {
   return Ø1;
 }
 
-function createAssignmentHeader(root) {
-  var Ør = arguments[0];
+﻿function createAssignmentHeader(root) {
+﻿  var Ør = arguments[0];
   if (WAVE.isString(Ør))
     Ør = WAVE.id(Ør);
   var Ø1 = WAVE.ce('div');
@@ -362,45 +362,32 @@ function createAssignmentHeader(root) {
   Ø2.setAttribute('class', 'rTableHead');
   Ø1.appendChild(Ø2);
   var Ø3 = WAVE.ce('div');
-  Ø3.innerText = 'Progress';
+  Ø3.innerText = 'Operator';
   Ø3.setAttribute('class', 'rTableHead');
   Ø1.appendChild(Ø3);
   var Ø4 = WAVE.ce('div');
-  Ø4.innerText = 'Status';
+  Ø4.innerText = 'UserOpenLogin';
   Ø4.setAttribute('class', 'rTableHead');
   Ø1.appendChild(Ø4);
   var Ø5 = WAVE.ce('div');
-  Ø5.innerText = 'Start';
+  Ø5.innerText = 'UserCloseLogin';
   Ø5.setAttribute('class', 'rTableHead');
   Ø1.appendChild(Ø5);
   var Ø6 = WAVE.ce('div');
-  Ø6.innerText = 'Plan\x2FDue';
+  Ø6.innerText = 'Assigned';
   Ø6.setAttribute('class', 'rTableHead');
   Ø1.appendChild(Ø6);
   var Ø7 = WAVE.ce('div');
-  Ø7.innerText = 'Complete';
+  Ø7.innerText = 'Unassigned';
   Ø7.setAttribute('class', 'rTableHead');
   Ø1.appendChild(Ø7);
   var Ø8 = WAVE.ce('div');
-  Ø8.innerText = 'Assigned';
+  Ø8.innerText = 'Note';
   Ø8.setAttribute('class', 'rTableHead');
   Ø1.appendChild(Ø8);
-  var Ø9 = WAVE.ce('div');
-  Ø9.innerText = 'Project';
-  Ø9.setAttribute('class', 'rTableHead');
-  Ø1.appendChild(Ø9);
-  var Ø10 = WAVE.ce('div');
-  Ø10.innerText = 'Issue';
-  Ø10.setAttribute('class', 'rTableHead');
-  Ø1.appendChild(Ø10);
-  var Ø11 = WAVE.ce('div');
-  Ø11.innerText = 'Description';
-  Ø11.setAttribute('class', 'rTableHead');
-  Ø1.appendChild(Ø11);
   if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
   return Ø1;
-}
-
+﻿}
 function createStatusGridRow(root, details) {
   var Ør = arguments[0];
   if (WAVE.isString(Ør))
@@ -502,6 +489,7 @@ function createChatForm(root, task) {
     Ør = WAVE.id(Ør);
   var Ø1 = WAVE.ce('div');
   Ø1.setAttribute('id', 'chatForm'+task.Counter);
+  Ø1.setAttribute('class', 'fwDialogBody');
   Ø1.setAttribute('data-wv-rid', 'chatForm'+task.Counter);
   var Ø2 = WAVE.ce('div');
   Ø2.setAttribute('data-wv-fname', 'Note');
@@ -526,7 +514,26 @@ function createChatMessage(root, task) {
   if (WAVE.isString(Ør))
     Ør = WAVE.id(Ør);
   var Ø1 = WAVE.ce('div');
+  Ø1.setAttribute('class', 'ChatDiv');
   Ø1.setAttribute('id', 'chatMessage-'+task.Counter);
+  if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+  return Ø1;
+}
+
+function createChatItem(root, item) {
+  var Ør = arguments[0];
+  if (WAVE.isString(Ør))
+    Ør = WAVE.id(Ør);
+  var Ø1 = WAVE.ce('div');
+  Ø1.setAttribute('class', 'ChatItem');
+  var Ø2 = WAVE.ce('div');
+  Ø2.innerText = item.Name +'('+item.Login+') :' + WAVE.dateTimeToString(item.Note_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME);
+  Ø2.setAttribute('class', 'fView ChatItemUser');
+  Ø1.appendChild(Ø2);
+  var Ø3 = WAVE.ce('div');
+  Ø3.innerText = item.Note;
+  Ø3.setAttribute('class', 'fView ChatItemNote');
+  Ø1.appendChild(Ø3);
   if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
   return Ø1;
 }
@@ -551,7 +558,8 @@ function chatForm(task) {
 
 function sendChatMessage1(e) {
   var iid = e.target.dataset.cissue;
-  var pid = e.target.dataset.cproject;    
+  var pid = e.target.dataset.cproject; 
+  var task = { Counter: iid, C_Project: pid };
   console.log(chatRec[iid]);
   var link = "project/{0}/issue/{1}/chat".args(pid,iid);
   WAVE.ajaxCall(
@@ -559,7 +567,7 @@ function sendChatMessage1(e) {
     link,
     chatRec[iid].data(),
     function (resp) { 
-      refreshChat(iid);  
+      refreshChat(task);  
       console.log("success"); 
     },
     function (resp) { console.log("error"); console.log(resp); },
@@ -570,13 +578,15 @@ function sendChatMessage1(e) {
 }
   
 function refreshChat(task) {
-  var link = "/project/{0}/ussue/{1}/chatlist".args(task.C_Project, task.Counter);
+  var link = "/project/{0}/issue/{1}/chatlist".args(task.C_Project, task.Counter);
+  var data = null;
   WAVE.ajaxCall(
-    'GET',
+    'POST',
     link,
-    null,
+    data,
     function (resp) {
       var rec = JSON.parse(resp);
+      createChatItems(task, rec);
       console.log(rec);
     },
     function (resp) { console.log("error"); console.log(resp); },
@@ -584,6 +594,14 @@ function refreshChat(task) {
     WAVE.CONTENT_TYPE_JSON_UTF8,
     WAVE.CONTENT_TYPE_JSON_UTF8
   );    
+}
+
+function createChatItems(task, rec) {
+  var id = 'chatMessage-' + task.Counter;  
+  document.getElementById(id).innerHTML = ""; 
+  for (var i = 0, l = rec.Rows.length; i < l; i++) {
+    createChatItem(id, rec.Rows[i]);
+  }
 }
 
 function buildStatusTab(root, task) {
@@ -643,7 +661,7 @@ function createTabs(root, task) {
   });
   tabs.eventBind(WAVE.GUI.EVT_TABS_TAB_CHANGED, function (sender, args) {
     console.log(args);
-    if (args = "tChat") {
+    if (args == "tChat") {
       refreshChat(task);
     };
   });
