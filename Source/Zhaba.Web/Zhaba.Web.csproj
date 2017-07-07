@@ -162,6 +162,9 @@
     <Compile Include="Pages\Reports\IssueChatReport.nht.auto.cs">
       <DependentUpon>IssueChatReport.nht</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Reports\IssueStatusReport.nht.auto.cs">
+      <DependentUpon>IssueStatusReport.nht</DependentUpon>
+    </Compile>
     <Compile Include="Pages\__Masters\FormMaster.nht.auto.cs">
       <DependentUpon>FormMaster.nht</DependentUpon>
     </Compile>
@@ -222,6 +225,7 @@
     <None Include="Pages\Login.nht" />
     <None Include="Pages\Dashboard\ProjectsPage.nht" />
     <None Include="Pages\Reports\IssueChatReport.nht" />
+    <None Include="Pages\Reports\IssueStatusReport.nht" />
     <None Include="Pages\__Masters\FormMaster.nht" />
     <None Include="Pages\__Masters\Report.nht" />
     <None Include="Pages\__Masters\Master.nht" />

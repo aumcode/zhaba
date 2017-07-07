@@ -460,6 +460,51 @@ a {
   -moz-box-shadow: 0 0 5px rgba(5, 32, 53, 0.3);
   box-shadow: 0 0 5px rgba(5, 32, 53, 0.3);
 }
+.menu {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+.menu-item {
+  display: inline-block;
+}
+.dropbtn {
+  background-color: transparent;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+.dropbtn:hover,
+.dropbtn:focus {
+  background-color: #fff0d0;
+}
+.dropdown {
+  padding: 8px 16px;
+  position: relative;
+  display: inline-block;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  width: auto;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+.dropdown a:hover {
+  background-color: #fff0d0;
+}
+.show {
+  display: block;
+}
 body {
   min-height: 100vh;
   padding-bottom: 40px;
@@ -489,25 +534,35 @@ body #body {
   width: 100%;
 }
 body #body #cont {
-  width: calc(100% - 320px);
+  width: 100%;
+  height: calc(100% - 34px);
 }
 body #body #cont.anonymous {
   width: 100%;
 }
 body #body #nav {
-  background: #71c3e8;
-  color: #fff;
-  width: 320px;
+  position: relative;
+  background: #cfddd0;
+  height: 34px;
+  width: 100%;
 }
 body #body #nav #profile {
+  float: right;
+  display: inline;
   padding: 8px 16px;
+}
+body #body #nav #menu {
+  display: inline;
 }
 body #body #nav #menu .menuBlock {
+  display: inline;
   padding: 8px 16px;
 }
+body #body #nav #menu .menuBlock h3 {
+  display: inline;
+}
 body #body #nav #menu .menuBlock a {
-  color: #fff;
-  display: block;
+  display: inline;
   padding: 0px 6px;
 }
 body #ftr {
@@ -523,7 +578,7 @@ body #ftr {
   width: 100%;
 }
 .grid #title {
-  background: #f9a179;
+  background: #547657;
   color: #fff;
   padding: 8px 16px;
 }

@@ -101,6 +101,14 @@ function buildStatusButtons(root, task) {
           }
       }
     }
+    a="report" 
+    {
+      data-cproject=?task.C_Project
+      data-cissue=?task.Counter
+      data-report='statusreport' 
+      on-click="openReport"  
+      class="button"   
+    }
   }
   ***/
 }
@@ -189,7 +197,7 @@ function createAssignmentGridRow(root, assignment) {
   ***/
 }
 
-function createChatForm(root, task) {
+function buildChatForm(root, task) {
   /***
   div
   {
@@ -208,12 +216,21 @@ function createChatForm(root, task) {
         data-cproject=?task.C_Project
         on-click=sendChatMessage1 
       }
+      a="report"
+      {
+        data-cproject=?task.C_Project
+        data-cissue=?task.Counter
+        data-report='chatreport'
+        
+        on-click=openReport
+        class="button"
+      }
     }
   }
   ***/
 }
 
-function createChatMessage(root, task) {
+function buildChatMessage(root, task) {
   /***
   div
   {
@@ -243,8 +260,8 @@ function buildChatReport(root, task) {
     {
       data-cproject=?task.C_Project
       data-cissue=?task.Counter
-
-      on-click=openChatReport
+      data-report='chatreport'
+      on-click=openReport
       class="button"
 
     }
@@ -375,21 +392,22 @@ function buildAssignmentTab(root, task) {
 }
 
 function buildChatTab(root, task) {
-  buildChatReport(root, task);
   buildChatFilterForm(root, task);
-  createChatForm(root, task);
-  createChatMessage(root, task);
+  buildChatForm(root, task);
+  buildChatMessage(root, task);
+  // buildChatReport(root, task);
   chatForm(task);
   chatFilterForm(task)
   // refreshChat(task);
 }
 
-function openChatReport(e) {
-  var pid = e.target.dataset.cproject;
-  var iid = e.target.dataset.cissue;
-  var link = "/project/{0}/issue/{1}/chatreport".args(pid, iid);
-  window.open(link);
-}
+﻿function openReport(e) {
+﻿  var pid = e.target.dataset.cproject;
+﻿  var iid = e.target.dataset.cissue;
+  var report = e.target.dataset.report;
+﻿  var link = "/project/{0}/issue/{1}/{2}".args(pid, iid, report);
+﻿  window.open(link);
+﻿}
 
 function setChatFilter(e) {
   var iid = e.target.dataset.cissue;

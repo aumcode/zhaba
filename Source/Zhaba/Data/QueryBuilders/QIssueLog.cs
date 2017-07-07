@@ -19,5 +19,13 @@ namespace Zhaba.Data.QueryBuilders
         new Query.Param("C_Issue", C_Issue)
       };
     }
+
+    public static Query<TRow> findAllByIssue<TRow>(ulong c_Issue) where TRow : Row
+    {
+      return new Query<TRow>("SQL.CRUD.IssueLog.findAllByIssue")
+      {
+        new Query.Param("pIssue", c_Issue)
+      };
+    }
   }
 }

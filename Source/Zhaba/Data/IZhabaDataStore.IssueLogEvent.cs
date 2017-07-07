@@ -17,7 +17,7 @@ namespace Zhaba.Data
     public DateTime DateUTC { get; set; }
 
     [Field(required: false)]
-    public String Description { get; set; }
+    public string Description { get; set; }
 
 
   }

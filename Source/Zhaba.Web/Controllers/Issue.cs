@@ -141,6 +141,14 @@ namespace Zhaba.Web.Controllers
       IssueChatReport report = new IssueChatReport(ProjectRow, IssueRow);
       return report;
     }
+
+    [Action("statusreport", 0, "match { methods=GET}")]
+    public object StatusReport_GET()
+    {
+      IssueStatusReport report = new IssueStatusReport(ProjectRow, IssueRow);
+      return report;
+    }
+    
     #region .pvt
 
     protected object DataSetup_PopUp(object[] args, IssueAssignForm form, string postRedirect)

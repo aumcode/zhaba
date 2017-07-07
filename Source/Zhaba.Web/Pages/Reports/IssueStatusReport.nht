@@ -1,0 +1,70 @@
+﻿#<laconf>
+  compiler
+  {
+    using { ns="System.Linq" }
+    using { ns="System.Collections.Generic" }
+    using { ns="NFX" }
+    using { ns="NFX.DataAccess.CRUD" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Wave.Templatization" }
+    using { ns="Zhaba" }
+    using { ns="Zhaba.Data.Forms" }
+    using { ns="Zhaba.Data.Rows" }
+    using { ns="Zhaba.Data.QueryBuilders" }
+    using { ns="Zhaba.Data.Filters" }
+    base-class-name="Zhaba.Web.Pages.Report"
+    namespace="Zhaba.Web.Pages.Reports"
+  }
+#</laconf>
+
+#[class]
+  public IssueStatusReport(ProjectRow project, IssueRow issue)
+  {
+    m_Project = project;
+    m_Issue = issue;
+    m_List = ZApp.Data.CRUD.LoadEnumerable(QIssueLog.findAllByIssue<TaskListFilter.TaskListFilterRow>(issue.Counter));
+  }
+
+  private readonly ProjectRow m_Project;
+  private readonly IssueRow m_Issue;
+  private readonly IEnumerable<TaskListFilter.TaskListFilterRow> m_List;
+
+#[override renderBody()]
+<div>
+  <h1>Project: @[Target.Write(m_Project.Name);]</h1>
+  <h2>Issue: @[Target.Write(m_Issue.Name);]</h2>
+
+
+</div>
+<hr/>
+<div>
+  <table border="1" cellpadding="3" cellspacing="0">
+    <tr>
+      <th>ID</th>
+      <th>Progress</th>
+      <th>Status</th>
+      <th>Priority</th>
+      <th>Start</th>
+      <th>Due</th>
+      <th>Complete</th>
+      <th>Assignee</th>
+      <th>Description</th>
+    </tr>
+    @[ foreach(var item in m_List) {]
+    <tr>
+      <td>@[Target.Write(item.Counter);]</td>      
+      <td>@[Target.Write(item.Completeness);]</td>      
+      <td>@[Target.Write(item.Status);]</td>      
+      <td>@[Target.Write(item.Priority);]</td>
+      <td>@[Target.Write(item.Start_Date);]</td>
+      <td>@[Target.Write(item.Due_Date);]</td>
+      <td>@[Target.Write(item.Complete_Date);]</td>
+      <td>@[Target.Write(item.Assignee);]</td>
+      <td>@[Target.Write(item.Description);]</td>                
+    </tr>
+    @[}]
+  </table>
+</div>
+
+
+

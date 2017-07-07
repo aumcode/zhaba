@@ -1,0 +1,27 @@
+﻿select 
+  T1.COUNTER, 
+  TI.NAME,
+  T1.STATUS,
+  T1.STATUS_DATE,
+  T1.DESCRIPTION,
+  NULL AS COMPLETE_DATE, 
+  T1.START_DATE,
+  T1.COMPLETENESS, 
+  T1.DUE_DATE,
+  TC.NAME as CATEGORY_NAME,
+  TP.COUNTER as C_PROJECT,
+  TP.NAME as PROJECTNAME,
+  (SELECT GROUP_CONCAT(_tt2.LOGIN SEPARATOR '; ')
+     FROM tbl_issueassign _tt1
+       JOIN tbl_user _tt2 ON _tt1.C_USER = _tt2.COUNTER
+     WHERE (_tt1.C_ISSUE = T1.C_ISSUE) AND ( T1.STATUS_DATE < _tt1.CLOSE_TS OR _tt1.CLOSE_TS IS NULL )
+     GROUP BY C_ISSUE) AS ASSIGNEE,
+  T1.PRIORITY   
+from tbl_issuelog as T1
+  join tbl_issue as TI on T1.C_ISSUE = TI.COUNTER
+  join tbl_category as TC on T1.C_CATEGORY = TC.COUNTER
+  join tbl_milestone as TM on T1.C_MILESTONE = TM.COUNTER
+  join tbl_project as TP on TI.C_PROJECT = TP.COUNTER
+where T1.C_ISSUE = ?pIssue
+ORDER BY T1.STATUS_DATE DESC
+

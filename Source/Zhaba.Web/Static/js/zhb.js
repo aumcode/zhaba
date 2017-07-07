@@ -21,6 +21,10 @@ var ZHB = (function () {
       return common_setup() + "/area?id={0}".args(id);
     },
 
+    ForPROJECT_SELECT: function (pid) {
+      return project_setup(pid) + "/select";
+    },
+
     ForPROJECT: function (id) {
       return common_setup() + "/project?id={0}".args(id);
     },
@@ -28,7 +32,7 @@ var ZHB = (function () {
     ForCATEGORY: function (id) {
       return common_setup() + "/category?id={0}".args(id);
     },
-
+    
     ForPROJECT_MILESTONE: function (pid, id) {
       return project_setup(pid) + "/milestone?id={0}".args(id);
     },
@@ -282,6 +286,14 @@ function buildStatusButtons(root, task) {
       Ø1.appendChild(Ø2);
     }
   }
+  var Ø3 = WAVE.ce('a');
+  Ø3.innerText = 'report';
+  Ø3.setAttribute('data-cproject', task.C_Project);
+  Ø3.setAttribute('data-cissue', task.Counter);
+  Ø3.setAttribute('data-report', 'statusreport');
+  Ø3.addEventListener('click', openReport, false);
+  Ø3.setAttribute('class', 'button');
+  Ø1.appendChild(Ø3);
   if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
   return Ø1;
 }
@@ -484,7 +496,7 @@ function createAssignmentGridRow(root, assignment) {
   return Ø1;
 }
 
-function createChatForm(root, task) {
+function buildChatForm(root, task) {
   var Ør = arguments[0];
   if (WAVE.isString(Ør))
     Ør = WAVE.id(Ør);
@@ -505,12 +517,20 @@ function createChatForm(root, task) {
   Ø4.setAttribute('data-cproject', task.C_Project);
   Ø4.addEventListener('click', sendChatMessage1, false);
   Ø3.appendChild(Ø4);
+  var Ø5 = WAVE.ce('a');
+  Ø5.innerText = 'report';
+  Ø5.setAttribute('data-cproject', task.C_Project);
+  Ø5.setAttribute('data-cissue', task.Counter);
+  Ø5.setAttribute('data-report', 'chatreport');
+  Ø5.addEventListener('click', openReport, false);
+  Ø5.setAttribute('class', 'button');
+  Ø3.appendChild(Ø5);
   Ø1.appendChild(Ø3);
   if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
   return Ø1;
 }
 
-function createChatMessage(root, task) {
+function buildChatMessage(root, task) {
   var Ør = arguments[0];
   if (WAVE.isString(Ør))
     Ør = WAVE.id(Ør);
@@ -548,7 +568,8 @@ function buildChatReport(root, task) {
   Ø2.innerText = 'report';
   Ø2.setAttribute('data-cproject', task.C_Project);
   Ø2.setAttribute('data-cissue', task.Counter);
-  Ø2.addEventListener('click', openChatReport, false);
+  Ø2.setAttribute('data-report', 'chatreport');
+  Ø2.addEventListener('click', openReport, false);
   Ø2.setAttribute('class', 'button');
   Ø1.appendChild(Ø2);
   if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
@@ -687,21 +708,22 @@ function buildAssignmentTab(root, task) {
 }
 
 function buildChatTab(root, task) {
-  buildChatReport(root, task);
   buildChatFilterForm(root, task);
-  createChatForm(root, task);
-  createChatMessage(root, task);
+  buildChatForm(root, task);
+  buildChatMessage(root, task);
+  // buildChatReport(root, task);
   chatForm(task);
   chatFilterForm(task)
   // refreshChat(task);
 }
 
-function openChatReport(e) {
-  var pid = e.target.dataset.cproject;
-  var iid = e.target.dataset.cissue;
-  var link = "/project/{0}/issue/{1}/chatreport".args(pid, iid);
-  window.open(link);
-}
+﻿function openReport(e) {
+﻿  var pid = e.target.dataset.cproject;
+﻿  var iid = e.target.dataset.cissue;
+  var report = e.target.dataset.report;
+﻿  var link = "/project/{0}/issue/{1}/{2}".args(pid, iid, report);
+﻿  window.open(link);
+﻿}
 
 function setChatFilter(e) {
   var iid = e.target.dataset.cissue;

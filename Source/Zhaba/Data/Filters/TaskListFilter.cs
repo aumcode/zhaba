@@ -16,7 +16,7 @@ namespace Zhaba.Data.Filters
   {
     #region Nested
 
-    private class IssueAssignListFilterRow : IssueAssignRow
+    public class IssueAssignListFilterRow : IssueAssignRow
     {
       [Field]
       public string UserLogin { get; set; }
@@ -28,13 +28,16 @@ namespace Zhaba.Data.Filters
       public string UserCloseLogin { get; set; }
     }
 
-    private class TaskListFilterRow : TypedRow
+    public class TaskListFilterRow : TypedRow
     {
       [Field]
       public string statusId { get; set; }
 
       [Field]
       public ulong Counter { get; set; }
+      
+      [Field]
+      public int Priority { get; set; }
 
       [Field]
       public string Name { get; set; }
@@ -53,13 +56,13 @@ namespace Zhaba.Data.Filters
       }
 
       [Field]
-      public DateTime Complete_Date { get; set; }
+      public DateTime? Complete_Date { get; set; }
 
       [Field]
-      public DateTime Start_Date { get; set; }
+      public DateTime? Start_Date { get; set; }
 
       [Field]
-      public DateTime Due_Date { get; set; }
+      public DateTime? Due_Date { get; set; }
 
       [Field]
       public int Completeness { get; set; }

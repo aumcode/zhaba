@@ -77,6 +77,7 @@
     <EmbeddedResource Include="SQL\CRUD\IssueAssign\RemoveAllUsers.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\IssueChat\findIssueChatById.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\IssueChat\findIssueChatByIdAndIssueAndProject.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\IssueLog\findAllByIssue.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\Sequence\AllScopes.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\Sequence\ByName.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\User\ByLogin.mys.sql" />
