@@ -30,5 +30,13 @@ namespace Zhaba.Data.QueryBuilders
         new Query.Param("pFilter", filter)
       };
     }
+
+    public static Query<TRow> findByIssue<TRow>(ulong c_Issue) where TRow : Row
+    {
+      return new Query<TRow>("SQL.CRUD.IssueChat.findByIssue")
+      {
+        new Query.Param("pIssue", c_Issue)
+      };
+    }
   }
 }

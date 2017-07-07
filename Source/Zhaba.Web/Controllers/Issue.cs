@@ -12,6 +12,7 @@ using Zhaba.Security.Permissions;
 using Zhaba.Web.Pages;
 
 using Zhaba.Data.Filters;
+using Zhaba.Web.Pages.Reports;
 
 namespace Zhaba.Web.Controllers
 {
@@ -134,6 +135,12 @@ namespace Zhaba.Web.Controllers
       return new JSONResult(data, JSONWritingOptions.CompactRowsAsMap);    
     }
 
+    [Action("chatreport", 0, "match { methods=GET}")]
+    public object ChatReport_GET()
+    {
+      IssueChatReport report = new IssueChatReport(ProjectRow, IssueRow);
+      return report;
+    }
     #region .pvt
 
     protected object DataSetup_PopUp(object[] args, IssueAssignForm form, string postRedirect)

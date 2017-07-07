@@ -1,4 +1,5 @@
-﻿﻿var chatRec={};
+﻿﻿var chatRec = {};
+var chatFilterRec = {};
 
 function createBody(root) {
   /***
@@ -234,6 +235,45 @@ function createChatItem(root, item) {
   ***/
 }
 
+function buildChatReport(root, task) {
+  /***
+  div
+  {
+    a="report"
+    {
+      data-cproject=?task.C_Project
+      data-cissue=?task.Counter
+
+      on-click=openChatReport
+      class="button"
+
+    }
+  }
+  ***/
+}
+
+function buildChatFilterForm(root, task) {
+  /***
+  div
+  {
+    id="?'ChatFilterForm'+task.Counter"
+    data-wv-rid="?'chatFilterForm'+task.Counter"
+    div { data-wv-fname="C_User" class="fView" data-wv-ctl="combo" style="display: inline-block; padding: 8px;"}
+    div { data-wv-fname="Limit" class="fView" style="display: inline-block; padding: 8px;" }
+    div
+    {
+      a="filter"
+      {
+        data-cissue=?task.Counter
+        data-cproject=?task.C_Project
+        on-click=setChatFilter
+        class="button"
+      }
+    }
+  }
+  ***/
+}
+
 function chatForm(task) {
   var link='project/{0}/issue/{1}/chat?id='.args(task.C_Project, task.Counter);
   WAVE.ajaxCall(
@@ -252,6 +292,25 @@ function chatForm(task) {
   );
 }
 
+function chatFilterForm(task) {
+  var link = 'project/{0}/issue/{1}/chatlist'.args(task.C_Project, task.Counter);
+  WAVE.ajaxCall(
+    'GET',
+    link,
+    null,
+    function (resp) {
+      debugger;
+      chatFilterRec[task.Counter] = new WAVE.RecordModel.Record(JSON.parse(resp));
+      new WAVE.RecordModel.RecordView('ChatFilterForm' + task.Counter, chatFilterRec[task.Counter]);
+      console.log("success");
+    },
+    function (resp) { console.log("error"); },
+    function (resp) { console.log("fail"); },
+    WAVE.CONTENT_TYPE_JSON_UTF8,
+    WAVE.CONTENT_TYPE_JSON_UTF8
+  );
+}
+
 function sendChatMessage1(e) {
   var iid = e.target.dataset.cissue;
   var pid = e.target.dataset.cproject; 
@@ -262,7 +321,8 @@ function sendChatMessage1(e) {
     'POST',
     link,
     chatRec[iid].data(),
-    function (resp) { 
+    function (resp) {
+      chatForm(task);  
       refreshChat(task);  
       console.log("success"); 
     },
@@ -275,7 +335,7 @@ function sendChatMessage1(e) {
   
 function refreshChat(task) {
   var link = "/project/{0}/issue/{1}/chatlist".args(task.C_Project, task.Counter);
-  var data = null;
+  var data = chatFilterRec[task.Counter].data();
   WAVE.ajaxCall(
     'POST',
     link,
@@ -315,11 +375,28 @@ function buildAssignmentTab(root, task) {
 }
 
 function buildChatTab(root, task) {
+  buildChatReport(root, task);
+  buildChatFilterForm(root, task);
   createChatForm(root, task);
   createChatMessage(root, task);
   chatForm(task);
+  chatFilterForm(task)
+  // refreshChat(task);
+}
+
+function openChatReport(e) {
+  var pid = e.target.dataset.cproject;
+  var iid = e.target.dataset.cissue;
+  var link = "/project/{0}/issue/{1}/chatreport".args(pid, iid);
+  window.open(link);
+}
+
+function setChatFilter(e) {
+  var iid = e.target.dataset.cissue;
+  var pid = e.target.dataset.cproject;
+  var task = { Counter: iid, C_Project: pid };
   refreshChat(task);
-};
+}
 
 function createTabs(root, task) {
   var statusId = "status-" + task.Counter;
@@ -365,4 +442,7 @@ function createTabs(root, task) {
   buildStatusTab(statusId, task);
   buildAssignmentTab(assignmentId, task);
   buildChatTab(chatId, task);
+
+
+
 }

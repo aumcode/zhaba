@@ -91,6 +91,7 @@
     <Compile Include="Data\Rows\CategoryRow.cs" />
     <Compile Include="Data\Rows\IssueAreaRow.cs" />
     <Compile Include="Data\Rows\IssueAssignRow.cs" />
+    <Compile Include="Data\Rows\IssueChatFilterRow.cs" />
     <Compile Include="Data\Rows\IssueChatRow.cs" />
     <Compile Include="Data\Rows\IssueComponentRow.cs" />
     <Compile Include="Data\Rows\MeetingParticipantRow.cs" />
