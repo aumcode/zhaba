@@ -52,7 +52,7 @@ namespace Zhaba.Web
         return id.HasValue ? "{0}?id={1}".Args(COMMON_CATEGORY, id) : COMMON_CATEGORY;
     }
 
-        public static string ForPROJECT_SELECT(ulong projID)
+    public static string ForPROJECT_SELECT(ulong projID)
     {
       return PROJECT_SELECT.Args(projID);
     }

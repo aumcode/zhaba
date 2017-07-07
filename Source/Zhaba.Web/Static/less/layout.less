@@ -13,7 +13,8 @@
     width: 100%;
 
     & #cont {
-      width: ~"calc(100% - 320px)";
+      width: 100%;
+      height: ~"calc(100% - 34px)";
 
       &.anonymous {
         width: 100%;
@@ -21,24 +22,28 @@
     }
 
     & #nav {
-      background: #71c3e8;
-      color: #fff;
-      width: 320px;
+      position:relative;
+      background: #cfddd0;
+      height: 34px;
+      width: 100%;
 
       & #profile {
+        float: right;
+        display: inline;
         padding: 8px 16px;
       }
 
       & #menu {
+        display: inline;
         & .menuBlock {
+          display: inline;
           padding: 8px 16px;
-
           & h3 {
+            display: inline;
           }
 
           & a {
-            color: #fff;
-            display: block;
+            display: inline;
             padding: 0px 6px;
           }
         }
@@ -62,7 +67,7 @@
 
 .grid {
   & #title {
-    background: #f9a179;
+    background: #547657;
     color: #fff;
     padding: 8px 16px;
 

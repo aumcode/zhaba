@@ -46,49 +46,56 @@
 
 <body>
   <div id="body">
-    <div id="cont" class="?[ !ZhabaUser.IsAuthenticated ? "anonymous" : string.Empty]">
-    @[renderBody();]
-    </div>
-
     @[if (ZhabaUser.IsAuthenticated) {]
     <div id="nav">
-      <div id="profile">
-        <div id="name">
-          <h2>Hello, ?[ZhabaUser.Description]</h2>
-        </div>
-      </div>
       <div id="menu">
+        <div class="menuBlock" style="cursor: pointer" onclick="window.location='?[URIS.DASHBOARD]';">
+          Dashboard
+        </div>
+        <div class="dropdown">
+          <button onclick="projectDropDown()" class="dropbtn">
+            @[if (SelectedProject != null) {]
+              ?[SelectedProject.Name]
+            @[}else{]
+              Choose project
+            @[}]
+          </button>
+          <div id="project-drop-down" class="dropdown-content"></div>
+        </div>
         @[if (SelectedProject != null) {]
         <div class="menuBlock">
-          <h3>?[SelectedProject.Name]</h3>
           <a href=?[URIS.ForPROJECT_ISSUES(SelectedProject.Counter)]>Issues</a>
           <a href=?[URIS.ForPROJECT_MILESTONES(SelectedProject.Counter)]>Milestones</a>
           <a href=?[URIS.ForPROJECT_COMPONENTS(SelectedProject.Counter)]>Components</a>
           <a href=?[URIS.ForPROJECT_AREAS(SelectedProject.Counter)]>Areas</a>
         </div>
         @[}]
-        <div class="menuBlock">
-          <h3>Projects</h3>
-          <a href=?[URIS.DASHBOARD_PROJECTS]>Select Project</a>
-        </div>
-        <div class="menuBlock">
-          <h3>Common Data</h3>
-          @[if (new UserManagerPermission().Check()) {]
-          <a href=?[URIS.COMMON_USERS]>Users</a>
-          @[}]
-          <a href=?[URIS.COMMON_PROJECTS]>Projects</a>
-          <a href=?[URIS.COMMON_CATEGORIES]>Categories</a>
-        </div>
-        <div class="menuBlock">
-          <h3>Reports</h3>
-          <a href=?[URIS.DASHBOARD]>Dashboard</a>
-        </div>
-        <div class="menuBlock">
-          <a href="/user/logout">logout</a>
+        <div class="dropdown">
+          <button onclick="dataDropDown()" class="dropbtn">
+            Common Data
+          </button>
+          <div id="data-drop-down" class="dropdown-content">
+            @[if (new UserManagerPermission().Check()) {]
+            <a href=?[URIS.COMMON_USERS]>Users</a>
+            @[}]
+            <a href=?[URIS.COMMON_PROJECTS]>Projects</a>
+            <a href=?[URIS.COMMON_CATEGORIES]>Categories</a>
+          </div>
         </div>
       </div>
+      <div class="dropdown" style="float: right">
+          <button onclick="userDropDown()" class="dropbtn">
+             User: ?[ZhabaUser.Name]
+          </button>
+          <div id="user-drop-down" class="dropdown-content">
+            <a href="/user/logout">logout</a>
+          </div>
+        </div>
     </div>
     @[}]
+    <div id="cont" class="?[ !ZhabaUser.IsAuthenticated ? "anonymous" : string.Empty]">
+    @[renderBody();]
+    </div>
   </div>
 
   <footer id="ftr">
@@ -99,6 +106,54 @@
   <script src="/stock/site/script/wv.js"></script>
   <script src="/stock/site/script/wv.gui.js"></script>
   <script src="/static/js/zhb.js"></script>
+  <script>
+    function buildProjectMenuItem(root, project){
+      var link = ZHB.URIS.ForPROJECT_SELECT(project.Counter);
+      /***
+        a="?project.Name" { href=?link }
+      ***/
+    }
+
+    WAVE.ajaxGetJSON(
+    "/dashboard/projects",
+    null,
+    function (resp) {
+        debugger;
+      var projects = JSON.parse(resp)
+      for(i=0, l=projects.length;i<l;i++){
+          buildProjectMenuItem("project-drop-down", projects[i])  
+    }
+      
+    },
+    function (resp) { console.log("error"); },
+    function (resp) { console.log("fail"); });
+
+    function projectDropDown() {
+        document.getElementById("project-drop-down").classList.toggle("show");
+    }
+
+    function dataDropDown() {
+        document.getElementById("data-drop-down").classList.toggle("show");
+    }
+
+    function userDropDown() {
+        document.getElementById("user-drop-down").classList.toggle("show");
+    }
+
+    window.onclick = function(event) {
+      if (!event.target.matches(".dropbtn")) {
+        debugger;
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    }
+  </script>
   @[renderScripts();]
 
 </body>

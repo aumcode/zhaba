@@ -39,6 +39,14 @@ namespace Zhaba.Web.Controllers
         return new ProjectsPage(projects);
     }
 
+    [Action("projects", 0, "match { methods=GET accept-json=true}")]
+    public object projects_GET()
+    {
+      var qry = QProject.AllProjects<ProjectRow>();
+      var projects = ZApp.Data.CRUD.LoadEnumerable(qry);
+      return new JSONResult(projects, JSONWritingOptions.CompactRowsAsMap);
+    }
+
     [Action("tasks", 0, "match { methods=POST,GET accept-json=true}")]
     public object tasks_GET()
     {
