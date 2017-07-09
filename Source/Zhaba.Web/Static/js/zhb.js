@@ -595,6 +595,7 @@ function buildChatFilterForm(root, task) {
   Ø3.setAttribute('style', 'display: inline-block; padding: 8px;');
   Ø1.appendChild(Ø3);
   var Ø4 = WAVE.ce('div');
+  Ø4.setAttribute('style', 'display: inline-block; padding: 8px;');
   var Ø5 = WAVE.ce('a');
   Ø5.innerText = 'filter';
   Ø5.setAttribute('data-cissue', task.Counter);

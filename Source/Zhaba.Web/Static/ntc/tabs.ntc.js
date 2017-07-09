@@ -279,6 +279,7 @@ function buildChatFilterForm(root, task) {
     div { data-wv-fname="Limit" class="fView" style="display: inline-block; padding: 8px;" }
     div
     {
+      style="display: inline-block; padding: 8px;"
       a="filter"
       {
         data-cissue=?task.Counter
