@@ -40,7 +40,8 @@ from tbl_issuelog as T1
   join tbl_category as TC on T1.C_CATEGORY = TC.COUNTER
   join tbl_milestone as TM on T1.C_MILESTONE = TM.COUNTER
   join tbl_project as TP on TI.C_PROJECT = TP.COUNTER
-where T1.STATUS != 'X' and {0}";
+where T1.STATUS != 'X' and {0}
+";
 
     protected override void DoBuildCommandAndParms(MySQLCRUDQueryExecutionContext context, MySqlCommand cmd,
       TaskListFilter filter)
@@ -94,38 +95,75 @@ where T1.STATUS != 'X' and {0}";
         var searchStr = filter.Search;
         if (searchStr.IsNotNullOrWhiteSpace())
         {
-          var scfg = searchStr.AsLaconicConfig(handling: ConvertErrorHandling.Throw);
-          var filterName = scfg.Navigate("$n|$name").Value;
-          if (filterName != null)
+          int value;
+          if (int.TryParse(searchStr, out value))
           {
-            where += "AND (TI.NAME LIKE ?pName)";
-            cmd.Parameters.AddWithValue("pName", filterName);
+            where += "AND (T1.C_ISSUE = ?pIssueId) ";
+            cmd.Parameters.AddWithValue("pIssueId", value);
           }
-
-          var filterArea = scfg.Navigate("$a|$area").Value;
-          if (filterArea.IsNotNullOrWhiteSpace())
+          else if ((searchStr.StartsWith("<") || searchStr.StartsWith(">") || searchStr.StartsWith("=")) && (int.TryParse(searchStr.Substring(1).Trim() , out value)) )
           {
-            where +=
-              "AND Exists(select C_ISSUE from tbl_issuearea as _TIA join tbl_area as _TA on _TIA.C_AREA = _TA.COUNTER where (_TIA.C_ISSUE = T1.C_ISSUE) and (_TA.Name like ?pAREA))";
-            cmd.Parameters.AddWithValue("pAREA", filterArea);
+            where += "AND (T1.COMPLETENESS  {0} ?pProceed) ".Args(searchStr.Substring(0,1));
+            cmd.Parameters.AddWithValue("pProceed", value);
           }
-
-          var componentFilter = scfg.Navigate("$c|$component").Value;
-          if (componentFilter.IsNotNullOrWhiteSpace())
+          else
           {
-            where +=
-              "AND Exists(select C_ISSUE from tbl_issuecomponent as _TIC join tbl_component as _TC on _TIC.C_COMPONENT = _TC.COUNTER where (_TIC.C_ISSUE = T1.C_ISSUE) and(_TC.Name like ?pCOMPONENT))";
-            cmd.Parameters.AddWithValue("pCOMPONENT", componentFilter);
+            var scfg = searchStr.AsLaconicConfig(handling: ConvertErrorHandling.Throw);
+            var filterName = scfg.Navigate("$n|$name").Value;
+            if (filterName != null)
+            {
+              where += "AND (TI.NAME LIKE ?pName)";
+              cmd.Parameters.AddWithValue("pName", filterName);
+            }
+
+            var filterArea = scfg.Navigate("$a|$area").Value;
+            if (filterArea.IsNotNullOrWhiteSpace())
+            {
+              where +=
+                "AND Exists(select C_ISSUE from tbl_issuearea as _TIA join tbl_area as _TA on _TIA.C_AREA = _TA.COUNTER where (_TIA.C_ISSUE = T1.C_ISSUE) and (_TA.Name like ?pAREA))";
+              cmd.Parameters.AddWithValue("pAREA", filterArea);
+            }
+
+            var componentFilter = scfg.Navigate("$c|$component").Value;
+            if (componentFilter.IsNotNullOrWhiteSpace())
+            {
+              where +=
+                "AND Exists(select C_ISSUE from tbl_issuecomponent as _TIC join tbl_component as _TC on _TIC.C_COMPONENT = _TC.COUNTER where (_TIC.C_ISSUE = T1.C_ISSUE) and(_TC.Name like ?pCOMPONENT))";
+              cmd.Parameters.AddWithValue("pCOMPONENT", componentFilter);
+            }
           }
         }
         cmd.CommandText = m_Script.Args(where);
       }
       catch (Exception)
       {
-        where += "AND ((TI.NAME LIKE ?pSearch) OR";
-        where += "(T1.STATUS LIKE ?pSearch) OR";
-        where += "(TP.NAME LIKE ?pSearch) OR";
-        where += "(T1.DESCRIPTION LIKE ?pSearch))";
+        where += @" AND 
+(
+      (TI.NAME LIKE ?pSearch)
+  OR  (T1.STATUS LIKE ?pSearch)
+  OR  (TP.NAME LIKE ?pSearch)
+  OR  (
+        EXISTS
+        (
+          SELECT _tis.COUNTER 
+          FROM tbl_issuelog _tis 
+          WHERE (_tis.C_ISSUE = T1.C_ISSUE) 
+            AND (UPPER(_tis.DESCRIPTION) LIKE UPPER(?pSearch))
+        )
+      )
+  OR  (
+        EXISTS
+        (
+          SELECT CONCAT(_tu.FIRST_NAME,' ',_tu.LAST_NAME,' (',_tu.LOGIN ,')') AS NAME
+          FROM tbl_issueassign _tia
+          JOIN tbl_user _tu ON _tu.COUNTER = _tia.C_USER  
+          WHERE (_tia.C_ISSUE = T1.C_ISSUE)
+            AND (UPPER(CONCAT(_tu.FIRST_NAME,' ',_tu.LAST_NAME,' (',_tu.LOGIN ,')')) LIKE UPPER(?pSearch))
+        )
+      )
+)
+";
+        //where += "OR (EXISTS(SELECT _tia.Count FROM tbl_issueassign _tia WHERE (?pDateUTC <= _tia.CLOSE_TS OR _tia.CLOSE_TS IS NULL) AND (_tia.C_ISSUE = T1.C_ISSUE) AND  (_tia.LOGIN LIKE ?pSearch OR _tia.FULL_NAME LIKE ?pSearch _tia.LAST_NAME LIKE ?pSearch)))";
         cmd.Parameters.AddWithValue("pSearch", "%{0}%".Args(filter.Search));
         cmd.CommandText = m_Script.Args(where);
       }
