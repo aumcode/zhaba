@@ -50,7 +50,11 @@
       <td>@[Target.Write(item.UserFirstName);]&nbsp;@[Target.Write(item.UserLastName);]&nbsp;(@[Target.Write(item.UserLogin);])</td>      
       <td>@[Target.Write(item.UserOpenFirstName);]&nbsp;@[Target.Write(item.UserOpenLastName);]&nbsp;(@[Target.Write(item.UserOpenLogin);])</td>      
       <td>@[Target.Write(item.Open_TS);]</td>
-      <td>@[Target.Write(item.UserCloseFirstName);]&nbsp;@[Target.Write(item.UserCloseLastName);]&nbsp;(@[Target.Write(item.UserCloseLogin);])</td>
+      <td>
+      @[ if (item.UserCloseLogin != null) {]
+      @[Target.Write(item.UserCloseFirstName);]&nbsp;@[Target.Write(item.UserCloseLastName);]&nbsp;(@[Target.Write(item.UserCloseLogin);])
+      @[}]
+      </td>
       <td>@[Target.Write(item.Close_TS);]</td>
       <td>@[Target.Write(item.Note);]</td>
     </tr>
