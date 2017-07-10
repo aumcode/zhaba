@@ -183,7 +183,7 @@ div.colspan>div>div
      background-color:  #d0d0d0;  
   }
   div.ChatItemNote {
-     background-color: #a0a0a0;  
+     background-color: #EAEAEA;  
   }
 
 
@@ -202,6 +202,7 @@ div.colspan>div>div
       <div class="fView" data-wv-fname="ProjectName" data-wv-ctl="combo"></div>
       <div class="fView" data-wv-fname="C_USER" data-wv-ctl="combo"></div>
       @[}]
+      <div class="fView" data-wv-fname="Status" data-wv-ctl="combo"></div>
       <div class="fView" data-wv-fname="Search" style="width: 1000px"></div>
     </form>
     <div id="grid"></div>
