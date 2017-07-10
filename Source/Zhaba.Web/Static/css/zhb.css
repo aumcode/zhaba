@@ -169,7 +169,7 @@ img {
 .fView input[type=tel],
 .fView select,
 .fView textarea {
-  background-color: #f0f0e0;
+  background-color: #f8f8f8;
   border: 1px solid #e0e0e0;
   width: 100%;
 }
@@ -339,7 +339,7 @@ a {
 }
 .button,
 .button:visited {
-  background: transparent;
+  background: #f0f0f0;
   border: solid 1.5px;
   border-color: lightgray;
   border-radius: 3px;
@@ -348,7 +348,7 @@ a {
   display: inline-block;
   font-size: 14px;
   line-height: 1;
-  padding: 1px 12px;
+  padding: 4px 12px;
   text-align: center;
   text-decoration: none;
   text-shadow: none;
@@ -472,12 +472,14 @@ a {
 .dropbtn {
   background-color: transparent;
   font-size: 16px;
+  color: #fff;
   border: none;
   cursor: pointer;
 }
 .dropbtn:hover,
 .dropbtn:focus {
   background-color: #fff0d0;
+  color: black;
 }
 .dropdown {
   padding: 8px 16px;
@@ -542,9 +544,10 @@ body #body #cont.anonymous {
 }
 body #body #nav {
   position: relative;
-  background: #cfddd0;
+  background: #547657;
   height: 34px;
   width: 100%;
+  color: #fff;
 }
 body #body #nav #profile {
   float: right;
@@ -578,8 +581,8 @@ body #ftr {
   width: 100%;
 }
 .grid #title {
-  background: #547657;
-  color: #fff;
+  background: #cfddd0;
+  color: black;
   padding: 8px 16px;
 }
 .grid #title h1 {
@@ -600,7 +603,7 @@ body #ftr {
   flex-wrap: wrap;
 }
 .grid #frmFilter .fView {
-  min-width: 150px;
+  min-width: 100px;
   width: 20%;
   padding: 0 6px 6px;
 }

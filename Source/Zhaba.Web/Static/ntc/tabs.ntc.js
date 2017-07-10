@@ -138,11 +138,17 @@ function buildAssignmentButtons(root, task) {
   div
   {
     "? if(task.statusId !='X' && task.statusId !='C' && task.statusId !='D')" {
-      a = "Add user" { href="?'javascript:changeStatusDialog(\"A\",'+task.C_Project+', '+task.Counter+')'"  class="button" }
+      a = "Add user" 
+      { 
+        href="?'javascript:changeStatusDialog(\"A\",'+task.C_Project+', '+task.Counter+')'"  
+        class="button"
+        style="margin:4px 4px 4px 0px" 
+      }
     }
     a="report" 
     {
       class="button"
+      style="margin:4px 4px 4px 0px" 
       data-cproject=?task.C_Project
       data-cissue=?task.Counter
       data-report='assignmentreport'
@@ -176,13 +182,13 @@ function createStatusHeader(root) {
    div 
    {
      class="rTableRow"
-     div="ID" {class="rTableHead"}
-     div="Operator" {class="rTableHead"}
-     div="UserOpenLogin" {class="rTableHead"}
-     div="UserCloseLogin" {class="rTableHead"}
-     div="Assigned" {class="rTableHead"}
-     div="Unassigned" {class="rTableHead"}
-     div="Note" {class="rTableHead"}
+     div="ID" {class="rTableHead rDetailsTableHead"}
+     div="Operator" {class="rTableHead rDetailsTableHead"}
+     div="UserOpenLogin" {class="rTableHead rDetailsTableHead"}
+     div="UserCloseLogin" {class="rTableHead rDetailsTableHead"}
+     div="Assigned" {class="rTableHead rDetailsTableHead"}
+     div="Unassigned" {class="rTableHead rDetailsTableHead"}
+     div="Note" {class="rTableHead rDetailsTableHead"}
    }
    ***/
 ﻿}
@@ -220,7 +226,7 @@ function createAssignmentGridRow(root, assignment) {
     div="?assignment.OperatorCloseLogin"{ class="rTableCell" align="center"}
     div="?WAVE.dateTimeToString(assignment.Open_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
     div="?WAVE.dateTimeToString(assignment.Close_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-    div="?assignment.Note" {class="rTableHead"}
+    div="?assignment.Note" {class="rTableCell"}
   }
   ***/
 }
@@ -240,7 +246,7 @@ function buildChatForm(root, task) {
       a="send" 
       { 
         class="button"
-        style="margin:10px 5px"
+        style="margin:4px 4px 4px 0px" 
 
         data-cissue=?task.Counter
         data-cproject=?task.C_Project
@@ -250,7 +256,7 @@ function buildChatForm(root, task) {
       a="report"
       {
         class="button"
-        style="margin:10px 5px"
+        style="margin:4px 4px 4px 0px" 
 
         data-cproject=?task.C_Project
         data-cissue=?task.Counter
