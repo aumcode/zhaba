@@ -216,10 +216,10 @@ function createAssignmentGridRow(root, assignment) {
 
     div="?assignment.Counter"{ class="rTableCell" align="right" }
     div="?assignment.UserLogin"{ class="rTableCell" align="right" }
-    div="?assignment.UserOpenLogin" { class="rTableCell" }
-    div="?assignment.UserCloseLogin"{ class="rTableCell" align="center"}
-    div="?WAVE.dateTimeToString(assignment.OPEN_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-    div="?WAVE.dateTimeToString(assignment.CLOSE_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+    div="?assignment.OperatorOpenLogin" { class="rTableCell" }
+    div="?assignment.OperatorCloseLogin"{ class="rTableCell" align="center"}
+    div="?WAVE.dateTimeToString(assignment.Open_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+    div="?WAVE.dateTimeToString(assignment.Close_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
     div="?assignment.Note" {class="rTableHead"}
   }
   ***/
@@ -240,18 +240,23 @@ function buildChatForm(root, task) {
       a="send" 
       { 
         class="button"
+        style="margin:10px 5px"
+
         data-cissue=?task.Counter
         data-cproject=?task.C_Project
+
         on-click=sendChatMessage1 
       }
       a="report"
       {
+        class="button"
+        style="margin:10px 5px"
+
         data-cproject=?task.C_Project
         data-cissue=?task.Counter
         data-report='chatreport'
         
         on-click=openReport
-        class="button"
       }
     }
   }

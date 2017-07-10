@@ -58,6 +58,7 @@ namespace Zhaba.Data.Forms
     {
       Exception result = null;
       saveResult = null;
+      if (Note.IsNullOrEmpty()) return null;
       try
       {
         var id = RoundtripBag[ITEM_ID_BAG_PARAM].AsNullableULong();

@@ -90,6 +90,12 @@ where T1.STATUS != 'X' and {0}
         cmd.Parameters.AddWithValue("pC_User", filter.C_USER);
       }
 
+      if (filter.Status.IsNotNullOrEmpty())
+      {
+        where += " AND (T1.STATUS = ?pStatus) ";
+        cmd.Parameters.AddWithValue("pStatus", filter.Status);
+      }
+
       try
       {
         var searchStr = filter.Search;

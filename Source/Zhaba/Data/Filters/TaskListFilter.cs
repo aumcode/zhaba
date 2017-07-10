@@ -22,10 +22,10 @@ namespace Zhaba.Data.Filters
       public string UserLogin { get; set; }
 
       [Field]
-      public string UserOpenLogin { get; set; }
+      public string OperatorOpenLogin { get; set; }
 
       [Field]
-      public string UserCloseLogin { get; set; }
+      public string OperatorCloseLogin { get; set; }
       
       [Field]
       public string UserFirstName { get; set; } 
@@ -34,16 +34,16 @@ namespace Zhaba.Data.Filters
       public string UserLastName { get; set; } 
       
       [Field]
-      public string UserOpenFirstName { get; set; } 
+      public string OperatorOpenFirstName { get; set; } 
 
       [Field]
-      public string UserOpenLastName { get; set; } 
+      public string OperatorOpenLastName { get; set; } 
 
       [Field]
-      public string UserCloseFirstName { get; set; } 
+      public string OperatorCloseFirstName { get; set; } 
 
       [Field]
-      public string UserCloseLastName { get; set; } 
+      public string OperatorCloseLastName { get; set; } 
 
     }
 
@@ -124,6 +124,9 @@ namespace Zhaba.Data.Filters
 
     [Field(valueList: "1:Day, 2:2 Days, 7:7 Days, 14: 14 Days, 30:Month, 60:Quarter, 365:Year", metadata: "Description='Due' Hint='Due'")]
     public string Due { get; set; }
+    
+    [Field(valueList: "N:NEW, R:REOPEN, A:ASSIGNED, D:DONE, F:DEFER, X:CANCELED, C:CLOSED", metadata: "Description='Status' Hint='Status'")]
+    public string Status { get; set; }
 
     public override JSONDataMap GetClientFieldValueList(object callerContext, Schema.FieldDef fdef, string targetName, string isoLang)
     {
