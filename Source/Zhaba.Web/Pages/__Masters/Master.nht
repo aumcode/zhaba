@@ -118,7 +118,6 @@
     "/dashboard/projects",
     null,
     function (resp) {
-        debugger;
       var projects = JSON.parse(resp)
       for(i=0, l=projects.length;i<l;i++){
           buildProjectMenuItem("project-drop-down", projects[i])  
@@ -142,7 +141,7 @@
 
     window.onclick = function(event) {
       if (!event.target.matches(".dropbtn")) {
-        debugger;
+        // debugger;
         var dropdowns = document.getElementsByClassName("dropdown-content");
         var i;
         for (i = 0; i < dropdowns.length; i++) {

@@ -149,6 +149,13 @@ namespace Zhaba.Web.Controllers
       return report;
     }
     
+    [Action("assignmentreport", 0, "match { methods=GET}")]
+    public object AssignmentReport_GET()
+    {
+      IssueAssignmentReport report = new IssueAssignmentReport(ProjectRow, IssueRow);
+      return report;
+    }
+
     #region .pvt
 
     protected object DataSetup_PopUp(object[] args, IssueAssignForm form, string postRedirect)

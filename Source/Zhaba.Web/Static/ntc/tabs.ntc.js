@@ -120,6 +120,14 @@ function buildAssignmentButtons(root, task) {
     "? if(task.statusId !='X' && task.statusId !='C' && task.statusId !='D')" {
       a = "Add user" { href="?'javascript:changeStatusDialog(\"A\",'+task.C_Project+', '+task.Counter+')'"  class="button" }
     }
+    a="report" 
+    {
+      class="button"
+      data-cproject=?task.C_Project
+      data-cissue=?task.Counter
+      data-report='assignmentreport'
+      on-click="openReport"
+    }
   }
   ***/
 }

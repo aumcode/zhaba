@@ -180,10 +180,10 @@ div.colspan>div>div
 
 
   div.ChatItemUser {
-     background-color: cyan;  
+     background-color:  #d0d0d0;  
   }
   div.ChatItemNote {
-     background-color: #f0f0e0;  
+     background-color: #a0a0a0;  
   }
 
 

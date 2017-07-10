@@ -26,6 +26,25 @@ namespace Zhaba.Data.Filters
 
       [Field]
       public string UserCloseLogin { get; set; }
+      
+      [Field]
+      public string UserFirstName { get; set; } 
+
+      [Field]
+      public string UserLastName { get; set; } 
+      
+      [Field]
+      public string UserOpenFirstName { get; set; } 
+
+      [Field]
+      public string UserOpenLastName { get; set; } 
+
+      [Field]
+      public string UserCloseFirstName { get; set; } 
+
+      [Field]
+      public string UserCloseLastName { get; set; } 
+
     }
 
     public class TaskListFilterRow : TypedRow

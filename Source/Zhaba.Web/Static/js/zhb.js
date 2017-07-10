@@ -310,6 +310,14 @@ function buildAssignmentButtons(root, task) {
     Ø2.setAttribute('class', 'button');
     Ø1.appendChild(Ø2);
   }
+  var Ø3 = WAVE.ce('a');
+  Ø3.innerText = 'report';
+  Ø3.setAttribute('class', 'button');
+  Ø3.setAttribute('data-cproject', task.C_Project);
+  Ø3.setAttribute('data-cissue', task.Counter);
+  Ø3.setAttribute('data-report', 'assignmentreport');
+  Ø3.addEventListener('click', openReport, false);
+  Ø1.appendChild(Ø3);
   if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
   return Ø1;
 }
