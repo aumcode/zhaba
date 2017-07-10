@@ -30,10 +30,22 @@
   	display: table-header-group;
   	background-color: #ddd;
 }
-.rTableCell, .rTableHead {
+.rTableHead {
+  text-align: center;
+  color: #fff;
+  background-color: #a0a0a0;
+  display: table-cell;
+  padding: 3px 10px;
+  border: 1px dotted #202020;
+}
+.rDetailsTableHead {
+  background-color: #c0c0c0;
+}
+.rTableCell{
+    vertical-align: middle;
   	display: table-cell;
   	padding: 3px 10px;
-  	border: 1px solid #999999;
+  	border: 1px dotted #202020;
 }
 .rTableHeading {
   	display: table-header-group;
@@ -71,7 +83,6 @@ div.colspan>div>div
 
   .expander {
     border: 2px solid gray;
-    background : #cfddd0;
   }
 
   .header {
@@ -100,13 +111,13 @@ div.colspan>div>div
 
   .bar{
     position: absolute;
-    top: 0;
+    top: 50%;
     bottom: 0;
     left: 0;
   }
 
   .bar-value{
-    position: absolute;
+    position: relative;
     width: 100%;
     left: 0;
   }
@@ -114,31 +125,40 @@ div.colspan>div>div
   .issue_id {
   }
 
+  .tab-control {
+    border: 1px solid #547657;
+    background-color: #547657;
+  }
+
   .wvTabsUl {
+    background-color: #547657;
     list-style-type: none;
-    padding: 0;
-    margin-bottom: 4px;
-    max-width: 600px;
   }
 
     .wvTabsUl li {
-      border: 1px solid black;
-      padding-left: 4px;
-      padding-right: 4px;
-      padding-bottom: 6px;
+      color: #fff;
+      border-bottom: 1px solid #fff0d0;
+      padding-left: 16px;
+      padding-right: 16px;
+      padding-bottom: 2px;
       cursor: pointer;
-      margin-right: 4px;
-      background-color: #f0f0f0;
+      background-color: #547657;
       display: inline;
     }
 
+  .wvTabsUl li:hover {
+      background-color: #6a846c;
+    }
+  
   .wvTabsActive {
-    border-bottom-color: #f0f0f0 !important;
+    color: black !important;
+    background-color: #fff0d0 !important;
+    border: 1px solid #fff0d0 !important;
     cursor: default !important;
   }
 
   .wvTabsContentContainer {
-    border: 1px solid black;
+    border-top: 1px solid #fff0d0;
     background-color: #f0f0f0;
   }
 
@@ -153,7 +173,7 @@ div.colspan>div>div
   }
 
   table, td {
-    border: 1px solid black;
+    border: 1px solid #547657;
     border-collapse: collapse;
   }
 
@@ -186,6 +206,13 @@ div.colspan>div>div
      background-color: #a0a0a0;  
   }
 
+  .filter{
+    width: 100px !important;
+  }
+
+  .big-filter{
+    width: 150px !important;
+  }
 
 </style>
 
@@ -195,12 +222,12 @@ div.colspan>div>div
       <div>Tasks</div>
     </div>
     <form id="frmFilter" data-wv-rid="V1" novalidate>
-      <div class="fView" data-wv-fname="AsOf"></div>
-      <div class="fView" data-wv-fname="Due" data-wv-ctl="combo"></div>
-      <div class="fView" data-wv-fname="CategoryName" data-wv-ctl="combo"></div>
+      <div class="fView filter" data-wv-fname="AsOf"></div>
+      <div class="fView filter" data-wv-fname="Due" data-wv-ctl="combo"></div>
+      <div class="fView big-filter" data-wv-fname="CategoryName" data-wv-ctl="combo"></div>
       @[if (new PMPermission().Check()) {]
-      <div class="fView" data-wv-fname="ProjectName" data-wv-ctl="combo"></div>
-      <div class="fView" data-wv-fname="C_USER" data-wv-ctl="combo"></div>
+      <div class="fView big-filter" data-wv-fname="ProjectName" data-wv-ctl="combo"></div>
+      <div class="fView big-filter" data-wv-fname="C_USER" data-wv-ctl="combo"></div>
       @[}]
       <div class="fView" data-wv-fname="Search" style="width: 1000px"></div>
     </form>
