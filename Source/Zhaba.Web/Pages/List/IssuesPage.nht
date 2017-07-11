@@ -30,9 +30,6 @@
   @[base.renderTopToolbar();]
   <a href="javascript:addIssue()" class="button">Add</a>
   <a href="javascript:editIssue()" class="button">Edit</a>
-  <a href="javascript:closeIssue()" class="button">Close</a>
-  <a href="javascript:reopenIssue()" class="button">Reopen</a>
-  <a href="javascript:deferIssue()" class="button">Defer</a>
   <a href="javascript:showAreas()" class="button">Areas</a>
   <a href="javascript:showComponents()" class="button">Components</a>
   <a href="javascript:addAssignee()" class="button">Add Assignee</a>
@@ -78,69 +75,6 @@
     var link =  ZHB.URIS.ForISSUE_ISSUEASSIGN("?[:Filter.ProjectCounter]",grid.SELECTED_ROW_KEY, "");
     window.location.href = link;
   }
-
-  function closeIssue() {
-    var grid = WAVE.id("tblIssues");
-    if (!grid || !grid.SELECTED_ROW_KEY || !grid.SELECTED_ROW_DATA) return;
-
-    var link = ZHB.URIS.ForDELETE_ISSUE("?[:Filter.ProjectCounter]", grid.SELECTED_ROW_KEY);
-    WAVE.GUI.showConfirmationDialog(
-      'Close issue',
-      'Are you sure? \n ' + grid.SELECTED_ROW_DATA,
-      [WAVE.GUI.DLG_YES, WAVE.GUI.DLG_NO],
-      function(sender, result) {
-        if(result == WAVE.GUI.DLG_YES) {
-          WAVE.ajaxCall(
-          'DELETE',
-          link,
-          null,
-          function (resp) { fetchData();  console.log("success"); },
-          function (resp) { console.log("error"); },
-          function (resp) { console.log("fail"); },
-          WAVE.CONTENT_TYPE_JSON_UTF8, 
-          WAVE.CONTENT_TYPE_JSON_UTF8
-          );
-        } 
-      return true;
-      });
-  }
- 
-  function reopenIssue() {
-   var grid = WAVE.id("tblIssues");
-    if (!grid || !grid.SELECTED_ROW_KEY || !grid.SELECTED_ROW_DATA) return;
-
-    var link = ZHB.URIS.ForREOPEN_ISSUE("?[:Filter.ProjectCounter]", grid.SELECTED_ROW_KEY);
-    WAVE.ajaxCall(
-    'GET',
-    link,
-    null,
-    function (resp) { fetchData();  console.log("success"); },
-    function (resp) { console.log("error"); },
-    function (resp) { console.log("fail"); },
-    WAVE.CONTENT_TYPE_JSON_UTF8, 
-    WAVE.CONTENT_TYPE_JSON_UTF8
-    );
-
-  }
-
-  function deferIssue() {
-   var grid = WAVE.id("tblIssues");
-    if (!grid || !grid.SELECTED_ROW_KEY || !grid.SELECTED_ROW_DATA) return;
-
-    var link = ZHB.URIS.ForDEFER_ISSUE("?[:Filter.ProjectCounter]", grid.SELECTED_ROW_KEY);
-    WAVE.ajaxCall(
-    'GET',
-    link,
-    null,
-    function (resp) { fetchData();  console.log("success"); },
-    function (resp) { console.log("error"); },
-    function (resp) { console.log("fail"); },
-    WAVE.CONTENT_TYPE_JSON_UTF8, 
-    WAVE.CONTENT_TYPE_JSON_UTF8
-    );
-
-  }
-
 </script>
 
 

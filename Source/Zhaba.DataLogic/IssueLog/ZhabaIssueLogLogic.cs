@@ -190,9 +190,10 @@ namespace Zhaba.DataLogic
 
       saveResult = row;
 
-      try
+
+      using (var trn = ZApp.Data.CRUD.BeginTransaction())
       {
-        using (var trn = ZApp.Data.CRUD.BeginTransaction())
+        try
         {
           if (form.FormMode == FormMode.Insert)
           {
@@ -205,7 +206,7 @@ namespace Zhaba.DataLogic
             if (affected < 1)
               throw HTTPStatusException.NotFound_404("Issue");
           }
-
+  
           if (form.FormMode == FormMode.Insert)
             write(new CreateIssueEvent()
             {
@@ -232,13 +233,16 @@ namespace Zhaba.DataLogic
             }, trn);
           trn.Commit();
         }
+        catch (Exception error)
+        {
+          trn.Rollback();
+          var eda = error as DataAccessException;
+          if (eda != null && eda.KeyViolation != null)
+            return new CRUDFieldValidationException(form, "Name", "This value is already used");
+          return error;
+        }
       }
-      catch (Exception error)
-      {
-        var eda = error as DataAccessException;
-        if (eda != null && eda.KeyViolation != null)
-          return new CRUDFieldValidationException(form, "Name", "This value is already used");
-      }
+
       return null;
     }
 
@@ -247,9 +251,9 @@ namespace Zhaba.DataLogic
     {
       Exception result = null;
       saveResult = null;
-      try
+      using (var trn = ZApp.Data.CRUD.BeginTransaction())
       {
-        using (var trn = ZApp.Data.CRUD.BeginTransaction())
+        try
         {
           var counter = form.RoundtripBag[ZhabaForm.ITEM_ID_BAG_PARAM].AsNullableULong();
           IssueAssignRow row = form.FormMode == FormMode.Edit && counter.HasValue
@@ -276,12 +280,12 @@ namespace Zhaba.DataLogic
           }
           trn.Commit();
         }
+        catch (Exception ex)
+        {
+          trn.Rollback();
+          result = ex;
+        }
       }
-      catch (Exception ex)
-      {
-        result = ex;
-      }
-
       return result;
     }
 
@@ -364,9 +368,11 @@ namespace Zhaba.DataLogic
 
     private void write(AssignIssueEvent evt, ICRUDOperations operations = null)
     {
-        operations = operations ?? ZApp.Data.CRUD;
-        IssueLogRow newRow = NewIssueLog(evt, ZhabaIssueStatus.ASSIGNED, operations);
-        operations.Insert(newRow);
+      operations = operations ?? ZApp.Data.CRUD;
+      IssueLogRow oldRow = operations.LoadRow<IssueLogRow>(QIssueLog.FindLastIssueLogByIssue<IssueLogRow>(evt.C_Issue));
+        
+      IssueLogRow newRow = NewIssueLog(evt, ZhabaIssueStatus.ASSIGNED.EqualsOrdIgnoreCase(oldRow.Status) ? null : ZhabaIssueStatus.ASSIGNED, operations);
+      operations.Insert(newRow);
     }
 
     private void write(CloseIssueEvent evt, ICRUDOperations operations = null) 
@@ -434,7 +440,8 @@ namespace Zhaba.DataLogic
       IssueLogRow oldRow = operations.LoadRow<IssueLogRow>(QIssueLog.FindLastIssueLogByIssue<IssueLogRow>(evt.C_Issue));
       if (oldRow != null)
       {
-        if (status != null && !ZhabaIssueStatus.IsNextStateValid(oldRow.Status, status))
+        if (status != null 
+            && !ZhabaIssueStatus.IsNextStateValid(oldRow.Status, status)) 
           throw new ZhabaException("Wrong state {0} -> {1} for Issue ID = {2}".Args(oldRow.Status, status, evt.C_Issue));
 
         oldRow.CopyFields(result,

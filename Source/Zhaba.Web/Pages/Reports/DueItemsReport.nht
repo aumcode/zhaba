@@ -1,0 +1,35 @@
+﻿#<laconf>
+  compiler
+  {
+    using { ns="System.Linq" }
+    using { ns="System.Collections.Generic" }
+    using { ns="NFX" }
+    using { ns="NFX.DataAccess.CRUD" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Wave.Templatization" }
+    using { ns="Zhaba" }
+    using { ns="Zhaba.Data.Forms" }
+    using { ns="Zhaba.Data.Rows" }
+    using { ns="Zhaba.Data.QueryBuilders" }
+    base-class-name="Zhaba.Web.Pages.Report"
+    namespace="Zhaba.Web.Pages.Reports"
+  }
+#</laconf>
+
+#[class]
+  public DueItemsReport(ProjectRow project, DateTime? asOf)
+  {
+
+  }
+#[override renderBody()]
+<div>
+
+
+</div>
+<hr/>
+<div>
+
+</div>
+
+
+

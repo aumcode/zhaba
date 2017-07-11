@@ -83,6 +83,14 @@
           </div>
         </div>
       </div>
+        <div class="dropdown">
+          <button onclick="reportDropDown()" class="dropbtn">
+            Reports
+          </button>
+         <div id="report-drop-down" class="dropdown-content">
+          <a href="#">Due items</a>
+        </div>
+        </div>
       <div class="dropdown" style="float: right">
           <button onclick="userDropDown()" class="dropbtn">
              User: ?[ZhabaUser.Name]
@@ -137,6 +145,10 @@
 
     function userDropDown() {
         document.getElementById("user-drop-down").classList.toggle("show");
+    }
+    
+    function reportDropDown() {
+        document.getElementById("report-drop-down").classList.toggle("show");
     }
 
     window.onclick = function(event) {

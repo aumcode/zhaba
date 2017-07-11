@@ -34,7 +34,15 @@ function createRow(root, task) {
     id=?task.Counter
     class="expander rTableRow"
             
-    div="?task.Counter"{ class="issue_id rTableCell" align="right" }
+    div="?task.Counter"
+    {
+      class="issue_id rTableCell"
+      align="right"
+
+      data-cissue=?task.Counter
+      data-cproject=?task.C_Project
+      on-click=editIssue1
+    }
     div 
     { 
       div="?task.Status"{ style="?getStatusStyle(task.Status)" align="center"}
@@ -137,27 +145,25 @@ function buildAssignmentButtons(root, task) {
   /***
   div
   {
-    "? if(task.statusId !='X' && task.statusId !='C' && task.statusId !='D')" {
-      a="Add user" { style="margin: 4px 4px 4px 0px" href="?'javascript:changeStatusDialog(\"A\",'+task.C_Project+', '+task.Counter+')'"  class="button" }
-      a="report" 
-      {
-        style="margin: 4px 4px 4px 0px"
-        class="button"
+    "? if(task.statusId !='X' && task.statusId !='C' && task.statusId !='D' && pmperm)" {
+      a = "Add user" 
+      { 
+        data-counter=?task.Counter
         data-cproject=?task.C_Project
-        data-cissue=?task.Counter
-        data-report='assignmentreport'
-        on-click="openReport"
-      }
-    }"?else"{
-      a="report" 
-      {
-        style="margin: 4px 4px 4px 0px"
+        data-nextstate="A"
+        on-click=changeStatusDialog1
         class="button"
-        data-cproject=?task.C_Project
-        data-cissue=?task.Counter
-        data-report='assignmentreport'
-        on-click="openReport"
+        style="margin:4px 4px 4px 0px" 
       }
+    }
+    a="report" 
+    {
+      class="button"
+      style="margin:4px 4px 4px 0px" 
+      data-cproject=?task.C_Project
+      data-cissue=?task.Counter
+      data-report='assignmentreport'
+      on-click="openReport"
     }
   }
   ***/
@@ -185,13 +191,13 @@ function createStatusHeader(root) {
    div 
    {
      class="rTableRow"
-     div="ID" {class="rTableHead"}
-     div="Operator" {class="rTableHead"}
-     div="UserOpenLogin" {class="rTableHead"}
-     div="UserCloseLogin" {class="rTableHead"}
-     div="Assigned" {class="rTableHead"}
-     div="Unassigned" {class="rTableHead"}
-     div="Note" {class="rTableHead"}
+     div="ID" {class="rTableHead rDetailsTableHead"}
+     div="User" {class="rTableHead rDetailsTableHead"}
+     div="Assigned" {class="rTableHead rDetailsTableHead"}
+     div="Operator" {class="rTableHead rDetailsTableHead"}
+     div="Unassigned" {class="rTableHead rDetailsTableHead"}
+     div="Operator" {class="rTableHead rDetailsTableHead"}
+     div="Note" {class="rTableHead rDetailsTableHead"}
    }
    ***/
 ﻿}
@@ -222,12 +228,12 @@ function createAssignmentGridRow(root, assignment) {
     class="rTableRow"
 
     div="?assignment.Counter"{ class="rTableCell" align="right" }
-    div="?assignment.UserLogin"{ class="rTableCell" align="right" }
-    div="?assignment.OperatorOpenLogin" { class="rTableCell" }
-    div="?assignment.OperatorCloseLogin"{ class="rTableCell" align="center"}
+    div="?assignment.UserFirstName + ' ' + assignment.UserLastName + '(' +assignment.UserLogin+')'"{ class="rTableCell" align="right" }
     div="?WAVE.dateTimeToString(assignment.Open_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+    div="?assignment.OperatorOpenLogin" { class="rTableCell" }
     div="?WAVE.dateTimeToString(assignment.Close_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-    div="?assignment.Note" {class="rTableHead"}
+    div="?assignment.OperatorCloseLogin"{ class="rTableCell" align="center"}
+    div="?assignment.Note" {class="rTableCell"}
   }
   ***/
 }
@@ -247,7 +253,7 @@ function buildChatForm(root, task) {
       a="send" 
       { 
         class="button"
-        style="margin: 4px 4px 4px 0px"
+        style="margin:4px 4px 4px 0px" 
 
         data-cissue=?task.Counter
         data-cproject=?task.C_Project
@@ -257,7 +263,7 @@ function buildChatForm(root, task) {
       a="report"
       {
         class="button"
-        style="margin: 4px 4px 4px 0px"
+        style="margin:4px 4px 4px 0px" 
 
         data-cproject=?task.C_Project
         data-cissue=?task.Counter
@@ -455,6 +461,11 @@ function setChatFilter(e) {
   var pid = e.target.dataset.cproject;
   var task = { Counter: iid, C_Project: pid };
   refreshChat(task);
+}
+
+function editIssue1(e) {
+  e.stopPropagation();
+  editIssue(e.target.dataset.cproject, e.target.dataset.cissue);
 }
 
 function createTabs(root, task) {

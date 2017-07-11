@@ -14,7 +14,9 @@
   (SELECT GROUP_CONCAT(_tt2.LOGIN SEPARATOR '; ')
      FROM tbl_issueassign _tt1
        JOIN tbl_user _tt2 ON _tt1.C_USER = _tt2.COUNTER
-     WHERE (_tt1.C_ISSUE = T1.C_ISSUE) AND (_tt1.OPEN_TS <= T1.STATUS_DATE) AND ( T1.STATUS_DATE <= _tt1.CLOSE_TS OR _tt1.CLOSE_TS IS NULL )
+     WHERE (_tt1.C_ISSUE = T1.C_ISSUE) 
+           AND (_tt1.OPEN_TS <= DATE_ADD(DATE (T1.STATUS_DATE), INTERVAL 1 DAY )) 
+           AND ( DATE_ADD(DATE (T1.STATUS_DATE), INTERVAL 1 day) <= _tt1.CLOSE_TS OR _tt1.CLOSE_TS IS NULL )
      GROUP BY C_ISSUE) AS ASSIGNEE
 FROM tbl_issuelog as T1
   join tbl_issue as TI on T1.C_ISSUE = TI.COUNTER

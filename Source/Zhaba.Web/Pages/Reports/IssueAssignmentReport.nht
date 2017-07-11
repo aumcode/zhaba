@@ -32,7 +32,8 @@
 #[override renderBody()]
 <div>
   <h1>Project: @[Target.Write(m_Project.Name);]</h1>
-  <h2>Issue: @[Target.Write(m_Issue.Name);]</h2>
+  <h2>Issue: @[Target.Write(m_Issue.Name);] (@[Target.Write(m_Issue.Counter);])</h2>
+  
 </div>
 <hr/>
 <div>
