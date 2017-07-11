@@ -183,11 +183,11 @@ function createStatusHeader(root) {
    {
      class="rTableRow"
      div="ID" {class="rTableHead rDetailsTableHead"}
-     div="Operator" {class="rTableHead rDetailsTableHead"}
-     div="UserOpenLogin" {class="rTableHead rDetailsTableHead"}
-     div="UserCloseLogin" {class="rTableHead rDetailsTableHead"}
+     div="User" {class="rTableHead rDetailsTableHead"}
      div="Assigned" {class="rTableHead rDetailsTableHead"}
+     div="Operator" {class="rTableHead rDetailsTableHead"}
      div="Unassigned" {class="rTableHead rDetailsTableHead"}
+     div="Operator" {class="rTableHead rDetailsTableHead"}
      div="Note" {class="rTableHead rDetailsTableHead"}
    }
    ***/
@@ -221,11 +221,11 @@ function createAssignmentGridRow(root, assignment) {
     class="rTableRow"
 
     div="?assignment.Counter"{ class="rTableCell" align="right" }
-    div="?assignment.UserLogin"{ class="rTableCell" align="right" }
-    div="?assignment.OperatorOpenLogin" { class="rTableCell" }
-    div="?assignment.OperatorCloseLogin"{ class="rTableCell" align="center"}
+    div="?assignment.UserFirstName + ' ' + assignment.UserLastName + '(' +assignment.UserLogin+')'"{ class="rTableCell" align="right" }
     div="?WAVE.dateTimeToString(assignment.Open_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+    div="?assignment.OperatorOpenLogin" { class="rTableCell" }
     div="?WAVE.dateTimeToString(assignment.Close_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
+    div="?assignment.OperatorCloseLogin"{ class="rTableCell" align="center"}
     div="?assignment.Note" {class="rTableCell"}
   }
   ***/
