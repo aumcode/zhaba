@@ -232,6 +232,11 @@ div.colspan>div>div
       <div class="fView" data-wv-fname="Status" data-wv-ctl="combo"></div>
       <div class="fView" data-wv-fname="Search" style="width: 1000px"></div>
     </form>
+    @[if(SelectedProject != null) {]
+    <div>
+      <a class="button" href='javascript:addIssue(@[Target.Write(SelectedProject.Counter);])' >Add issue</a>
+    </div>
+    @[}]
     <div id="grid"></div>
 
 </div>
@@ -617,6 +622,12 @@ div.colspan>div>div
               return WAVE.GUI.DLG_CANCEL;
             }  
           });     
+  }
+  
+  function addIssue(counter) {
+    debugger;
+    var link = '/project/{0}/issue?id='.args(counter);
+    window.location.href=link;
   }
   
   var tickTime = 300000;

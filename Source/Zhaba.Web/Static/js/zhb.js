@@ -316,7 +316,10 @@ function buildAssignmentButtons(root, task) {
    if(task.statusId !='X' && task.statusId !='C' && task.statusId !='D' && pmperm) {
     var Ø2 = WAVE.ce('a');
     Ø2.innerText = 'Add user';
-    Ø2.setAttribute('href', 'javascript:changeStatusDialog("A",'+task.C_Project+', '+task.Counter+')');
+    Ø2.setAttribute('data-counter', task.Counter);
+    Ø2.setAttribute('data-cproject', task.C_Project);
+    Ø2.setAttribute('data-nextstate', 'A');
+    Ø2.addEventListener('click', changeStatusDialog1, false);
     Ø2.setAttribute('class', 'button');
     Ø2.setAttribute('style', 'margin:4px 4px 4px 0px');
     Ø1.appendChild(Ø2);

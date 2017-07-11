@@ -140,7 +140,10 @@ function buildAssignmentButtons(root, task) {
     "? if(task.statusId !='X' && task.statusId !='C' && task.statusId !='D' && pmperm)" {
       a = "Add user" 
       { 
-        href="?'javascript:changeStatusDialog(\"A\",'+task.C_Project+', '+task.Counter+')'"  
+        data-counter=?task.Counter
+        data-cproject=?task.C_Project
+        data-nextstate="A"
+        on-click=changeStatusDialog1
         class="button"
         style="margin:4px 4px 4px 0px" 
       }
