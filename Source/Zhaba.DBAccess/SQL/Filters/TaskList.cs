@@ -40,7 +40,8 @@ from tbl_issuelog as T1
   join tbl_category as TC on T1.C_CATEGORY = TC.COUNTER
   join tbl_milestone as TM on T1.C_MILESTONE = TM.COUNTER
   join tbl_project as TP on TI.C_PROJECT = TP.COUNTER
-where T1.STATUS != 'X' and {0}
+where (T1.STATUS NOT IN ('X')) and {0}
+ORDER BY T1.DUE_DATE ASC
 ";
 
     protected override void DoBuildCommandAndParms(MySQLCRUDQueryExecutionContext context, MySqlCommand cmd,
@@ -53,10 +54,10 @@ where T1.STATUS != 'X' and {0}
       if (filter.Due.IsNotNullOrWhiteSpace())
       {
         var days = int.Parse(filter.Due);
-        var end = asOf.Date;
-        var start = end.AddDays(-days);
+        var start = asOf.Date;
+        var end = start.AddDays(days) ;
 
-        where += "AND ((TM.PLAN_DATE between ?pSTART and ?pEND) OR (TM.PLAN_DATE < ?pSTART and T1.STATUS != 'C'))";
+        where += "AND ((T1.DUE_DATE between ?pSTART and ?pEND) OR (T1.DUE_DATE < ?pSTART and (T1.STATUS NOT IN ('C', 'X', 'F', 'D'))))";
         cmd.Parameters.AddWithValue("pSTART", start);
         cmd.Parameters.AddWithValue("pEND", end);
       }

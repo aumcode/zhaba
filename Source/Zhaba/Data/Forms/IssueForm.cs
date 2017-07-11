@@ -92,6 +92,19 @@ namespace Zhaba.Data.Forms
 
     #region Public
 
+    public override Exception Validate()
+    {
+      var result = base.Validate();
+      if (result == null)
+      {
+        if (Start_Date.HasValue && Due_Date.HasValue && Start_Date.Value.CompareTo(Due_Date.Value) > 0 )
+        {
+          result = new ZhabaException("Start Date {0} > Due Date {1}".Args(Start_Date, Due_Date));
+        }
+      }
+      return result;
+    }
+
     public override JSONDataMap GetClientFieldValueList(object callerContext, Schema.FieldDef fdef, string targetName, string isoLang)
     {
       var category = fdef.Name.EqualsIgnoreCase("C_Category");
@@ -124,6 +137,9 @@ namespace Zhaba.Data.Forms
     #region Protected
     protected override Exception DoSave(out object saveResult)
     {
+      saveResult = null;
+      var result = this.Validate();
+      if (result != null) return result;
       return ZApp.Data.Issue.WriteIssueForm(this, out saveResult);
     }
     #endregion

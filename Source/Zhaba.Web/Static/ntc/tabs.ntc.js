@@ -137,7 +137,7 @@ function buildAssignmentButtons(root, task) {
   /***
   div
   {
-    "? if(task.statusId !='X' && task.statusId !='C' && task.statusId !='D')" {
+    "? if(task.statusId !='X' && task.statusId !='C' && task.statusId !='D' && pmperm)" {
       a = "Add user" 
       { 
         href="?'javascript:changeStatusDialog(\"A\",'+task.C_Project+', '+task.Counter+')'"  

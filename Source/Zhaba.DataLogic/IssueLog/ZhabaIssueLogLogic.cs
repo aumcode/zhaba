@@ -238,6 +238,7 @@ namespace Zhaba.DataLogic
         var eda = error as DataAccessException;
         if (eda != null && eda.KeyViolation != null)
           return new CRUDFieldValidationException(form, "Name", "This value is already used");
+        return eda;
       }
       return null;
     }
