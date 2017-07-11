@@ -233,7 +233,7 @@ div.colspan>div>div
       <div class="fView" data-wv-fname="Search" style="width: 1000px"></div>
     </form>
     @[if(SelectedProject != null) {]
-    <div>
+    <div style="padding-left: 14px">
       <a class="button" href='javascript:addIssue(@[Target.Write(SelectedProject.Counter);])' >Add issue</a>
     </div>
     @[}]

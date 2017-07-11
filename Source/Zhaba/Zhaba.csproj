@@ -55,6 +55,7 @@
     <Compile Include="Data\Domains\Time.cs" />
     <Compile Include="Data\Filters\AreaListFilter.cs" />
     <Compile Include="Data\Filters\CategoryListFilter.cs" />
+    <Compile Include="Data\Filters\DueItemsReportFilter.cs" />
     <Compile Include="Data\Filters\IssueAreaListFilter.cs" />
     <Compile Include="Data\Filters\IssueChatFilter.cs" />
     <Compile Include="Data\Filters\IssueComponentListFilter.cs" />
