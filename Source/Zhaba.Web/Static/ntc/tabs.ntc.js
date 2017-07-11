@@ -34,7 +34,15 @@ function createRow(root, task) {
     id=?task.Counter
     class="expander rTableRow"
             
-    div="?task.Counter"{ class="issue_id rTableCell" align="right" }
+    div="?task.Counter"
+    {
+      class="issue_id rTableCell"
+      align="right"
+
+      data-cissue=?task.Counter
+      data-cproject=?task.C_Project
+      on-click=editIssue1
+    }
     div 
     { 
       div="?task.Status"{ style="?getStatusStyle(task.Status)" align="center"}
@@ -457,6 +465,11 @@ function setChatFilter(e) {
   var pid = e.target.dataset.cproject;
   var task = { Counter: iid, C_Project: pid };
   refreshChat(task);
+}
+
+function editIssue1(e) {
+  e.stopPropagation();
+  editIssue(e.target.dataset.cproject, e.target.dataset.cissue);
 }
 
 function createTabs(root, task) {

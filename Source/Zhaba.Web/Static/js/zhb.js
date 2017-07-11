@@ -191,6 +191,9 @@ function createRow(root, task) {
   Ø2.innerText = task.Counter;
   Ø2.setAttribute('class', 'issue_id rTableCell');
   Ø2.setAttribute('align', 'right');
+  Ø2.setAttribute('data-cissue', task.Counter);
+  Ø2.setAttribute('data-cproject', task.C_Project);
+  Ø2.addEventListener('click', editIssue1, false);
   Ø1.appendChild(Ø2);
   var Ø3 = WAVE.ce('div');
   Ø3.setAttribute('class', 'rTableCell completeness');
@@ -756,6 +759,11 @@ function setChatFilter(e) {
   var pid = e.target.dataset.cproject;
   var task = { Counter: iid, C_Project: pid };
   refreshChat(task);
+}
+
+function editIssue1(e) {
+  e.stopPropagation();
+  editIssue(e.target.dataset.cproject, e.target.dataset.cissue);
 }
 
 function createTabs(root, task) {

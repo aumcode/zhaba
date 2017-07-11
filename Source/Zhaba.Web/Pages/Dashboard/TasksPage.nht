@@ -592,7 +592,25 @@ div.colspan>div>div
       }    
     ***/
   }
-  
+
+  function buildIssueBody() {
+  /***
+    div
+    {
+      id="editIssueForm"
+      data-wv-rid="V6"
+
+      div { class="fView" data-wv-fname="Name" }
+      div { class="fView" data-wv-fname="Start_Date" }
+      div { class="fView" data-wv-fname="Due_Date" }
+      div { class="fView" data-wv-fname="C_Milestone" data-wv-ctl="combo" }
+      div { class="fView" data-wv-fname="C_Category" data-wv-ctl="combo" }
+      div { class="fView" data-wv-fname="Priority" }
+
+    }
+  ***/
+  }
+ 
   function changeProgress1(e) {
     var status = e.target.dataset.status;
     if(status == 'C' || status == 'X') return;
@@ -624,10 +642,66 @@ div.colspan>div>div
           });     
   }
   
-  function addIssue(counter) {
-    debugger;
-    var link = '/project/{0}/issue?id='.args(counter);
-    window.location.href=link;
+  function addIssue(pid) {
+    editIssue(pid,"");  
+  }
+  
+  function editIssue(pid,iid) {
+    var link = '/project/{0}/issue?id={1}'.args(pid, iid);
+    WAVE.ajaxCall(
+      'GET',
+      link,
+      null,
+      function (resp) { 
+        console.log("success");
+        console.log(resp); 
+        var _rec = new WAVE.RecordModel.Record(JSON.parse(resp));
+        buildIsueDialog(_rec, pid, iid);
+      },
+      function (resp) { console.log("error"); console.log(resp); },
+      function (resp) { console.log("fail"); console.log(resp); }, 
+      WAVE.CONTENT_TYPE_JSON_UTF8, 
+      WAVE.CONTENT_TYPE_JSON_UTF8    
+    );
+  }
+  
+  function buildIsueDialog(rec, pid, iid) {
+    var dlg = new WAVE.GUI.Dialog({
+      header: 'Issue',
+      body: buildIssueBody(),
+      footer: buildStatusFooter(),
+      onShow: function () {
+        var rv = new WAVE.RecordModel.RecordView("V6", rec);
+      },
+      onClose: function(dlg, result) {
+        if(result==WAVE.GUI.DLG_CANCEL) return WAVE.GUI.DLG_CANCEL;
+        rec.validate();
+        if (!rec.valid()) return WAVE.GUI.DLG_UNDEFINED;
+        var link = '/project/{0}/issue?id={1}'.args(pid, iid);
+        WAVE.ajaxCall(
+          'POST',
+          link,
+          rec.data(),
+          function (resp) { 
+            debugger;
+            console.log(resp);
+            var _rec = new WAVE.RecordModel.Record(JSON.parse(resp));
+            if (_rec.validationError()) {
+              WAVE.GUI.toast(_rec.validationError(), 'error');
+            } else {
+              console.log("success");
+              scheduleFetch();
+              WAVE.GUI.currentDialog().close();
+            }
+          },
+          function (resp) { console.log("error"); console.log(resp); },
+          function (resp) { console.log("fail"); console.log(resp); }, 
+          WAVE.CONTENT_TYPE_JSON_UTF8, 
+          WAVE.CONTENT_TYPE_JSON_UTF8
+        );
+        return WAVE.GUI.DLG_UNDEFINED;
+      } 
+    });
   }
   
   var tickTime = 300000;
