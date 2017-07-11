@@ -224,12 +224,12 @@ div.colspan>div>div
     <form id="frmFilter" data-wv-rid="V1" novalidate>
       <div class="fView filter" data-wv-fname="AsOf"></div>
       <div class="fView filter" data-wv-fname="Due" data-wv-ctl="combo"></div>
+      <div class="fView big-filter" data-wv-fname="Status" data-wv-ctl="combo"></div>
       <div class="fView big-filter" data-wv-fname="CategoryName" data-wv-ctl="combo"></div>
       @[if (new PMPermission().Check()) {]
       <div class="fView big-filter" data-wv-fname="ProjectName" data-wv-ctl="combo"></div>
       <div class="fView big-filter" data-wv-fname="C_USER" data-wv-ctl="combo"></div>
       @[}]
-      <div class="fView" data-wv-fname="Status" data-wv-ctl="combo"></div>
       <div class="fView" data-wv-fname="Search" style="width: 1000px"></div>
     </form>
     <div id="grid"></div>
@@ -345,11 +345,11 @@ div.colspan>div>div
     else if(value == 'Reopen')
       color = 'orange';
     else if(value == 'Assigned')
-      color = 'yellow';
+      color = '#9c6f10';
     else if(value == 'Defer')
       color = 'black';
     else if(value == 'Done')
-      color = 'lightgreen';
+      color = '#539a53';
     else if(value == 'Closed')
       color = 'gray';
     return 'color: ' + color; 

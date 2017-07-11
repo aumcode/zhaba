@@ -22,7 +22,7 @@ function createHeaders(root) {
     div="Assigned" {class="rTableHead" style="width: 100px"}
     div="Project" {class="rTableHead" style="width: 100px"}
     div="Issue" {class="rTableHead"}
-    div="Note"{class="rTableHead" style="width: 100px"}
+    div="Description"{class="rTableHead" }
   }
   ***/
 }
@@ -99,7 +99,7 @@ function buildStatusButtons(root, task) {
           "?if(s != 0)"{
             a = "?statuses[task.NextState[s]]" 
             {
-              style="margin: 4px"
+              style="margin: 4px 4px 4px 0px"
               data-nextstate=?task.NextState[s]
               data-cproject=?task.C_Project
               data-counter=?task.Counter 
@@ -127,7 +127,7 @@ function buildStatusButtons(root, task) {
       data-report='statusreport' 
       on-click="openReport"  
       class="button"
-      style="margin: 4px"
+      style="margin: 4px 4px 4px 0px"
     }
   }
   ***/
@@ -138,15 +138,26 @@ function buildAssignmentButtons(root, task) {
   div
   {
     "? if(task.statusId !='X' && task.statusId !='C' && task.statusId !='D')" {
-      a = "Add user" { href="?'javascript:changeStatusDialog(\"A\",'+task.C_Project+', '+task.Counter+')'"  class="button" }
-    }
-    a="report" 
-    {
-      class="button"
-      data-cproject=?task.C_Project
-      data-cissue=?task.Counter
-      data-report='assignmentreport'
-      on-click="openReport"
+      a="Add user" { style="margin: 4px 4px 4px 0px" href="?'javascript:changeStatusDialog(\"A\",'+task.C_Project+', '+task.Counter+')'"  class="button" }
+      a="report" 
+      {
+        style="margin: 4px 4px 4px 0px"
+        class="button"
+        data-cproject=?task.C_Project
+        data-cissue=?task.Counter
+        data-report='assignmentreport'
+        on-click="openReport"
+      }
+    }"?else"{
+      a="report" 
+      {
+        style="margin: 4px 4px 4px 0px"
+        class="button"
+        data-cproject=?task.C_Project
+        data-cissue=?task.Counter
+        data-report='assignmentreport'
+        on-click="openReport"
+      }
     }
   }
   ***/
@@ -164,8 +175,6 @@ function createStatusHeader(root) {
     div="Plan/Due" {class="rTableHead rDetailsTableHead"}
     div="Complete" {class="rTableHead rDetailsTableHead"}
     div="Assigned" {class="rTableHead rDetailsTableHead"}
-    div="Project" {class="rTableHead rDetailsTableHead"}
-    div="Issue" {class="rTableHead rDetailsTableHead"}
     div="Description"{ class="rTableHead rDetailsTableHead" }
   }
   ***/
@@ -200,8 +209,6 @@ function createStatusGridRow(root, details) {
     div="?WAVE.dateTimeToString(details.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
     div="?WAVE.dateTimeToString(details.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
     div=?details.Assignee { class="rTableCell" }
-    div="?details.ProjectName"{ class="rTableCell" }
-    div="?details.Name"{ class="rTableCell" }
     div="?details.Description"{ class="rTableCell" }
   }
   ***/
@@ -240,7 +247,7 @@ function buildChatForm(root, task) {
       a="send" 
       { 
         class="button"
-        style="margin:10px 5px"
+        style="margin: 4px 4px 4px 0px"
 
         data-cissue=?task.Counter
         data-cproject=?task.C_Project
@@ -250,7 +257,7 @@ function buildChatForm(root, task) {
       a="report"
       {
         class="button"
-        style="margin:10px 5px"
+        style="margin: 4px 4px 4px 0px"
 
         data-cproject=?task.C_Project
         data-cissue=?task.Counter
