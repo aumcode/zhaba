@@ -210,14 +210,14 @@ function createStatusGridRow(root, details) {
     id="?'detailsRow-'+details.Counter"
     class="rTableRow"
             
-    div="?details.Counter"{ class="rTableCell" align="right" }
-    div="?details.Completeness" { class="rTableCell" }
-    div="?details.Status"{ class="rTableCell" align="center"}
-    div="?WAVE.dateTimeToString(details.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-    div="?WAVE.dateTimeToString(details.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-    div="?WAVE.dateTimeToString(details.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-    div=?details.Assignee { class="rTableCell" }
-    div="?details.Description"{ class="rTableCell" }
+    div="?details.Counter"{ class="rDetailsTableCell" align="right" }
+    div="?details.Completeness" { class="rDetailsTableCell" }
+    div="?details.Status"{ class="rDetailsTableCell" align="center"}
+    div="?WAVE.dateTimeToString(details.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rDetailsTableCell" }
+    div="?WAVE.dateTimeToString(details.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rDetailsTableCell" }
+    div="?WAVE.dateTimeToString(details.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rDetailsTableCell" }
+    div=?details.Assignee { class="rDetailsTableCell" }
+    div="?details.Description"{ class="rDetailsTableCell" }
   }
   ***/
 }
@@ -229,13 +229,13 @@ function createAssignmentGridRow(root, assignment) {
     id="?'assignmentRow-'+assignment.Counter"
     class="rTableRow"
 
-    div="?assignment.Counter"{ class="rTableCell" align="right" }
-    div="?assignment.UserFirstName + ' ' + assignment.UserLastName + '(' +assignment.UserLogin+')'"{ class="rTableCell" align="right" }
-    div="?WAVE.dateTimeToString(assignment.Open_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-    div="?assignment.OperatorOpenLogin" { class="rTableCell" }
-    div="?WAVE.dateTimeToString(assignment.Close_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rTableCell" }
-    div="?assignment.OperatorCloseLogin"{ class="rTableCell" align="center"}
-    div="?assignment.Note" {class="rTableCell"}
+    div="?assignment.Counter"{ class="rDetailsTableCell" align="right" }
+    div="?assignment.UserFirstName + ' ' + assignment.UserLastName + '(' +assignment.UserLogin+')'"{ class="rDetailsTableCell" align="right" }
+    div="?WAVE.dateTimeToString(assignment.Open_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rDetailsTableCell" }
+    div="?assignment.OperatorOpenLogin" { class="rDetailsTableCell" }
+    div="?WAVE.dateTimeToString(assignment.Close_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rDetailsTableCell" }
+    div="?assignment.OperatorCloseLogin"{ class="rDetailsTableCell" align="center"}
+    div="?assignment.Note" {class="rDetailsTableCell"}
   }
   ***/
 }

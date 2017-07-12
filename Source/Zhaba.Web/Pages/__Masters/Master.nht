@@ -49,27 +49,11 @@
     @[if (ZhabaUser.IsAuthenticated) {]
     <div id="nav">
       <div id="menu">
+
         <div class="menuBlock" style="cursor: pointer" onclick="window.location='?[URIS.DASHBOARD]';">
           Dashboard
         </div>
-        <div class="dropdown">
-          <button onclick="projectDropDown()" class="dropbtn">
-            @[if (SelectedProject != null) {]
-              ?[SelectedProject.Name]
-            @[}else{]
-              Choose project
-            @[}]
-          </button>
-          <div id="project-drop-down" class="dropdown-content"></div>
-        </div>
-        @[if (SelectedProject != null) {]
-        <div class="menuBlock">
-          <a href=?[URIS.ForPROJECT_ISSUES(SelectedProject.Counter)]>Issues</a>
-          <a href=?[URIS.ForPROJECT_MILESTONES(SelectedProject.Counter)]>Milestones</a>
-          <a href=?[URIS.ForPROJECT_COMPONENTS(SelectedProject.Counter)]>Components</a>
-          <a href=?[URIS.ForPROJECT_AREAS(SelectedProject.Counter)]>Areas</a>
-        </div>
-        @[}]
+
         <div class="dropdown">
           <button onclick="dataDropDown()" class="dropbtn">
             Common Data
@@ -82,16 +66,37 @@
             <a href=?[URIS.COMMON_CATEGORIES]>Categories</a>
           </div>
         </div>
-      </div>
+
         <div class="dropdown">
           <button onclick="reportDropDown()" class="dropbtn">
             Reports
           </button>
-         <div id="report-drop-down" class="dropdown-content">
-          <a href="#">Due items</a>
+          <div id="report-drop-down" class="dropdown-content">
+            <a href="#">Due items</a>
+          </div>
         </div>
+        <div class="menuBlock style="color: white">|</div>
+        <div class="dropdown">
+          <button onclick="projectDropDown()" class="dropbtn">
+            @[if (SelectedProject != null) {]
+              ?[SelectedProject.Name]
+            @[}else{]
+              Choose project
+            @[}]
+          </button>
+          <div id="project-drop-down" class="dropdown-content"></div>
         </div>
-      <div class="dropdown" style="float: right">
+
+        @[if (SelectedProject != null) {]
+        <div class="menuBlock">
+          <a href=?[URIS.ForPROJECT_ISSUES(SelectedProject.Counter)]>Issues</a>
+          <a href=?[URIS.ForPROJECT_MILESTONES(SelectedProject.Counter)]>Milestones</a>
+          <a href=?[URIS.ForPROJECT_COMPONENTS(SelectedProject.Counter)]>Components</a>
+          <a href=?[URIS.ForPROJECT_AREAS(SelectedProject.Counter)]>Areas</a>
+        </div>
+
+        @[}]
+        <div class="dropdown" style="float: right">
           <button onclick="userDropDown()" class="dropbtn">
              User: ?[ZhabaUser.Name]
           </button>
@@ -99,6 +104,7 @@
             <a href="/user/logout">logout</a>
           </div>
         </div>
+      </div>
     </div>
     @[}]
     <div id="cont" class="?[ !ZhabaUser.IsAuthenticated ? "anonymous" : string.Empty]">

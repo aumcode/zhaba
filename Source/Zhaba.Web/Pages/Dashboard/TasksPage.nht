@@ -33,19 +33,25 @@
 .rTableHead {
   text-align: center;
   color: #fff;
-  background-color: #a0a0a0;
+  background-color: #808080;
   display: table-cell;
   padding: 3px 10px;
-  border: 1px dotted #202020;
+  border: 1px dotted #b0b0b0;
 }
 .rDetailsTableHead {
-  background-color: #c0c0c0;
+  background-color: #a0a0a0;
+}
+.rDetailsTableCell {
+  vertical-align: middle;
+  display: table-cell;
+  padding: 3px 10px;
+  border-bottom: 1px solid #c0c0c0;
 }
 .rTableCell{
     vertical-align: middle;
   	display: table-cell;
   	padding: 3px 10px;
-  	border: 1px dotted #202020;
+  	border: 1px dotted #b0b0b0;
 }
 .rTableHeading {
   	display: table-header-group;
