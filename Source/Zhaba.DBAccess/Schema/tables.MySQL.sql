@@ -34,7 +34,7 @@ create table `tbl_category`
 (
  `COUNTER`        BIGINT(8) UNSIGNED not null comment 'Integer ID',
  `NAME`           char(80)       not null comment 'Mnemonic ID',
- `DESCRIPTION`    varchar(128)    comment 'Short Description',
+ `DESCRIPTION`    varchar(512)    comment 'Short Description',
  `IN_USE`         CHAR(1)        not null default 'T' comment 'Logical Deletion Flag',
   constraint `pk_tbl_category_counter` primary key (`COUNTER`)
 )
@@ -48,7 +48,7 @@ create table `tbl_project`
 (
  `COUNTER`        BIGINT(8) UNSIGNED not null comment 'Integer ID',
  `NAME`           char(80)       not null comment 'Mnemonic ID',
- `DESCRIPTION`    varchar(128)    comment 'Short Description',
+ `DESCRIPTION`    varchar(512)    comment 'Short Description',
  `C_CREATOR`      BIGINT(8) UNSIGNED not null comment 'Creator',
  `IN_USE`         CHAR(1)        not null default 'T' comment 'Logical Deletion Flag',
   constraint `pk_tbl_project_counter` primary key (`COUNTER`),
@@ -65,7 +65,7 @@ create table `tbl_component`
  `COUNTER`        BIGINT(8) UNSIGNED not null comment 'Integer ID',
  `C_PROJECT`      BIGINT(8) UNSIGNED not null comment 'Project that component belongs to',
  `NAME`           char(80)       not null comment 'Mnemonic ID',
- `DESCRIPTION`    varchar(128)    comment 'Short Description',
+ `DESCRIPTION`    varchar(512)    comment 'Short Description',
  `IN_USE`         CHAR(1)        not null default 'T' comment 'Logical Deletion Flag',
   constraint `pk_tbl_component_counter` primary key (`COUNTER`),
   constraint `fk_tbl_component_project` foreign key (`C_PROJECT`) references `tbl_project`(`COUNTER`)
@@ -81,7 +81,7 @@ create table `tbl_area`
  `COUNTER`        BIGINT(8) UNSIGNED not null comment 'Integer ID',
  `C_PROJECT`      BIGINT(8) UNSIGNED not null comment 'Project that area belongs to',
  `NAME`           char(80)       not null comment 'Mnemonic ID',
- `DESCRIPTION`    varchar(128)    comment 'Short Description',
+ `DESCRIPTION`    varchar(512)    comment 'Short Description',
  `IN_USE`         CHAR(1)        not null default 'T' comment 'Logical Deletion Flag',
   constraint `pk_tbl_area_counter` primary key (`COUNTER`),
   constraint `fk_tbl_area_project` foreign key (`C_PROJECT`) references `tbl_project`(`COUNTER`)
@@ -97,10 +97,10 @@ create table `tbl_milestone`
  `COUNTER`        BIGINT(8) UNSIGNED not null comment 'Integer ID',
  `C_PROJECT`      BIGINT(8) UNSIGNED not null comment 'Project that milestone belongs to',
  `NAME`           char(80)       not null comment 'Mnemonic ID',
- `DESCRIPTION`    varchar(128)    comment 'Short Description',
+ `DESCRIPTION`    varchar(512)    comment 'Short Description',
  `IN_USE`         CHAR(1)        not null default 'T' comment 'Logical Deletion Flag',
- `START_DATE`     DATE            comment 'Milestone Start Date',
- `PLAN_DATE`      DATE            comment 'Milestone Plan Date',
+ `START_DATE`     DATE           not null comment 'Milestone Start Date',
+ `PLAN_DATE`      DATE           not null comment 'Milestone Plan Date',
  `COMPLETE_DATE`  DATE            comment 'Milestone Completeness Date',
  `NOTE`           TEXT            comment 'Text Note',
   constraint `pk_tbl_milestone_counter` primary key (`COUNTER`),
@@ -157,7 +157,7 @@ create table `tbl_agenda`
 (
  `COUNTER`        BIGINT(8) UNSIGNED not null comment 'Integer ID',
  `NAME`           char(80)       not null comment 'Mnemonic ID',
- `DESCRIPTION`    varchar(128)    comment 'Short Description',
+ `DESCRIPTION`    varchar(512)    comment 'Short Description',
  `START_DATE`     DATETIME       not null comment 'Agenda Start Date',
  `END_DATE`       DATETIME       not null comment 'Agenda End Date',
  `C_CREATOR`      BIGINT(8) UNSIGNED not null comment 'Creator',
@@ -227,7 +227,7 @@ create table `tbl_issuelog`
  `C_CATEGORY`     BIGINT(8) UNSIGNED not null comment 'Issue Category',
  `C_MILESTONE`    BIGINT(8) UNSIGNED  comment 'Project Milestone',
  `C_MEETING`      BIGINT(8) UNSIGNED  comment 'Optional reference to meeting that causes changes',
- `DESCRIPTION`    varchar(128)    comment 'Short Description',
+ `DESCRIPTION`    varchar(512)    comment 'Short Description',
   constraint `pk_tbl_issuelog_counter` primary key (`COUNTER`),
   constraint `fk_tbl_issuelog_issue` foreign key (`C_ISSUE`) references `tbl_issue`(`COUNTER`),
   constraint `fk_tbl_issuelog_operator` foreign key (`C_OPERATOR`) references `tbl_user`(`COUNTER`),
