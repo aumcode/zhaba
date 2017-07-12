@@ -566,6 +566,7 @@ body #body #nav #menu .menuBlock h3 {
   display: inline;
 }
 body #body #nav #menu .menuBlock a {
+  color: #d0d0d0;
   display: inline;
   padding: 0px 6px;
 }

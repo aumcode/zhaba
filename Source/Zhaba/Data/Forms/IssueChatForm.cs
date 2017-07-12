@@ -2,6 +2,7 @@
 using NFX;
 using Zhaba.Data.Rows;
 using NFX.DataAccess.CRUD;
+using NFX.Log;
 using NFX.Wave;
 using Zhaba.Data.QueryBuilders;
 
@@ -19,7 +20,9 @@ namespace Zhaba.Data.Forms
       if (counter.HasValue) 
       {
         FormMode = FormMode.Edit;
-        var row = ZApp.Data.CRUD.LoadRow(QIssueChat.findIssueChatByIdAndIssueAndProject<IssueChatRow>(ProjectRow.Counter, Issue.Counter, counter.Value));
+        IssueChatRow row = ZApp.Data.CRUD.LoadRow(
+            QIssueChat.findIssueChatByIdAndIssueAndProject<IssueChatRow>(ProjectRow.Counter, Issue.Counter,
+              counter.Value));
         if (row != null)
         {
           if (row.C_User == ZhabaUser.DataRow.Counter)
@@ -27,7 +30,7 @@ namespace Zhaba.Data.Forms
             row.CopyFields(this);  
           }
           else
-            throw HTTPStatusException.NotFound_404("Wrong user for edit ({0} != {1})".Args(row.C_User, ZhabaUser.DataRow.Counter));
+            throw HTTPStatusException.Forbidden_403("Wrong user for edit ({0} != {1})".Args(row.C_User, ZhabaUser.DataRow.Counter));
         }
         else
           throw HTTPStatusException.NotFound_404("project or issue");
@@ -67,6 +70,7 @@ namespace Zhaba.Data.Forms
         {
           row = ZApp.Data.CRUD.LoadRow(
             QIssueChat.findIssueChatByIdAndIssueAndProject<IssueChatRow>(ProjectRow.Counter, Issue.Counter, id.Value));
+          if( !IssueChatFilterRow.CheckEdit(row) ) throw new ZhabaException("Time to edit passed");
         }
         else
         {
