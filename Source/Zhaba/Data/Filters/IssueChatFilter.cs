@@ -9,6 +9,7 @@ namespace Zhaba.Data.Filters
 {
   public class IssueChatFilter : IssueFilterBase
   {
+
     [Field(valueList: "2 ASC:Name Ascending,2 DESC:Name Descending",
       metadata: "Description='Sort By' Hint='Sort issue list by'")]
     public string OrderBy { get; set; }
@@ -43,6 +44,11 @@ namespace Zhaba.Data.Filters
       saveResult = null;
       Query<IssueChatFilterRow> query = QIssueChat.findIssueChatByFilter<IssueChatFilterRow>(this);
       saveResult = ZApp.Data.CRUD.LoadOneRowset(query);
+      var list = saveResult as RowsetBase;
+      foreach(IssueChatFilterRow item in list.AsEnumerableOf<IssueChatFilterRow>())
+      {
+        item.HasEdit = IssueChatFilterRow.CheckEdit(item) && (ZhabaUser.DataRow.Counter == item.C_User);
+      }
       return null;
     }
   }

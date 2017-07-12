@@ -19,7 +19,7 @@ namespace Zhaba.Data.Domains
 
   public class ZhabaDescription : ZhabaDomain
   {
-    public const int MAX_LEN = 128;
+    public const int MAX_LEN = 512;
 
     public ZhabaDescription() : base() { }
 

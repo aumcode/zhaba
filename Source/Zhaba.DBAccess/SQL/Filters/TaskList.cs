@@ -35,12 +35,13 @@ select
      WHERE (_tt1.C_ISSUE = T1.C_ISSUE) AND ( ?pDateUTC < _tt1.CLOSE_TS OR _tt1.CLOSE_TS IS NULL )
      GROUP BY C_ISSUE) AS ASSIGNEE,
   T1.PRIORITY
+    
 from tbl_issuelog as T1
   join tbl_issue as TI on T1.C_ISSUE = TI.COUNTER
   join tbl_category as TC on T1.C_CATEGORY = TC.COUNTER
   join tbl_milestone as TM on T1.C_MILESTONE = TM.COUNTER
   join tbl_project as TP on TI.C_PROJECT = TP.COUNTER
-where (T1.STATUS NOT IN ('X')) and {0}
+where {0}
 ORDER BY T1.DUE_DATE ASC
 ";
 
@@ -95,6 +96,10 @@ ORDER BY T1.DUE_DATE ASC
       {
         where += " AND (T1.STATUS = ?pStatus) ";
         cmd.Parameters.AddWithValue("pStatus", filter.Status);
+      }
+      else
+      {
+        where += " AND (T1.STATUS NOT IN ('X')) ";  
       }
 
       try

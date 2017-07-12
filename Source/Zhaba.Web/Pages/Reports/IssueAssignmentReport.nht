@@ -12,56 +12,42 @@
     using { ns="Zhaba.Data.Rows" }
     using { ns="Zhaba.Data.QueryBuilders" }
     using { ns="Zhaba.Data.Filters" }
-    base-class-name="Zhaba.Web.Pages.Report"
+    base-class-name="Zhaba.Web.Pages.Reports.IssueAbstractReport<TaskListFilter.IssueAssignListFilterRow>"
     namespace="Zhaba.Web.Pages.Reports"
   }
 #</laconf>
 
 #[class]
-  public IssueAssignmentReport(ProjectRow project, IssueRow issue)
+  public IssueAssignmentReport(ProjectRow project, IssueRow issue) : base(project, issue)
   {
-    m_Project = project;
-    m_Issue = issue;
     m_List = ZApp.Data.CRUD.LoadEnumerable(QIssueAssign.findIssueAssigneeByIssue<TaskListFilter.IssueAssignListFilterRow>(issue.Counter));
   }
 
-  private readonly ProjectRow m_Project;
-  private readonly IssueRow m_Issue;
-  private readonly IEnumerable<TaskListFilter.IssueAssignListFilterRow> m_List;
-
-#[override renderBody()]
-<div>
-  <h1>Project: @[Target.Write(m_Project.Name);]</h1>
-  <h2>Issue: @[Target.Write(m_Issue.Name);] (@[Target.Write(m_Issue.Counter);])</h2>
-  
-</div>
-<hr/>
-<div>
-  <table border="1" cellpadding="3" cellspacing="0">
-    <tr>
-      <th>ID</th>
-      <th>User</th>
-      <th colspan="2">Open</th>
-      <th colspan="2">Close</th>
-      <th>Note</th>
-    </tr>
-    @[ foreach(var item in m_List) {]
-    <tr>
-      <td>@[Target.Write(item.Counter);]</td>      
-      <td>@[Target.Write(item.UserFirstName);]&nbsp;@[Target.Write(item.UserLastName);]&nbsp;(@[Target.Write(item.UserLogin);])</td>      
-      <td>@[Target.Write(item.OperatorOpenFirstName);]&nbsp;@[Target.Write(item.OperatorOpenLastName);]&nbsp;(@[Target.Write(item.OperatorOpenLogin);])</td>      
-      <td>@[Target.Write(item.Open_TS);]</td>
-      <td>
-      @[ if (item.OperatorCloseLogin != null) {]
-      @[Target.Write(item.OperatorCloseFirstName);]&nbsp;@[Target.Write(item.OperatorCloseLastName);]&nbsp;(@[Target.Write(item.OperatorCloseLogin);])
-      @[}]
-      </td>
-      <td>@[Target.Write(item.Close_TS);]</td>
-      <td>@[Target.Write(item.Note);]</td>
-    </tr>
+#[override reportBody()]
+<table border="1" cellpadding="3" cellspacing="0">
+  <tr>
+    <th>ID</th>
+    <th>User</th>
+    <th colspan="2">Open</th>
+    <th colspan="2">Close</th>
+    <th>Note</th>
+  </tr>
+  @[ foreach(var item in m_List) {]
+  <tr>
+    <td>@[Target.Write(item.Counter);]</td>      
+    <td>@[Target.Write(item.UserFirstName);]&nbsp;@[Target.Write(item.UserLastName);]&nbsp;(@[Target.Write(item.UserLogin);])</td>      
+    <td>@[Target.Write(item.OperatorOpenFirstName);]&nbsp;@[Target.Write(item.OperatorOpenLastName);]&nbsp;(@[Target.Write(item.OperatorOpenLogin);])</td>      
+    <td>@[Target.Write(item.Open_TS);]</td>
+    <td>
+    @[ if (item.OperatorCloseLogin != null) {]
+    @[Target.Write(item.OperatorCloseFirstName);]&nbsp;@[Target.Write(item.OperatorCloseLastName);]&nbsp;(@[Target.Write(item.OperatorCloseLogin);])
     @[}]
-  </table>
-</div>
+    </td>
+    <td>@[Target.Write(item.Close_TS);]</td>
+    <td>@[Target.Write(item.Note);]</td>
+  </tr>
+  @[}]
+</table>
 
 
 

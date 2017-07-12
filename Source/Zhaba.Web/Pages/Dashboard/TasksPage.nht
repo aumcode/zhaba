@@ -275,10 +275,10 @@
         ); 
   }
 
-  function buildPopUpDialog(status, rec, pid, iid) {
+  function buildIssueAssignPopUpDialog(rec, pid, iid) {
     var dlg = new WAVE.GUI.Dialog({
         header: 'Change state to ' + statuses[status],
-        body: buildStatusBody(status),
+        body: buildIssueAssigneeStatusBody(),
         footer: buildStatusFooter(),
         onShow: function() {
           var rv = new WAVE.RecordModel.RecordView("V2", rec);
@@ -289,30 +289,48 @@
           if (!rec.valid()) return WAVE.GUI.DLG_UNDEFINED    
           json = rec.data(); 
           note = rec.data().Description;  
-          if (status=='A') {
-            changeAssignStatus(pid, iid, status, rec.data());
-          } else {
-            changeStatus(pid, iid, status, note)
-          }
+          changeAssignStatus(pid, iid, status, rec.data());
           return WAVE.GUI.DLG_CANCEL;
         }  
       });
   }
 
-  function buildStatusBody(status) {
-    if(status == 'A') {
+  function buildPopUpDialog(status, rec, pid, iid) {
+    var dlg = new WAVE.GUI.Dialog({
+        header: 'Change state to ' + statuses[status],
+        body: buildStatusBody(),
+        footer: buildStatusFooter(),
+        onShow: function() {
+          var rv = new WAVE.RecordModel.RecordView("V2", rec);
+        },
+        onClose: function(dlg, result) {
+          if(result==WAVE.GUI.DLG_CANCEL) return WAVE.GUI.DLG_CANCEL;
+          rec.validate();
+          if (!rec.valid()) return WAVE.GUI.DLG_UNDEFINED    
+          json = rec.data(); 
+          note = rec.data().Description;  
+          changeStatus(pid, iid, status, note)
+          return WAVE.GUI.DLG_CANCEL;
+        }  
+      });
+  }
+  
+  function buildIssueAssigneeStatusBody() {
     /***
-      div
-      {
-        id="statusForm"
-        data-wv-rid="V2"
-        div { data-wv-fname="C_User" class="fView" data-wv-ctl="combo"}
-        div { data-wv-fname="Open_TS" class="fView" }
-        div { data-wv-fname="Close_TS" class="fView" }
-        div { data-wv-fname="Description" class="fView" type="text" }
-      }
-    ***/
-    } else {
+        div
+        {
+          id="statusForm"
+          data-wv-rid="V2"
+          div { data-wv-fname="C_User" class="fView" data-wv-ctl="combo"}
+          div { data-wv-fname="Open_TS" class="fView" }
+          div { data-wv-fname="Close_TS" class="fView" }
+          div { data-wv-fname="Description" class="fView" type="text" }
+        }
+      ***/
+    
+  }
+  
+  function buildStatusBody(status) {
     /***
       div
       {
@@ -321,7 +339,6 @@
         div { data-wv-fname="Description" class="fView" }
       }
     ***/
-    }
   }
 
   function buildStatusFooter() {
@@ -347,7 +364,7 @@
         console.log("success");
         console.log(resp); 
         var _rec = new WAVE.RecordModel.Record(JSON.parse(resp));
-        buildPopUpDialog('A', _rec, pid, iid);
+        buildIssueAssignPopUpDialog(_rec, pid, iid);
       },
       function (resp) { console.log("error"); console.log(resp); },
       function (resp) { console.log("fail"); console.log(resp); }, 

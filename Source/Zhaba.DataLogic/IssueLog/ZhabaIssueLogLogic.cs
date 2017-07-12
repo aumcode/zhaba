@@ -39,6 +39,17 @@ namespace Zhaba.DataLogic
             NextStatus = status
           };
         }
+        else if (ZhabaIssueStatus.ASSIGNED.EqualsOrdIgnoreCase(status))
+        {
+          evt = new ResumeIssueEvent()
+          {
+            C_User = c_User,
+            C_Issue = c_Issue,
+            DateUTC = App.TimeSource.UTCNow,
+            Description = description,
+            NextStatus = status
+          };
+        }
         else if (ZhabaIssueStatus.REOPEN.EqualsOrdIgnoreCase(status))
         {
           evt = new ReopenIssueEvent()

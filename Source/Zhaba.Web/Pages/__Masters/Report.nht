@@ -38,7 +38,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>?[:Title]</title>
-
+  
+  @[includeStyles();]
+  @[renderStyles();]
 
 </head>
 
@@ -60,6 +62,7 @@
     Zhaba 1.0 ©2017 All Rights Reserved
   </footer>
 
-
+  @[renderScripts();]
+  
 </body>
 </html>

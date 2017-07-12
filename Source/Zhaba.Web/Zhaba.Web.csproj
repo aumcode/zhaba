@@ -159,11 +159,14 @@
     <Compile Include="Pages\Login.nht.auto.cs">
       <DependentUpon>Login.nht</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Reports\IssueStatusReport.nht.auto.cs">
-      <DependentUpon>IssueStatusReport.nht</DependentUpon>
+    <Compile Include="Pages\Reports\IssueAbstractReport.nht.auto.cs">
+      <DependentUpon>IssueAbstractReport.nht</DependentUpon>
     </Compile>
     <Compile Include="Pages\Reports\IssueChatReport.nht.auto.cs">
       <DependentUpon>IssueChatReport.nht</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Reports\IssueStatusReport.nht.auto.cs">
+      <DependentUpon>IssueStatusReport.nht</DependentUpon>
     </Compile>
     <Compile Include="Pages\Reports\DueItemsReport.nht.auto.cs">
       <DependentUpon>DueItemsReport.nht</DependentUpon>
@@ -230,6 +233,7 @@
     <None Include="Pages\List\UsersPage.nht" />
     <None Include="Pages\Login.nht" />
     <None Include="Pages\Dashboard\ProjectsPage.nht" />
+    <None Include="Pages\Reports\IssueAbstractReport.nht" />
     <None Include="Pages\Reports\IssueAssignmentReport.nht" />
     <None Include="Pages\Reports\DueItemsReport.nht" />
     <None Include="Pages\Reports\IssueChatReport.nht" />

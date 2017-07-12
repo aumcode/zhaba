@@ -344,7 +344,11 @@ function createChatItem(root, item) {
   {
     class="ChatItem"
     
-    div="?item.Name +'('+item.Login+') :' + WAVE.dateTimeToString(item.Note_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)" { class="fView ChatItemUser" }
+    div="?item.Name +'('+item.Login+') :' + WAVE.dateTimeToString(item.Note_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)" 
+    {
+      id="?'chathedaeritem'+item.Counter"
+      class="fView ChatItemUser" 
+    }
     div="?item.Note" { class="fView ChatItemNote" }
   }
   ***/
@@ -448,14 +452,45 @@ function buildAssignee(root, taskCounter, assignee, canRemove) {
    ***/
 ﻿}
 
-function buildAreasAndComponents(root, task, isPM) {
-  for (var i=0, l=task.Areas.length; i < l; i++) {
-    buildArea(root, task, task.Areas[i], isPM);
-  }
-  for (var i=0, l=task.Components.length; i < l; i++) {
-    buildComponent(root, task, task.Components[i], isPM);
-  }
+﻿function createEditChatButton(root, item, task) {
+﻿  if(item.HasEdit) {
+﻿    /***
+      
+      a="edit"
+      {
+        class="button"
+        
+        data-chatid=?item.Counter
+        data-note=?item.Note
+        data-cproject=?task.C_Project
+        data-cissue=?task.Counter
+        
+        on-click=editChatItem
+      }
+      
+      ***/
+﻿  }    
+﻿}
+
+function buildEditChatDialog(root, item) {
+  /***
+   div
+   {
+     data-wv-rid="V22"
+
+     div { data-wv-fname="Note" class="fView" data-wv-ctl="textarea"}
+   }
+   ***/    
 }
+
+﻿function buildAreasAndComponents(root, task, isPM) {
+﻿  for (var i=0, l=task.Areas.length; i < l; i++) {
+﻿    buildArea(root, task, task.Areas[i], isPM);
+﻿  }
+﻿  for (var i=0, l=task.Components.length; i < l; i++) {
+﻿    buildComponent(root, task, task.Components[i], isPM);
+﻿  }
+﻿}
 
 function buildAssigneeList(root, task, isPM) {
   for (var i=0, l=task.AssigneeList.length; i<l; i++) {
@@ -503,13 +538,17 @@ function chatFilterForm(task) {
 function sendChatMessage1(e) {
   var iid = e.target.dataset.cissue;
   var pid = e.target.dataset.cproject; 
-  var task = { Counter: iid, C_Project: pid };
+  sendChatMessage(pid, iid, "", chatRec[iid])
+}
+
+function sendChatMessage(pid, iid, cid, _rec) {
+  var task = { Counter: iid, C_Project: pid, createImageData: cid };
   console.log(chatRec[iid]);
-  var link = "project/{0}/issue/{1}/chat".args(pid,iid);
+  var link = "project/{0}/issue/{1}/chat?id={2}".args(pid,iid, cid);
   WAVE.ajaxCall(
     'POST',
     link,
-    chatRec[iid].data(),
+    _rec.data(),
     function (resp) {
       chatForm(task);  
       refreshChat(task);  
@@ -547,6 +586,11 @@ function createChatItems(task, rec) {
   for (var i = 0, l = rec.Rows.length; i < l; i++) {
     createChatItem(id, rec.Rows[i]);
   }
+  for (var i = 0, l = rec.Rows.length; i < l; i++) {
+    var item = rec.Rows[i];
+    createEditChatButton('chathedaeritem'+item.Counter, item, task);
+  }
+
 }
 
 ﻿function createGrid(root, gridId) {
@@ -605,6 +649,46 @@ function setChatFilter(e) {
 function editIssue1(e) {
   e.stopPropagation();
   editIssue(e.target.dataset.cproject, e.target.dataset.cissue);
+}
+
+function editChatItem(e) {
+  e.stopPropagation();
+  var chatId = e.target.dataset.chatid;
+  var note = e.target.dataset.node;
+  var iid = e.target.dataset.cissue;
+  var pid = e.target.dataset.cproject;
+  
+  var link =  "project/{0}/issue/{1}/chat?id={2}".args(pid,iid, chatId);
+  
+  WAVE.ajaxCall(
+    'GET',
+    link,
+    null,
+    function (resp) {
+      var rec = new WAVE.RecordModel.Record(JSON.parse(resp));
+      var dlg = WAVE.GUI.Dialog({
+        header:" Edit note",
+        body:buildEditChatDialog(null, chatId),
+        footer: buildStatusFooter(),
+        onShow: function() {
+          var rv = new WAVE.RecordModel.RecordView("V22", rec);
+        },
+        onClose: function(dlg, result) {
+          if(result==WAVE.GUI.DLG_CANCEL) return WAVE.GUI.DLG_CANCEL;
+          rec.validate();
+          if (!rec.valid()) return WAVE.GUI.DLG_UNDEFINED    
+          sendChatMessage(pid, iid, chatId, rec);
+          return WAVE.GUI.DLG_CANCEL;
+        }  
+      });    
+    },
+    function (resp) { console.log("error"); },
+    function (resp) { console.log("fail"); },
+    WAVE.CONTENT_TYPE_JSON_UTF8, 
+    WAVE.CONTENT_TYPE_JSON_UTF8    
+  );
+
+  
 }
 
 function createTabs(root, task) {

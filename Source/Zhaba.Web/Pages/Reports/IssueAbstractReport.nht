@@ -1,0 +1,48 @@
+﻿#<laconf>
+  compiler
+  {
+    using { ns="System.Linq" }
+    using { ns="System.Collections.Generic" }
+    using { ns="NFX" }
+    using { ns="NFX.DataAccess.CRUD" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Wave.Templatization" }
+    using { ns="Zhaba" }
+    using { ns="Zhaba.Data.Forms" }
+    using { ns="Zhaba.Data.Rows" }
+    using { ns="Zhaba.Data.QueryBuilders" }
+    base-class-name="Zhaba.Web.Pages.Report"
+    class-declaration="IssueAbstractReport<TRow>"
+    class-constraint="where TRow : Row"
+    namespace="Zhaba.Web.Pages.Reports"
+  }
+#</laconf>
+
+#[class]
+  public IssueAbstractReport(ProjectRow project, IssueRow issue)
+  {
+    m_Project = project;
+    m_Issue = issue;
+    
+  }
+
+  protected readonly ProjectRow m_Project;
+  protected readonly IssueRow m_Issue;
+  protected IEnumerable<TRow> m_List;
+  
+  protected virtual void reportBody() { }
+
+#[override renderBody()]
+<div>
+  <h1>Project: @[Target.Write(m_Project.Name);]</h1>
+  <h2>Issue: [@[Target.Write(m_Issue.Counter);]] @[Target.Write(m_Issue.Name);] </h2>
+
+
+</div>
+<hr/>
+<div>
+  @[reportBody();]
+</div>
+
+
+
