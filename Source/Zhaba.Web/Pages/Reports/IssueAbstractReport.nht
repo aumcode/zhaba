@@ -28,6 +28,8 @@
 
   protected readonly ProjectRow m_Project;
   protected readonly IssueRow m_Issue;
+  protected IEnumerable<AreaRow> areas;
+  protected IEnumerable<ComponentRow> components;
   protected IEnumerable<TRow> m_List;
   
   protected virtual void reportBody() { }

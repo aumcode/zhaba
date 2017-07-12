@@ -34,8 +34,8 @@ select
        JOIN tbl_user _tt2 ON _tt1.C_USER = _tt2.COUNTER
      WHERE (_tt1.C_ISSUE = T1.C_ISSUE) AND ( ?pDateUTC < _tt1.CLOSE_TS OR _tt1.CLOSE_TS IS NULL )
      GROUP BY C_ISSUE) AS ASSIGNEE,
-  T1.PRIORITY
-    
+  T1.PRIORITY,
+  CASE WHEN T1.STATUS IN ('D', 'X', 'C') THEN T1.STATUS_DATE ELSE NULL END AS COMPLETE_DATE  
 from tbl_issuelog as T1
   join tbl_issue as TI on T1.C_ISSUE = TI.COUNTER
   join tbl_category as TC on T1.C_CATEGORY = TC.COUNTER
