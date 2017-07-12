@@ -16,230 +16,8 @@
  }
 #</laconf>
 
-#[override renderStyles()]
-<style>
-
-.rTable {
-  	display: table;
-  	width: 100%;
-}
-.rTableRow {
-  	display: table-row;
-}
-.rTableHeading {
-  	display: table-header-group;
-  	background-color: #ddd;
-}
-.rTableHead {
-  text-align: center;
-  color: #fff;
-  background-color: #808080;
-  display: table-cell;
-  padding: 3px 10px;
-  border: 1px dotted #b0b0b0;
-}
-.rDetailsTableHead {
-  background-color: #a0a0a0;
-}
-.rDetailsTableCell {
-  vertical-align: middle;
-  display: table-cell;
-  padding: 3px 10px;
-  border-bottom: 1px solid #c0c0c0;
-}
-.rTableCell{
-    vertical-align: middle;
-  	display: table-cell;
-  	padding: 3px 10px;
-  	border: 1px dotted #b0b0b0;
-}
-.rTableHeading {
-  	display: table-header-group;
-  	background-color: #ddd;
-  	font-weight: bold;
-}
-.rTableFoot {
-  	display: table-footer-group;
-  	font-weight: bold;
-  	background-color: #ddd;
-}
-.rTableBody {
-  	display: table-row-group;
-}
-div.colspan,div.colspan+div.rTableCell
-{
-    border:0;
-}
-
-div.colspan>div
-{
-    width:1px;
-}
-
-div.colspan>div>div
-{
-    position:relative;
-    width:1500px;
-    overflow:hidden;
-}
-
-  .wvDetailsContentHidden{
-    display:none;
-  }
-
-  .expander {
-    border: 2px solid gray;
-  }
-
-  .header {
-    color: white;
-  }
-
-  .text {
-    
-  }
-
-  .container {
-    display : inline;
-    margin: 5px;
-  }
-
-  .details {
-    width: 100%;
-    height : 60px;
-    background : white;
-  }
-
-  .completeness {
-    position: relative;
-    background: white;
-  }
-
-  .bar{
-    position: relative;
-    top: 50%;
-    bottom: 0;
-    left: 0;
-  }
-
-  .bar-value{
-    position: relative;
-    width: 100%;
-    left: 0;
-  }
-
-  .tag{
-    margin: 2px;
-    padding: 2px;
-    border-radius: 3px;
-    color: #fff; 
-    text-align: center;
-  }
-
-  .inline{
-    display: inline;
-  }
-
-  .inline-block{
-    display: inline-block;
-  }
-
-  .issue_id {
-  }
-
-  .tab-control {
-    border: 1px solid #547657;
-    background-color: #547657;
-  }
-
-  .wvTabsUl {
-    background-color: #547657;
-    list-style-type: none;
-  }
-
-    .wvTabsUl li {
-      color: #fff;
-      border-bottom: 1px solid #fff0d0;
-      padding-left: 16px;
-      padding-right: 16px;
-      padding-bottom: 2px;
-      cursor: pointer;
-      background-color: #547657;
-      display: inline;
-    }
-
-  .wvTabsUl li:hover {
-      background-color: #6a846c;
-    }
-  
-  .wvTabsActive {
-    color: black !important;
-    background-color: #fff0d0 !important;
-    border: 1px solid #fff0d0 !important;
-    cursor: default !important;
-  }
-
-  .wvTabsContentContainer {
-    border-top: 1px solid #fff0d0;
-    background-color: #f0f0f0;
-  }
-
-  .wvTabsContentDiv {
-    background-color: white;
-    max-height: 100%;
-    height: 100%;
-    padding: 5px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-  }
-
-  table, td {
-    border: 1px solid #547657;
-    border-collapse: collapse;
-  }
-
-  .wvTabDisabled {
-    background-color: #98e4d1 !important;
-    color: #ff8282 !important;
-    cursor: default !important;
-  }
-
-  .wvTabsContentDivHidden {
-    display: none;
-  }
-
-  .wvTabsContentDivShown {
-    display: block;
-  }
-
-  div.ChatDiv {
-  }
-  
-  div.ChatItem {
-    border: 1px solid #e0e0e0
-  }
-
-
-  div.ChatItemUser {
-     background-color:  #d0d0d0;  
-  }
-  div.ChatItemNote {
-     background-color: #EAEAEA;  
-  }
-
-  .filter{
-    width: 100px !important;
-  }
-
-  .big-filter{
-    width: 150px !important;
-  }
-
-</style>
-
 #[override renderBody()]
-<div class="grid">
+<div class="grid" id="tasksPage">
     <div id="title">
       <div>Tasks</div>
     </div>
@@ -259,7 +37,7 @@ div.colspan>div>div
       <a class="button" href='javascript:addIssue(@[Target.Write(SelectedProject.Counter);])' >Add issue</a>
     </div>
     @[}]
-    <div id="grid"></div>
+    <div id="grid" class="table"></div>
 
 </div>
 
@@ -384,15 +162,14 @@ div.colspan>div>div
 
   function renderTasks(root){
     clearGrid();
-    createBody(root)
-    createHeaders("table");
+    createHeaders(root);
     for(var i = 0, l = tasks.length; i<l; i++)
     {
       var task = tasks[i];
-      createRow("table", task);
+      createRow(root, task);
       buildAreasAndComponents('ac'+task.Counter, task, pmperm);
       buildAssigneeList('assignee'+task.Counter, task, pmperm);
-      createRowDetails("table", task.Counter);
+      createRowDetails(root, task.Counter);
       createTabs("tabs-"+task.Counter, task);
     }
   }
@@ -400,7 +177,7 @@ div.colspan>div>div
   function initDetails(){
     var expanders = document.getElementsByClassName("expander");
     for(var i = 0 , l=expanders.length; i<l; i++){
-      var id = "details-"+expanders[i].id;
+      var id = expanders[i].dataset.detailsid;
       var content =document.getElementById(id);
       var details = new WAVE.GUI.Details({ 
           titleCtrl: expanders[i], 

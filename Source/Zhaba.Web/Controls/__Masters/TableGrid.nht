@@ -124,7 +124,7 @@
 @[renderExtraScripts();]
 
 
-<table class="table table-striped jambo_table bulk_action" id="?[:ID]" ?[:GetEncodedTagAttributes("table", GridSection.Table, null, null)]>
+<table id="?[:ID]" ?[:GetEncodedTagAttributes("table", GridSection.Table, null, null)]>
 @[if (HasHead) {]<thead ?[:GetEncodedTagAttributes("thead", GridSection.Head, null, null)]>@[renderHead();]</thead>@[}]
   <tbody ?[:GetEncodedTagAttributes("tbody", GridSection.Body, null, null)]>
     @[renderBody();]

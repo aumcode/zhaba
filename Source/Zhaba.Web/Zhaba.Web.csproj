@@ -168,7 +168,6 @@
     <Compile Include="Pages\Reports\DueItemsReport.nht.auto.cs">
       <DependentUpon>DueItemsReport.nht</DependentUpon>
     </Compile>
-
     <Compile Include="Pages\Reports\IssueAssignmentReport.nht.auto.cs">
       <DependentUpon>IssueAssignmentReport.nht</DependentUpon>
     </Compile>
@@ -279,6 +278,7 @@
     <None Include="Static\less\controls.less" />
     <None Include="Static\less\layout.less" />
     <None Include="Static\less\mixins.less" />
+    <None Include="Static\less\pages\tasksPage.less" />
     <None Include="Static\less\reset.less" />
     <None Include="Static\less\zhb.less" />
   </ItemGroup>

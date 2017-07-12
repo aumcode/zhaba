@@ -1,12 +1,6 @@
 ﻿﻿var chatRec = {};
 var chatFilterRec = {};
 
-function createBody(root) {
-  /***
-  div { id="table" class = "rTable" }
-  ***/
-}
-
 function computePriorityStyle(priority) {
   var color = "black";
   if (priority === 0) {
@@ -37,68 +31,74 @@ function buildDueDate(task) {
 
 function createHeaders(root) {
   /***
-  div 
+  "?if(1 == 1)" 
   {
-    class="rTableRow"
-    div="ID" {class="rTableHead" style="width: 50px"}
-    div="Status" {class="rTableHead" style="width: 100px"}
-    div="Date" {class="rTableHead" style="width: 210px"}
-    div="Assigned" {class="rTableHead" style="width: 100px"}
-    div="Areas/Components" {class="rTableHead" style="width: 100px"}
-    div="Project" {class="rTableHead" style="width: 100px"}
-    div="Issue" {class="rTableHead"}
-    div="Description"{class="rTableHead" }
+    div="ID" {class="cell head" style="width: 5%"}
+    div="Status" {class="cell head" style="width: 10%"}
+    div="Date" {class="cell head" style="width: 15%"}
+    div="Assigned" {class="cell head" style="width: 10%"}
+    div="Areas/Components" {class="cell head" style="width: 10%"}
+    div="Project" {class="cell head" style="width: 10%"}
+    div="Issue" {class="cell head" style="width: 20%"}
+    div="Description"{class="cell head" style="width: 20%"}
   }
   ***/
 }
 
 function createRow(root, task) {
+  var detailsId = "details-" + task.Counter;
   /***
-  div
+  "?if(1 == 1)" 
   {
-    id=?task.Counter
-    class="expander rTableRow"
-            
     div="?task.Counter"
     {
-      class="issue_id rTableCell"
+      class="cell issue_id expander"
+      style="width: 5%"
       align="right"
 
       data-cissue=?task.Counter
       data-cproject=?task.C_Project
+      data-detailsid=?detailsId
       on-click=editIssue1
     }
     div 
     { 
+      class="cell completeness expander"
+      style="width: 10%"
+      data-detailsid=?detailsId
       div
       {
-        align="center"
-        div="?task.Status"{ class="tag inline" style="?getStatusStyle(task.Status)" }
-        div="?task.Category_Name"{ class="tag inline" style="background-color: gray;" }
-      }
+        div
+        {
+          align="center"
+          div="?task.Status"{ class="tag inline" style="?getStatusStyle(task.Status)" }
+          div="?task.Category_Name"{ class="tag inline" style="background-color: gray;" }
+        }
       
-      class="rTableCell completeness" 
-      div="?task.Completeness +'%'" 
-      { 
-        data-cproject=?task.C_Project
-        data-cissue=?task.Counter
-        data-progress=?task.Completeness
-        data-description=?task.Description
-        data-status=?task.statusId
-        on-click=changeProgress1
+        div="?task.Completeness +'%'" 
+        { 
+          data-cproject=?task.C_Project
+          data-cissue=?task.Counter
+          data-progress=?task.Completeness
+          data-description=?task.Description
+          data-status=?task.statusId
+          on-click=changeProgress1
       
-        class="bar-value" 
-        align="center"
-      }
-      div 
-      { 
-        class="bar" 
-        style="?getStatusBarStyle(task.Completeness)" 
+          class="bar-value" 
+          align="center"
+        }
+        div 
+        { 
+          class="bar" 
+          style="?getStatusBarStyle(task.Completeness)" 
+        }
       }
     }
     div
     {
-      class="rTableCell"
+      class="cell expander"
+      data-detailsid=?detailsId
+      style="width: 15%"
       div="?buildDate(task)"{}
       div
       {
@@ -107,11 +107,11 @@ function createRow(root, task) {
       }
     }
 
-    div { id="?'assignee'+task.Counter" class="rTableCell" }
-    div { id="?'ac'+task.Counter" class="rTableCell" }
-    div="?task.ProjectName"{ class="rTableCell" }
-    div="?task.Name"{ class="rTableCell" }
-    div="?task.Description"{ class="rTableCell" }
+    div { id="?'assignee'+task.Counter" class="cell expander" style="width: 10%" data-detailsid=?detailsId}
+    div { id="?'ac'+task.Counter" class="cell expander" style="width: 10%" data-detailsid=?detailsId}
+    div="?task.ProjectName"{ class="cell expander" style="width: 10%" data-detailsid=?detailsId}
+    div="?task.Name"{ class="cell expander" style="width: 20%" data-detailsid=?detailsId}
+    div="?task.Description"{ class="cell expander" style="width: 20%" data-detailsid=?detailsId}
   }
   ***/
 }
@@ -121,15 +121,8 @@ function createRowDetails(root, id) {
   div
   {
     id="?'details-'+id"
-    class="details rTableRow"
-    div
-    {
-      class="rTableCell colspan"
-      div
-      {
-        div { id="?'tabs-'+id" class="tab-control"}
-      }
-    }
+    class="cell full"
+    div { id="?'tabs-'+id" class="tab-control"}
   }
   ***/
 }
@@ -238,69 +231,61 @@ function buildAssignmentButtons(root, task) {
 
 function createStatusHeader(root) {
   /***
-  div 
+  "?if(1==1)"
   {
-    class="rTableRow"
-    div="ID" {class="rTableHead rDetailsTableHead"}
-    div="Progress" {class="rTableHead rDetailsTableHead"}
-    div="Status" {class="rTableHead rDetailsTableHead"}
-    div="Start" {class="rTableHead rDetailsTableHead"}
-    div="Plan/Due" {class="rTableHead rDetailsTableHead"}
-    div="Complete" {class="rTableHead rDetailsTableHead"}
-    div="Assigned" {class="rTableHead rDetailsTableHead"}
-    div="Description"{ class="rTableHead rDetailsTableHead" }
+    div="ID" {class="cell head rDetailsTableHead" style="width: 5%"}
+    div="Progress" {class="cell head rDetailsTableHead" style="width: 5%"}
+    div="Status" {class="cell head rDetailsTableHead" style="width: 10%"}
+    div="Start" {class="cell head rDetailsTableHead" style="width: 10%"}
+    div="Plan/Due" {class="cell head rDetailsTableHead" style="width: 10%"}
+    div="Complete" {class="cell head rDetailsTableHead" style="width: 10%"}
+    div="Assigned" {class="cell head rDetailsTableHead" style="width: 30%"}
+    div="Description"{ class="cell head rDetailsTableHead"  style="width: 20%"}
   }
   ***/
 }
 
 ﻿function createAssignmentHeader(root) {
 ﻿  /***
-   div 
+   "?if(1==1)"
    {
-     class="rTableRow"
-     div="ID" {class="rTableHead rDetailsTableHead"}
-     div="User" {class="rTableHead rDetailsTableHead"}
-     div="Assigned" {class="rTableHead rDetailsTableHead"}
-     div="Operator" {class="rTableHead rDetailsTableHead"}
-     div="Unassigned" {class="rTableHead rDetailsTableHead"}
-     div="Operator" {class="rTableHead rDetailsTableHead"}
-     div="Note" {class="rTableHead rDetailsTableHead"}
+     div="ID" {class="cell head rDetailsTableHead" style="width: 5%"}
+     div="User" {class="cell head rDetailsTableHead" style="width: 10%"}
+     div="Assigned" {class="cell head rDetailsTableHead" style="width: 15%"}
+     div="Operator" {class="cell head rDetailsTableHead" style="width: 10%"}
+     div="Unassigned" {class="cell head rDetailsTableHead" style="width: 15%"}
+     div="Operator" {class="cell head rDetailsTableHead" style="width: 10%"}
+     div="Note" {class="cell head rDetailsTableHead" style="width: 35%"}
    }
    ***/
 ﻿}
 function createStatusGridRow(root, details) {
   /***
-  div
-  {
-    id="?'detailsRow-'+details.Counter"
-    class="rTableRow"
-            
-    div="?details.Counter"{ class="rDetailsTableCell" align="right" }
-    div="?details.Completeness" { class="rDetailsTableCell" }
-    div="?details.Status"{ class="rDetailsTableCell" align="center"}
-    div="?WAVE.dateTimeToString(details.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rDetailsTableCell" }
-    div="?WAVE.dateTimeToString(details.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rDetailsTableCell" }
-    div="?WAVE.dateTimeToString(details.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rDetailsTableCell" }
-    div=?details.Assignee { class="rDetailsTableCell" }
-    div="?details.Description"{ class="rDetailsTableCell" }
+  "?if(1==1)"
+  {      
+    div="?details.Counter"{ class="cell" align="right"  style="width: 5%"}
+    div="?details.Completeness" { class="cell"  style="width: 5%"}
+    div="?details.Status"{ class="cell" align="center" style="width: 10%"}
+    div="?WAVE.dateTimeToString(details.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell"  style="width: 10%"}
+    div="?WAVE.dateTimeToString(details.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell"  style="width: 10%"}
+    div="?WAVE.dateTimeToString(details.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell"  style="width: 10%"}
+    div=?details.Assignee { class="cell"  style="width: 30%"}
+    div="?details.Description"{ class="cell"  style="width: 20%"}
   }
   ***/
 }
 
 function createAssignmentGridRow(root, assignment) {
   /***
-  div
+  "?if(1==1)"
   {
-    id="?'assignmentRow-'+assignment.Counter"
-    class="rTableRow"
-
-    div="?assignment.Counter"{ class="rDetailsTableCell" align="right" }
-    div="?assignment.UserFirstName + ' ' + assignment.UserLastName + '(' +assignment.UserLogin+')'"{ class="rDetailsTableCell" align="right" }
-    div="?WAVE.dateTimeToString(assignment.Open_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rDetailsTableCell" }
-    div="?assignment.OperatorOpenLogin" { class="rDetailsTableCell" }
-    div="?WAVE.dateTimeToString(assignment.Close_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rDetailsTableCell" }
-    div="?assignment.OperatorCloseLogin"{ class="rDetailsTableCell" align="center"}
-    div="?assignment.Note" {class="rDetailsTableCell"}
+    div="?assignment.Counter"{ class="cell" align="right"  style="width: 5%"}
+    div="?assignment.UserFirstName + ' ' + assignment.UserLastName + '(' +assignment.UserLogin+')'"{ class="cell" align="right"  style="width: 10%"}
+    div="?WAVE.dateTimeToString(assignment.Open_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell"  style="width: 15%"}
+    div="?assignment.OperatorOpenLogin" { class="cell"  style="width: 10%"}
+    div="?WAVE.dateTimeToString(assignment.Close_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell"  style="width: 15%"}
+    div="?assignment.OperatorCloseLogin"{ class="cell" align="center" style="width: 10%"}
+    div="?assignment.Note" {class="cell" style="width: 35%"}
   }
   ***/
 }
@@ -564,18 +549,32 @@ function createChatItems(task, rec) {
   }
 }
 
+﻿function createGrid(root, gridId) {
+  /***
+  div
+  {
+    id=?gridId
+    class="table"
+  }
+  ***/
+}
+
 function buildStatusTab(root, task) {
+  var gridID = "status-grid-" + task.Counter;
   buildStatusButtons(root, task);
-  createStatusHeader(root);
+  createGrid(root, gridID);
+  createStatusHeader(gridID);
   for (var j = 0, l = task.Details.length; j < l; j++)
-    createStatusGridRow(root, task.Details[j]);
+    createStatusGridRow(gridID, task.Details[j]);
 }
 
 function buildAssignmentTab(root, task) {
+  var gridID = "assignment-grid-" + task.Counter;
   buildAssignmentButtons(root, task);
-  createAssignmentHeader(root);
+  createGrid(root, gridID);
+  createAssignmentHeader(gridID);
   for (var j = 0, l = task.Assignments.length; j < l; j++)
-    createAssignmentGridRow(root, task.Assignments[j]);
+    createAssignmentGridRow(gridID, task.Assignments[j]);
 }
 
 function buildChatTab(root, task) {
