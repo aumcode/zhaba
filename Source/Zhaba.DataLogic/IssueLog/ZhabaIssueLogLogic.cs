@@ -30,12 +30,13 @@ namespace Zhaba.DataLogic
       {
         if (ZhabaIssueStatus.NEW.EqualsOrdIgnoreCase(status))
         {
-          evt = new CreateIssueEvent()
+          evt = new ResumeIssueEvent()
           {
             C_User = c_User,
             C_Issue = c_Issue,
             DateUTC = App.TimeSource.UTCNow,
-            Description = description
+            Description = description,
+            NextStatus = status
           };
         }
         else if (ZhabaIssueStatus.REOPEN.EqualsOrdIgnoreCase(status))
@@ -393,6 +394,13 @@ namespace Zhaba.DataLogic
     {
       operations = operations ?? ZApp.Data.CRUD;
       IssueLogRow newRow = NewIssueLog(evt, ZhabaIssueStatus.DEFER, operations);
+      operations.Insert(newRow);
+    }
+
+    private void write(ResumeIssueEvent evt, ICRUDOperations operations = null)
+    {
+      operations = operations ?? ZApp.Data.CRUD;
+      IssueLogRow newRow = NewIssueLog(evt, evt.NextStatus, operations);
       operations.Insert(newRow);
     }
 

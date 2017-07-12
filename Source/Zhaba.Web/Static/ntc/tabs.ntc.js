@@ -7,8 +7,32 @@ function createBody(root) {
   ***/
 }
 
-function computeDate(task) {
-  return "{0} - {1}".args(WAVE.dateTimeToString(task.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE), WAVE.dateTimeToString(task.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE));
+function computePriorityStyle(priority) {
+  var color = "black";
+  if (priority === 0) {
+    color = "red";
+  } else if (priority > 0 && priority <= 3) {
+    color = "orange";
+  } else if (priority > 3 && priority <= 5) {
+    color = "#9c6f10";
+  } else {
+    color = "green";
+  }
+  return "background-color: {0}; width: 20px".args(color);
+}
+
+function buildDate(task) {
+  var startDate = WAVE.dateTimeToString(task.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+  var completeDate = "OPEN";
+  if (task.Complete_Date) {
+    completeDate = WAVE.dateTimeToString(task.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+  }
+  return "{0} - {1}".args(startDate, completeDate);
+}
+
+function buildDueDate(task) {
+  var dueDate = WAVE.dateTimeToString(task.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+  return "{0} in {1}d".args(dueDate, task.Remaining);
 }
 
 function createHeaders(root) {
@@ -18,9 +42,9 @@ function createHeaders(root) {
     class="rTableRow"
     div="ID" {class="rTableHead" style="width: 50px"}
     div="Status" {class="rTableHead" style="width: 100px"}
-    div="Date" {class="rTableHead" style="width: 250px"}
+    div="Date" {class="rTableHead" style="width: 210px"}
     div="Assigned" {class="rTableHead" style="width: 100px"}
-    div="Ares/Components" {class="rTableHead" style="width: 100px"}
+    div="Areas/Components" {class="rTableHead" style="width: 100px"}
     div="Project" {class="rTableHead" style="width: 100px"}
     div="Issue" {class="rTableHead"}
     div="Description"{class="rTableHead" }
@@ -46,13 +70,14 @@ function createRow(root, task) {
     }
     div 
     { 
-      div="?task.Status"{ style="?getStatusStyle(task.Status)" align="center"}
-      class="rTableCell completeness" 
-      div 
-      { 
-        class="bar" 
-        style="?getStatusBarStyle(task.Completeness)" 
+      div
+      {
+        align="center"
+        div="?task.Status"{ class="tag inline" style="?getStatusStyle(task.Status)" }
+        div="?task.Category_Name"{ class="tag inline" style="background-color: gray;" }
       }
+      
+      class="rTableCell completeness" 
       div="?task.Completeness +'%'" 
       { 
         data-cproject=?task.C_Project
@@ -65,12 +90,21 @@ function createRow(root, task) {
         class="bar-value" 
         align="center"
       }
+      div 
+      { 
+        class="bar" 
+        style="?getStatusBarStyle(task.Completeness)" 
+      }
     }
     div
     {
       class="rTableCell"
-      div="?computeDate(task)"{}
-      div="?WAVE.dateTimeToString(task.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{}
+      div="?buildDate(task)"{}
+      div
+      {
+        div="?buildDueDate(task)"{ class="inline"}
+        div="?task.Priority"{ class="tag inline-block" style="?computePriorityStyle(task.Priority)"}
+      }
     }
 
     div { id="?'assignee'+task.Counter" class="rTableCell" }
@@ -101,46 +135,77 @@ function createRowDetails(root, id) {
 }
 
 function buildStatusButtons(root, task) {
-  /***
-  div
-  {
-    "?if(pmperm)" {
-      "? for(var s=0, sl=task.NextState.length; s < sl; s++)" {
-          "?if(s != 0)"{
-            a = "?statuses[task.NextState[s]]" 
-            {
-              style="margin: 4px 4px 4px 0px"
-              data-nextstate=?task.NextState[s]
-              data-cproject=?task.C_Project
-              data-counter=?task.Counter 
-              on-click="changeStatusDialog1"  
-              class="button"
-            }
-          }
-          "?else"{
-            a = "?statuses[task.NextState[s]]" 
-            {
-              style="margin: 4px 4px 4px 0px"
-              data-nextstate=?task.NextState[s]
-              data-cproject=?task.C_Project
-              data-counter=?task.Counter 
-              on-click="changeStatusDialog1"  
-              class="button"
-            }
-          }
+  if (task.Status == 'Defer') {
+    var resumeStatus;
+    if (task.HasAssignee)
+      resumeStatus = 'A';
+    else {
+      resumeStatus = 'N';
+    }
+
+    /***
+    div
+    {
+      "?if(pmperm)" {
+        a="Resume" 
+        {
+          style="margin: 4px 4px 4px 0px"
+          data-nextstate=?resumeStatus
+          data-cproject=?task.C_Project
+          data-counter=?task.Counter 
+          on-click="getOtherForm1"  
+          class="button"
+        }
+        a="Cancel" 
+        {
+          style="margin: 4px 4px 4px 0px"
+          data-nextstate="X"
+          data-cproject=?task.C_Project
+          data-counter=?task.Counter 
+          on-click="getOtherForm1"  
+          class="button"
+        }
+      }
+      a="report" 
+      {
+        data-cproject=?task.C_Project
+        data-cissue=?task.Counter
+        data-report='statusreport' 
+        on-click="openReport"  
+        class="button"
+        style="margin: 4px 4px 4px 0px"
       }
     }
-    a="report" 
+    ***/
+  } else {
+    /***
+    div
     {
-      data-cproject=?task.C_Project
-      data-cissue=?task.Counter
-      data-report='statusreport' 
-      on-click="openReport"  
-      class="button"
-      style="margin: 4px 4px 4px 0px"
+      "?if(pmperm)" {
+        "? for(var s=0, sl=task.NextState.length; s < sl; s++)" {
+          a = "?statuses[task.NextState[s]]" 
+          {
+            style="margin: 4px 4px 4px 0px"
+            data-nextstate=?task.NextState[s]
+            data-cproject=?task.C_Project
+            data-counter=?task.Counter 
+            on-click="changeStatusDialog1"  
+            class="button"
+          }
+        }
+      }
+      a="report" 
+      {
+        data-cproject=?task.C_Project
+        data-cissue=?task.Counter
+        data-report='statusreport' 
+        on-click="openReport"  
+        class="button"
+        style="margin: 4px 4px 4px 0px"
+      }
     }
+    ***/
   }
-  ***/
 }
 
 function buildAssignmentButtons(root, task) {
@@ -340,37 +405,76 @@ function buildChatFilterForm(root, task) {
   ***/
 }
 
-function buildArea(root, area) {
-    /***
-    div="?area.Name+'; '" { class="fView" }
-    ***/
-}
-
-function buildComponent(root, component) {
+function buildArea(root, taskCounter, area, canRemove) {
   /***
-   div="?component.Name + '; '" { class="fView" } 
+  div="?area.Name" { class="tag inline-block" style="background-color: darkgreen"}
   ***/
 }
 
-﻿function buildAssignee(root, assignee) {
-﻿  /***
-    div="?assignee.UserLogin + '; '" { class="fView" } 
-   ***/
-﻿}
+function removeComp(e) {
+  e.stopPropagation();
+  var iid = e.target.dataset.cissue;
+  var pid = e.target.dataset.cproject;
+  var cid = e.target.dataset.ccomp;
+  var data = { issue: iid, component: cid, link: false };
+  var link = ZHB.URIS.ForPROJECT_LINK_ISSUE_COMPONENT(pid, iid, cid);
+  WAVE.ajaxCall(
+       'POST',
+       link,
+       data,
+       function (resp) {
+         WAVE.removeElem(e.target.id);
+         console.log("success");
+       },
+       function (resp) { console.log("error"); console.log(resp); },
+       function (resp) { console.log("fail"); console.log(resp); },
+       WAVE.CONTENT_TYPE_JSON_UTF8,
+       WAVE.CONTENT_TYPE_JSON_UTF8
+     );
+}
 
-function buildAreasAndComponents(root, task) {
-  for (var i=0, l=task.Areas.length; i < l; i++) {
-    buildArea(root,  task.Areas[i]);    
+function buildComponent(root, task, component, canRemove) {
+  if (canRemove)
+  {
+    /***
+    div="?component.Name + ' X'" 
+    { 
+      id="?'comp-' + component.Counter"
+      class="tag inline-block" 
+      style="background-color: darkblue; cursor: pointer"
+      data-ccomp=?component.Counter
+      data-cissue=?task.Counter
+      data-cproject=?task.C_Project
+      on-click=removeComp
+    } 
+    ***/
   }
-  for (var i=0, l=task.Components.length; i < l; i++) {
-    buildComponent(root,  task.Components[i]);
+  else
+  {
+    /***
+    div="?component.Name" { class="tag inline-block" style="background-color: darkblue"} 
+    ***/
   }
 }
 
-function buildAssigneeList(root, task) {
-  // debugger;
+function buildAssignee(root, taskCounter, assignee, canRemove) {
+﻿   /***
+    div="?assignee.UserLogin" { class="tag inline-block" style="background-color: brown"} 
+   ***/
+﻿}
+
+function buildAreasAndComponents(root, task, isPM) {
+  for (var i=0, l=task.Areas.length; i < l; i++) {
+    buildArea(root, task, task.Areas[i], isPM);
+  }
+  for (var i=0, l=task.Components.length; i < l; i++) {
+    buildComponent(root, task, task.Components[i], isPM);
+  }
+}
+
+function buildAssigneeList(root, task, isPM) {
   for (var i=0, l=task.AssigneeList.length; i<l; i++) {
-    buildAssignee(root, task.AssigneeList[i]);
+    buildAssignee(root, task, task.AssigneeList[i], isPM);
   }
 }
 
@@ -480,7 +584,7 @@ function buildChatTab(root, task) {
   buildChatMessage(root, task);
   // buildChatReport(root, task);
   chatForm(task);
-  chatFilterForm(task)
+  chatFilterForm(task);
   // refreshChat(task);
 }
 

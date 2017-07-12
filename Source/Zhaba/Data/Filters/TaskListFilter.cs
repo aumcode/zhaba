@@ -112,6 +112,12 @@ namespace Zhaba.Data.Filters
         
       [Field]
       public string[] NextState { get { return ZhabaIssueStatus.NextState(statusId); } }
+
+      [Field]
+      public int Remaining { get; set; }
+
+      [Field]
+      public bool HasAssignee { get { return AssigneeList != null && AssigneeList.Any(); } }
     }
 
     #endregion
@@ -174,12 +180,13 @@ namespace Zhaba.Data.Filters
         if (data != null)
         {
           DateTime asOf = DateTime.TryParse(AsOf, out asOf) ? asOf.Date.AddHours(23).AddMinutes(59).AddSeconds(59) : App.TimeSource.UTCNow;
-          foreach (var item in data)
+          foreach (var itemLog in data.OfType<TaskListFilterRow>())
             try
             {
-              var itemLog = (TaskListFilterRow)item;
-              App.Log.Write(new NFX.Log.Message(item.ToJSON()));
-
+              App.Log.Write(new NFX.Log.Message(itemLog.ToJSON()));
+              if(itemLog.Due_Date.HasValue)
+                itemLog.Remaining = (itemLog.Due_Date.Value - asOf).Days;
+              
               var issueLogQuery = QTask.FindFirst5IssueLogByIssue<TaskListFilterRow>(itemLog.Counter, asOf);
               itemLog.Details = trn.LoadOneRowset(issueLogQuery).AsEnumerableOf<TaskListFilterRow>();
 

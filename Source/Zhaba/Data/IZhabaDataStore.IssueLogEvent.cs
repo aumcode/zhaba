@@ -74,6 +74,11 @@ namespace Zhaba.Data
 
   }
 
+  public sealed class ResumeIssueEvent : IssueLogEvent
+  {
+    public string NextStatus { get; set; }
+  }
+
   public sealed class DoneIssueEvent : IssueLogEvent
   {
 

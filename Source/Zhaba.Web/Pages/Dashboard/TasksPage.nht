@@ -116,7 +116,7 @@ div.colspan>div>div
   }
 
   .bar{
-    position: absolute;
+    position: relative;
     top: 50%;
     bottom: 0;
     left: 0;
@@ -126,6 +126,22 @@ div.colspan>div>div
     position: relative;
     width: 100%;
     left: 0;
+  }
+
+  .tag{
+    margin: 2px;
+    padding: 2px;
+    border-radius: 3px;
+    color: #fff; 
+    text-align: center;
+  }
+
+  .inline{
+    display: inline;
+  }
+
+  .inline-block{
+    display: inline-block;
   }
 
   .issue_id {
@@ -327,7 +343,7 @@ div.colspan>div>div
   function getStatusBarStyle(value){
     var red = 0;
     var green = 0;
-    var color = 'rgb({0},{1}, 0)';
+    var color = '';
     if(value <= 25)
       red = 255;
     else if(value > 25 && value < 65){
@@ -346,7 +362,7 @@ div.colspan>div>div
       red = 0;
       green = 255;
     }
-    return 'width: ' + value + '%;' + ' background: ' + color.args(red, green); 
+    return "width: {0}%; background: rgb({1},{2}, 0); height: 2px".args(value, red, green); 
   }
 
   function getStatusStyle(value){
@@ -358,12 +374,12 @@ div.colspan>div>div
     else if(value == 'Assigned')
       color = '#9c6f10';
     else if(value == 'Defer')
-      color = 'black';
+      color = 'purple';
     else if(value == 'Done')
       color = '#539a53';
     else if(value == 'Closed')
       color = 'gray';
-    return 'color: ' + color; 
+    return "background-color: {0}; color: #fff".args(color); 
   }
 
   function renderTasks(root){
@@ -374,8 +390,8 @@ div.colspan>div>div
     {
       var task = tasks[i];
       createRow("table", task);
-      buildAreasAndComponents('ac'+task.Counter, task);
-      buildAssigneeList('assignee'+task.Counter, task);
+      buildAreasAndComponents('ac'+task.Counter, task, pmperm);
+      buildAssigneeList('assignee'+task.Counter, task, pmperm);
       createRowDetails("table", task.Counter);
       createTabs("tabs-"+task.Counter, task);
     }
@@ -441,8 +457,6 @@ div.colspan>div>div
     } else {
       getOtherForm(status, pid, iid);
     }
-
-
   }
 
   function changeStatus(pid, iid, status, note) {
@@ -467,7 +481,7 @@ div.colspan>div>div
     );
   }
   
-  function  changeAssignStatus(pid, iid, status, data) {
+  function changeAssignStatus(pid, iid, status, data) {
     var link = ZHB.URIS.ForISSUE_ISSUEASSIGN(pid, iid, null);
      WAVE.ajaxCall(
           'POST',
@@ -563,6 +577,13 @@ div.colspan>div>div
       WAVE.CONTENT_TYPE_JSON_UTF8, 
       WAVE.CONTENT_TYPE_JSON_UTF8
     );
+  }
+
+  function getOtherForm1(e) {
+    var status = e.target.dataset.nextstate;
+    var pid = e.target.dataset.cproject;
+    var iid = e.target.dataset.counter;
+    getOtherForm(status, pid, iid);
   }
 
   function getOtherForm(status, pid, iid) {
