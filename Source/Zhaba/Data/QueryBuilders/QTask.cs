@@ -31,5 +31,30 @@ namespace Zhaba.Data.QueryBuilders
         new Query.Param("dateUTC", dateUTC)
       };
     }
+
+    public static Query<TRow> FindAllAreaByIssue<TRow>(ulong c_Issue) where TRow : Row
+    {
+      return new Query<TRow>("SQL.CRUD.Task.Areas")
+      {
+        new Query.Param("pIssue", c_Issue)
+      };
+    }
+
+    public static Query<TRow> FindAllComponentByIssue<TRow>(ulong c_Issue) where TRow : Row
+    {
+      return new Query<TRow>("SQL.CRUD.Task.Components")
+      {
+        new Query.Param("pIssue", c_Issue)
+      };
+    }
+
+    public static Query<TRow> FindAllAssignee<TRow>(ulong C_Issue, DateTime dateUTC) where TRow : Row
+    {
+      return new Query<TRow>("SQL.CRUD.Task.AssigneeList")
+      {
+        new Query.Param("pIssue", C_Issue),
+        new Query.Param("dateUTC", dateUTC)
+      };
+    }
   }
 }

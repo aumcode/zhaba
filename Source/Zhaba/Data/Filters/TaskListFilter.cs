@@ -96,11 +96,20 @@ namespace Zhaba.Data.Filters
       public string Assignee { get; set; }
       
       [Field]
+      public IEnumerable<IssueAssignListFilterRow> AssigneeList { get; set; }
+      
+      [Field]
       public IEnumerable<TaskListFilterRow> Details { get; set; }
 
       [Field]
       public IEnumerable<IssueAssignListFilterRow> Assignments { get; set; }
-
+      
+      [Field]
+      public IEnumerable<AreaRow> Areas { get; set; }
+      
+      [Field]
+      public IEnumerable<ComponentRow> Components { get; set; }
+        
       [Field]
       public string[] NextState { get { return ZhabaIssueStatus.NextState(statusId); } }
     }
@@ -156,31 +165,45 @@ namespace Zhaba.Data.Filters
 
     protected override Exception DoSave(out object saveResult)
     {
-      var qry = QTask.TasksByFilter<TaskListFilterRow>(this);
-      saveResult = ZApp.Data.CRUD.LoadOneRowset(qry);
-      var data = saveResult as RowsetBase;
-      if (data != null)
+      Exception result = null;
+      using (var trn = ZApp.Data.CRUD.BeginTransaction() )
       {
-        DateTime asOf = DateTime.TryParse(AsOf, out asOf) ? asOf.Date.AddHours(23).AddMinutes(59).AddSeconds(59) : App.TimeSource.UTCNow;
-        foreach (var item in data)
-          try
-          {
-            var itemLog = (TaskListFilterRow)item;
-            App.Log.Write(new NFX.Log.Message(item.ToJSON()));
+        var qry = QTask.TasksByFilter<TaskListFilterRow>(this);
+        saveResult = trn.LoadOneRowset(qry);
+        var data = saveResult as RowsetBase;
+        if (data != null)
+        {
+          DateTime asOf = DateTime.TryParse(AsOf, out asOf) ? asOf.Date.AddHours(23).AddMinutes(59).AddSeconds(59) : App.TimeSource.UTCNow;
+          foreach (var item in data)
+            try
+            {
+              var itemLog = (TaskListFilterRow)item;
+              App.Log.Write(new NFX.Log.Message(item.ToJSON()));
 
-            var issueLogQuery = QTask.FindFirst5IssueLogByIssue<TaskListFilterRow>(itemLog.Counter, asOf);
-            itemLog.Details = ZApp.Data.CRUD.LoadOneRowset(issueLogQuery).AsEnumerableOf<TaskListFilterRow>();
+              var issueLogQuery = QTask.FindFirst5IssueLogByIssue<TaskListFilterRow>(itemLog.Counter, asOf);
+              itemLog.Details = trn.LoadOneRowset(issueLogQuery).AsEnumerableOf<TaskListFilterRow>();
 
-            var issueAssignQuery = QTask.FindIssueAssignByIssue<IssueAssignListFilterRow>(itemLog.Counter, asOf);
-            itemLog.Assignments = ZApp.Data.CRUD.LoadOneRowset(issueAssignQuery).AsEnumerableOf<IssueAssignListFilterRow>();
-          }
-          catch (Exception ex)
-          {
-            App.Log.Write(new NFX.Log.Message(ex));
-          }
+              var issueAssignQuery = QTask.FindIssueAssignByIssue<IssueAssignListFilterRow>(itemLog.Counter, asOf);
+              itemLog.Assignments = trn.LoadOneRowset(issueAssignQuery).AsEnumerableOf<IssueAssignListFilterRow>();
+
+              var areaQuery = QTask.FindAllAreaByIssue<AreaRow>(itemLog.Counter);
+              itemLog.Areas = trn.LoadOneRowset(areaQuery).AsEnumerableOf<AreaRow>();
+              
+              var componentQuery = QTask.FindAllComponentByIssue<ComponentRow>(itemLog.Counter);
+              itemLog.Components = trn.LoadOneRowset(componentQuery).AsEnumerableOf<ComponentRow>();
+
+              var assigneeListQuery = QTask.FindAllAssignee<IssueAssignListFilterRow>(itemLog.Counter, asOf);
+              itemLog.AssigneeList = trn.LoadOneRowset(assigneeListQuery).AsEnumerableOf<IssueAssignListFilterRow>();
+
+            }
+            catch (Exception ex)
+            {
+              App.Log.Write(new NFX.Log.Message(ex));
+              result = ex;
+            }
+        }
       }
-      
-      return null;
+      return result;
     }
   }
 }

@@ -80,6 +80,9 @@
     <EmbeddedResource Include="SQL\CRUD\IssueLog\findAllByIssue.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\Sequence\AllScopes.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\Sequence\ByName.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\Task\Areas.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\Task\AssigneeList.mys.sql" />
+    <EmbeddedResource Include="SQL\CRUD\Task\Components.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\User\ByLogin.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\Component\ByID.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\Sequence\ByScopeName.mys.sql" />

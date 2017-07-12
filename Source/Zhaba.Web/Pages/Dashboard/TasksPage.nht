@@ -368,6 +368,8 @@ div.colspan>div>div
     {
       var task = tasks[i];
       createRow("table", task);
+      buildAreasAndComponents('ac'+task.Counter, task);
+      buildAssigneeList('assignee'+task.Counter, task);
       createRowDetails("table", task.Counter);
       createTabs("tabs-"+task.Counter, task);
     }

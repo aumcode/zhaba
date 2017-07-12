@@ -20,6 +20,7 @@ function createHeaders(root) {
     div="Status" {class="rTableHead" style="width: 100px"}
     div="Date" {class="rTableHead" style="width: 250px"}
     div="Assigned" {class="rTableHead" style="width: 100px"}
+    div="Ares/Components" {class="rTableHead" style="width: 100px"}
     div="Project" {class="rTableHead" style="width: 100px"}
     div="Issue" {class="rTableHead"}
     div="Description"{class="rTableHead" }
@@ -72,7 +73,8 @@ function createRow(root, task) {
       div="?WAVE.dateTimeToString(task.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{}
     }
 
-    div=?task.Assignee { class="rTableCell" }
+    div { id="?'assignee'+task.Counter" class="rTableCell" }
+    div { id="?'ac'+task.Counter" class="rTableCell" }
     div="?task.ProjectName"{ class="rTableCell" }
     div="?task.Name"{ class="rTableCell" }
     div="?task.Description"{ class="rTableCell" }
@@ -338,6 +340,40 @@ function buildChatFilterForm(root, task) {
   ***/
 }
 
+function buildArea(root, area) {
+    /***
+    div="?area.Name+'; '" { class="fView" }
+    ***/
+}
+
+function buildComponent(root, component) {
+  /***
+   div="?component.Name + '; '" { class="fView" } 
+  ***/
+}
+
+﻿function buildAssignee(root, assignee) {
+﻿  /***
+    div="?assignee.UserLogin + '; '" { class="fView" } 
+   ***/
+﻿}
+
+function buildAreasAndComponents(root, task) {
+  for (var i=0, l=task.Areas.length; i < l; i++) {
+    buildArea(root,  task.Areas[i]);    
+  }
+  for (var i=0, l=task.Components.length; i < l; i++) {
+    buildComponent(root,  task.Components[i]);
+  }
+}
+
+function buildAssigneeList(root, task) {
+  // debugger;
+  for (var i=0, l=task.AssigneeList.length; i<l; i++) {
+    buildAssignee(root, task.AssigneeList[i]);
+  }
+}
+
 function chatForm(task) {
   var link='project/{0}/issue/{1}/chat?id='.args(task.C_Project, task.Counter);
   WAVE.ajaxCall(
@@ -512,7 +548,5 @@ function createTabs(root, task) {
   buildStatusTab(statusId, task);
   buildAssignmentTab(assignmentId, task);
   buildChatTab(chatId, task);
-
-
 
 }

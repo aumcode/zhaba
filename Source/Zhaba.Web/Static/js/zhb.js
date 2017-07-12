@@ -163,19 +163,23 @@ function createHeaders(root) {
   Ø5.setAttribute('style', 'width: 100px');
   Ø1.appendChild(Ø5);
   var Ø6 = WAVE.ce('div');
-  Ø6.innerText = 'Project';
+  Ø6.innerText = 'Ares\x2FComponents';
   Ø6.setAttribute('class', 'rTableHead');
   Ø6.setAttribute('style', 'width: 100px');
   Ø1.appendChild(Ø6);
   var Ø7 = WAVE.ce('div');
-  Ø7.innerText = 'Issue';
+  Ø7.innerText = 'Project';
   Ø7.setAttribute('class', 'rTableHead');
+  Ø7.setAttribute('style', 'width: 100px');
   Ø1.appendChild(Ø7);
   var Ø8 = WAVE.ce('div');
-  Ø8.innerText = 'Note';
+  Ø8.innerText = 'Issue';
   Ø8.setAttribute('class', 'rTableHead');
-  Ø8.setAttribute('style', 'width: 100px');
   Ø1.appendChild(Ø8);
+  var Ø9 = WAVE.ce('div');
+  Ø9.innerText = 'Description';
+  Ø9.setAttribute('class', 'rTableHead');
+  Ø1.appendChild(Ø9);
   if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
   return Ø1;
 }
@@ -228,21 +232,25 @@ function createRow(root, task) {
   Ø7.appendChild(Ø9);
   Ø1.appendChild(Ø7);
   var Ø10 = WAVE.ce('div');
-  Ø10.innerText = task.Assignee;
+  Ø10.setAttribute('id', 'assignee'+task.Counter);
   Ø10.setAttribute('class', 'rTableCell');
   Ø1.appendChild(Ø10);
   var Ø11 = WAVE.ce('div');
-  Ø11.innerText = task.ProjectName;
+  Ø11.setAttribute('id', 'ac'+task.Counter);
   Ø11.setAttribute('class', 'rTableCell');
   Ø1.appendChild(Ø11);
   var Ø12 = WAVE.ce('div');
-  Ø12.innerText = task.Name;
+  Ø12.innerText = task.ProjectName;
   Ø12.setAttribute('class', 'rTableCell');
   Ø1.appendChild(Ø12);
   var Ø13 = WAVE.ce('div');
-  Ø13.innerText = task.Description;
+  Ø13.innerText = task.Name;
   Ø13.setAttribute('class', 'rTableCell');
   Ø1.appendChild(Ø13);
+  var Ø14 = WAVE.ce('div');
+  Ø14.innerText = task.Description;
+  Ø14.setAttribute('class', 'rTableCell');
+  Ø1.appendChild(Ø14);
   if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
   return Ø1;
 }
@@ -277,7 +285,7 @@ function buildStatusButtons(root, task) {
       if(s != 0) {
         var Ø2 = WAVE.ce('a');
         Ø2.innerText = statuses[task.NextState[s]];
-        Ø2.setAttribute('style', 'margin: 4px');
+        Ø2.setAttribute('style', 'margin: 4px 4px 4px 0px');
         Ø2.setAttribute('data-nextstate', task.NextState[s]);
         Ø2.setAttribute('data-cproject', task.C_Project);
         Ø2.setAttribute('data-counter', task.Counter);
@@ -305,7 +313,7 @@ function buildStatusButtons(root, task) {
   Ø4.setAttribute('data-report', 'statusreport');
   Ø4.addEventListener('click', openReport, false);
   Ø4.setAttribute('class', 'button');
-  Ø4.setAttribute('style', 'margin: 4px');
+  Ø4.setAttribute('style', 'margin: 4px 4px 4px 0px');
   Ø1.appendChild(Ø4);
   if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
   return Ø1;
@@ -375,17 +383,9 @@ function createStatusHeader(root) {
   Ø8.setAttribute('class', 'rTableHead rDetailsTableHead');
   Ø1.appendChild(Ø8);
   var Ø9 = WAVE.ce('div');
-  Ø9.innerText = 'Project';
+  Ø9.innerText = 'Description';
   Ø9.setAttribute('class', 'rTableHead rDetailsTableHead');
   Ø1.appendChild(Ø9);
-  var Ø10 = WAVE.ce('div');
-  Ø10.innerText = 'Issue';
-  Ø10.setAttribute('class', 'rTableHead rDetailsTableHead');
-  Ø1.appendChild(Ø10);
-  var Ø11 = WAVE.ce('div');
-  Ø11.innerText = 'Description';
-  Ø11.setAttribute('class', 'rTableHead rDetailsTableHead');
-  Ø1.appendChild(Ø11);
   if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
   return Ø1;
 }
@@ -465,17 +465,9 @@ function createStatusGridRow(root, details) {
   Ø8.setAttribute('class', 'rTableCell');
   Ø1.appendChild(Ø8);
   var Ø9 = WAVE.ce('div');
-  Ø9.innerText = details.ProjectName;
+  Ø9.innerText = details.Description;
   Ø9.setAttribute('class', 'rTableCell');
   Ø1.appendChild(Ø9);
-  var Ø10 = WAVE.ce('div');
-  Ø10.innerText = details.Name;
-  Ø10.setAttribute('class', 'rTableCell');
-  Ø1.appendChild(Ø10);
-  var Ø11 = WAVE.ce('div');
-  Ø11.innerText = details.Description;
-  Ø11.setAttribute('class', 'rTableCell');
-  Ø1.appendChild(Ø11);
   if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
   return Ø1;
 }
@@ -634,6 +626,55 @@ function buildChatFilterForm(root, task) {
   Ø1.appendChild(Ø4);
   if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
   return Ø1;
+}
+
+function buildArea(root, area) {
+    var Ør = arguments[0];
+    if (WAVE.isString(Ør))
+      Ør = WAVE.id(Ør);
+    var Ø1 = WAVE.ce('div');
+    Ø1.innerText = area.Name+'; ';
+    Ø1.setAttribute('class', 'fView');
+    if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+    return Ø1;
+}
+
+function buildComponent(root, component) {
+  var Ør = arguments[0];
+  if (WAVE.isString(Ør))
+    Ør = WAVE.id(Ør);
+  var Ø1 = WAVE.ce('div');
+  Ø1.innerText = component.Name + '; ';
+  Ø1.setAttribute('class', 'fView');
+  if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+  return Ø1;
+}
+
+﻿function buildAssignee(root, assignee) {
+﻿  var Ør = arguments[0];
+  if (WAVE.isString(Ør))
+    Ør = WAVE.id(Ør);
+  var Ø1 = WAVE.ce('div');
+  Ø1.innerText = assignee.UserLogin + '; ';
+  Ø1.setAttribute('class', 'fView');
+  if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+  return Ø1;
+﻿}
+
+function buildAreasAndComponents(root, task) {
+  for (var i=0, l=task.Areas.length; i < l; i++) {
+    buildArea(root,  task.Areas[i]);    
+  }
+  for (var i=0, l=task.Components.length; i < l; i++) {
+    buildComponent(root,  task.Components[i]);
+  }
+}
+
+function buildAssigneeList(root, task) {
+  // debugger;
+  for (var i=0, l=task.AssigneeList.length; i<l; i++) {
+    buildAssignee(root, task.AssigneeList[i]);
+  }
 }
 
 function chatForm(task) {
@@ -810,7 +851,5 @@ function createTabs(root, task) {
   buildStatusTab(statusId, task);
   buildAssignmentTab(assignmentId, task);
   buildChatTab(chatId, task);
-
-
 
 }
