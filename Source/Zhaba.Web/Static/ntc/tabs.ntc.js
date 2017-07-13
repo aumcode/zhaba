@@ -448,32 +448,6 @@ function buildChatFilterForm(root, task) {
   ***/
 }
 
-function buildArea(root, task, area, canRemove) {
-  /***
-  div="?area.Name"
-  { 
-    id="?'issue-' + task.Counter + '-areatag-'+area.Counter" 
-    class="tag inline-block" 
-    style="background-color: darkgreen"
-  }
-  ***/
-}
-
-function buildComponent(root, task, component, canRemove) {
-
-    /***
-    div="?component.Name" 
-    { 
-      id="?'issue-' + task.Counter + '-comptag-' + component.Counter"
-      class="tag inline-block" 
-      style="background-color: darkblue; cursor: pointer"
-      data-ccomp=?component.Counter
-      data-cissue=?task.Counter
-      data-cproject=?task.C_Project
-    } 
-    ***/
-}
-
 function buildAssignee(root, taskCounter, assignee, canRemove) {
 ﻿   /***
     div="?assignee.UserLogin" { class="tag inline-block" style="background-color: brown"} 
@@ -513,10 +487,10 @@ function buildEditChatDialog(root, item) {
 
 ﻿function buildAreasAndComponents(root, task, isPM) {
 ﻿  for (var i=0, l=task.Areas.length; i < l; i++) {
-﻿    buildArea(root, task, task.Areas[i], isPM);
+﻿    buildAreaTag(root, task.Counter, task.Areas[i].Counter, task.Areas[i].Name);
 ﻿  }
 ﻿  for (var i=0, l=task.Components.length; i < l; i++) {
-﻿    buildComponent(root, task, task.Components[i], isPM);
+﻿    buildCompTag(root, task.Counter, task.Components[i].Counter, task.Components[i].Name);
 ﻿  }
 ﻿}
 

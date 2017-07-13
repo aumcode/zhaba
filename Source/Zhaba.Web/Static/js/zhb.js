@@ -773,36 +773,6 @@ function buildChatFilterForm(root, task) {
   return Ø1;
 }
 
-function buildArea(root, task, area, canRemove) {
-  var Ør = arguments[0];
-  if (WAVE.isString(Ør))
-    Ør = WAVE.id(Ør);
-  var Ø1 = WAVE.ce('div');
-  Ø1.innerText = area.Name;
-  Ø1.setAttribute('id', 'issue-' + task.Counter + '-areatag-'+area.Counter);
-  Ø1.setAttribute('class', 'tag inline-block');
-  Ø1.setAttribute('style', 'background-color: darkgreen');
-  if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
-  return Ø1;
-}
-
-function buildComponent(root, task, component, canRemove) {
-
-    var Ør = arguments[0];
-    if (WAVE.isString(Ør))
-      Ør = WAVE.id(Ør);
-    var Ø1 = WAVE.ce('div');
-    Ø1.innerText = component.Name;
-    Ø1.setAttribute('id', 'issue-' + task.Counter + '-comptag-' + component.Counter);
-    Ø1.setAttribute('class', 'tag inline-block');
-    Ø1.setAttribute('style', 'background-color: darkblue; cursor: pointer');
-    Ø1.setAttribute('data-ccomp', component.Counter);
-    Ø1.setAttribute('data-cissue', task.Counter);
-    Ø1.setAttribute('data-cproject', task.C_Project);
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
-    return Ø1;
-}
-
 function buildAssignee(root, taskCounter, assignee, canRemove) {
 ﻿   var Ør = arguments[0];
    if (WAVE.isString(Ør))
@@ -850,10 +820,10 @@ function buildEditChatDialog(root, item) {
 
 ﻿function buildAreasAndComponents(root, task, isPM) {
 ﻿  for (var i=0, l=task.Areas.length; i < l; i++) {
-﻿    buildArea(root, task, task.Areas[i], isPM);
+﻿    buildAreaTag(root, task.Counter, task.Areas[i].Counter, task.Areas[i].Name);
 ﻿  }
 ﻿  for (var i=0, l=task.Components.length; i < l; i++) {
-﻿    buildComponent(root, task, task.Components[i], isPM);
+﻿    buildCompTag(root, task.Counter, task.Components[i].Counter, task.Components[i].Name);
 ﻿  }
 ﻿}
 
