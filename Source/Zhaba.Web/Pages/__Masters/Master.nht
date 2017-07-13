@@ -56,7 +56,7 @@
 
         <div class="dropdown">
           <button onclick="dataDropDown()" class="dropbtn">
-            Common Data
+            Setup
           </button>
           <div id="data-drop-down" class="dropdown-content">
             @[if (new UserManagerPermission().Check()) {]
