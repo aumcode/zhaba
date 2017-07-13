@@ -121,18 +121,46 @@ var ZHB = (function () {
 ﻿var chatRec = {};
 var chatFilterRec = {};
 
-function computePriorityStyle(priority) {
-  var color = "black";
-  if (priority === 0) {
-    color = "red";
-  } else if (priority > 0 && priority <= 3) {
-    color = "orange";
-  } else if (priority > 3 && priority <= 5) {
-    color = "#9c6f10";
-  } else {
-    color = "green";
+function getStatusBarStyle(value) {
+  var red = 0;
+  var green = 0;
+  if (value <= 25)
+    red = 255;
+  else if (value > 25 && value < 65) {
+    red = 255;
+    green = (value - 25) * 6;
   }
-  return "background-color: {0}; width: 20px".args(color);
+  else if (value == 65) {
+    red = 255;
+    green = 255;
+  }
+  else if (value > 65) {
+    red = 255 - ((value - 65) * 7);
+    green = 255;
+  }
+  else if (value == 100) {
+    red = 0;
+    green = 255;
+  }
+  return "width: {0}%; background: rgb({1},{2}, 0); height: 2px".args(value, red, green);
+}
+
+function getStatusStyle(value) {
+  return "status-tag {0}".args(value.toLowerCase());
+}
+
+function getPriorityStyle(value) {
+  var priority;
+  if (value === 0) {
+    priority = "highest";
+  } else if (value > 0 && value <= 3) {
+    priority = "high";
+  } else if (value > 3 && value <= 5) {
+    priority = "middle";
+  } else {
+    priority = "lower";
+  }
+  return "priority-tag {0}".args(priority);
 }
 
 function buildDate(task) {
@@ -157,7 +185,7 @@ function createHeaders(root) {
     var Ø1 = WAVE.ce('div');
     Ø1.innerText = 'ID';
     Ø1.setAttribute('class', 'cell head');
-    Ø1.setAttribute('style', 'width: 5%');
+    Ø1.setAttribute('style', 'width: 3%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
     var Ø2 = WAVE.ce('div');
     Ø2.innerText = 'Status';
@@ -167,7 +195,7 @@ function createHeaders(root) {
     var Ø3 = WAVE.ce('div');
     Ø3.innerText = 'Date';
     Ø3.setAttribute('class', 'cell head');
-    Ø3.setAttribute('style', 'width: 15%');
+    Ø3.setAttribute('style', 'width: 12%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø3);
     var Ø4 = WAVE.ce('div');
     Ø4.innerText = 'Assigned';
@@ -177,7 +205,7 @@ function createHeaders(root) {
     var Ø5 = WAVE.ce('div');
     Ø5.innerText = 'Areas\x2FComponents';
     Ø5.setAttribute('class', 'cell head');
-    Ø5.setAttribute('style', 'width: 10%');
+    Ø5.setAttribute('style', 'width: 15%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø5);
     var Ø6 = WAVE.ce('div');
     Ø6.innerText = 'Project';
@@ -207,12 +235,11 @@ function createRow(root, task) {
     var Ø1 = WAVE.ce('div');
     Ø1.innerText = task.Counter;
     Ø1.setAttribute('class', 'cell issue_id expander');
-    Ø1.setAttribute('style', 'width: 5%');
+    Ø1.setAttribute('style', 'width: 3%');
     Ø1.setAttribute('align', 'right');
     Ø1.setAttribute('data-cissue', task.Counter);
     Ø1.setAttribute('data-cproject', task.C_Project);
     Ø1.setAttribute('data-detailsid', detailsId);
-    Ø1.addEventListener('click', editIssue1, false);
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
     var Ø2 = WAVE.ce('div');
     Ø2.setAttribute('class', 'cell completeness expander');
@@ -223,13 +250,11 @@ function createRow(root, task) {
   Ø4.setAttribute('align', 'center');
   var Ø5 = WAVE.ce('div');
   Ø5.innerText = task.Status;
-  Ø5.setAttribute('class', 'tag inline');
-  Ø5.setAttribute('style', getStatusStyle(task.Status));
+  Ø5.setAttribute('class', 'tag {0} inline'.args(getStatusStyle(task.Status)));
   Ø4.appendChild(Ø5);
   var Ø6 = WAVE.ce('div');
   Ø6.innerText = task.Category_Name;
-  Ø6.setAttribute('class', 'tag inline');
-  Ø6.setAttribute('style', 'background-color: gray;');
+  Ø6.setAttribute('class', 'tag gray-tag inline');
   Ø4.appendChild(Ø6);
   Ø3.appendChild(Ø4);
   var Ø7 = WAVE.ce('div');
@@ -252,7 +277,7 @@ function createRow(root, task) {
     var Ø9 = WAVE.ce('div');
     Ø9.setAttribute('class', 'cell expander');
     Ø9.setAttribute('data-detailsid', detailsId);
-    Ø9.setAttribute('style', 'width: 15%');
+    Ø9.setAttribute('style', 'width: 12%');
   var Ø10 = WAVE.ce('div');
   Ø10.innerText = buildDate(task);
   Ø9.appendChild(Ø10);
@@ -263,8 +288,7 @@ function createRow(root, task) {
   Ø11.appendChild(Ø12);
   var Ø13 = WAVE.ce('div');
   Ø13.innerText = task.Priority;
-  Ø13.setAttribute('class', 'tag inline-block');
-  Ø13.setAttribute('style', computePriorityStyle(task.Priority));
+  Ø13.setAttribute('class', 'tag {0} inline-block'.args(getPriorityStyle(task.Priority)));
   Ø11.appendChild(Ø13);
   Ø9.appendChild(Ø11);
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø9);
@@ -277,7 +301,7 @@ function createRow(root, task) {
     var Ø15 = WAVE.ce('div');
     Ø15.setAttribute('id', 'ac'+task.Counter);
     Ø15.setAttribute('class', 'cell expander');
-    Ø15.setAttribute('style', 'width: 10%');
+    Ø15.setAttribute('style', 'width: 15%');
     Ø15.setAttribute('data-detailsid', detailsId);
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø15);
     var Ø16 = WAVE.ce('div');
@@ -319,6 +343,7 @@ function createRowDetails(root, id) {
 }
 
 function buildStatusButtons(root, task) {
+  var detailsId = "details-" + task.Counter;
   if (task.Status == 'Defer') {
     var resumeStatus;
     if (task.HasAssignee)
@@ -333,23 +358,70 @@ function buildStatusButtons(root, task) {
     var Ø1 = WAVE.ce('div');
     if(pmperm) {
       var Ø2 = WAVE.ce('a');
-      Ø2.innerText = 'Resume';
-      Ø2.setAttribute('style', 'margin: 4px 4px 4px 0px');
-      Ø2.setAttribute('data-nextstate', resumeStatus);
-      Ø2.setAttribute('data-cproject', task.C_Project);
-      Ø2.setAttribute('data-counter', task.Counter);
-      Ø2.addEventListener('click', getOtherForm1, false);
+      Ø2.innerText = 'Edit Issue';
       Ø2.setAttribute('class', 'button');
+      Ø2.setAttribute('style', 'margin: 4px 4px 4px 0px');
+      Ø2.setAttribute('data-cissue', task.Counter);
+      Ø2.setAttribute('data-cproject', task.C_Project);
+      Ø2.setAttribute('data-detailsid', detailsId);
+      Ø2.addEventListener('click', editIssue1, false);
       Ø1.appendChild(Ø2);
       var Ø3 = WAVE.ce('a');
-      Ø3.innerText = 'Cancel';
+      Ø3.innerText = 'Resume';
       Ø3.setAttribute('style', 'margin: 4px 4px 4px 0px');
-      Ø3.setAttribute('data-nextstate', 'X');
+      Ø3.setAttribute('data-nextstate', resumeStatus);
       Ø3.setAttribute('data-cproject', task.C_Project);
       Ø3.setAttribute('data-counter', task.Counter);
       Ø3.addEventListener('click', getOtherForm1, false);
       Ø3.setAttribute('class', 'button');
       Ø1.appendChild(Ø3);
+      var Ø4 = WAVE.ce('a');
+      Ø4.innerText = 'Cancel';
+      Ø4.setAttribute('style', 'margin: 4px 4px 4px 0px');
+      Ø4.setAttribute('data-nextstate', 'X');
+      Ø4.setAttribute('data-cproject', task.C_Project);
+      Ø4.setAttribute('data-counter', task.Counter);
+      Ø4.addEventListener('click', getOtherForm1, false);
+      Ø4.setAttribute('class', 'button');
+      Ø1.appendChild(Ø4);
+    }
+    var Ø5 = WAVE.ce('a');
+    Ø5.innerText = 'report';
+    Ø5.setAttribute('data-cproject', task.C_Project);
+    Ø5.setAttribute('data-cissue', task.Counter);
+    Ø5.setAttribute('data-report', 'statusreport');
+    Ø5.addEventListener('click', openReport, false);
+    Ø5.setAttribute('class', 'button');
+    Ø5.setAttribute('style', 'margin: 4px 4px 4px 0px');
+    Ø1.appendChild(Ø5);
+    if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+    return Ø1;
+  } else {
+    var Ør = arguments[0];
+    if (WAVE.isString(Ør))
+      Ør = WAVE.id(Ør);
+    var Ø1 = WAVE.ce('div');
+    if(pmperm) {
+      var Ø2 = WAVE.ce('a');
+      Ø2.innerText = 'Edit Issue';
+      Ø2.setAttribute('class', 'button');
+      Ø2.setAttribute('style', 'margin: 4px 4px 4px 0px');
+      Ø2.setAttribute('data-cissue', task.Counter);
+      Ø2.setAttribute('data-cproject', task.C_Project);
+      Ø2.setAttribute('data-detailsid', detailsId);
+      Ø2.addEventListener('click', editIssue1, false);
+      Ø1.appendChild(Ø2);
+       for(var s=0, sl=task.NextState.length; s < sl; s++) {
+        var Ø3 = WAVE.ce('a');
+        Ø3.innerText = statuses[task.NextState[s]];
+        Ø3.setAttribute('style', 'margin: 4px 4px 4px 0px');
+        Ø3.setAttribute('data-nextstate', task.NextState[s]);
+        Ø3.setAttribute('data-cproject', task.C_Project);
+        Ø3.setAttribute('data-counter', task.Counter);
+        Ø3.addEventListener('click', changeStatusDialog1, false);
+        Ø3.setAttribute('class', 'button');
+        Ø1.appendChild(Ø3);
+      }
     }
     var Ø4 = WAVE.ce('a');
     Ø4.innerText = 'report';
@@ -360,35 +432,6 @@ function buildStatusButtons(root, task) {
     Ø4.setAttribute('class', 'button');
     Ø4.setAttribute('style', 'margin: 4px 4px 4px 0px');
     Ø1.appendChild(Ø4);
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
-    return Ø1;
-  } else {
-    var Ør = arguments[0];
-    if (WAVE.isString(Ør))
-      Ør = WAVE.id(Ør);
-    var Ø1 = WAVE.ce('div');
-    if(pmperm) {
-       for(var s=0, sl=task.NextState.length; s < sl; s++) {
-        var Ø2 = WAVE.ce('a');
-        Ø2.innerText = statuses[task.NextState[s]];
-        Ø2.setAttribute('style', 'margin: 4px 4px 4px 0px');
-        Ø2.setAttribute('data-nextstate', task.NextState[s]);
-        Ø2.setAttribute('data-cproject', task.C_Project);
-        Ø2.setAttribute('data-counter', task.Counter);
-        Ø2.addEventListener('click', changeStatusDialog1, false);
-        Ø2.setAttribute('class', 'button');
-        Ø1.appendChild(Ø2);
-      }
-    }
-    var Ø3 = WAVE.ce('a');
-    Ø3.innerText = 'report';
-    Ø3.setAttribute('data-cproject', task.C_Project);
-    Ø3.setAttribute('data-cissue', task.Counter);
-    Ø3.setAttribute('data-report', 'statusreport');
-    Ø3.addEventListener('click', openReport, false);
-    Ø3.setAttribute('class', 'button');
-    Ø3.setAttribute('style', 'margin: 4px 4px 4px 0px');
-    Ø1.appendChild(Ø3);
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
     return Ø1;
   }
@@ -430,42 +473,42 @@ function createStatusHeader(root) {
   if(1==1) {
     var Ø1 = WAVE.ce('div');
     Ø1.innerText = 'ID';
-    Ø1.setAttribute('class', 'cell head rDetailsTableHead');
+    Ø1.setAttribute('class', 'cell detailsHead');
     Ø1.setAttribute('style', 'width: 5%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
     var Ø2 = WAVE.ce('div');
     Ø2.innerText = 'Progress';
-    Ø2.setAttribute('class', 'cell head rDetailsTableHead');
+    Ø2.setAttribute('class', 'cell detailsHead');
     Ø2.setAttribute('style', 'width: 5%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø2);
     var Ø3 = WAVE.ce('div');
     Ø3.innerText = 'Status';
-    Ø3.setAttribute('class', 'cell head rDetailsTableHead');
+    Ø3.setAttribute('class', 'cell detailsHead');
     Ø3.setAttribute('style', 'width: 10%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø3);
     var Ø4 = WAVE.ce('div');
     Ø4.innerText = 'Start';
-    Ø4.setAttribute('class', 'cell head rDetailsTableHead');
+    Ø4.setAttribute('class', 'cell detailsHead');
     Ø4.setAttribute('style', 'width: 10%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø4);
     var Ø5 = WAVE.ce('div');
     Ø5.innerText = 'Plan\x2FDue';
-    Ø5.setAttribute('class', 'cell head rDetailsTableHead');
+    Ø5.setAttribute('class', 'cell detailsHead');
     Ø5.setAttribute('style', 'width: 10%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø5);
     var Ø6 = WAVE.ce('div');
     Ø6.innerText = 'Complete';
-    Ø6.setAttribute('class', 'cell head rDetailsTableHead');
+    Ø6.setAttribute('class', 'cell detailsHead');
     Ø6.setAttribute('style', 'width: 10%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø6);
     var Ø7 = WAVE.ce('div');
     Ø7.innerText = 'Assigned';
-    Ø7.setAttribute('class', 'cell head rDetailsTableHead');
+    Ø7.setAttribute('class', 'cell detailsHead');
     Ø7.setAttribute('style', 'width: 30%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø7);
     var Ø8 = WAVE.ce('div');
     Ø8.innerText = 'Description';
-    Ø8.setAttribute('class', 'cell head rDetailsTableHead');
+    Ø8.setAttribute('class', 'cell detailsHead');
     Ø8.setAttribute('style', 'width: 20%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø8);
   }
@@ -479,37 +522,37 @@ function createStatusHeader(root) {
   if(1==1) {
     var Ø1 = WAVE.ce('div');
     Ø1.innerText = 'ID';
-    Ø1.setAttribute('class', 'cell head rDetailsTableHead');
+    Ø1.setAttribute('class', 'cell detailsHead');
     Ø1.setAttribute('style', 'width: 5%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
     var Ø2 = WAVE.ce('div');
     Ø2.innerText = 'User';
-    Ø2.setAttribute('class', 'cell head rDetailsTableHead');
+    Ø2.setAttribute('class', 'cell detailsHead');
     Ø2.setAttribute('style', 'width: 10%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø2);
     var Ø3 = WAVE.ce('div');
     Ø3.innerText = 'Assigned';
-    Ø3.setAttribute('class', 'cell head rDetailsTableHead');
+    Ø3.setAttribute('class', 'cell detailsHead');
     Ø3.setAttribute('style', 'width: 15%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø3);
     var Ø4 = WAVE.ce('div');
     Ø4.innerText = 'Operator';
-    Ø4.setAttribute('class', 'cell head rDetailsTableHead');
+    Ø4.setAttribute('class', 'cell detailsHead');
     Ø4.setAttribute('style', 'width: 10%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø4);
     var Ø5 = WAVE.ce('div');
     Ø5.innerText = 'Unassigned';
-    Ø5.setAttribute('class', 'cell head rDetailsTableHead');
+    Ø5.setAttribute('class', 'cell detailsHead');
     Ø5.setAttribute('style', 'width: 15%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø5);
     var Ø6 = WAVE.ce('div');
     Ø6.innerText = 'Operator';
-    Ø6.setAttribute('class', 'cell head rDetailsTableHead');
+    Ø6.setAttribute('class', 'cell detailsHead');
     Ø6.setAttribute('style', 'width: 10%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø6);
     var Ø7 = WAVE.ce('div');
     Ø7.innerText = 'Note';
-    Ø7.setAttribute('class', 'cell head rDetailsTableHead');
+    Ø7.setAttribute('class', 'cell detailsHead');
     Ø7.setAttribute('style', 'width: 35%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø7);
   }
@@ -522,45 +565,45 @@ function createStatusGridRow(root, details) {
   if(1==1) {
     var Ø1 = WAVE.ce('div');
     Ø1.innerText = details.Counter;
-    Ø1.setAttribute('class', 'cell');
+    Ø1.setAttribute('class', 'cell detailsCell');
     Ø1.setAttribute('align', 'right');
     Ø1.setAttribute('style', 'width: 5%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
     var Ø2 = WAVE.ce('div');
     Ø2.innerText = details.Completeness;
-    Ø2.setAttribute('class', 'cell');
+    Ø2.setAttribute('class', 'cell detailsCell');
     Ø2.setAttribute('style', 'width: 5%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø2);
     var Ø3 = WAVE.ce('div');
     Ø3.innerText = details.Status;
-    Ø3.setAttribute('class', 'cell');
+    Ø3.setAttribute('class', 'cell detailsCell');
     Ø3.setAttribute('align', 'center');
     Ø3.setAttribute('style', 'width: 10%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø3);
     var Ø4 = WAVE.ce('div');
     Ø4.innerText = WAVE.dateTimeToString(details.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
-    Ø4.setAttribute('class', 'cell');
+    Ø4.setAttribute('class', 'cell detailsCell');
     Ø4.setAttribute('style', 'width: 10%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø4);
     var Ø5 = WAVE.ce('div');
     Ø5.innerText = WAVE.dateTimeToString(details.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
-    Ø5.setAttribute('class', 'cell');
+    Ø5.setAttribute('class', 'cell detailsCell');
     Ø5.setAttribute('style', 'width: 10%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø5);
     var Ø6 = WAVE.ce('div');
     Ø6.innerText = WAVE.dateTimeToString(details.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
-    Ø6.setAttribute('class', 'cell');
+    Ø6.setAttribute('class', 'cell detailsCell');
     Ø6.setAttribute('style', 'width: 10%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø6);
     var Ø7 = WAVE.ce('div');
     Ø7.innerText = details.Assignee;
-    Ø7.setAttribute('class', 'cell');
+    Ø7.setAttribute('class', 'cell detailsCell');
     Ø7.setAttribute('style', 'width: 30%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø7);
     var Ø8 = WAVE.ce('div');
     Ø8.innerText = details.Description;
     Ø8.setAttribute('id', 'details-description'+details.Counter);
-    Ø8.setAttribute('class', 'cell');
+    Ø8.setAttribute('class', 'cell detailsCell');
     Ø8.setAttribute('style', 'width: 20%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø8);
   }
@@ -574,40 +617,40 @@ function createAssignmentGridRow(root, assignment) {
   if(1==1) {
     var Ø1 = WAVE.ce('div');
     Ø1.innerText = assignment.Counter;
-    Ø1.setAttribute('class', 'cell');
+    Ø1.setAttribute('class', 'cell detailsCell');
     Ø1.setAttribute('align', 'right');
     Ø1.setAttribute('style', 'width: 5%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
     var Ø2 = WAVE.ce('div');
     Ø2.innerText = assignment.UserFirstName + ' ' + assignment.UserLastName + '(' +assignment.UserLogin+')';
-    Ø2.setAttribute('class', 'cell');
+    Ø2.setAttribute('class', 'cell detailsCell');
     Ø2.setAttribute('align', 'right');
     Ø2.setAttribute('style', 'width: 10%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø2);
     var Ø3 = WAVE.ce('div');
     Ø3.innerText = WAVE.dateTimeToString(assignment.Open_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
-    Ø3.setAttribute('class', 'cell');
+    Ø3.setAttribute('class', 'cell detailsCell');
     Ø3.setAttribute('style', 'width: 15%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø3);
     var Ø4 = WAVE.ce('div');
     Ø4.innerText = assignment.OperatorOpenLogin;
-    Ø4.setAttribute('class', 'cell');
+    Ø4.setAttribute('class', 'cell detailsCell');
     Ø4.setAttribute('style', 'width: 10%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø4);
     var Ø5 = WAVE.ce('div');
     Ø5.innerText = WAVE.dateTimeToString(assignment.Close_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
-    Ø5.setAttribute('class', 'cell');
+    Ø5.setAttribute('class', 'cell detailsCell');
     Ø5.setAttribute('style', 'width: 15%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø5);
     var Ø6 = WAVE.ce('div');
     Ø6.innerText = assignment.OperatorCloseLogin;
-    Ø6.setAttribute('class', 'cell');
+    Ø6.setAttribute('class', 'cell detailsCell');
     Ø6.setAttribute('align', 'center');
     Ø6.setAttribute('style', 'width: 10%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø6);
     var Ø7 = WAVE.ce('div');
     Ø7.innerText = assignment.Note;
-    Ø7.setAttribute('class', 'cell');
+    Ø7.setAttribute('class', 'cell detailsCell');
     Ø7.setAttribute('style', 'width: 35%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø7);
   }
@@ -1056,6 +1099,30 @@ function editChatItem(e) {
   
 }
 
+function buildAreasTab(areasId,  task) {
+  var link = "/project/{0}/issuearea?issue={1}".args(task.C_Project, task.Counter);
+  $.post(link,
+    null,
+    function(grid) {
+      $("#"+areasId).html(grid);
+    }).
+    fail(function (error) {
+      console.log(error);  
+    });  
+}
+
+function ﻿buildComponentsTab(componentsId, task) {
+  var link = "/project/{0}/issuecomponent?issue={1}".args(task.C_Project, task.Counter);
+  $.post(link,
+      null,
+      function(grid) {
+        $("#"+componentsId).html(grid);
+      }).
+    fail(function (error) {
+      console.log(error);  
+    });  
+}
+
 function createTabs(root, task) {
   var statusId = "status-" + task.Counter;
   var statusContainer = "<div id={0}></div>".args(statusId);
@@ -1065,6 +1132,12 @@ function createTabs(root, task) {
   
   var chatId = "chatTab-{0}".args(task.Counter);
   var chatContainer = "<div id={0}></div>".args(chatId);
+  
+  var areasId = "areasTab-{0}".args(task.Counter);
+  var areasContainer = "<div id={0}></div>".args(areasId);
+
+  var componentsId = "componentsTab-{0}".args(task.Counter);
+  var componentsContainer = "<div id={0}></div>".args(componentsId);
 
   var tabs = new WAVE.GUI.Tabs({
     DIV: WAVE.id(root),
@@ -1087,7 +1160,19 @@ function createTabs(root, task) {
         title: "Chat",
         content: chatContainer,
         isHtml: true
-      }
+      },
+      {
+        name: "tAreas",
+        title: "Areas",
+        content: areasContainer,
+        isHtml: true
+      },
+      {
+        name: "tComponents",
+        title: "Components",
+        content: componentsContainer,
+        isHtml: true
+      }   
     ]
   });
   tabs.eventBind(WAVE.GUI.EVT_TABS_TAB_CHANGED, function (sender, args) {
@@ -1099,5 +1184,7 @@ function createTabs(root, task) {
   buildStatusTab(statusId, task);
   buildAssignmentTab(assignmentId, task);
   buildChatTab(chatId, task);
+  buildAreasTab(areasId,  task);
+  buildComponentsTab(componentsId, task)
 
 }

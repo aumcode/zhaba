@@ -188,7 +188,7 @@
 
   function changeStatusDialog(status, pid, iid) {
     if(status == 'A') {
-      getIssueAssignForm(pid, iid, null);
+      getIssueAssignForm(pid, iid, "");
     } else {
       getOtherForm(status, pid, iid);
     }
