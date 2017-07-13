@@ -117,48 +117,6 @@
       function (resp) { console.log("fail"); });
   }
 
-  function getStatusBarStyle(value){
-    var red = 0;
-    var green = 0;
-    var color = '';
-    if(value <= 25)
-      red = 255;
-    else if(value > 25 && value < 65){
-      red = 255;
-      green = (value - 25) * 6;
-    }
-    else if(value == 65){
-      red = 255;
-      green = 255;
-    }
-    else if(value > 65){
-      red = 255 - ((value - 65) * 7);
-      green = 255;
-    }
-    else if(value == 100){
-      red = 0;
-      green = 255;
-    }
-    return "width: {0}%; background: rgb({1},{2}, 0); height: 2px".args(value, red, green); 
-  }
-
-  function getStatusStyle(value){
-    var color = 'white';
-    if(value == 'New')
-      color = 'red';
-    else if(value == 'Reopen')
-      color = 'orange';
-    else if(value == 'Assigned')
-      color = '#9c6f10';
-    else if(value == 'Defer')
-      color = 'purple';
-    else if(value == 'Done')
-      color = '#539a53';
-    else if(value == 'Closed')
-      color = 'gray';
-    return "background-color: {0}; color: #fff".args(color); 
-  }
-
   function renderTasks(root){
     clearGrid();
     createHeaders(root);

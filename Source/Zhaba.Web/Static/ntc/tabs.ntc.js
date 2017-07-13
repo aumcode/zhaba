@@ -1,18 +1,46 @@
 ﻿﻿var chatRec = {};
 var chatFilterRec = {};
 
-function computePriorityStyle(priority) {
-  var color = "black";
-  if (priority === 0) {
-    color = "red";
-  } else if (priority > 0 && priority <= 3) {
-    color = "orange";
-  } else if (priority > 3 && priority <= 5) {
-    color = "#9c6f10";
-  } else {
-    color = "green";
+function getStatusBarStyle(value) {
+  var red = 0;
+  var green = 0;
+  if (value <= 25)
+    red = 255;
+  else if (value > 25 && value < 65) {
+    red = 255;
+    green = (value - 25) * 6;
   }
-  return "background-color: {0}; width: 20px".args(color);
+  else if (value == 65) {
+    red = 255;
+    green = 255;
+  }
+  else if (value > 65) {
+    red = 255 - ((value - 65) * 7);
+    green = 255;
+  }
+  else if (value == 100) {
+    red = 0;
+    green = 255;
+  }
+  return "width: {0}%; background: rgb({1},{2}, 0); height: 2px".args(value, red, green);
+}
+
+function getStatusStyle(value) {
+  return "status-tag {0}".args(value.toLowerCase());
+}
+
+function getPriorityStyle(value) {
+  var priority;
+  if (value === 0) {
+    priority = "highest";
+  } else if (value > 0 && value <= 3) {
+    priority = "high";
+  } else if (value > 3 && value <= 5) {
+    priority = "middle";
+  } else {
+    priority = "lower";
+  }
+  return "priority-tag {0}".args(priority);
 }
 
 function buildDate(task) {
@@ -33,11 +61,11 @@ function createHeaders(root) {
   /***
   "?if(1 == 1)" 
   {
-    div="ID" {class="cell head" style="width: 5%"}
+    div="ID" {class="cell head" style="width: 3%"}
     div="Status" {class="cell head" style="width: 10%"}
-    div="Date" {class="cell head" style="width: 15%"}
+    div="Date" {class="cell head" style="width: 12%"}
     div="Assigned" {class="cell head" style="width: 10%"}
-    div="Areas/Components" {class="cell head" style="width: 10%"}
+    div="Areas/Components" {class="cell head" style="width: 15%"}
     div="Project" {class="cell head" style="width: 10%"}
     div="Issue" {class="cell head" style="width: 20%"}
     div="Description"{class="cell head" style="width: 20%"}
@@ -53,7 +81,7 @@ function createRow(root, task) {
     div="?task.Counter"
     {
       class="cell issue_id expander"
-      style="width: 5%"
+      style="width: 3%"
       align="right"
 
       data-cissue=?task.Counter
@@ -71,8 +99,8 @@ function createRow(root, task) {
         div
         {
           align="center"
-          div="?task.Status"{ class="tag inline" style="?getStatusStyle(task.Status)" }
-          div="?task.Category_Name"{ class="tag inline" style="background-color: gray;" }
+          div="?task.Status"{ class="?'tag {0} inline'.args(getStatusStyle(task.Status))" }
+          div="?task.Category_Name"{ class="tag gray-tag inline" }
         }
       
         div="?task.Completeness +'%'" 
@@ -98,17 +126,17 @@ function createRow(root, task) {
     {
       class="cell expander"
       data-detailsid=?detailsId
-      style="width: 15%"
+      style="width: 12%"
       div="?buildDate(task)"{}
       div
       {
         div="?buildDueDate(task)"{ class="inline"}
-        div="?task.Priority"{ class="tag inline-block" style="?computePriorityStyle(task.Priority)"}
+        div="?task.Priority"{ class="?'tag {0} inline-block'.args(getPriorityStyle(task.Priority))"}
       }
     }
 
     div { id="?'assignee'+task.Counter" class="cell expander" style="width: 10%" data-detailsid=?detailsId}
-    div { id="?'ac'+task.Counter" class="cell expander" style="width: 10%" data-detailsid=?detailsId}
+    div { id="?'ac'+task.Counter" class="cell expander" style="width: 15%" data-detailsid=?detailsId}
     div="?task.ProjectName"{ class="cell expander" style="width: 10%" data-detailsid=?detailsId}
     div="?task.Name"{ class="cell expander" style="width: 20%" data-detailsid=?detailsId}
     div="?task.Description"
@@ -239,14 +267,14 @@ function createStatusHeader(root) {
   /***
   "?if(1==1)"
   {
-    div="ID" {class="cell head rDetailsTableHead" style="width: 5%"}
-    div="Progress" {class="cell head rDetailsTableHead" style="width: 5%"}
-    div="Status" {class="cell head rDetailsTableHead" style="width: 10%"}
-    div="Start" {class="cell head rDetailsTableHead" style="width: 10%"}
-    div="Plan/Due" {class="cell head rDetailsTableHead" style="width: 10%"}
-    div="Complete" {class="cell head rDetailsTableHead" style="width: 10%"}
-    div="Assigned" {class="cell head rDetailsTableHead" style="width: 30%"}
-    div="Description"{ class="cell head rDetailsTableHead"  style="width: 20%"}
+    div="ID" {class="cell detailsHead" style="width: 5%"}
+    div="Progress" {class="cell detailsHead" style="width: 5%"}
+    div="Status" {class="cell detailsHead" style="width: 10%"}
+    div="Start" {class="cell detailsHead" style="width: 10%"}
+    div="Plan/Due" {class="cell detailsHead" style="width: 10%"}
+    div="Complete" {class="cell detailsHead" style="width: 10%"}
+    div="Assigned" {class="cell detailsHead" style="width: 30%"}
+    div="Description"{ class="cell detailsHead"  style="width: 20%"}
   }
   ***/
 }
@@ -255,13 +283,13 @@ function createStatusHeader(root) {
 ﻿  /***
    "?if(1==1)"
    {
-     div="ID" {class="cell head rDetailsTableHead" style="width: 5%"}
-     div="User" {class="cell head rDetailsTableHead" style="width: 10%"}
-     div="Assigned" {class="cell head rDetailsTableHead" style="width: 15%"}
-     div="Operator" {class="cell head rDetailsTableHead" style="width: 10%"}
-     div="Unassigned" {class="cell head rDetailsTableHead" style="width: 15%"}
-     div="Operator" {class="cell head rDetailsTableHead" style="width: 10%"}
-     div="Note" {class="cell head rDetailsTableHead" style="width: 35%"}
+     div="ID" {class="cell detailsHead" style="width: 5%"}
+     div="User" {class="cell detailsHead" style="width: 10%"}
+     div="Assigned" {class="cell detailsHead" style="width: 15%"}
+     div="Operator" {class="cell detailsHead" style="width: 10%"}
+     div="Unassigned" {class="cell detailsHead" style="width: 15%"}
+     div="Operator" {class="cell detailsHead" style="width: 10%"}
+     div="Note" {class="cell detailsHead" style="width: 35%"}
    }
    ***/
 ﻿}
@@ -269,14 +297,14 @@ function createStatusGridRow(root, details) {
   /***
   "?if(1==1)"
   {      
-    div="?details.Counter"{ class="cell" align="right"  style="width: 5%"}
-    div="?details.Completeness" { class="cell"  style="width: 5%"}
-    div="?details.Status"{ class="cell" align="center" style="width: 10%"}
-    div="?WAVE.dateTimeToString(details.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell"  style="width: 10%"}
-    div="?WAVE.dateTimeToString(details.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell"  style="width: 10%"}
-    div="?WAVE.dateTimeToString(details.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell"  style="width: 10%"}
-    div=?details.Assignee { class="cell"  style="width: 30%"}
-    div="?details.Description"{ id="?'details-description'+details.Counter" class="cell"  style="width: 20%"}
+    div="?details.Counter"{ class="cell detailsCell" align="right" style="width: 5%"}
+    div="?details.Completeness" { class="cell detailsCell" style="width: 5%"}
+    div="?details.Status"{ class="cell detailsCell" align="center" style="width: 10%"}
+    div="?WAVE.dateTimeToString(details.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell detailsCell" style="width: 10%"}
+    div="?WAVE.dateTimeToString(details.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell detailsCell" style="width: 10%"}
+    div="?WAVE.dateTimeToString(details.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell detailsCell" style="width: 10%"}
+    div=?details.Assignee { class="cell detailsCell" style="width: 30%"}
+    div="?details.Description"{ id="?'details-description'+details.Counter" class="cell detailsCell" style="width: 20%"}
   }
   ***/
 }
@@ -285,13 +313,13 @@ function createAssignmentGridRow(root, assignment) {
   /***
   "?if(1==1)"
   {
-    div="?assignment.Counter"{ class="cell" align="right"  style="width: 5%"}
-    div="?assignment.UserFirstName + ' ' + assignment.UserLastName + '(' +assignment.UserLogin+')'"{ class="cell" align="right"  style="width: 10%"}
-    div="?WAVE.dateTimeToString(assignment.Open_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell"  style="width: 15%"}
-    div="?assignment.OperatorOpenLogin" { class="cell"  style="width: 10%"}
-    div="?WAVE.dateTimeToString(assignment.Close_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell"  style="width: 15%"}
-    div="?assignment.OperatorCloseLogin"{ class="cell" align="center" style="width: 10%"}
-    div="?assignment.Note" {class="cell" style="width: 35%"}
+    div="?assignment.Counter"{ class="cell detailsCell" align="right" style="width: 5%"}
+    div="?assignment.UserFirstName + ' ' + assignment.UserLastName + '(' +assignment.UserLogin+')'"{ class="cell detailsCell" align="right" style="width: 10%"}
+    div="?WAVE.dateTimeToString(assignment.Open_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell detailsCell" style="width: 15%"}
+    div="?assignment.OperatorOpenLogin" { class="cell detailsCell" style="width: 10%"}
+    div="?WAVE.dateTimeToString(assignment.Close_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell detailsCell" style="width: 15%"}
+    div="?assignment.OperatorCloseLogin"{ class="cell detailsCell" align="center" style="width: 10%"}
+    div="?assignment.Note" {class="cell detailsCell" style="width: 35%"}
   }
   ***/
 }

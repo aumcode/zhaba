@@ -1,8 +1,6 @@
 ﻿#tasksPage{
   
-
   .expander {
-    border: 2px solid gray;
   }
 
   .header {
@@ -42,28 +40,10 @@
     left: 0;
   }
 
-  .tag{
-    margin: 2px;
-    padding: 2px;
-    border-radius: 3px;
-    color: #fff; 
-    text-align: center;
-  }
-
-  .inline{
-    display: inline;
-  }
-
-  .inline-block{
-    display: inline-block;
-  }
-
   .issue_id {
   }
 
   .tab-control {
-    border: 1px solid #547657;
-    background-color: #547657;
   }
 
   div.ChatDiv {
@@ -89,24 +69,136 @@
     width: 150px !important;
   }
 
+  .inline{
+    display: inline;
+  }
+    
+  .inline-block{
+    display: inline-block;
+  }
+
+  .tag{
+    margin: 2px;
+    padding: 2px;
+    border-radius: 3px;
+    color: #fff; 
+    text-align: center;
+    font-size: 14px;
+    &.status-tag{
+      &.new{
+        background-color: blue;
+      }
+
+      &.reopen{
+        background-color: orange;
+      }
+
+      &.assigned{
+        background-color: cadetblue;
+      }
+
+      &.done{
+        background-color: #539a53;
+      }
+
+      &.defer{
+        background-color: purple;
+      }
+
+      &.closed{
+        background-color: gray;
+      }
+
+      &.canceled{
+        background-color: darkgray;
+      }
+    }
+
+    &.priority-tag{
+      width: 20px;
+      float:right;
+      &.highest{
+        background-color: red;
+      }
+
+      &.high{
+        background-color: orange;
+      }
+
+      &.middle{
+        background-color: #9c6f10;
+      }
+
+      &.lower{
+        background-color: green;
+      }
+    }
+
+    &.red-tag{
+      background-color: red;
+    }
+
+    &.orange-tag{
+      background-color: orange;
+    }
+
+    &.yellow-tag{
+      background-color: #9c6f10;
+    }
+
+    &.green-tag{
+      background-color: green;
+    }
+
+    &.blue-tag{
+      background-color: blue;
+    }
+
+    &.brown-tag{
+      background-color: brown;
+    }
+
+    &.gray-tag{
+      background-color: gray;
+    }
+
+    &.purple-tag{
+      background-color: purple;
+    }
+  }
+
   .table{
     width: 100%;
     .mix-flexbox();
     .mix-flex-wrap(wrap);
     & > .cell{
+      border-top: 2px solid #a0a0a0;
+      overflow: hidden;
       padding: 3px 5px;
       &.head{
-        background-color: #606060;
-        border: 1px solid green;
+        color: #fff;
+        background-color: #a0a0a0;
+        border: 1px dotted #d0d0d0;
       }
 
       &.body{
-        border: 1px solid green;
       }
 
       &.full{
-        border: 1px solid green;
+        padding: 0px;
+        border-top: 2px solid #d8d8d8;
         width: 100%;
+      }
+
+      &.detailsHead{
+        color: #fff;
+        background-color: #c0c0c0;
+        border: 1px dotted #d0d0d0;
+      }
+
+      &.detailsCell{
+        border-top: 2px solid #d8d8d8;
+        border-bottom: none;
       }
     }
   }
