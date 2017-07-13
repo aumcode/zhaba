@@ -457,7 +457,7 @@ function buildChatFilterForm(root, task) {
 
 function buildAssignee(root, assignee) {
 ﻿   /***
-    div="?assignee.UserLogin" { class="tag inline-block" style="background-color: brown"} 
+    div="?assignee.UserLogin" { class="tag assignee-tag inline-block"} 
    ***/
 ﻿}
 
@@ -792,6 +792,5 @@ function createTabs(root, task) {
   buildAssignmentTab(assignmentId, task);
   buildChatTab(chatId, task);
   buildAreasTab(areasId,  task);
-  buildComponentsTab(componentsId, task)
-
+  buildComponentsTab(componentsId, task);
 }

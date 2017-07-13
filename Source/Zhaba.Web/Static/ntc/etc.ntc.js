@@ -121,8 +121,7 @@ function buildAreaTag(root, cIssue, cArea, areaName) {
   div="?areaName"
   { 
     id="?'issue-' + cIssue + '-areatag-'+cArea" 
-    class="tag inline-block" 
-    style="background-color: darkgreen"
+    class="tag area-tag inline-block"
   }
   ***/
 }
@@ -133,8 +132,7 @@ function buildCompTag(root, cIssue, cComp, compName) {
   div="?compName" 
   { 
     id="?'issue-' + cIssue + '-comptag-' + cComp"
-    class="tag inline-block" 
-    style="background-color: darkblue; cursor: pointer"
+    class="tag component-tag inline-block"
   } 
   ***/
 }
