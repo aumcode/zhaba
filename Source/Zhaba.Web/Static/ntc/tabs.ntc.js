@@ -83,11 +83,10 @@ function createRow(root, task) {
       class="cell issue_id expander"
       style="width: 3%"
       align="right"
-
+      
       data-cissue=?task.Counter
       data-cproject=?task.C_Project
       data-detailsid=?detailsId
-      on-click=editIssue1
     }
     div 
     { 
@@ -162,6 +161,7 @@ function createRowDetails(root, id) {
 }
 
 function buildStatusButtons(root, task) {
+  var detailsId = "details-" + task.Counter;
   if (task.Status == 'Defer') {
     var resumeStatus;
     if (task.HasAssignee)
@@ -174,6 +174,15 @@ function buildStatusButtons(root, task) {
     div
     {
       "?if(pmperm)" {
+        a="Edit Issue" 
+        {
+          class="button"
+          style="margin: 4px 4px 4px 0px"
+          data-cissue=?task.Counter
+          data-cproject=?task.C_Project
+          data-detailsid=?detailsId
+          on-click=editIssue1
+        }
         a="Resume" 
         {
           style="margin: 4px 4px 4px 0px"
@@ -209,6 +218,17 @@ function buildStatusButtons(root, task) {
     div
     {
       "?if(pmperm)" {
+      
+        a="Edit Issue" 
+        {
+          class="button"
+          style="margin: 4px 4px 4px 0px"
+          data-cissue=?task.Counter
+          data-cproject=?task.C_Project
+          data-detailsid=?detailsId
+          on-click=editIssue1
+        }
+        
         "? for(var s=0, sl=task.NextState.length; s < sl; s++)" {
           a = "?statuses[task.NextState[s]]" 
           {
@@ -731,6 +751,30 @@ function editChatItem(e) {
   
 }
 
+function buildAreasTab(areasId,  task) {
+  var link = "/project/{0}/issuearea?issue={1}".args(task.C_Project, task.Counter);
+  $.post(link,
+    null,
+    function(grid) {
+      $("#"+areasId).html(grid);
+    }).
+    fail(function (error) {
+      console.log(error);  
+    });  
+}
+
+function ﻿buildComponentsTab(componentsId, task) {
+  var link = "/project/{0}/issuecomponent?issue={1}".args(task.C_Project, task.Counter);
+  $.post(link,
+      null,
+      function(grid) {
+        $("#"+componentsId).html(grid);
+      }).
+    fail(function (error) {
+      console.log(error);  
+    });  
+}
+
 function createTabs(root, task) {
   var statusId = "status-" + task.Counter;
   var statusContainer = "<div id={0}></div>".args(statusId);
@@ -740,6 +784,12 @@ function createTabs(root, task) {
   
   var chatId = "chatTab-{0}".args(task.Counter);
   var chatContainer = "<div id={0}></div>".args(chatId);
+  
+  var areasId = "areasTab-{0}".args(task.Counter);
+  var areasContainer = "<div id={0}></div>".args(areasId);
+
+  var componentsId = "componentsTab-{0}".args(task.Counter);
+  var componentsContainer = "<div id={0}></div>".args(componentsId);
 
   var tabs = new WAVE.GUI.Tabs({
     DIV: WAVE.id(root),
@@ -762,7 +812,19 @@ function createTabs(root, task) {
         title: "Chat",
         content: chatContainer,
         isHtml: true
-      }
+      },
+      {
+        name: "tAreas",
+        title: "Areas",
+        content: areasContainer,
+        isHtml: true
+      },
+      {
+        name: "tComponents",
+        title: "Components",
+        content: componentsContainer,
+        isHtml: true
+      }   
     ]
   });
   tabs.eventBind(WAVE.GUI.EVT_TABS_TAB_CHANGED, function (sender, args) {
@@ -774,5 +836,7 @@ function createTabs(root, task) {
   buildStatusTab(statusId, task);
   buildAssignmentTab(assignmentId, task);
   buildChatTab(chatId, task);
+  buildAreasTab(areasId,  task);
+  buildComponentsTab(componentsId, task)
 
 }
