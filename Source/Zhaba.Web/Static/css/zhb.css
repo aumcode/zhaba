@@ -765,7 +765,7 @@ body #ftr {
   display: inline-block;
 }
 #tasksPage .tag {
-  margin: 2px;
+  margin: 1px;
   padding: 2px;
   border-radius: 3px;
   color: #fff;
@@ -794,8 +794,8 @@ body #ftr {
   background-color: darkgray;
 }
 #tasksPage .tag.priority-tag {
+  padding: 0;
   width: 20px;
-  float: right;
 }
 #tasksPage .tag.priority-tag.highest {
   background-color: red;
@@ -835,6 +835,9 @@ body #ftr {
   border-top: 2px solid #a0a0a0;
   overflow: hidden;
   padding: 3px 5px;
+}
+#tasksPage .table > .cell.text-align-center {
+  text-align: center;
 }
 #tasksPage .table > .cell.head {
   text-align: center;

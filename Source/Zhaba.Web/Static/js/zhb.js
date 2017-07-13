@@ -267,64 +267,61 @@ function createRow(root, task) {
   Ø7.addEventListener('click', changeProgress1, false);
   Ø7.setAttribute('class', 'bar-value');
   Ø7.setAttribute('align', 'center');
-  Ø3.appendChild(Ø7);
   var Ø8 = WAVE.ce('div');
-  Ø8.setAttribute('class', 'bar');
-  Ø8.setAttribute('style', getStatusBarStyle(task.Completeness));
-  Ø3.appendChild(Ø8);
+  Ø8.innerText = task.Priority;
+  Ø8.setAttribute('class', 'tag {0} inline-block'.args(getPriorityStyle(task.Priority)));
+  Ø7.appendChild(Ø8);
+  Ø3.appendChild(Ø7);
+  var Ø9 = WAVE.ce('div');
+  Ø9.setAttribute('class', 'bar');
+  Ø9.setAttribute('style', getStatusBarStyle(task.Completeness));
+  Ø3.appendChild(Ø9);
   Ø2.appendChild(Ø3);
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø2);
-    var Ø9 = WAVE.ce('div');
-    Ø9.setAttribute('class', 'cell expander');
-    Ø9.setAttribute('data-detailsid', detailsId);
-    Ø9.setAttribute('style', 'width: 12%');
-  var Ø10 = WAVE.ce('div');
-  Ø10.innerText = buildDate(task);
-  Ø9.appendChild(Ø10);
+    var Ø10 = WAVE.ce('div');
+    Ø10.setAttribute('class', 'cell text-align-center expander');
+    Ø10.setAttribute('data-detailsid', detailsId);
+    Ø10.setAttribute('style', 'width: 12%;');
   var Ø11 = WAVE.ce('div');
+  Ø11.innerText = buildDate(task);
+  Ø10.appendChild(Ø11);
   var Ø12 = WAVE.ce('div');
   Ø12.innerText = buildDueDate(task);
-  Ø12.setAttribute('class', 'inline');
-  Ø11.appendChild(Ø12);
-  var Ø13 = WAVE.ce('div');
-  Ø13.innerText = task.Priority;
-  Ø13.setAttribute('class', 'tag {0} inline-block'.args(getPriorityStyle(task.Priority)));
-  Ø11.appendChild(Ø13);
-  Ø9.appendChild(Ø11);
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø9);
+  Ø10.appendChild(Ø12);
+    if (WAVE.isObject(Ør)) Ør.appendChild(Ø10);
+    var Ø13 = WAVE.ce('div');
+    Ø13.setAttribute('id', 'assignee'+task.Counter);
+    Ø13.setAttribute('class', 'cell expander');
+    Ø13.setAttribute('style', 'width: 10%');
+    Ø13.setAttribute('data-detailsid', detailsId);
+    if (WAVE.isObject(Ør)) Ør.appendChild(Ø13);
     var Ø14 = WAVE.ce('div');
-    Ø14.setAttribute('id', 'assignee'+task.Counter);
+    Ø14.setAttribute('id', 'ac'+task.Counter);
     Ø14.setAttribute('class', 'cell expander');
-    Ø14.setAttribute('style', 'width: 10%');
+    Ø14.setAttribute('style', 'width: 15%');
     Ø14.setAttribute('data-detailsid', detailsId);
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø14);
     var Ø15 = WAVE.ce('div');
-    Ø15.setAttribute('id', 'ac'+task.Counter);
+    Ø15.innerText = task.ProjectName;
     Ø15.setAttribute('class', 'cell expander');
-    Ø15.setAttribute('style', 'width: 15%');
+    Ø15.setAttribute('style', 'width: 10%');
     Ø15.setAttribute('data-detailsid', detailsId);
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø15);
     var Ø16 = WAVE.ce('div');
-    Ø16.innerText = task.ProjectName;
+    Ø16.innerText = task.Name;
     Ø16.setAttribute('class', 'cell expander');
-    Ø16.setAttribute('style', 'width: 10%');
+    Ø16.setAttribute('style', 'width: 20%');
     Ø16.setAttribute('data-detailsid', detailsId);
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø16);
     var Ø17 = WAVE.ce('div');
-    Ø17.innerText = task.Name;
+    Ø17.innerText = task.Description;
+    Ø17.setAttribute('id', 'description'+task.Counter);
     Ø17.setAttribute('class', 'cell expander');
     Ø17.setAttribute('style', 'width: 20%');
     Ø17.setAttribute('data-detailsid', detailsId);
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø17);
-    var Ø18 = WAVE.ce('div');
-    Ø18.innerText = task.Description;
-    Ø18.setAttribute('id', 'description'+task.Counter);
-    Ø18.setAttribute('class', 'cell expander');
-    Ø18.setAttribute('style', 'width: 20%');
-    Ø18.setAttribute('data-detailsid', detailsId);
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø18);
   }
-  return Ø18;
+  return Ø17;
 }
 
 function createRowDetails(root, id) {
@@ -565,49 +562,58 @@ function createStatusGridRow(root, details) {
   if(1==1) {
     var Ø1 = WAVE.ce('div');
     Ø1.innerText = details.Counter;
-    Ø1.setAttribute('class', 'cell detailsCell');
+    Ø1.setAttribute('class', 'cell text-align-center detailsCell');
     Ø1.setAttribute('align', 'right');
     Ø1.setAttribute('style', 'width: 5%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
     var Ø2 = WAVE.ce('div');
-    Ø2.innerText = details.Completeness;
-    Ø2.setAttribute('class', 'cell detailsCell');
+    Ø2.innerText = details.Completeness +'%';
+    Ø2.setAttribute('class', 'cell text-align-center detailsCell');
     Ø2.setAttribute('style', 'width: 5%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø2);
     var Ø3 = WAVE.ce('div');
-    Ø3.innerText = details.Status;
-    Ø3.setAttribute('class', 'cell detailsCell');
-    Ø3.setAttribute('align', 'center');
+    Ø3.setAttribute('class', 'cell text-align-center detailsCell');
     Ø3.setAttribute('style', 'width: 10%');
+  var Ø4 = WAVE.ce('div');
+  Ø4.setAttribute('align', 'center');
+  var Ø5 = WAVE.ce('div');
+  Ø5.innerText = details.Status;
+  Ø5.setAttribute('class', 'tag {0} inline'.args(getStatusStyle(details.Status)));
+  Ø4.appendChild(Ø5);
+  var Ø6 = WAVE.ce('div');
+  Ø6.innerText = details.Category_Name;
+  Ø6.setAttribute('class', 'tag category-tag inline');
+  Ø4.appendChild(Ø6);
+  Ø3.appendChild(Ø4);
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø3);
-    var Ø4 = WAVE.ce('div');
-    Ø4.innerText = WAVE.dateTimeToString(details.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
-    Ø4.setAttribute('class', 'cell detailsCell');
-    Ø4.setAttribute('style', 'width: 10%');
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø4);
-    var Ø5 = WAVE.ce('div');
-    Ø5.innerText = WAVE.dateTimeToString(details.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
-    Ø5.setAttribute('class', 'cell detailsCell');
-    Ø5.setAttribute('style', 'width: 10%');
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø5);
-    var Ø6 = WAVE.ce('div');
-    Ø6.innerText = WAVE.dateTimeToString(details.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
-    Ø6.setAttribute('class', 'cell detailsCell');
-    Ø6.setAttribute('style', 'width: 10%');
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø6);
     var Ø7 = WAVE.ce('div');
-    Ø7.innerText = details.Assignee;
-    Ø7.setAttribute('class', 'cell detailsCell');
-    Ø7.setAttribute('style', 'width: 30%');
+    Ø7.innerText = WAVE.dateTimeToString(details.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+    Ø7.setAttribute('class', 'cell text-align-center detailsCell');
+    Ø7.setAttribute('style', 'width: 10%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø7);
     var Ø8 = WAVE.ce('div');
-    Ø8.innerText = details.Description;
-    Ø8.setAttribute('id', 'details-description'+details.Counter);
-    Ø8.setAttribute('class', 'cell detailsCell');
-    Ø8.setAttribute('style', 'width: 20%');
+    Ø8.innerText = WAVE.dateTimeToString(details.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+    Ø8.setAttribute('class', 'cell text-align-center detailsCell');
+    Ø8.setAttribute('style', 'width: 10%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø8);
+    var Ø9 = WAVE.ce('div');
+    Ø9.innerText = WAVE.dateTimeToString(details.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+    Ø9.setAttribute('class', 'cell text-align-center detailsCell');
+    Ø9.setAttribute('style', 'width: 10%');
+    if (WAVE.isObject(Ør)) Ør.appendChild(Ø9);
+    var Ø10 = WAVE.ce('div');
+    Ø10.innerText = details.Assignee;
+    Ø10.setAttribute('class', 'cell text-align-center detailsCell');
+    Ø10.setAttribute('style', 'width: 30%');
+    if (WAVE.isObject(Ør)) Ør.appendChild(Ø10);
+    var Ø11 = WAVE.ce('div');
+    Ø11.innerText = details.Description;
+    Ø11.setAttribute('id', 'details-description'+details.Counter);
+    Ø11.setAttribute('class', 'cell text-align-center detailsCell');
+    Ø11.setAttribute('style', 'width: 20%');
+    if (WAVE.isObject(Ør)) Ør.appendChild(Ø11);
   }
-  return Ø8;
+  return Ø11;
 }
 
 function createAssignmentGridRow(root, assignment) {
@@ -617,34 +623,34 @@ function createAssignmentGridRow(root, assignment) {
   if(1==1) {
     var Ø1 = WAVE.ce('div');
     Ø1.innerText = assignment.Counter;
-    Ø1.setAttribute('class', 'cell detailsCell');
+    Ø1.setAttribute('class', 'cell text-align-center detailsCell');
     Ø1.setAttribute('align', 'right');
     Ø1.setAttribute('style', 'width: 5%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
     var Ø2 = WAVE.ce('div');
     Ø2.innerText = assignment.UserFirstName + ' ' + assignment.UserLastName + '(' +assignment.UserLogin+')';
-    Ø2.setAttribute('class', 'cell detailsCell');
+    Ø2.setAttribute('class', 'cell text-align-center detailsCell');
     Ø2.setAttribute('align', 'right');
     Ø2.setAttribute('style', 'width: 10%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø2);
     var Ø3 = WAVE.ce('div');
     Ø3.innerText = WAVE.dateTimeToString(assignment.Open_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
-    Ø3.setAttribute('class', 'cell detailsCell');
+    Ø3.setAttribute('class', 'cell text-align-center detailsCell');
     Ø3.setAttribute('style', 'width: 15%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø3);
     var Ø4 = WAVE.ce('div');
     Ø4.innerText = assignment.OperatorOpenLogin;
-    Ø4.setAttribute('class', 'cell detailsCell');
+    Ø4.setAttribute('class', 'cell text-align-center detailsCell');
     Ø4.setAttribute('style', 'width: 10%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø4);
     var Ø5 = WAVE.ce('div');
     Ø5.innerText = WAVE.dateTimeToString(assignment.Close_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
-    Ø5.setAttribute('class', 'cell detailsCell');
+    Ø5.setAttribute('class', 'cell text-align-center detailsCell');
     Ø5.setAttribute('style', 'width: 15%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø5);
     var Ø6 = WAVE.ce('div');
     Ø6.innerText = assignment.OperatorCloseLogin;
-    Ø6.setAttribute('class', 'cell detailsCell');
+    Ø6.setAttribute('class', 'cell text-align-center detailsCell');
     Ø6.setAttribute('align', 'center');
     Ø6.setAttribute('style', 'width: 10%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø6);
@@ -773,7 +779,7 @@ function buildChatFilterForm(root, task) {
   return Ø1;
 }
 
-function buildAssignee(root, taskCounter, assignee, canRemove) {
+function buildAssignee(root, assignee) {
 ﻿   var Ør = arguments[0];
    if (WAVE.isString(Ør))
      Ør = WAVE.id(Ør);
@@ -818,7 +824,7 @@ function buildEditChatDialog(root, item) {
   return Ø1;    
 }
 
-﻿function buildAreasAndComponents(root, task, isPM) {
+function buildAreasAndComponents(root, task) {
 ﻿  for (var i=0, l=task.Areas.length; i < l; i++) {
 ﻿    buildAreaTag(root, task.Counter, task.Areas[i].Counter, task.Areas[i].Name);
 ﻿  }
@@ -827,9 +833,9 @@ function buildEditChatDialog(root, item) {
 ﻿  }
 ﻿}
 
-function buildAssigneeList(root, task, isPM) {
+function buildAssigneeList(root, task) {
   for (var i=0, l=task.AssigneeList.length; i<l; i++) {
-    buildAssignee(root, task, task.AssigneeList[i], isPM);
+    buildAssignee(root, task.AssigneeList[i]);
   }
 }
 

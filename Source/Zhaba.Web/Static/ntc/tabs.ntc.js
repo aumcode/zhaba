@@ -455,7 +455,7 @@ function buildChatFilterForm(root, task) {
   ***/
 }
 
-function buildAssignee(root, taskCounter, assignee, canRemove) {
+function buildAssignee(root, assignee) {
 ﻿   /***
     div="?assignee.UserLogin" { class="tag inline-block" style="background-color: brown"} 
    ***/
@@ -493,7 +493,6 @@ function buildEditChatDialog(root, item) {
 }
 
 function buildAreasAndComponents(root, task) {
-  debugger;
 ﻿  for (var i=0, l=task.Areas.length; i < l; i++) {
 ﻿    buildAreaTag(root, task.Counter, task.Areas[i].Counter, task.Areas[i].Name);
 ﻿  }
