@@ -732,6 +732,7 @@ body #ftr {
   background: white;
 }
 #tasksPage .bar {
+  height: 2px;
   position: relative;
   top: 50%;
   bottom: 0;
@@ -808,29 +809,17 @@ body #ftr {
 #tasksPage .tag.priority-tag.lower {
   background-color: green;
 }
-#tasksPage .tag.red-tag {
-  background-color: red;
+#tasksPage .tag.component-tag {
+  background-color: darkblue;
 }
-#tasksPage .tag.orange-tag {
-  background-color: orange;
+#tasksPage .tag.area-tag {
+  background-color: darkcyan;
 }
-#tasksPage .tag.yellow-tag {
-  background-color: #9c6f10;
-}
-#tasksPage .tag.green-tag {
-  background-color: green;
-}
-#tasksPage .tag.blue-tag {
-  background-color: blue;
-}
-#tasksPage .tag.brown-tag {
+#tasksPage .tag.assignee-tag {
   background-color: brown;
 }
-#tasksPage .tag.gray-tag {
+#tasksPage .tag.category-tag {
   background-color: gray;
-}
-#tasksPage .tag.purple-tag {
-  background-color: purple;
 }
 #tasksPage .table {
   width: 100%;
@@ -848,6 +837,7 @@ body #ftr {
   padding: 3px 5px;
 }
 #tasksPage .table > .cell.head {
+  text-align: center;
   color: #fff;
   background-color: #a0a0a0;
   border: 1px dotted #d0d0d0;
@@ -858,6 +848,7 @@ body #ftr {
   width: 100%;
 }
 #tasksPage .table > .cell.detailsHead {
+  text-align: center;
   color: #fff;
   background-color: #c0c0c0;
   border: 1px dotted #d0d0d0;

@@ -198,6 +198,7 @@
     </Content>
     <Content Include="Static\less\markup.less" />
     <Content Include="Static\less\report.less" />
+    <Content Include="Static\ntc\etc.ntc.js" />
     <Content Include="Static\ntc\tabs.ntc.js" />
     <Content Include="Static\ntc\zhb.ntc.js" />
     <None Include="Controls\Grids\IssueComponentGrid.nht" />

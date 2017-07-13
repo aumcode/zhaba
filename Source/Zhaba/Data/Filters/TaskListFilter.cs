@@ -125,7 +125,7 @@ namespace Zhaba.Data.Filters
     [Field(metadata: "Description='As of' Placeholder='As of' Hint='As of'")]
     public string AsOf { get; set; } = App.TimeSource.UTCNow.Date.ToString("d", CultureInfo.InvariantCulture);
     
-    [Field(metadata: "Description='Search' Placeholder='Type n=*, a=*, c=* for search. Example: n=Issue1 a=UI' Hint='Search'")]
+    [Field(metadata: "Description='Search' Placeholder='Enter number for search by Issue ID. Type <N, >N, =N for serach by progress. Type \"in N\" for search by Due. Type n=*, a=*, c=* for search. Example: n=Issue1 a=UI' Hint='Search'")]
     public string Search { get; set; }
 
     [Field(metadata: "Description='Assign' Placeholder='Assign' Hint='Assign'")]
