@@ -103,12 +103,15 @@ function linkIssueComponent(event, cProject, cIssue, cComponent) {
 WAVE.onReady(function() {
   ZHB.ControlScripts.TableGrid = {
     rowSelect: function(tableElm, rowElm, key, data) {
-      tableElm.SELECTED_ROW_KEY = key;
-      tableElm.SELECTED_ROW_DATA = data;
-      $(tableElm).find("tr").removeClass("selectedGridTableRow");
-      $(rowElm).addClass("selectedGridTableRow");
-      if (tableElm.onGridRowSelection)
-        tableElm.onGridRowSelection(tableElm, key, data);
+      var tasksPage = WAVE.id('tasksPage');
+      if (!tasksPage) {
+        tableElm.SELECTED_ROW_KEY = key;
+        tableElm.SELECTED_ROW_DATA = data;
+        $(tableElm).find("tr").removeClass("selectedGridTableRow");
+        $(rowElm).addClass("selectedGridTableRow");
+        if (tableElm.onGridRowSelection)
+          tableElm.onGridRowSelection(tableElm, key, data);
+      }
     }
   };
 });
