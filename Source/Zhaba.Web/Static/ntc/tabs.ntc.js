@@ -113,6 +113,7 @@ function createRow(root, task) {
       
           class="bar-value" 
           align="center"
+          div="?task.Priority"{ class="?'tag {0} inline-block'.args(getPriorityStyle(task.Priority))"}
         }
         div 
         { 
@@ -123,15 +124,11 @@ function createRow(root, task) {
     }
     div
     {
-      class="cell expander"
+      class="cell text-align-center expander"
       data-detailsid=?detailsId
-      style="width: 12%"
-      div="?buildDate(task)"{}
-      div
-      {
-        div="?buildDueDate(task)"{ class="inline"}
-        div="?task.Priority"{ class="?'tag {0} inline-block'.args(getPriorityStyle(task.Priority))"}
-      }
+      style="width: 12%;"
+      div="?buildDate(task)"{ }
+      div="?buildDueDate(task)"{ }
     }
 
     div { id="?'assignee'+task.Counter" class="cell expander" style="width: 10%" data-detailsid=?detailsId}
@@ -317,14 +314,24 @@ function createStatusGridRow(root, details) {
   /***
   "?if(1==1)"
   {      
-    div="?details.Counter"{ class="cell detailsCell" align="right" style="width: 5%"}
-    div="?details.Completeness" { class="cell detailsCell" style="width: 5%"}
-    div="?details.Status"{ class="cell detailsCell" align="center" style="width: 10%"}
-    div="?WAVE.dateTimeToString(details.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell detailsCell" style="width: 10%"}
-    div="?WAVE.dateTimeToString(details.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell detailsCell" style="width: 10%"}
-    div="?WAVE.dateTimeToString(details.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell detailsCell" style="width: 10%"}
-    div=?details.Assignee { class="cell detailsCell" style="width: 30%"}
-    div="?details.Description"{ id="?'details-description'+details.Counter" class="cell detailsCell" style="width: 20%"}
+    div="?details.Counter"{ class="cell text-align-center detailsCell" align="right" style="width: 5%"}
+    div="?details.Completeness +'%'" { class="cell text-align-center detailsCell" style="width: 5%"}
+    div 
+    { 
+      class="cell text-align-center detailsCell"
+      style="width: 10%"
+      div
+      {
+        align="center"
+        div="?details.Status"{ class="?'tag {0} inline'.args(getStatusStyle(details.Status))" }
+        div="?details.Category_Name"{ class="tag category-tag inline" }
+      }
+    }
+    div="?WAVE.dateTimeToString(details.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell text-align-center detailsCell" style="width: 10%"}
+    div="?WAVE.dateTimeToString(details.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell text-align-center detailsCell" style="width: 10%"}
+    div="?WAVE.dateTimeToString(details.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell text-align-center detailsCell" style="width: 10%"}
+    div=?details.Assignee { class="cell text-align-center detailsCell" style="width: 30%"}
+    div="?details.Description"{ id="?'details-description'+details.Counter" class="cell text-align-center detailsCell" style="width: 20%"}
   }
   ***/
 }
@@ -333,12 +340,12 @@ function createAssignmentGridRow(root, assignment) {
   /***
   "?if(1==1)"
   {
-    div="?assignment.Counter"{ class="cell detailsCell" align="right" style="width: 5%"}
-    div="?assignment.UserFirstName + ' ' + assignment.UserLastName + '(' +assignment.UserLogin+')'"{ class="cell detailsCell" align="right" style="width: 10%"}
-    div="?WAVE.dateTimeToString(assignment.Open_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell detailsCell" style="width: 15%"}
-    div="?assignment.OperatorOpenLogin" { class="cell detailsCell" style="width: 10%"}
-    div="?WAVE.dateTimeToString(assignment.Close_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell detailsCell" style="width: 15%"}
-    div="?assignment.OperatorCloseLogin"{ class="cell detailsCell" align="center" style="width: 10%"}
+    div="?assignment.Counter"{ class="cell text-align-center detailsCell" align="right" style="width: 5%"}
+    div="?assignment.UserFirstName + ' ' + assignment.UserLastName + '(' +assignment.UserLogin+')'"{ class="cell text-align-center detailsCell" align="right" style="width: 10%"}
+    div="?WAVE.dateTimeToString(assignment.Open_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell text-align-center detailsCell" style="width: 15%"}
+    div="?assignment.OperatorOpenLogin" { class="cell text-align-center detailsCell" style="width: 10%"}
+    div="?WAVE.dateTimeToString(assignment.Close_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell text-align-center detailsCell" style="width: 15%"}
+    div="?assignment.OperatorCloseLogin"{ class="cell text-align-center detailsCell" align="center" style="width: 10%"}
     div="?assignment.Note" {class="cell detailsCell" style="width: 35%"}
   }
   ***/
@@ -448,59 +455,19 @@ function buildChatFilterForm(root, task) {
   ***/
 }
 
-function buildArea(root, taskCounter, area, canRemove) {
+function buildArea(root, area) {
   /***
-  div="?area.Name" { class="tag inline-block" style="background-color: darkgreen"}
+  div="?area.Name" { class="tag area-tag inline-block"}
   ***/
 }
 
-function removeComp(e) {
-  e.stopPropagation();
-  var iid = e.target.dataset.cissue;
-  var pid = e.target.dataset.cproject;
-  var cid = e.target.dataset.ccomp;
-  var data = { issue: iid, component: cid, link: false };
-  var link = ZHB.URIS.ForPROJECT_LINK_ISSUE_COMPONENT(pid, iid, cid);
-  WAVE.ajaxCall(
-       'POST',
-       link,
-       data,
-       function (resp) {
-         WAVE.removeElem(e.target.id);
-         
-       },
-       function (resp) { console.log("error"); console.log(resp); },
-       function (resp) { console.log("fail"); console.log(resp); },
-       WAVE.CONTENT_TYPE_JSON_UTF8,
-       WAVE.CONTENT_TYPE_JSON_UTF8
-     );
+function buildComponent(root, component) {
+  /***
+  div="?component.Name" { class="tag component-tag inline-block"}
+  ***/
 }
 
-function buildComponent(root, task, component, canRemove) {
-  if (canRemove)
-  {
-    /***
-    div="?component.Name + ' X'" 
-    { 
-      id="?'comp-' + component.Counter"
-      class="tag inline-block" 
-      style="background-color: darkblue; cursor: pointer"
-      data-ccomp=?component.Counter
-      data-cissue=?task.Counter
-      data-cproject=?task.C_Project
-      on-click=removeComp
-    } 
-    ***/
-  }
-  else
-  {
-    /***
-    div="?component.Name" { class="tag inline-block" style="background-color: darkblue"} 
-    ***/
-  }
-}
-
-function buildAssignee(root, taskCounter, assignee, canRemove) {
+function buildAssignee(root, assignee) {
 ﻿   /***
     div="?assignee.UserLogin" { class="tag inline-block" style="background-color: brown"} 
    ***/
@@ -537,18 +504,19 @@ function buildEditChatDialog(root, item) {
    ***/    
 }
 
-﻿function buildAreasAndComponents(root, task, isPM) {
+function buildAreasAndComponents(root, task) {
+  debugger;
 ﻿  for (var i=0, l=task.Areas.length; i < l; i++) {
-﻿    buildArea(root, task, task.Areas[i], isPM);
+﻿    buildArea(root, task.Areas[i]);
 ﻿  }
 ﻿  for (var i=0, l=task.Components.length; i < l; i++) {
-﻿    buildComponent(root, task, task.Components[i], isPM);
+﻿    buildComponent(root, task.Components[i]);
 ﻿  }
 ﻿}
 
-function buildAssigneeList(root, task, isPM) {
+function buildAssigneeList(root, task) {
   for (var i=0, l=task.AssigneeList.length; i<l; i++) {
-    buildAssignee(root, task, task.AssigneeList[i], isPM);
+    buildAssignee(root, task.AssigneeList[i]);
   }
 }
 

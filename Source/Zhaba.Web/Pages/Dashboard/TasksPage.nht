@@ -124,8 +124,8 @@
     {
       var task = tasks[i];
       createRow(root, task);
-      buildAreasAndComponents('ac'+task.Counter, task, pmperm);
-      buildAssigneeList('assignee'+task.Counter, task, pmperm);
+      buildAreasAndComponents('ac'+task.Counter, task);
+      buildAssigneeList('assignee'+task.Counter, task);
       createRowDetails(root, task.Counter);
       createTabs("tabs-"+task.Counter, task);
       document.getElementById('description'+task.Counter).innerHTML=WAVE.markup(task.Description != null ? task.Description : '');
