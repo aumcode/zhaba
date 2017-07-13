@@ -13,3 +13,4 @@ REM "%SOLUTION_DIR%packages\NFX.3.5.0.0\tools\ntc" "%PROJECT_DIR%Pages\Reports\*
 "%SOLUTION_DIR%packages\NFX.3.5.0.0\tools\ntc" "%PROJECT_DIR%Static\ntc\zhb.ntc.js" -ext ".js" -replace ".ntc.js" -dest "%PROJECT_DIR%Static\js" -src -c "NFX.Templatization.TextJSTemplateCompiler, NFX" -o dom-gen="cmp{pretty=1}"
 
 call lessc "%PROJECT_DIR%Static\less\zhb.less" "%PROJECT_DIR%Static\css\zhb.css"
+call lessc "%PROJECT_DIR%Static\less\report.less" "%PROJECT_DIR%Static\css\report.css"

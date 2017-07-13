@@ -63,7 +63,7 @@
     function (resp) {
       let data = JSON.parse(resp);
       tasks = data.Rows;
-      console.log(tasks);
+      // console.log(tasks);
       renderTasks("grid");
       initDetails();
       // initTexts();
@@ -89,21 +89,20 @@
 
   function scheduleFetch(){
     var expanded = [];
-    var detailsList = document.getElementsByClassName("details");
+    var tabs = [];
+    var detailsList = document.getElementsByClassName("wvDetailsContentVisible");
+
     var j=0;
     for(var i=0, l=detailsList.length; i<l; i++) {
-      if(detailsList[i].classList.contains('wvDetailsContentVisible')) {
-        expanded[j++] = detailsList[i].id;
-      }
-
+      expanded[j++] = detailsList[i].id;
     }
+    
     WAVE.ajaxPostJSON(
       "/dashboard/taskfilter",
       REC.data(),
       function (resp) {
         let data = JSON.parse(resp);
         tasks = data.Rows;
-        console.log(tasks);
         renderTasks("grid");
         initDetails();
         for(var i=0, l=expanded.length; i<l; i++) {
@@ -171,6 +170,7 @@
       buildAssigneeList('assignee'+task.Counter, task, pmperm);
       createRowDetails(root, task.Counter);
       createTabs("tabs-"+task.Counter, task);
+      document.getElementById('description'+task.Counter).innerHTML=WAVE.markup(task.Description != null ? task.Description : '');
     }
   }
 
@@ -197,7 +197,7 @@
       'GET',
       link,
       null,
-      function (resp) { scheduleFetch();  console.log("success"); },
+      function (resp) { scheduleFetch();   },
       function (resp) { console.log("error"); },
       function (resp) { console.log("fail"); },
       WAVE.CONTENT_TYPE_JSON_UTF8, 
@@ -215,12 +215,12 @@
       value: progress, 
       description: description
     };
-    console.log(data);
+    // console.log(data);
     WAVE.ajaxCall(
       'POST',
       "/dashboard/changeprogress",
       data,
-      function (resp) { scheduleFetch();  console.log("success"); },
+      function (resp) { scheduleFetch();   },
       function (resp) { console.log("error"); },
       function (resp) { console.log("fail"); },
       WAVE.CONTENT_TYPE_JSON_UTF8, 
@@ -249,10 +249,10 @@
       data,
       function (resp) { 
         scheduleFetch();  
-        console.log("success"); 
+         
       },
-      function (resp) { console.log("error"); console.log(resp); },
-      function (resp) { console.log("fail"); console.log(resp); },
+      function (resp) { console.log("error"); },
+      function (resp) { console.log("fail"); },
       WAVE.CONTENT_TYPE_JSON_UTF8, 
       WAVE.CONTENT_TYPE_JSON_UTF8
     );
@@ -266,10 +266,10 @@
           data,
           function (resp) { 
             scheduleFetch();  
-            console.log("success"); 
+             
           },
-          function (resp) { console.log("error"); console.log(resp); },
-          function (resp) { console.log("fail"); console.log(resp); },
+          function (resp) { console.log("error"); },
+          function (resp) { console.log("fail"); },
           WAVE.CONTENT_TYPE_JSON_UTF8, 
           WAVE.CONTENT_TYPE_JSON_UTF8
         ); 
@@ -361,13 +361,12 @@
       link,
       null,
       function (resp) { 
-        console.log("success");
-        console.log(resp); 
+        
         var _rec = new WAVE.RecordModel.Record(JSON.parse(resp));
         buildIssueAssignPopUpDialog(_rec, pid, iid);
       },
-      function (resp) { console.log("error"); console.log(resp); },
-      function (resp) { console.log("fail"); console.log(resp); }, 
+      function (resp) { console.log("error");},
+      function (resp) { console.log("fail"); }, 
       WAVE.CONTENT_TYPE_JSON_UTF8, 
       WAVE.CONTENT_TYPE_JSON_UTF8
     );
@@ -387,13 +386,13 @@
       link,
       null,
       function (resp) { 
-        console.log("success");
-        console.log(resp); 
+        
+       
         var _rec = new WAVE.RecordModel.Record(JSON.parse(resp));
         buildPopUpDialog(status, _rec, pid, iid);
       },
-      function (resp) { console.log("error"); console.log(resp); },
-      function (resp) { console.log("fail"); console.log(resp); }, 
+      function (resp) { console.log("error"); },
+      function (resp) { console.log("fail"); }, 
       WAVE.CONTENT_TYPE_JSON_UTF8, 
       WAVE.CONTENT_TYPE_JSON_UTF8
     );
@@ -443,7 +442,7 @@
       { ID: "REC_PROGRESS",
         fields: [
           {def: {Name: 'Value', Type: 'int', MinValue: 0, MaxValue: 100}, val: e.target.dataset.progress},
-          {def: {Name: 'Description', Type: 'string', Size: 128, Required: false}, val: e.target.dataset.description},
+          {def: {Name: 'Description', Type: 'string', Size: 512, Required: false}, val: e.target.dataset.description},
         ]
       }
     );
@@ -476,13 +475,13 @@
       link,
       null,
       function (resp) { 
-        console.log("success");
-        console.log(resp); 
+        
+        
         var _rec = new WAVE.RecordModel.Record(JSON.parse(resp));
         buildIsueDialog(_rec, pid, iid);
       },
-      function (resp) { console.log("error"); console.log(resp); },
-      function (resp) { console.log("fail"); console.log(resp); }, 
+      function (resp) { console.log("error");},
+      function (resp) { console.log("fail");}, 
       WAVE.CONTENT_TYPE_JSON_UTF8, 
       WAVE.CONTENT_TYPE_JSON_UTF8    
     );
@@ -506,13 +505,11 @@
           link,
           rec.data(),
           function (resp) { 
-            debugger;
-            console.log(resp);
             var _rec = new WAVE.RecordModel.Record(JSON.parse(resp));
             if (_rec.validationError()) {
               WAVE.GUI.toast(_rec.validationError(), 'error');
             } else {
-              console.log("success");
+              
               scheduleFetch();
               WAVE.GUI.currentDialog().close();
             }
@@ -537,7 +534,6 @@
   var chatTimerId = setTimeout(function chatTick(){
     if(tasks) {
       for(var i = 0, l = tasks.length; i<l; i++) {
-        console.log("chat tick - "+tasks[i].Counter);
         refreshChat(tasks[i]);
       }
     }

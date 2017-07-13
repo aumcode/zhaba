@@ -111,7 +111,13 @@ function createRow(root, task) {
     div { id="?'ac'+task.Counter" class="cell expander" style="width: 10%" data-detailsid=?detailsId}
     div="?task.ProjectName"{ class="cell expander" style="width: 10%" data-detailsid=?detailsId}
     div="?task.Name"{ class="cell expander" style="width: 20%" data-detailsid=?detailsId}
-    div="?task.Description"{ class="cell expander" style="width: 20%" data-detailsid=?detailsId}
+    div="?task.Description"
+    { 
+      id="?'description'+task.Counter"
+      class="cell expander" 
+      style="width: 20%" 
+      data-detailsid=?detailsId
+    }
   }
   ***/
 }
@@ -270,7 +276,7 @@ function createStatusGridRow(root, details) {
     div="?WAVE.dateTimeToString(details.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell"  style="width: 10%"}
     div="?WAVE.dateTimeToString(details.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell"  style="width: 10%"}
     div=?details.Assignee { class="cell"  style="width: 30%"}
-    div="?details.Description"{ class="cell"  style="width: 20%"}
+    div="?details.Description"{ id="?'details-description'+details.Counter" class="cell"  style="width: 20%"}
   }
   ***/
 }
@@ -349,7 +355,7 @@ function createChatItem(root, item) {
       id="?'chathedaeritem'+item.Counter"
       class="fView ChatItemUser" 
     }
-    div="?item.Note" { class="fView ChatItemNote" }
+    div="?item.Note" { id="?'chat-note'+item.Counter" class="fView ChatItemNote" }
   }
   ***/
 }
@@ -413,7 +419,7 @@ function removeComp(e) {
        data,
        function (resp) {
          WAVE.removeElem(e.target.id);
-         console.log("success");
+         
        },
        function (resp) { console.log("error"); console.log(resp); },
        function (resp) { console.log("fail"); console.log(resp); },
@@ -507,7 +513,7 @@ function chatForm(task) {
     function (resp) {
       chatRec[task.Counter] = new WAVE.RecordModel.Record(JSON.parse(resp));
       new WAVE.RecordModel.RecordView('chatForm' + task.Counter, chatRec[task.Counter]);
-      console.log("success"); 
+       
     },
     function (resp) { console.log("error"); },
     function (resp) { console.log("fail"); },
@@ -526,7 +532,7 @@ function chatFilterForm(task) {
       // debugger;
       chatFilterRec[task.Counter] = new WAVE.RecordModel.Record(JSON.parse(resp));
       new WAVE.RecordModel.RecordView('ChatFilterForm' + task.Counter, chatFilterRec[task.Counter]);
-      console.log("success");
+      
     },
     function (resp) { console.log("error"); },
     function (resp) { console.log("fail"); },
@@ -552,7 +558,7 @@ function sendChatMessage(pid, iid, cid, _rec) {
     function (resp) {
       chatForm(task);  
       refreshChat(task);  
-      console.log("success"); 
+       
     },
     function (resp) { console.log("error"); console.log(resp); },
     function (resp) { console.log("fail"); console.log(resp); },
@@ -571,7 +577,6 @@ function refreshChat(task) {
     function (resp) {
       var rec = JSON.parse(resp);
       createChatItems(task, rec);
-      console.log(rec);
     },
     function (resp) { console.log("error"); console.log(resp); },
     function (resp) { console.log("fail"); console.log(resp); },
@@ -584,12 +589,16 @@ function createChatItems(task, rec) {
   var id = 'chatMessage-' + task.Counter;  
   document.getElementById(id).innerHTML = ""; 
   for (var i = 0, l = rec.Rows.length; i < l; i++) {
-    createChatItem(id, rec.Rows[i]);
-  }
-  for (var i = 0, l = rec.Rows.length; i < l; i++) {
     var item = rec.Rows[i];
+    createChatItem(id, item);
+    document.getElementById('chat-note'+item.Counter).innerHTML = WAVE.markup(item.Note);
     createEditChatButton('chathedaeritem'+item.Counter, item, task);
   }
+/*
+  for (var i = 0, l = rec.Rows.length; i < l; i++) {
+    var item = rec.Rows[i];
+  }
+*/
 
 }
 
@@ -608,8 +617,11 @@ function buildStatusTab(root, task) {
   buildStatusButtons(root, task);
   createGrid(root, gridID);
   createStatusHeader(gridID);
-  for (var j = 0, l = task.Details.length; j < l; j++)
-    createStatusGridRow(gridID, task.Details[j]);
+  for (var j = 0, l = task.Details.length; j < l; j++) {
+    var d = task.Details[j];
+    createStatusGridRow(gridID, d);
+    document.getElementById('details-description' + d.Counter).innerHTML = WAVE.markup(d.Description != null ? d.Description : '');
+  }
 }
 
 function buildAssignmentTab(root, task) {
@@ -726,7 +738,6 @@ function createTabs(root, task) {
     ]
   });
   tabs.eventBind(WAVE.GUI.EVT_TABS_TAB_CHANGED, function (sender, args) {
-    console.log(args);
     if (args == "tChat") {
       refreshChat(task);
     };

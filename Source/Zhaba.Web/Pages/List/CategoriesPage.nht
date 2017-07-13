@@ -67,7 +67,7 @@
           'DELETE',
           link,
           null,
-          function (resp) { fetchData();  console.log("success"); },
+          function (resp) { fetchData();   },
           function (resp) { console.log("error"); },
           function (resp) { console.log("fail"); },
           WAVE.CONTENT_TYPE_JSON_UTF8, 

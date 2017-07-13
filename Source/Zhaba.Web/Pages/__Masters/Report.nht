@@ -39,6 +39,8 @@
 
   <title>?[:Title]</title>
   
+  <link href="/static/css/report.css" rel="stylesheet">
+  
   @[includeStyles();]
   @[renderStyles();]
 
@@ -62,6 +64,10 @@
     Zhaba 1.0 ©2017 All Rights Reserved
   </footer>
 
+  <script src="/stock/site/script/jquery-2.1.4.min.js"></script>
+  <script src="/stock/site/script/wv.js"></script>
+  <script src="/stock/site/script/wv.gui.js"></script>
+  
   @[renderScripts();]
   
 </body>
