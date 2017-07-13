@@ -52,6 +52,17 @@ ORDER BY T1.DUE_DATE ASC
       DateTime asOf;
       cmd.Parameters.AddWithValue("pDateUTC", DateTime.TryParse(filter.AsOf, out asOf) ? asOf.Date.AddHours(23).AddMinutes(59).AddSeconds(59) : App.TimeSource.UTCNow.Date);
 
+      if (filter.Search.IsNotNullOrEmpty() && filter.Search.StartsWith("in "))
+      {
+        var due = filter.Search.Substring(3).Trim();
+        int day;
+        if (int.TryParse(due, out day))
+        {
+          filter.Due = day.ToString();
+          filter.Search = null;
+        }
+      }
+      
       if (filter.Due.IsNotNullOrWhiteSpace())
       {
         var days = int.Parse(filter.Due);
