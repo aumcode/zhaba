@@ -44,6 +44,7 @@
 
 #[override renderExtraScripts()]
 <script>
+/**
   function linkIssueArea(event, cProject, cIssue, cArea) {
     event = event || window.event;
 
@@ -65,4 +66,5 @@
       fetchData();
     });
   };
+**/  
 </script>

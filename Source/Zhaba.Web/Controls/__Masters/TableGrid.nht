@@ -108,6 +108,7 @@
 
 #[render]
 <script>
+/**
   WAVE.onReady(function() {
     ZHB.ControlScripts.TableGrid = {
       rowSelect: function(tableElm, rowElm, key, data) {
@@ -120,6 +121,7 @@
       }
     };
   });
+**/  
 </script>
 @[renderExtraScripts();]
 

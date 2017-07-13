@@ -142,7 +142,7 @@ function getStatusBarStyle(value) {
     red = 0;
     green = 255;
   }
-  return "width: {0}%; background: rgb({1},{2}, 0); height: 2px".args(value, red, green);
+  return "width: {0}%; background: rgb({1},{2}, 0)".args(value, red, green);
 }
 
 function getStatusStyle(value) {
@@ -254,7 +254,7 @@ function createRow(root, task) {
   Ø4.appendChild(Ø5);
   var Ø6 = WAVE.ce('div');
   Ø6.innerText = task.Category_Name;
-  Ø6.setAttribute('class', 'tag gray-tag inline');
+  Ø6.setAttribute('class', 'tag category-tag inline');
   Ø4.appendChild(Ø6);
   Ø3.appendChild(Ø4);
   var Ø7 = WAVE.ce('div');
@@ -773,70 +773,34 @@ function buildChatFilterForm(root, task) {
   return Ø1;
 }
 
-function buildArea(root, taskCounter, area, canRemove) {
+function buildArea(root, task, area, canRemove) {
   var Ør = arguments[0];
   if (WAVE.isString(Ør))
     Ør = WAVE.id(Ør);
   var Ø1 = WAVE.ce('div');
   Ø1.innerText = area.Name;
+  Ø1.setAttribute('id', 'issue-' + task.Counter + '-areatag-'+area.Counter);
   Ø1.setAttribute('class', 'tag inline-block');
   Ø1.setAttribute('style', 'background-color: darkgreen');
   if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
   return Ø1;
 }
 
-function removeComp(e) {
-  e.stopPropagation();
-  var iid = e.target.dataset.cissue;
-  var pid = e.target.dataset.cproject;
-  var cid = e.target.dataset.ccomp;
-  var data = { issue: iid, component: cid, link: false };
-  var link = ZHB.URIS.ForPROJECT_LINK_ISSUE_COMPONENT(pid, iid, cid);
-  WAVE.ajaxCall(
-       'POST',
-       link,
-       data,
-       function (resp) {
-         WAVE.removeElem(e.target.id);
-         
-       },
-       function (resp) { console.log("error"); console.log(resp); },
-       function (resp) { console.log("fail"); console.log(resp); },
-       WAVE.CONTENT_TYPE_JSON_UTF8,
-       WAVE.CONTENT_TYPE_JSON_UTF8
-     );
-}
-
 function buildComponent(root, task, component, canRemove) {
-  if (canRemove)
-  {
-    var Ør = arguments[0];
-    if (WAVE.isString(Ør))
-      Ør = WAVE.id(Ør);
-    var Ø1 = WAVE.ce('div');
-    Ø1.innerText = component.Name + ' X';
-    Ø1.setAttribute('id', 'comp-' + component.Counter);
-    Ø1.setAttribute('class', 'tag inline-block');
-    Ø1.setAttribute('style', 'background-color: darkblue; cursor: pointer');
-    Ø1.setAttribute('data-ccomp', component.Counter);
-    Ø1.setAttribute('data-cissue', task.Counter);
-    Ø1.setAttribute('data-cproject', task.C_Project);
-    Ø1.addEventListener('click', removeComp, false);
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
-    return Ø1;
-  }
-  else
-  {
+
     var Ør = arguments[0];
     if (WAVE.isString(Ør))
       Ør = WAVE.id(Ør);
     var Ø1 = WAVE.ce('div');
     Ø1.innerText = component.Name;
+    Ø1.setAttribute('id', 'issue-' + task.Counter + '-comptag-' + component.Counter);
     Ø1.setAttribute('class', 'tag inline-block');
-    Ø1.setAttribute('style', 'background-color: darkblue');
+    Ø1.setAttribute('style', 'background-color: darkblue; cursor: pointer');
+    Ø1.setAttribute('data-ccomp', component.Counter);
+    Ø1.setAttribute('data-cissue', task.Counter);
+    Ø1.setAttribute('data-cproject', task.C_Project);
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
     return Ø1;
-  }
 }
 
 function buildAssignee(root, taskCounter, assignee, canRemove) {
@@ -1188,3 +1152,146 @@ function createTabs(root, task) {
   buildComponentsTab(componentsId, task)
 
 }
+/**
+ * Created by mad on 13.07.2017.
+ */
+function linkIssueArea(event, cProject, cIssue, cArea) {
+  event = event || window.event;
+
+  var chk = event.currentTarget;
+
+  var formData = new FormData();
+  formData.append('link', chk.checked);
+  
+  var areaId = 'issue-' + cIssue + '-areatag-' + cArea;
+  var acId = 'ac'+cIssue;
+
+  $.ajax({
+      url: ZHB.URIS.ForPROJECT_LINK_ISSUE_AREA(cProject, cIssue, cArea),
+      type: 'POST',
+      dataType: "json",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success : function (resp) {
+        if (chk.checked) {
+          var el = WAVE.id(acId);
+          if (el) {
+            var link='/project/{0}/area?counter={1}'.args(cProject,cArea);  
+            WAVE.ajaxCall(
+              'GET',
+              link, 
+              null,
+              function (resp) {
+                var data = new WAVE.RecordModel.Record(JSON.parse(resp));        
+                var areaName=data.data().Name;  
+                buildAreaTag(acId, cIssue, cArea, areaName);   
+              },
+              function (resp) { console.log("error"); },
+              function (resp) { console.log("fail"); },
+              WAVE.CONTENT_TYPE_JSON_UTF8,
+              WAVE.CONTENT_TYPE_JSON_UTF8
+            );  
+          }
+        } else {
+          WAVE.removeElem(areaId);    
+        }  
+            
+      }
+    })
+    .fail(function (xhr, txt, err) {
+      WAVE.GUI.toast("The link could not be updated: " + xhr.status + "<br>" + err, "error");
+      fetchData();
+    });
+}
+
+function linkIssueComponent(event, cProject, cIssue, cComponent) {
+  event = event || window.event;
+
+  var chk = event.currentTarget;
+
+  var formData = new FormData();
+  formData.append('link', chk.checked);
+  
+  var compId = 'issue-' + cIssue + '-comptag-' + cComponent;
+  var acId = 'ac'+cIssue;
+  
+  $.ajax({
+      url: ZHB.URIS.ForPROJECT_LINK_ISSUE_COMPONENT(cProject, cIssue, cComponent),
+      type: 'POST',
+      dataType: "json",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success : function (resp) {
+        if (chk.checked) {
+          var el = WAVE.id(acId);
+          if (el) {
+            var link='/project/{0}/component?counter={1}'.args(cProject,cComponent);  
+            WAVE.ajaxCall(
+              'GET',
+              link, 
+              null,
+              function (resp) {
+                var data = new WAVE.RecordModel.Record(JSON.parse(resp));        
+                var compName=data.data().Name;  
+                buildCompTag(acId, cIssue, cComponent, compName);   
+              },
+              function (resp) { console.log("error"); },
+              function (resp) { console.log("fail"); },
+              WAVE.CONTENT_TYPE_JSON_UTF8,
+              WAVE.CONTENT_TYPE_JSON_UTF8
+            );              
+          } 
+        } else {
+          WAVE.removeElem(compId);
+        }
+      }
+    })
+    .fail(function (xhr, txt, err) {
+      WAVE.GUI.toast("The link could not be updated: " + xhr.status + "<br>" + err, "error");
+      fetchData();
+    });
+}
+
+WAVE.onReady(function() {
+  ZHB.ControlScripts.TableGrid = {
+    rowSelect: function(tableElm, rowElm, key, data) {
+      tableElm.SELECTED_ROW_KEY = key;
+      tableElm.SELECTED_ROW_DATA = data;
+      $(tableElm).find("tr").removeClass("selectedGridTableRow");
+      $(rowElm).addClass("selectedGridTableRow");
+      if (tableElm.onGridRowSelection)
+        tableElm.onGridRowSelection(tableElm, key, data);
+    }
+  };
+});
+
+function buildAreaTag(root, cIssue, cArea, areaName) {
+  var Ør = arguments[0];
+  if (WAVE.isString(Ør))
+    Ør = WAVE.id(Ør);
+  var Ø1 = WAVE.ce('div');
+  Ø1.innerText = areaName;
+  Ø1.setAttribute('id', 'issue-' + cIssue + '-areatag-'+cArea);
+  Ø1.setAttribute('class', 'tag inline-block');
+  Ø1.setAttribute('style', 'background-color: darkgreen');
+  if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+  return Ø1;
+}
+
+function buildCompTag(root, cIssue, cComp, compName) {
+
+  var Ør = arguments[0];
+  if (WAVE.isString(Ør))
+    Ør = WAVE.id(Ør);
+  var Ø1 = WAVE.ce('div');
+  Ø1.innerText = compName;
+  Ø1.setAttribute('id', 'issue-' + cIssue + '-comptag-' + cComp);
+  Ø1.setAttribute('class', 'tag inline-block');
+  Ø1.setAttribute('style', 'background-color: darkblue; cursor: pointer');
+  if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+  return Ø1;
+}
+
+    

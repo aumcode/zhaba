@@ -448,56 +448,30 @@ function buildChatFilterForm(root, task) {
   ***/
 }
 
-function buildArea(root, taskCounter, area, canRemove) {
+function buildArea(root, task, area, canRemove) {
   /***
-  div="?area.Name" { class="tag inline-block" style="background-color: darkgreen"}
+  div="?area.Name"
+  { 
+    id="?'issue-' + task.Counter + '-areatag-'+area.Counter" 
+    class="tag inline-block" 
+    style="background-color: darkgreen"
+  }
   ***/
 }
 
-function removeComp(e) {
-  e.stopPropagation();
-  var iid = e.target.dataset.cissue;
-  var pid = e.target.dataset.cproject;
-  var cid = e.target.dataset.ccomp;
-  var data = { issue: iid, component: cid, link: false };
-  var link = ZHB.URIS.ForPROJECT_LINK_ISSUE_COMPONENT(pid, iid, cid);
-  WAVE.ajaxCall(
-       'POST',
-       link,
-       data,
-       function (resp) {
-         WAVE.removeElem(e.target.id);
-         
-       },
-       function (resp) { console.log("error"); console.log(resp); },
-       function (resp) { console.log("fail"); console.log(resp); },
-       WAVE.CONTENT_TYPE_JSON_UTF8,
-       WAVE.CONTENT_TYPE_JSON_UTF8
-     );
-}
-
 function buildComponent(root, task, component, canRemove) {
-  if (canRemove)
-  {
+
     /***
-    div="?component.Name + ' X'" 
+    div="?component.Name" 
     { 
-      id="?'comp-' + component.Counter"
+      id="?'issue-' + task.Counter + '-comptag-' + component.Counter"
       class="tag inline-block" 
       style="background-color: darkblue; cursor: pointer"
       data-ccomp=?component.Counter
       data-cissue=?task.Counter
       data-cproject=?task.C_Project
-      on-click=removeComp
     } 
     ***/
-  }
-  else
-  {
-    /***
-    div="?component.Name" { class="tag inline-block" style="background-color: darkblue"} 
-    ***/
-  }
 }
 
 function buildAssignee(root, taskCounter, assignee, canRemove) {
