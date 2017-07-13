@@ -22,7 +22,7 @@ function getStatusBarStyle(value) {
     red = 0;
     green = 255;
   }
-  return "width: {0}%; background: rgb({1},{2}, 0); height: 2px".args(value, red, green);
+  return "width: {0}%; background: rgb({1},{2}, 0)".args(value, red, green);
 }
 
 function getStatusStyle(value) {
@@ -99,7 +99,7 @@ function createRow(root, task) {
         {
           align="center"
           div="?task.Status"{ class="?'tag {0} inline'.args(getStatusStyle(task.Status))" }
-          div="?task.Category_Name"{ class="tag gray-tag inline" }
+          div="?task.Category_Name"{ class="tag category-tag inline" }
         }
       
         div="?task.Completeness +'%'" 
