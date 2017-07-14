@@ -93,9 +93,9 @@ ZHB.Tasks = (function() {
             ]
         });
         tabs.eventBind(WAVE.GUI.EVT_TABS_TAB_CHANGED, function(sender, args) {
-            if (args == "tChat") {
-                refreshChat(task);
-            };
+            if (args === "tChat") {
+                ZHB.Tasks.Chat.refreshChat(task);
+            }
         });
 
         buildStatusTab(statusId, task);
@@ -119,12 +119,12 @@ ZHB.Tasks = (function() {
     }
 
     function taskDetailsShowHandler(sender, args) {
-        if (args.phase == WAVE.RecordModel.EVT_PHASE_AFTER)
+        if (args.phase === WAVE.RecordModel.EVT_PHASE_AFTER)
             fTasksDetailsState[sender.detailsId] = true;
     }
 
     function taskDetailsHideHandler(sender, args) {
-        if (args.phase == WAVE.RecordModel.EVT_PHASE_AFTER)
+        if (args.phase === WAVE.RecordModel.EVT_PHASE_AFTER)
             fTasksDetailsState[sender.detailsId] = false;
     }
 
@@ -176,14 +176,15 @@ ZHB.Tasks = (function() {
         fRVIEW = new WAVE.RecordModel.RecordView("V1", fREC);
 
         fREC.eventBind(WAVE.RecordModel.EVT_DATA_CHANGE, function(sender, phase, oldv, newv) {
-            if (phase == WAVE.RecordModel.EVT_PHASE_AFTER) scheduleFetch();
+            if (phase === WAVE.RecordModel.EVT_PHASE_AFTER) scheduleFetch();
         });
     }
-
+    
     published.init = function(init) {
         initFilter(init.filter);
         published.isPM = init.pmPerm;
         getTasks();
+        ZHB.Tasks.Chat.init({tasks: fTasks});
     };
 
     published.scheduleFetch = function() { scheduleFetch(); };

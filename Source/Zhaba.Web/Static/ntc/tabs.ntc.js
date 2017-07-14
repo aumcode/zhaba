@@ -474,32 +474,8 @@ function sendChatMessage(pid, iid, cid, _rec) {
         _rec.data(),
         function(resp) {
             chatForm(task);
-            refreshChat(task);
+            ZHB.Tasks.Chat.refreshChat(task);
 
-        },
-        function(resp) {
-            console.log("error");
-            console.log(resp);
-        },
-        function(resp) {
-            console.log("fail");
-            console.log(resp);
-        },
-        WAVE.CONTENT_TYPE_JSON_UTF8,
-        WAVE.CONTENT_TYPE_JSON_UTF8
-    );
-}
-
-function refreshChat(task) {
-    var link = "/project/{0}/issue/{1}/chatlist".args(task.C_Project, task.Counter);
-    var data = chatFilterRec[task.Counter].data();
-    WAVE.ajaxCall(
-        'POST',
-        link,
-        data,
-        function(resp) {
-            var rec = JSON.parse(resp);
-            createChatItems(task, rec);
         },
         function(resp) {
             console.log("error");
@@ -586,7 +562,7 @@ function setChatFilter(e) {
     var iid = e.target.dataset.cissue;
     var pid = e.target.dataset.cproject;
     var task = { Counter: iid, C_Project: pid };
-    refreshChat(task);
+    ZHB.Tasks.Chat.refreshChat(task);
 }
 
 function editIssue1(e) {

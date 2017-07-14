@@ -400,13 +400,5 @@ private readonly string m_FilterVector;
     });
   }
 
-  var chatTickTime = 20000;
-  var chatTimerId = setTimeout(function chatTick(){
-    if(tasks) {
-      for(var i = 0, l = tasks.length; i<l; i++) {
-        refreshChat(tasks[i]);
-      }
-    }
-    chatTimerId = setTimeout(chatTick, chatTickTime);
-  }, chatTickTime);
+
 </script>

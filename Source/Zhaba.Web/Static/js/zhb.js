@@ -787,32 +787,8 @@ function sendChatMessage(pid, iid, cid, _rec) {
         _rec.data(),
         function(resp) {
             chatForm(task);
-            refreshChat(task);
+            ZHB.Tasks.Chat.refreshChat(task);
 
-        },
-        function(resp) {
-            console.log("error");
-            console.log(resp);
-        },
-        function(resp) {
-            console.log("fail");
-            console.log(resp);
-        },
-        WAVE.CONTENT_TYPE_JSON_UTF8,
-        WAVE.CONTENT_TYPE_JSON_UTF8
-    );
-}
-
-function refreshChat(task) {
-    var link = "/project/{0}/issue/{1}/chatlist".args(task.C_Project, task.Counter);
-    var data = chatFilterRec[task.Counter].data();
-    WAVE.ajaxCall(
-        'POST',
-        link,
-        data,
-        function(resp) {
-            var rec = JSON.parse(resp);
-            createChatItems(task, rec);
         },
         function(resp) {
             console.log("error");
@@ -900,7 +876,7 @@ function setChatFilter(e) {
     var iid = e.target.dataset.cissue;
     var pid = e.target.dataset.cproject;
     var task = { Counter: iid, C_Project: pid };
-    refreshChat(task);
+    ZHB.Tasks.Chat.refreshChat(task);
 }
 
 function editIssue1(e) {
@@ -1234,9 +1210,9 @@ ZHB.Tasks = (function() {
             ]
         });
         tabs.eventBind(WAVE.GUI.EVT_TABS_TAB_CHANGED, function(sender, args) {
-            if (args == "tChat") {
-                refreshChat(task);
-            };
+            if (args === "tChat") {
+                ZHB.Tasks.Chat.refreshChat(task);
+            }
         });
 
         buildStatusTab(statusId, task);
@@ -1260,12 +1236,12 @@ ZHB.Tasks = (function() {
     }
 
     function taskDetailsShowHandler(sender, args) {
-        if (args.phase == WAVE.RecordModel.EVT_PHASE_AFTER)
+        if (args.phase === WAVE.RecordModel.EVT_PHASE_AFTER)
             fTasksDetailsState[sender.detailsId] = true;
     }
 
     function taskDetailsHideHandler(sender, args) {
-        if (args.phase == WAVE.RecordModel.EVT_PHASE_AFTER)
+        if (args.phase === WAVE.RecordModel.EVT_PHASE_AFTER)
             fTasksDetailsState[sender.detailsId] = false;
     }
 
@@ -1317,14 +1293,15 @@ ZHB.Tasks = (function() {
         fRVIEW = new WAVE.RecordModel.RecordView("V1", fREC);
 
         fREC.eventBind(WAVE.RecordModel.EVT_DATA_CHANGE, function(sender, phase, oldv, newv) {
-            if (phase == WAVE.RecordModel.EVT_PHASE_AFTER) scheduleFetch();
+            if (phase === WAVE.RecordModel.EVT_PHASE_AFTER) scheduleFetch();
         });
     }
-
+    
     published.init = function(init) {
         initFilter(init.filter);
         published.isPM = init.pmPerm;
         getTasks();
+        ZHB.Tasks.Chat.init({tasks: fTasks});
     };
 
     published.scheduleFetch = function() { scheduleFetch(); };
@@ -1500,9 +1477,42 @@ ZHB.Tasks.Render = (function () {
 
 ZHB.Tasks.Chat = (function() {
     "use strict";
-    var published = {};
+    var published = {},
+        fScheduleTimer,
+        fTasks
+    
+    ;
+    
+    function schedulerTask() {
+        if (fScheduleTimer) clearTimeout(fScheduleTimer);
+        WAVE.each(fTasks, function (task) {
+           refreshChat(task); 
+        });
+        fScheduleTimer = setTimeout(schedulerTask, 20000);
+    }
 
-
+    published.refreshChat = function(task) {
+        var link = "/project/{0}/issue/{1}/chatlist".args(task.C_Project, task.Counter);
+        var data = chatFilterRec[task.Counter].data();
+        WAVE.ajaxCall(
+            'POST',
+            link,
+            data,
+            function(resp) {
+                var rec = JSON.parse(resp);
+                createChatItems(task, rec);
+            },
+            ZHB.errorLog,
+            ZHB.errorLog,
+            WAVE.CONTENT_TYPE_JSON_UTF8,
+            WAVE.CONTENT_TYPE_JSON_UTF8
+        );
+    };
+    
+    published.init = function (init) {
+        fTasks = init.tasks;
+        schedulerTask();    
+    };
 
     return published;
 })();
