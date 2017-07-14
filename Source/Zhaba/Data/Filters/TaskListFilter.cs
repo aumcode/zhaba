@@ -73,7 +73,9 @@ namespace Zhaba.Data.Filters
         get { return ZhabaIssueStatus.MapDescription(statusId); }
         set { statusId = value; }
       }
-
+      [Field]
+      public DateTime? Status_Date { get; set; }
+      
       [Field]
       public DateTime? Complete_Date { get; set; }
 
