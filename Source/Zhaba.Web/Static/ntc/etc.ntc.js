@@ -31,7 +31,7 @@ function linkIssueArea(event, cProject, cIssue, cArea) {
               function (resp) {
                 var data = new WAVE.RecordModel.Record(JSON.parse(resp));
                 var areaName=data.data().Name;
-                buildAreaTag(acId, cIssue, cArea, areaName);
+                ZHB.Tasks.Render.buildAreaTag(acId, cIssue, cArea, areaName);
               },
               function (resp) { console.log("error"); },
               function (resp) { console.log("fail"); },
@@ -81,7 +81,7 @@ function linkIssueComponent(event, cProject, cIssue, cComponent) {
               function (resp) {
                 var data = new WAVE.RecordModel.Record(JSON.parse(resp));
                 var compName=data.data().Name;
-                buildCompTag(acId, cIssue, cComponent, compName);
+                ZHB.Tasks.Render.buildCompTag(acId, cIssue, cComponent, compName);
               },
               function (resp) { console.log("error"); },
               function (resp) { console.log("fail"); },
@@ -90,7 +90,7 @@ function linkIssueComponent(event, cProject, cIssue, cComponent) {
             );
           }
         } else {
-          WAVE.removeElem(compId);
+         WAVE.removeElem(compId);
         }
       }
     })
@@ -115,25 +115,4 @@ WAVE.onReady(function() {
     }
   };
 });
-
-function buildAreaTag(root, cIssue, cArea, areaName) {
-  /***
-  div="?areaName"
-  {
-    id="?'issue-' + cIssue + '-areatag-'+cArea"
-    class="tag tag-area inline-block"
-  }
-  ***/
-}
-
-function buildCompTag(root, cIssue, cComp, compName) {
-
-  /***
-  div="?compName"
-  {
-    id="?'issue-' + cIssue + '-comptag-' + cComp"
-    class="tag tag-component inline-block"
-  }
-  ***/
-}
 

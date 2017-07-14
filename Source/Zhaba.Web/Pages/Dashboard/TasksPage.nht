@@ -56,7 +56,6 @@ private readonly string m_FilterVector;
     pmPerm: WAVE.strAsBool("?[new PMPermission().Check()]")
   }));
 
-  pmperm = true;
   var tasks, categories;
   var statuses = { N: 'New', R: 'Reopen', A: 'Assign', D: 'Done', F: 'Defer', C: 'Close', X: 'Cancel' };
 

@@ -124,6 +124,11 @@ var ZHB = (function() {
         WAVE.GUI.toast("Something went wrong, see console for details");
         console.log(response);
     };
+    
+    published.debugLog = function(response) {
+        //todo setup fo only debug!
+        console.log(response);
+    };
 
 
     return published;
@@ -234,120 +239,6 @@ function createHeaders(root) {
     return Ø8;
 }
 
-function createRow(root, task) {
-    var detailsId = "details-" + task.Counter;
-    var Ør = arguments[0];
-    if (WAVE.isString(Ør))
-      Ør = WAVE.id(Ør);
-    if(1 == 1) {
-      var Ø1 = WAVE.ce('div');
-      Ø1.innerText = task.Counter;
-      Ø1.setAttribute('class', 'rst-cell issue_id rst-expander');
-      Ø1.setAttribute('style', 'width: 3%');
-      Ø1.setAttribute('align', 'right');
-      Ø1.setAttribute('data-cissue', task.Counter);
-      Ø1.setAttribute('data-cproject', task.C_Project);
-      Ø1.setAttribute('data-details-id', detailsId);
-      if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
-      var Ø2 = WAVE.ce('div');
-      Ø2.setAttribute('class', 'rst-cell completeness rst-expander');
-      Ø2.setAttribute('style', 'width: 10%');
-      Ø2.setAttribute('data-details-id', detailsId);
-    var Ø3 = WAVE.ce('div');
-    var Ø4 = WAVE.ce('div');
-    Ø4.setAttribute('align', 'center');
-    var Ø5 = WAVE.ce('div');
-    Ø5.innerText = task.Status;
-    Ø5.setAttribute('class', 'tag {0} inline'.args(getStatusStyle(task.Status)));
-    Ø4.appendChild(Ø5);
-    var Ø6 = WAVE.ce('div');
-    Ø6.innerText = task.Category_Name;
-    Ø6.setAttribute('class', 'tag tag-category inline');
-    Ø4.appendChild(Ø6);
-    Ø3.appendChild(Ø4);
-    var Ø7 = WAVE.ce('div');
-    Ø7.innerText = task.Completeness +'%';
-    Ø7.setAttribute('data-cproject', task.C_Project);
-    Ø7.setAttribute('data-cissue', task.Counter);
-    Ø7.setAttribute('data-progress', task.Completeness);
-    Ø7.setAttribute('data-description', task.Description);
-    Ø7.setAttribute('data-status', task.statusId);
-    Ø7.addEventListener('click', changeProgress1, false);
-    Ø7.setAttribute('class', 'bar-value');
-    Ø7.setAttribute('align', 'center');
-    Ø3.appendChild(Ø7);
-    var Ø8 = WAVE.ce('div');
-    Ø8.setAttribute('class', 'bar');
-    Ø8.setAttribute('style', getStatusBarStyle(task.Completeness));
-    Ø3.appendChild(Ø8);
-    Ø2.appendChild(Ø3);
-      if (WAVE.isObject(Ør)) Ør.appendChild(Ø2);
-      var Ø9 = WAVE.ce('div');
-      Ø9.setAttribute('class', 'rst-cell rst-text-align-center rst-expander');
-      Ø9.setAttribute('data-details-id', detailsId);
-      Ø9.setAttribute('style', 'width: 12%;');
-    var Ø10 = WAVE.ce('div');
-    Ø10.innerText = task.Priority;
-    Ø10.setAttribute('class', 'tag {0} inline-block'.args(getPriorityStyle(task.Priority)));
-    Ø9.appendChild(Ø10);
-    var Ø11 = WAVE.ce('div');
-    Ø11.innerText = buildDate(task);
-    Ø11.setAttribute('class', 'inline-block');
-    Ø9.appendChild(Ø11);
-    var Ø12 = WAVE.ce('div');
-    Ø12.innerText = buildDueDate(task);
-    Ø9.appendChild(Ø12);
-      if (WAVE.isObject(Ør)) Ør.appendChild(Ø9);
-      var Ø13 = WAVE.ce('div');
-      Ø13.setAttribute('id', 'assignee'+task.Counter);
-      Ø13.setAttribute('class', 'rst-cell rst-expander');
-      Ø13.setAttribute('style', 'width: 10%');
-      Ø13.setAttribute('data-details-id', detailsId);
-      if (WAVE.isObject(Ør)) Ør.appendChild(Ø13);
-      var Ø14 = WAVE.ce('div');
-      Ø14.setAttribute('id', 'ac'+task.Counter);
-      Ø14.setAttribute('class', 'rst-cell rst-expander');
-      Ø14.setAttribute('style', 'width: 15%');
-      Ø14.setAttribute('data-details-id', detailsId);
-      if (WAVE.isObject(Ør)) Ør.appendChild(Ø14);
-      var Ø15 = WAVE.ce('div');
-      Ø15.innerText = task.ProjectName;
-      Ø15.setAttribute('class', 'rst-cell rst-expander');
-      Ø15.setAttribute('style', 'width: 10%');
-      Ø15.setAttribute('data-details-id', detailsId);
-      if (WAVE.isObject(Ør)) Ør.appendChild(Ø15);
-      var Ø16 = WAVE.ce('div');
-      Ø16.innerText = task.Name;
-      Ø16.setAttribute('class', 'rst-cell rst-expander');
-      Ø16.setAttribute('style', 'width: 20%');
-      Ø16.setAttribute('data-details-id', detailsId);
-      if (WAVE.isObject(Ør)) Ør.appendChild(Ø16);
-      var Ø17 = WAVE.ce('div');
-      Ø17.innerText = task.Description;
-      Ø17.setAttribute('id', 'description'+task.Counter);
-      Ø17.setAttribute('class', 'rst-cell rst-expander');
-      Ø17.setAttribute('style', 'width: 20%');
-      Ø17.setAttribute('data-details-id', detailsId);
-      if (WAVE.isObject(Ør)) Ør.appendChild(Ø17);
-    }
-    return Ø17;
-}
-
-function createRowDetails(root, id) {
-    var Ør = arguments[0];
-    if (WAVE.isString(Ør))
-      Ør = WAVE.id(Ør);
-    var Ø1 = WAVE.ce('div');
-    Ø1.setAttribute('id', 'details-'+id);
-    Ø1.setAttribute('class', 'rst-cell rst-full');
-    var Ø2 = WAVE.ce('div');
-    Ø2.setAttribute('id', 'tabs-'+id);
-    Ø2.setAttribute('class', 'tab-control');
-    Ø1.appendChild(Ø2);
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
-    return Ø1;
-}
-
 function buildStatusButtons(root, task) {
     var detailsId = "details-" + task.Counter;
     if (task.Status == 'Defer') {
@@ -362,7 +253,7 @@ function buildStatusButtons(root, task) {
         if (WAVE.isString(Ør))
           Ør = WAVE.id(Ør);
         var Ø1 = WAVE.ce('div');
-        if(pmperm) {
+        if(ZHB.Tasks.isPM) {
           var Ø2 = WAVE.ce('a');
           Ø2.innerText = 'Edit Issue';
           Ø2.setAttribute('class', 'button');
@@ -407,7 +298,7 @@ function buildStatusButtons(root, task) {
         if (WAVE.isString(Ør))
           Ør = WAVE.id(Ør);
         var Ø1 = WAVE.ce('div');
-        if(pmperm) {
+        if(ZHB.Tasks.isPM) {
           var Ø2 = WAVE.ce('a');
           Ø2.innerText = 'Edit Issue';
           Ø2.setAttribute('class', 'button');
@@ -448,7 +339,7 @@ function buildAssignmentButtons(root, task) {
     if (WAVE.isString(Ør))
       Ør = WAVE.id(Ør);
     var Ø1 = WAVE.ce('div');
-     if(task.statusId !='X' && task.statusId !='C' && task.statusId !='D' && pmperm) {
+     if(task.statusId !='X' && task.statusId !='C' && task.statusId !='D' && ZHB.Tasks.isPM) {
       var Ø2 = WAVE.ce('a');
       Ø2.innerText = 'Add user';
       Ø2.setAttribute('data-counter', task.Counter);
@@ -810,18 +701,6 @@ function buildChatFilterForm(root, task) {
     return Ø1;
 }
 
-function buildAssignee(root, assignee) {
-    var Ør = arguments[0];
-    if (WAVE.isString(Ør))
-      Ør = WAVE.id(Ør);
-    var Ø1 = WAVE.ce('div');
-    Ø1.innerText = assignee.UserLogin;
-    Ø1.setAttribute('class', 'tag tag-assignee inline-block');
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
-    return Ø1;
-}
-
-
 function createEditChatButton(root, item, task) {
     if (item.HasEdit) {
         var Ør = arguments[0];
@@ -853,22 +732,6 @@ function buildEditChatDialog(root, item) {
     Ø1.appendChild(Ø2);
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
     return Ø1;
-}
-
-function buildAreasAndComponents(root, task) {
-    var i, l;
-    for (i = 0, l = task.Areas.length; i < l; i++) {
-        buildAreaTag(root, task.Counter, task.Areas[i].Counter, task.Areas[i].Name);
-    }
-    for (i = 0, l = task.Components.length; i < l; i++) {
-        buildCompTag(root, task.Counter, task.Components[i].Counter, task.Components[i].Name);
-    }
-}
-
-function buildAssigneeList(root, task) {
-    for (var i = 0, l = task.AssigneeList.length; i < l; i++) {
-        buildAssignee(root, task.AssigneeList[i]);
-    }
 }
 
 function chatForm(task) {
@@ -1157,69 +1020,6 @@ function editAssignee(e) {
     );
 }
 
-function createTabs(root, task) {
-    var statusId = "status-" + task.Counter;
-    var statusContainer = "<div id={0}></div>".args(statusId);
-
-    var assignmentId = "assignment-" + task.Counter;
-    var assignmentContainer = "<div id={0}></div>".args(assignmentId);
-
-    var chatId = "chatTab-{0}".args(task.Counter);
-    var chatContainer = "<div id={0}></div>".args(chatId);
-
-    var areasId = "areasTab-{0}".args(task.Counter);
-    var areasContainer = "<div id={0}></div>".args(areasId);
-
-    var componentsId = "componentsTab-{0}".args(task.Counter);
-    var componentsContainer = "<div id={0}></div>".args(componentsId);
-
-    var tabs = new WAVE.GUI.Tabs({
-        DIV: WAVE.id(root),
-        tabs: [{
-                name: "tStatus",
-                title: "Status",
-                content: statusContainer,
-                visible: true,
-                isHtml: true
-            },
-            {
-                name: "tAssignment",
-                title: "Assignment",
-                content: assignmentContainer,
-                isHtml: true
-            },
-            {
-                name: "tChat",
-                title: "Chat",
-                content: chatContainer,
-                isHtml: true
-            },
-            {
-                name: "tAreas",
-                title: "Areas",
-                content: areasContainer,
-                isHtml: true
-            },
-            {
-                name: "tComponents",
-                title: "Components",
-                content: componentsContainer,
-                isHtml: true
-            }
-        ]
-    });
-    tabs.eventBind(WAVE.GUI.EVT_TABS_TAB_CHANGED, function(sender, args) {
-        if (args == "tChat") {
-            refreshChat(task);
-        };
-    });
-
-    buildStatusTab(statusId, task);
-    buildAssignmentTab(assignmentId, task);
-    buildChatTab(chatId, task);
-    buildAreasTab(areasId, task);
-    buildComponentsTab(componentsId, task);
-}
 /**
  * Created by mad on 13.07.2017.
  */
@@ -1253,7 +1053,7 @@ function linkIssueArea(event, cProject, cIssue, cArea) {
               function (resp) {
                 var data = new WAVE.RecordModel.Record(JSON.parse(resp));
                 var areaName=data.data().Name;
-                buildAreaTag(acId, cIssue, cArea, areaName);
+                ZHB.Tasks.Render.buildAreaTag(acId, cIssue, cArea, areaName);
               },
               function (resp) { console.log("error"); },
               function (resp) { console.log("fail"); },
@@ -1303,7 +1103,7 @@ function linkIssueComponent(event, cProject, cIssue, cComponent) {
               function (resp) {
                 var data = new WAVE.RecordModel.Record(JSON.parse(resp));
                 var compName=data.data().Name;
-                buildCompTag(acId, cIssue, cComponent, compName);
+                ZHB.Tasks.Render.buildCompTag(acId, cIssue, cComponent, compName);
               },
               function (resp) { console.log("error"); },
               function (resp) { console.log("fail"); },
@@ -1312,7 +1112,7 @@ function linkIssueComponent(event, cProject, cIssue, cComponent) {
             );
           }
         } else {
-          WAVE.removeElem(compId);
+         WAVE.removeElem(compId);
         }
       }
     })
@@ -1338,31 +1138,6 @@ WAVE.onReady(function() {
   };
 });
 
-function buildAreaTag(root, cIssue, cArea, areaName) {
-  var Ør = arguments[0];
-  if (WAVE.isString(Ør))
-    Ør = WAVE.id(Ør);
-  var Ø1 = WAVE.ce('div');
-  Ø1.innerText = areaName;
-  Ø1.setAttribute('id', 'issue-' + cIssue + '-areatag-'+cArea);
-  Ø1.setAttribute('class', 'tag tag-area inline-block');
-  if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
-  return Ø1;
-}
-
-function buildCompTag(root, cIssue, cComp, compName) {
-
-  var Ør = arguments[0];
-  if (WAVE.isString(Ør))
-    Ør = WAVE.id(Ør);
-  var Ø1 = WAVE.ce('div');
-  Ø1.innerText = compName;
-  Ø1.setAttribute('id', 'issue-' + cIssue + '-comptag-' + cComp);
-  Ø1.setAttribute('class', 'tag tag-component inline-block');
-  if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
-  return Ø1;
-}
-
 
 /*jshint devel: true,browser: true, sub: true */
 /*global WAVE, $, ZHB */
@@ -1376,6 +1151,7 @@ ZHB.Tasks = (function() {
         fTasks,
         fCategories,
         fScheduleTimer,
+        fIsPM = false,
         fTasksDetailsState = {}, //hranit otkritie/zakritie details //TODO: pereimenovat!!!
         fTasksDetailsList = [],
         fStatuses = { N: 'New', R: 'Reopen', A: 'Assign', D: 'Done', F: 'Defer', C: 'Close', X: 'Cancel' };
@@ -1389,15 +1165,95 @@ ZHB.Tasks = (function() {
         fTasksDetailsList = [];
         fRosterGrid.innerHTML = "";
     }
+    
+    function buildAreasAndComponents(root, task) {
+        var i, l;
+        for (i = 0, l = task.Areas.length; i < l; i++) {
+            ZHB.Tasks.Render.buildAreaTag(root, task.Counter, task.Areas[i].Counter, task.Areas[i].Name);
+        }
+        for (i = 0, l = task.Components.length; i < l; i++) {
+            ZHB.Tasks.Render.buildCompTag(root, task.Counter, task.Components[i].Counter, task.Components[i].Name);
+        }
+    }
+    
+    function buildAssigneeList(root, task) {
+        for (var i = 0, l = task.AssigneeList.length; i < l; i++) {
+            ZHB.Tasks.Render.buildAssignee(root, task.AssigneeList[i]);
+        }
+    }
 
+    function createTabs(root, task) {
+        var statusId = "status-" + task.Counter;
+        var statusContainer = "<div id={0}></div>".args(statusId);
+
+        var assignmentId = "assignment-" + task.Counter;
+        var assignmentContainer = "<div id={0}></div>".args(assignmentId);
+
+        var chatId = "chatTab-{0}".args(task.Counter);
+        var chatContainer = "<div id={0}></div>".args(chatId);
+
+        var areasId = "areasTab-{0}".args(task.Counter);
+        var areasContainer = "<div id={0}></div>".args(areasId);
+
+        var componentsId = "componentsTab-{0}".args(task.Counter);
+        var componentsContainer = "<div id={0}></div>".args(componentsId);
+
+        var tabs = new WAVE.GUI.Tabs({
+            DIV: WAVE.id(root),
+            tabs: [{
+                    name: "tStatus",
+                    title: "Status",
+                    content: statusContainer,
+                    visible: true,
+                    isHtml: true
+                },
+                {
+                    name: "tAssignment",
+                    title: "Assignment",
+                    content: assignmentContainer,
+                    isHtml: true
+                },
+                {
+                    name: "tChat",
+                    title: "Chat",
+                    content: chatContainer,
+                    isHtml: true
+                },
+                {
+                    name: "tAreas",
+                    title: "Areas",
+                    content: areasContainer,
+                    isHtml: true
+                },
+                {
+                    name: "tComponents",
+                    title: "Components",
+                    content: componentsContainer,
+                    isHtml: true
+                }
+            ]
+        });
+        tabs.eventBind(WAVE.GUI.EVT_TABS_TAB_CHANGED, function(sender, args) {
+            if (args == "tChat") {
+                refreshChat(task);
+            };
+        });
+
+        buildStatusTab(statusId, task);
+        buildAssignmentTab(assignmentId, task);
+        buildChatTab(chatId, task);
+        buildAreasTab(areasId, task);
+        buildComponentsTab(componentsId, task);
+    }
+    
     function renderTasks() {
         clearRosterGrid();
         createHeaders(fRosterGrid);
         WAVE.each(fTasks, function(task) {
-            createRow(fRosterGrid, task);
+            ZHB.Tasks.Render.createRow(fRosterGrid, task);
             buildAreasAndComponents('ac' + task.Counter, task);
             buildAssigneeList('assignee' + task.Counter, task);
-            createRowDetails(fRosterGrid, task.Counter);
+            ZHB.Tasks.Render.createRowDetails(fRosterGrid, task.Counter);
             createTabs("tabs-" + task.Counter, task);
             document.getElementById('description' + task.Counter).innerHTML = WAVE.markup(WAVE.strDefault(task.Description));
         });
@@ -1467,11 +1323,176 @@ ZHB.Tasks = (function() {
 
     published.init = function(init) {
         initFilter(init.filter);
+        published.isPM = init.pmPerm;
         getTasks();
     };
 
     published.scheduleFetch = function() { scheduleFetch(); };
+    
+    return published;
+})();
 
+/*jshint devel: true,browser: true, sub: true */
+/*global WAVE, $, ZHB */
+
+ZHB.Tasks.Render = (function () {
+    "use strict";
+    var published = {}
+    ;
+    
+    published.createRow = function(root, task) {
+        var detailsId = "details-" + task.Counter;
+        var Ør = arguments[0];
+        if (WAVE.isString(Ør))
+          Ør = WAVE.id(Ør);
+        if(1 == 1) {
+          var Ø1 = WAVE.ce('div');
+          Ø1.innerText = task.Counter;
+          Ø1.setAttribute('class', 'rst-cell issue_id rst-expander');
+          Ø1.setAttribute('style', 'width: 3%');
+          Ø1.setAttribute('align', 'right');
+          Ø1.setAttribute('data-cissue', task.Counter);
+          Ø1.setAttribute('data-cproject', task.C_Project);
+          Ø1.setAttribute('data-details-id', detailsId);
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+          var Ø2 = WAVE.ce('div');
+          Ø2.setAttribute('class', 'rst-cell completeness rst-expander');
+          Ø2.setAttribute('style', 'width: 10%');
+          Ø2.setAttribute('data-details-id', detailsId);
+        var Ø3 = WAVE.ce('div');
+        var Ø4 = WAVE.ce('div');
+        Ø4.setAttribute('align', 'center');
+        var Ø5 = WAVE.ce('div');
+        Ø5.innerText = task.Status;
+        Ø5.setAttribute('class', 'tag {0} inline'.args(getStatusStyle(task.Status)));
+        Ø4.appendChild(Ø5);
+        var Ø6 = WAVE.ce('div');
+        Ø6.innerText = task.Category_Name;
+        Ø6.setAttribute('class', 'tag tag-category inline');
+        Ø4.appendChild(Ø6);
+        Ø3.appendChild(Ø4);
+        var Ø7 = WAVE.ce('div');
+        Ø7.innerText = task.Completeness +'%';
+        Ø7.setAttribute('data-cproject', task.C_Project);
+        Ø7.setAttribute('data-cissue', task.Counter);
+        Ø7.setAttribute('data-progress', task.Completeness);
+        Ø7.setAttribute('data-description', task.Description);
+        Ø7.setAttribute('data-status', task.statusId);
+        Ø7.addEventListener('click', changeProgress1, false);
+        Ø7.setAttribute('class', 'bar-value');
+        Ø7.setAttribute('align', 'center');
+        Ø3.appendChild(Ø7);
+        var Ø8 = WAVE.ce('div');
+        Ø8.setAttribute('class', 'bar');
+        Ø8.setAttribute('style', getStatusBarStyle(task.Completeness));
+        Ø3.appendChild(Ø8);
+        Ø2.appendChild(Ø3);
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø2);
+          var Ø9 = WAVE.ce('div');
+          Ø9.setAttribute('class', 'rst-cell rst-text-align-center rst-expander');
+          Ø9.setAttribute('data-details-id', detailsId);
+          Ø9.setAttribute('style', 'width: 12%;');
+        var Ø10 = WAVE.ce('div');
+        Ø10.innerText = task.Priority;
+        Ø10.setAttribute('class', 'tag {0} inline-block'.args(getPriorityStyle(task.Priority)));
+        Ø9.appendChild(Ø10);
+        var Ø11 = WAVE.ce('div');
+        Ø11.innerText = buildDate(task);
+        Ø11.setAttribute('class', 'inline-block');
+        Ø9.appendChild(Ø11);
+        var Ø12 = WAVE.ce('div');
+        Ø12.innerText = buildDueDate(task);
+        Ø9.appendChild(Ø12);
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø9);
+          var Ø13 = WAVE.ce('div');
+          Ø13.setAttribute('id', 'assignee'+task.Counter);
+          Ø13.setAttribute('class', 'rst-cell rst-expander');
+          Ø13.setAttribute('style', 'width: 10%');
+          Ø13.setAttribute('data-details-id', detailsId);
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø13);
+          var Ø14 = WAVE.ce('div');
+          Ø14.setAttribute('id', 'ac'+task.Counter);
+          Ø14.setAttribute('class', 'rst-cell rst-expander');
+          Ø14.setAttribute('style', 'width: 15%');
+          Ø14.setAttribute('data-details-id', detailsId);
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø14);
+          var Ø15 = WAVE.ce('div');
+          Ø15.innerText = task.ProjectName;
+          Ø15.setAttribute('class', 'rst-cell rst-expander');
+          Ø15.setAttribute('style', 'width: 10%');
+          Ø15.setAttribute('data-details-id', detailsId);
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø15);
+          var Ø16 = WAVE.ce('div');
+          Ø16.innerText = task.Name;
+          Ø16.setAttribute('class', 'rst-cell rst-expander');
+          Ø16.setAttribute('style', 'width: 20%');
+          Ø16.setAttribute('data-details-id', detailsId);
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø16);
+          var Ø17 = WAVE.ce('div');
+          Ø17.innerText = task.Description;
+          Ø17.setAttribute('id', 'description'+task.Counter);
+          Ø17.setAttribute('class', 'rst-cell rst-expander');
+          Ø17.setAttribute('style', 'width: 20%');
+          Ø17.setAttribute('data-details-id', detailsId);
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø17);
+        }
+        return Ø17;
+    };
+    
+    published.buildAreaTag = function (root, cIssue, cArea, areaName) {
+        var Ør = arguments[0];
+        if (WAVE.isString(Ør))
+          Ør = WAVE.id(Ør);
+        var Ø1 = WAVE.ce('div');
+        Ø1.innerText = areaName;
+        Ø1.setAttribute('id', 'issue-' + cIssue + '-areatag-'+cArea);
+        Ø1.setAttribute('data-cissue', cIssue);
+        Ø1.setAttribute('data-carea', cArea);
+        Ø1.setAttribute('class', 'tag tag-area inline-block');
+        if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+        return Ø1;
+    };
+    
+    published.buildCompTag = function(root, cIssue, cComp, compName) {
+        var Ør = arguments[0];
+        if (WAVE.isString(Ør))
+          Ør = WAVE.id(Ør);
+        var Ø1 = WAVE.ce('div');
+        Ø1.innerText = compName;
+        Ø1.setAttribute('id', 'issue-' + cIssue + '-comptag-' + cComp);
+        Ø1.setAttribute('data-cissue', cIssue);
+        Ø1.setAttribute('data-ccomponent', cComp);
+        Ø1.setAttribute('class', 'tag tag-component inline-block');
+        if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+        return Ø1;
+    };
+    
+    published.buildAssignee = function(root, assignee) {
+        var Ør = arguments[0];
+        if (WAVE.isString(Ør))
+          Ør = WAVE.id(Ør);
+        var Ø1 = WAVE.ce('div');
+        Ø1.innerText = assignee.UserLogin;
+        Ø1.setAttribute('class', 'tag tag-assignee inline-block');
+        if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+        return Ø1;
+    };
+    
+    published.createRowDetails = function(root, id) {
+        var Ør = arguments[0];
+        if (WAVE.isString(Ør))
+          Ør = WAVE.id(Ør);
+        var Ø1 = WAVE.ce('div');
+        Ø1.setAttribute('id', 'details-'+id);
+        Ø1.setAttribute('class', 'rst-cell rst-full');
+        var Ø2 = WAVE.ce('div');
+        Ø2.setAttribute('id', 'tabs-'+id);
+        Ø2.setAttribute('class', 'tab-control');
+        Ø1.appendChild(Ø2);
+        if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+        return Ø1;
+    };
+    
     return published;
 })();
 /*jshint devel: true,browser: true, sub: true */

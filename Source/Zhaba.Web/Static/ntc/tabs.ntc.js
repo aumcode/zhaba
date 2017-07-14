@@ -70,90 +70,6 @@ function createHeaders(root) {
     ***/
 }
 
-function createRow(root, task) {
-    var detailsId = "details-" + task.Counter;
-    /***
-    "?if(1 == 1)"
-    {
-      div="?task.Counter"
-      {
-        class="rst-cell issue_id rst-expander"
-        style="width: 3%"
-        align="right"
-
-        data-cissue=?task.Counter
-        data-cproject=?task.C_Project
-        data-details-id=?detailsId
-      }
-      div
-      {
-        class="rst-cell completeness rst-expander"
-        style="width: 10%"
-        data-details-id=?detailsId
-        div
-        {
-          div
-          {
-            align="center"
-            div="?task.Status"{ class="?'tag {0} inline'.args(getStatusStyle(task.Status))" }
-            div="?task.Category_Name"{ class="tag tag-category inline" }
-          }
-
-          div="?task.Completeness +'%'"
-          {
-            data-cproject=?task.C_Project
-            data-cissue=?task.Counter
-            data-progress=?task.Completeness
-            data-description=?task.Description
-            data-status=?task.statusId
-            on-click=changeProgress1
-
-            class="bar-value"
-            align="center"
-          }
-          div
-          {
-            class="bar"
-            style="?getStatusBarStyle(task.Completeness)"
-          }
-        }
-      }
-      div
-      {
-        class="rst-cell rst-text-align-center rst-expander"
-        data-details-id=?detailsId
-        style="width: 12%;"
-        div="?task.Priority"{ class="?'tag {0} inline-block'.args(getPriorityStyle(task.Priority))" }
-        div="?buildDate(task)"{ class="inline-block" }
-        div="?buildDueDate(task)"{ }
-      }
-
-      div { id="?'assignee'+task.Counter" class="rst-cell rst-expander" style="width: 10%" data-details-id=?detailsId}
-      div { id="?'ac'+task.Counter" class="rst-cell rst-expander" style="width: 15%" data-details-id=?detailsId}
-      div="?task.ProjectName"{ class="rst-cell rst-expander" style="width: 10%" data-details-id=?detailsId}
-      div="?task.Name"{ class="rst-cell rst-expander" style="width: 20%" data-details-id=?detailsId}
-      div="?task.Description"
-      {
-        id="?'description'+task.Counter"
-        class="rst-cell rst-expander"
-        style="width: 20%"
-        data-details-id=?detailsId
-      }
-    }
-    ***/
-}
-
-function createRowDetails(root, id) {
-    /***
-    div
-    {
-      id="?'details-'+id"
-      class="rst-cell rst-full"
-      div { id="?'tabs-'+id" class="tab-control"}
-    }
-    ***/
-}
-
 function buildStatusButtons(root, task) {
     var detailsId = "details-" + task.Counter;
     if (task.Status == 'Defer') {
@@ -167,7 +83,7 @@ function buildStatusButtons(root, task) {
         /***
         div
         {
-          "?if(pmperm)" {
+          "?if(ZHB.Tasks.isPM)" {
             a="Edit Issue"
             {
               class="button"
@@ -211,7 +127,7 @@ function buildStatusButtons(root, task) {
         /***
         div
         {
-          "?if(pmperm)" {
+          "?if(ZHB.Tasks.isPM)" {
 
             a="Edit Issue"
             {
@@ -253,7 +169,7 @@ function buildAssignmentButtons(root, task) {
     /***
     div
     {
-      "? if(task.statusId !='X' && task.statusId !='C' && task.statusId !='D' && pmperm)" {
+      "? if(task.statusId !='X' && task.statusId !='C' && task.statusId !='D' && ZHB.Tasks.isPM)" {
         a = "Add user"
         {
           data-counter=?task.Counter
@@ -474,13 +390,6 @@ function buildChatFilterForm(root, task) {
     ***/
 }
 
-function buildAssignee(root, assignee) {
-    /***
-     div="?assignee.UserLogin" { class="tag tag-assignee inline-block"}
-    ***/
-}
-
-
 function createEditChatButton(root, item, task) {
     if (item.HasEdit) {
         /***
@@ -510,22 +419,6 @@ function buildEditChatDialog(root, item) {
        div { data-wv-fname="Note" class="fView" data-wv-ctl="textarea"}
      }
      ***/
-}
-
-function buildAreasAndComponents(root, task) {
-    var i, l;
-    for (i = 0, l = task.Areas.length; i < l; i++) {
-        buildAreaTag(root, task.Counter, task.Areas[i].Counter, task.Areas[i].Name);
-    }
-    for (i = 0, l = task.Components.length; i < l; i++) {
-        buildCompTag(root, task.Counter, task.Components[i].Counter, task.Components[i].Name);
-    }
-}
-
-function buildAssigneeList(root, task) {
-    for (var i = 0, l = task.AssigneeList.length; i < l; i++) {
-        buildAssignee(root, task.AssigneeList[i]);
-    }
 }
 
 function chatForm(task) {
@@ -811,68 +704,4 @@ function editAssignee(e) {
         WAVE.CONTENT_TYPE_JSON_UTF8,
         WAVE.CONTENT_TYPE_JSON_UTF8
     );
-}
-
-function createTabs(root, task) {
-    var statusId = "status-" + task.Counter;
-    var statusContainer = "<div id={0}></div>".args(statusId);
-
-    var assignmentId = "assignment-" + task.Counter;
-    var assignmentContainer = "<div id={0}></div>".args(assignmentId);
-
-    var chatId = "chatTab-{0}".args(task.Counter);
-    var chatContainer = "<div id={0}></div>".args(chatId);
-
-    var areasId = "areasTab-{0}".args(task.Counter);
-    var areasContainer = "<div id={0}></div>".args(areasId);
-
-    var componentsId = "componentsTab-{0}".args(task.Counter);
-    var componentsContainer = "<div id={0}></div>".args(componentsId);
-
-    var tabs = new WAVE.GUI.Tabs({
-        DIV: WAVE.id(root),
-        tabs: [{
-                name: "tStatus",
-                title: "Status",
-                content: statusContainer,
-                visible: true,
-                isHtml: true
-            },
-            {
-                name: "tAssignment",
-                title: "Assignment",
-                content: assignmentContainer,
-                isHtml: true
-            },
-            {
-                name: "tChat",
-                title: "Chat",
-                content: chatContainer,
-                isHtml: true
-            },
-            {
-                name: "tAreas",
-                title: "Areas",
-                content: areasContainer,
-                isHtml: true
-            },
-            {
-                name: "tComponents",
-                title: "Components",
-                content: componentsContainer,
-                isHtml: true
-            }
-        ]
-    });
-    tabs.eventBind(WAVE.GUI.EVT_TABS_TAB_CHANGED, function(sender, args) {
-        if (args == "tChat") {
-            refreshChat(task);
-        };
-    });
-
-    buildStatusTab(statusId, task);
-    buildAssignmentTab(assignmentId, task);
-    buildChatTab(chatId, task);
-    buildAreasTab(areasId, task);
-    buildComponentsTab(componentsId, task);
 }

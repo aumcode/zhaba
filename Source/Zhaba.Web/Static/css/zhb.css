@@ -669,24 +669,30 @@ body #ftr {
 .grid #frmFilter .fView select {
   padding: 3px 2px;
 }
-.grid #grid {
+.grid #grid,
+.grid #roster {
   padding: 8px 16px;
 }
-.grid #grid table {
+.grid #grid table,
+.grid #roster table {
   width: 100%;
 }
-.grid #grid table thead td {
+.grid #grid table thead td,
+.grid #roster table thead td {
   background: #a0a0a0;
   color: #fff;
   text-align: center;
 }
-.grid #grid table tbody tr {
+.grid #grid table tbody tr,
+.grid #roster table tbody tr {
   cursor: pointer;
 }
-.grid #grid table tbody tr.selectedGridTableRow {
+.grid #grid table tbody tr.selectedGridTableRow,
+.grid #roster table tbody tr.selectedGridTableRow {
   background: #cfddd0;
 }
-.grid #grid table td {
+.grid #grid table td,
+.grid #roster table td {
   border: 1px solid #808080;
   padding: 4px 2px;
 }

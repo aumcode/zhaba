@@ -124,6 +124,11 @@ var ZHB = (function() {
         WAVE.GUI.toast("Something went wrong, see console for details");
         console.log(response);
     };
+    
+    published.debugLog = function(response) {
+        //todo setup fo only debug!
+        console.log(response);
+    };
 
 
     return published;
@@ -132,5 +137,6 @@ var ZHB = (function() {
 /***@ tabs.ntc.js ***/
 /***@ etc.ntc.js ***/
 /***@ tasks.ntc.js ***/
+/***@ tasks.render.ntc.js ***/
 /***@ tasks.chat.ntc.js ***/
 /***@ tasks.areas.ntc.js ***/
