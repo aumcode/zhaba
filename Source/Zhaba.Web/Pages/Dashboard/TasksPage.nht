@@ -33,12 +33,11 @@
       <div class="fView" data-wv-fname="Search" style="width: 1000px"></div>
     </form>
     @[if(SelectedProject != null && new PMPermission().Check()) {]
-    <div style="padding-left: 14px">
+    <div style="margin-bottom: 4px; padding-left: 14px">
       <a class="button" href='javascript:addIssue(@[Target.Write(SelectedProject.Counter);])' >Add issue</a>
     </div>
     @[}]
-    <div id="grid" class="table"></div>
-
+    <div id="roster" class="rst-table"></div>
 </div>
 
 #[override renderScripts()]
@@ -64,7 +63,7 @@
       let data = JSON.parse(resp);
       tasks = data.Rows;
       // console.log(tasks);
-      renderTasks("grid");
+      renderTasks("roster");
       initDetails();
       // initTexts();
     },
@@ -103,7 +102,7 @@
       function (resp) {
         let data = JSON.parse(resp);
         tasks = data.Rows;
-        renderTasks("grid");
+        renderTasks("roster");
         initDetails();
         for(var i=0, l=expanded.length; i<l; i++) {
           var item = document.getElementById(expanded[i]);
@@ -133,7 +132,7 @@
   }
 
   function initDetails(){
-    var expanders = document.getElementsByClassName("expander");
+    var expanders = document.getElementsByClassName("rst-expander");
     for(var i = 0 , l=expanders.length; i<l; i++){
       var id = expanders[i].dataset.detailsid;
       var content =document.getElementById(id);
@@ -146,7 +145,7 @@
   }
   
   function clearGrid(){
-    document.getElementById("grid").innerHTML = "";
+    document.getElementById("roster").innerHTML = "";
   }
 
   function reopenIssue(pid, iid) {

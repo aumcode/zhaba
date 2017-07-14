@@ -1,8 +1,5 @@
 ﻿#tasksPage{
   
-  .expander {
-  }
-
   .header {
     color: white;
   }
@@ -84,7 +81,7 @@
     border-radius: 3px;
     color: #fff; 
     text-align: center;
-    font-size: 14px;
+    font-size: 13px;
     &.status-tag{
       &.new{
         background-color: blue;
@@ -135,59 +132,65 @@
       }
     }
 
-    &.component-tag{
+    &.tag-component{
       background-color: darkblue;
     }
 
-    &.area-tag{
+    &.tag-area{
       background-color: darkcyan;
     }
 
-    &.assignee-tag{
+    &.tag-assignee{
       background-color: cornflowerblue;
     }
 
-    &.category-tag{
+    &.tag-category{
       background-color: gray;
     }
   }
   
-  .table{
+  .rst-table{
     width: 100%;
     .mix-flexbox();
     .mix-flex-wrap(wrap);
-    & > .cell{
+    &#roster{
+      padding: 0px 15px;
+    }
+
+    & > .rst-cell{
       border-top: 2px solid #a0a0a0;
       overflow: hidden;
       padding: 3px 5px;
-      &.text-align-center{
+
+      &.rst-expander {
+      }
+
+      &.rst-text-align-center{
         text-align: center;
       }
 
-      &.head{
+      &.rst-head{
         text-align:center;
         color: #fff;
         background-color: #a0a0a0;
         border: 1px dotted #d0d0d0;
       }
 
-      &.body{
-      }
-
-      &.full{
+      &.rst-full{
+        margin-left: 15px;
         padding: 0px;
         border-top: 2px solid #d8d8d8;
         width: 100%;
       }
 
-      &.detailsHead{
+      &.rst-details-head{
         text-align:center;
         color: #fff;
         background-color: #c0c0c0;
         border: 1px dotted #d0d0d0;
       }
 
-      &.detailsCell{
+      &.rst-details-cell{
         border-top: 2px solid #d8d8d8;
         border-bottom: none;
       }

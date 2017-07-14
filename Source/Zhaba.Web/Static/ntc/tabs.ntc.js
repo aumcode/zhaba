@@ -61,14 +61,14 @@ function createHeaders(root) {
   /***
   "?if(1 == 1)" 
   {
-    div="ID" {class="cell head" style="width: 3%"}
-    div="Status" {class="cell head" style="width: 10%"}
-    div="Date" {class="cell head" style="width: 12%"}
-    div="Assigned" {class="cell head" style="width: 10%"}
-    div="Areas/Components" {class="cell head" style="width: 15%"}
-    div="Project" {class="cell head" style="width: 10%"}
-    div="Issue" {class="cell head" style="width: 20%"}
-    div="Description"{class="cell head" style="width: 20%"}
+    div="ID" {class="rst-cell rst-head" style="width: 3%"}
+    div="Status" {class="rst-cell rst-head" style="width: 10%"}
+    div="Date" {class="rst-cell rst-head" style="width: 12%"}
+    div="Assigned" {class="rst-cell rst-head" style="width: 10%"}
+    div="Areas/Components" {class="rst-cell rst-head" style="width: 15%"}
+    div="Project" {class="rst-cell rst-head" style="width: 10%"}
+    div="Issue" {class="rst-cell rst-head" style="width: 20%"}
+    div="Description"{class="rst-cell rst-head" style="width: 20%"}
   }
   ***/
 }
@@ -80,7 +80,7 @@ function createRow(root, task) {
   {
     div="?task.Counter"
     {
-      class="cell issue_id expander"
+      class="rst-cell issue_id rst-expander"
       style="width: 3%"
       align="right"
       
@@ -90,7 +90,7 @@ function createRow(root, task) {
     }
     div 
     { 
-      class="cell completeness expander"
+      class="rst-cell completeness rst-expander"
       style="width: 10%"
       data-detailsid=?detailsId
       div
@@ -99,7 +99,7 @@ function createRow(root, task) {
         {
           align="center"
           div="?task.Status"{ class="?'tag {0} inline'.args(getStatusStyle(task.Status))" }
-          div="?task.Category_Name"{ class="tag category-tag inline" }
+          div="?task.Category_Name"{ class="tag tag-category inline" }
         }
       
         div="?task.Completeness +'%'" 
@@ -113,7 +113,6 @@ function createRow(root, task) {
       
           class="bar-value" 
           align="center"
-          div="?task.Priority"{ class="?'tag {0} inline-block'.args(getPriorityStyle(task.Priority))"}
         }
         div 
         { 
@@ -124,21 +123,22 @@ function createRow(root, task) {
     }
     div
     {
-      class="cell text-align-center expander"
+      class="rst-cell rst-text-align-center rst-expander"
       data-detailsid=?detailsId
       style="width: 12%;"
-      div="?buildDate(task)"{ }
+      div="?task.Priority"{ class="?'tag {0} inline-block'.args(getPriorityStyle(task.Priority))" }
+      div="?buildDate(task)"{ class="inline-block" }
       div="?buildDueDate(task)"{ }
     }
 
-    div { id="?'assignee'+task.Counter" class="cell expander" style="width: 10%" data-detailsid=?detailsId}
-    div { id="?'ac'+task.Counter" class="cell expander" style="width: 15%" data-detailsid=?detailsId}
-    div="?task.ProjectName"{ class="cell expander" style="width: 10%" data-detailsid=?detailsId}
-    div="?task.Name"{ class="cell expander" style="width: 20%" data-detailsid=?detailsId}
+    div { id="?'assignee'+task.Counter" class="rst-cell rst-expander" style="width: 10%" data-detailsid=?detailsId}
+    div { id="?'ac'+task.Counter" class="rst-cell rst-expander" style="width: 15%" data-detailsid=?detailsId}
+    div="?task.ProjectName"{ class="rst-cell rst-expander" style="width: 10%" data-detailsid=?detailsId}
+    div="?task.Name"{ class="rst-cell rst-expander" style="width: 20%" data-detailsid=?detailsId}
     div="?task.Description"
     { 
       id="?'description'+task.Counter"
-      class="cell expander" 
+      class="rst-cell rst-expander" 
       style="width: 20%" 
       data-detailsid=?detailsId
     }
@@ -151,7 +151,7 @@ function createRowDetails(root, id) {
   div
   {
     id="?'details-'+id"
-    class="cell full"
+    class="rst-cell rst-full"
     div { id="?'tabs-'+id" class="tab-control"}
   }
   ***/
@@ -284,14 +284,14 @@ function createStatusHeader(root) {
   /***
   "?if(1==1)"
   {
-    div="ID" {class="cell detailsHead" style="width: 5%"}
-    div="Progress" {class="cell detailsHead" style="width: 5%"}
-    div="Status" {class="cell detailsHead" style="width: 10%"}
-    div="Start" {class="cell detailsHead" style="width: 10%"}
-    div="Plan/Due" {class="cell detailsHead" style="width: 10%"}
-    div="Complete" {class="cell detailsHead" style="width: 10%"}
-    div="Assigned" {class="cell detailsHead" style="width: 30%"}
-    div="Description"{ class="cell detailsHead"  style="width: 20%"}
+    div="ID" {class="rst-cell rst-details-head" style="width: 5%"}
+    div="Progress" {class="rst-cell rst-details-head" style="width: 5%"}
+    div="Status" {class="rst-cell rst-details-head" style="width: 10%"}
+    div="Start" {class="rst-cell rst-details-head" style="width: 10%"}
+    div="Plan/Due" {class="rst-cell rst-details-head" style="width: 10%"}
+    div="Complete" {class="rst-cell rst-details-head" style="width: 10%"}
+    div="Assigned" {class="rst-cell rst-details-head" style="width: 30%"}
+    div="Description"{ class="rst-cell rst-details-head"  style="width: 20%"}
   }
   ***/
 }
@@ -300,14 +300,14 @@ function createStatusHeader(root) {
 ﻿  /***
    "?if(1==1)"
    {
-     div="*" {class="cell detailsHead" style="width: 1%"}
-     div="ID" {class="cell detailsHead" style="width: 5%"}
-     div="User" {class="cell detailsHead" style="width: 10%"}
-     div="Assigned" {class="cell detailsHead" style="width: 15%"}
-     div="Operator" {class="cell detailsHead" style="width: 10%"}
-     div="Unassigned" {class="cell detailsHead" style="width: 15%"}
-     div="Operator" {class="cell detailsHead" style="width: 10%"}
-     div="Note" {class="cell detailsHead" style="width: 34%"}
+     div="*" {class="rst-cell rst-details-head" style="width: 1%"}
+     div="ID" {class="rst-cell rst-details-head" style="width: 5%"}
+     div="User" {class="rst-cell rst-details-head" style="width: 10%"}
+     div="Assigned" {class="rst-cell rst-details-head" style="width: 15%"}
+     div="Operator" {class="rst-cell rst-details-head" style="width: 10%"}
+     div="Unassigned" {class="rst-cell rst-details-head" style="width: 15%"}
+     div="Operator" {class="rst-cell rst-details-head" style="width: 10%"}
+     div="Note" {class="rst-cell rst-details-head" style="width: 34%"}
    }
    ***/
 ﻿}
@@ -315,24 +315,24 @@ function createStatusGridRow(root, details) {
   /***
   "?if(1==1)"
   {
-    div="?details.Counter"{ class="cell text-align-center detailsCell" align="right" style="width: 5%"}
-    div="?details.Completeness +'%'" { class="cell text-align-center detailsCell" style="width: 5%"}
+    div="?details.Counter"{ class="rst-cell rst-text-align-center rst-details-cell" align="right" style="width: 5%"}
+    div="?details.Completeness +'%'" { class="rst-cell rst-text-align-center rst-details-cell" style="width: 5%"}
     div 
     { 
-      class="cell text-align-center detailsCell"
+      class="rst-cell rst-text-align-center rst-details-cell"
       style="width: 10%"
       div
       {
         align="center"
         div="?details.Status"{ class="?'tag {0} inline'.args(getStatusStyle(details.Status))" }
-        div="?details.Category_Name"{ class="tag category-tag inline" }
+        div="?details.Category_Name"{ class="tag tag-category inline" }
       }
     }
-    div="?WAVE.dateTimeToString(details.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell text-align-center detailsCell" style="width: 10%"}
-    div="?WAVE.dateTimeToString(details.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell text-align-center detailsCell" style="width: 10%"}
-    div="?WAVE.dateTimeToString(details.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell text-align-center detailsCell" style="width: 10%"}
-    div=?details.Assignee { class="cell text-align-center detailsCell" style="width: 30%"}
-    div="?details.Description"{ id="?'details-description'+details.Counter" class="cell text-align-center detailsCell" style="width: 20%"}
+    div="?WAVE.dateTimeToString(details.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rst-cell rst-text-align-center rst-details-cell" style="width: 10%"}
+    div="?WAVE.dateTimeToString(details.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rst-cell rst-text-align-center rst-details-cell" style="width: 10%"}
+    div="?WAVE.dateTimeToString(details.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rst-cell rst-text-align-center rst-details-cell" style="width: 10%"}
+    div=?details.Assignee { class="rst-cell rst-text-align-center rst-details-cell" style="width: 30%"}
+    div="?details.Description"{ id="?'details-description'+details.Counter" class="rst-cell rst-text-align-center rst-details-cell" style="width: 20%"}
   }
   ***/
 }
@@ -343,7 +343,7 @@ function createAssignmentGridRow(root, assignment, task) {
   {
     div
     {
-      class="cell text-align-center detailsCell" 
+      class="rst-cell rst-text-align-center rst-details-cell" 
       align="right" 
       style="width: 1%"
       "?if(!assignment.Close_TS)" {
@@ -361,13 +361,13 @@ function createAssignmentGridRow(root, assignment, task) {
         }
       }
     }
-    div="?assignment.Counter"{ class="cell text-align-center detailsCell" align="right" style="width: 5%"}
-    div="?assignment.UserFirstName + ' ' + assignment.UserLastName + '(' +assignment.UserLogin+')'"{ class="cell text-align-center detailsCell" align="right" style="width: 10%"}
-    div="?WAVE.dateTimeToString(assignment.Open_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell text-align-center detailsCell" style="width: 15%"}
-    div="?assignment.OperatorOpenLogin" { class="cell text-align-center detailsCell" style="width: 10%"}
-    div="?WAVE.dateTimeToString(assignment.Close_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell text-align-center detailsCell" style="width: 15%"}
-    div="?assignment.OperatorCloseLogin"{ class="cell text-align-center detailsCell" align="center" style="width: 10%"}
-    div="?assignment.Note" {class="cell detailsCell" style="width: 34%"}
+    div="?assignment.Counter"{ class="rst-cell rst-text-align-center rst-details-cell" align="right" style="width: 5%"}
+    div="?assignment.UserFirstName + ' ' + assignment.UserLastName + '(' +assignment.UserLogin+')'"{ class="rst-cell rst-text-align-center rst-details-cell" align="right" style="width: 10%"}
+    div="?WAVE.dateTimeToString(assignment.Open_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rst-cell rst-text-align-center rst-details-cell" style="width: 15%"}
+    div="?assignment.OperatorOpenLogin" { class="rst-cell rst-text-align-center rst-details-cell" style="width: 10%"}
+    div="?WAVE.dateTimeToString(assignment.Close_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rst-cell rst-text-align-center rst-details-cell" style="width: 15%"}
+    div="?assignment.OperatorCloseLogin"{ class="rst-cell rst-text-align-center rst-details-cell" align="center" style="width: 10%"}
+    div="?assignment.Note" {class="rst-cell rst-details-cell" style="width: 34%"}
   }
   ***/
 }
@@ -478,7 +478,7 @@ function buildChatFilterForm(root, task) {
 
 function buildAssignee(root, assignee) {
 ﻿   /***
-    div="?assignee.UserLogin" { class="tag assignee-tag inline-block"} 
+    div="?assignee.UserLogin" { class="tag tag-assignee inline-block"} 
    ***/
 ﻿}
 
@@ -631,7 +631,7 @@ function createChatItems(task, rec) {
   div
   {
     id=?gridId
-    class="table"
+    class="rst-table"
   }
   ***/
 }
