@@ -863,8 +863,6 @@ body #ftr {
 #tasksPage a.button-delete {
   border: solid 1.5px;
   border-color: lightgray;
-  -webkit-border-radius: ;
-  -moz-border-radius: ;
   border-radius: 12px;
   color: black;
   padding: 1px 1px;

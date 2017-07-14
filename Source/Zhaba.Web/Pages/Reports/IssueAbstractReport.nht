@@ -23,7 +23,8 @@
   {
     m_Project = project;
     m_Issue = issue;
-    
+    areas = ZApp.Data.CRUD.LoadEnumerable(QTask.FindAllAreaByIssue<AreaRow>(m_Issue.Counter));
+    components = ZApp.Data.CRUD.LoadEnumerable(QTask.FindAllComponentByIssue<ComponentRow>(m_Issue.Counter));
   }
 
   protected readonly ProjectRow m_Project;
@@ -35,15 +36,19 @@
   protected virtual void reportBody() { }
 
 #[override renderBody()]
-<div>
-  <h1>Project: @[Target.Write(m_Project.Name);]</h1>
+<div  id="DashboardReport">
+  <h1>Project:  [@[Target.Write(m_Project.Counter);]] @[Target.Write(m_Project.Name);]</h1>
   <h2>Issue: [@[Target.Write(m_Issue.Counter);]] @[Target.Write(m_Issue.Name);] </h2>
-
-
-</div>
-<hr/>
-<div>
+  
+  @[foreach(AreaRow row in areas) {]
+  <span class="tag">@[Target.Write(row.Name);]</span>
+  @[}]
+  @[foreach(ComponentRow row in components) {]
+  <span class="tag">@[Target.Write(row.Name);]</span>
+  @[}]
+<div class="report-body">
   @[reportBody();]
+</div>
 </div>
 
 

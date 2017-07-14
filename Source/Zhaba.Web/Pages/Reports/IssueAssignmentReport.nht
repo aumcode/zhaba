@@ -24,7 +24,7 @@
   }
 
 #[override reportBody()]
-<table border="1" cellpadding="3" cellspacing="0">
+<table>
   <tr>
     <th>ID</th>
     <th>User</th>

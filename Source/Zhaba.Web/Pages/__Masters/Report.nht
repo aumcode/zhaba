@@ -51,7 +51,7 @@
 
 
     @[if (ZhabaUser.IsAuthenticated) {]
-    <div id="cont">
+    <div id="report">
     @[renderBody();]
     </div>
     @[} else {]
