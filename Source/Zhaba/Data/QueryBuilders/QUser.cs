@@ -49,5 +49,12 @@ namespace Zhaba.Data.QueryBuilders
       };
     }
 
+    public static Query<TRow> FindUserPmById<TRow>(int counter) where TRow : Row
+    {
+      return new Query<TRow>("SQL.CRUD.User.FindUserPmById")
+      {
+        new Query.Param("pId", counter)
+      };
+    }
   }
 }

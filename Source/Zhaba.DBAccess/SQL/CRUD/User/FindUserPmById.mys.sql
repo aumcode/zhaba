@@ -1,0 +1,3 @@
+SELECT *
+FROM tbl_user
+WHERE COUNTER IN (SELECT C_USER FROM tbl_issueassign WHERE COUNTER = ?pId)

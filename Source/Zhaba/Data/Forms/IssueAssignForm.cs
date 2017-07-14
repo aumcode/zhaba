@@ -20,7 +20,10 @@ namespace Zhaba.Data.Forms
         FormMode = FormMode.Edit;
         var row = ZApp.Data.CRUD.LoadRow(QIssueAssign.findIssueAssignByCounter<IssueAssignRow>(counter.Value));
         if (row != null)
+        {
           row.CopyFields(this);
+          this.Close_TS = App.TimeSource.UTCNow.Date;
+        }
         else
           throw HTTPStatusException.NotFound_404("Project");
         this.RoundtripBag[ITEM_ID_BAG_PARAM] = counter.Value;
@@ -61,11 +64,21 @@ namespace Zhaba.Data.Forms
       JSONDataMap result = null;
       if (user)
       {
-        var users = ZApp.Data.CRUD.LoadEnumerable<UserForPM>(QUser.FindAllActiveUserAndNotAssignedOnDate<UserForPM>(Issue.Counter, App.TimeSource.UTCNow));
-        result = new JSONDataMap();
-        foreach (UserForPM item in users)
+        if (FormMode == FormMode.Edit)
         {
+          int counter = RoundtripBag[ITEM_ID_BAG_PARAM].AsInt();
+          result = new JSONDataMap();
+          UserForPM item = (UserForPM) ZApp.Data.CRUD.LoadOneRow(QUser.FindUserPmById<UserForPM>(counter));
           result.Add(item.Counter.ToString(), item.FullName);
+        }
+        else
+        {
+          var users = ZApp.Data.CRUD.LoadEnumerable<UserForPM>(QUser.FindAllActiveUserAndNotAssignedOnDate<UserForPM>(Issue.Counter, App.TimeSource.UTCNow));
+          result = new JSONDataMap();
+          foreach (UserForPM item in users)
+          {
+            result.Add(item.Counter.ToString(), item.FullName);
+          }
         }
       }
       return result;

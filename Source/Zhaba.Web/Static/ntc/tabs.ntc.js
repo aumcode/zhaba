@@ -300,20 +300,21 @@ function createStatusHeader(root) {
 ﻿  /***
    "?if(1==1)"
    {
+     div="*" {class="cell detailsHead" style="width: 1%"}
      div="ID" {class="cell detailsHead" style="width: 5%"}
      div="User" {class="cell detailsHead" style="width: 10%"}
      div="Assigned" {class="cell detailsHead" style="width: 15%"}
      div="Operator" {class="cell detailsHead" style="width: 10%"}
      div="Unassigned" {class="cell detailsHead" style="width: 15%"}
      div="Operator" {class="cell detailsHead" style="width: 10%"}
-     div="Note" {class="cell detailsHead" style="width: 35%"}
+     div="Note" {class="cell detailsHead" style="width: 34%"}
    }
    ***/
 ﻿}
 function createStatusGridRow(root, details) {
   /***
   "?if(1==1)"
-  {      
+  {
     div="?details.Counter"{ class="cell text-align-center detailsCell" align="right" style="width: 5%"}
     div="?details.Completeness +'%'" { class="cell text-align-center detailsCell" style="width: 5%"}
     div 
@@ -336,17 +337,37 @@ function createStatusGridRow(root, details) {
   ***/
 }
 
-function createAssignmentGridRow(root, assignment) {
+function createAssignmentGridRow(root, assignment, task) {
   /***
   "?if(1==1)"
   {
+    div
+    {
+      class="cell text-align-center detailsCell" 
+      align="right" 
+      style="width: 1%"
+      "?if(!assignment.Close_TS)" {
+        a="x"
+        {
+          class="button-delete"
+          href="#"
+          
+          data-cproject=?task.C_Project
+          data-cissue=?task.Counter
+          data-cassignee=?assignment.Counter
+          
+          on-click=editAssignee
+          
+        }
+      }
+    }
     div="?assignment.Counter"{ class="cell text-align-center detailsCell" align="right" style="width: 5%"}
     div="?assignment.UserFirstName + ' ' + assignment.UserLastName + '(' +assignment.UserLogin+')'"{ class="cell text-align-center detailsCell" align="right" style="width: 10%"}
     div="?WAVE.dateTimeToString(assignment.Open_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell text-align-center detailsCell" style="width: 15%"}
     div="?assignment.OperatorOpenLogin" { class="cell text-align-center detailsCell" style="width: 10%"}
     div="?WAVE.dateTimeToString(assignment.Close_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="cell text-align-center detailsCell" style="width: 15%"}
     div="?assignment.OperatorCloseLogin"{ class="cell text-align-center detailsCell" align="center" style="width: 10%"}
-    div="?assignment.Note" {class="cell detailsCell" style="width: 35%"}
+    div="?assignment.Note" {class="cell detailsCell" style="width: 34%"}
   }
   ***/
 }
@@ -633,7 +654,7 @@ function buildAssignmentTab(root, task) {
   createGrid(root, gridID);
   createAssignmentHeader(gridID);
   for (var j = 0, l = task.Assignments.length; j < l; j++)
-    createAssignmentGridRow(gridID, task.Assignments[j]);
+    createAssignmentGridRow(gridID, task.Assignments[j], task);
 }
 
 function buildChatTab(root, task) {
@@ -728,6 +749,54 @@ function ﻿buildComponentsTab(componentsId, task) {
     fail(function (error) {
       console.log(error);  
     });  
+}
+
+function editAssignee(e) {
+  var pid = e.target.dataset.cproject;
+  var iid = e.target.dataset.cissue;
+  var id  = e.target.dataset.cassignee;
+  var link = "/project/{0}/issue/{1}/issueassign?id={2}".args(pid,  iid,  id);
+  WAVE.ajaxCall(
+      'GET',
+      link, 
+      null,
+      function(resp) {
+        var _rec =  new WAVE.RecordModel.Record(JSON.parse(resp));
+        _rec.fieldByName('Open_TS').readonly(true);
+        _rec.fieldByName('C_User').readonly(true);
+        var dlg = WAVE.GUI.Dialog({
+            header: "Unassignee for Issue [{0}]".args(iid),
+            body: buildIssueAssigneeStatusBody(),
+            footer: buildStatusFooter(),
+            onShow: function() {
+              var rv = new WAVE.RecordModel.RecordView("V2", _rec);
+            },
+            onClose: function(dlg, result) {
+              if(result==WAVE.GUI.DLG_CANCEL) return WAVE.GUI.DLG_CANCEL;
+              _rec.validate();
+              if (!_rec.valid()) return WAVE.GUI.DLG_UNDEFINED    
+              WAVE.ajaxCall(
+                  'POST',
+                  link, 
+                  _rec.data(),
+                  function(resp) {
+                    scheduleFetch();  
+                  },
+                  function (resp) { console.log("error"); },
+                  function (resp) { console.log("fail"); },
+                  WAVE.CONTENT_TYPE_JSON_UTF8, 
+                  WAVE.CONTENT_TYPE_JSON_UTF8  
+              );
+              return WAVE.GUI.DLG_CANCEL;
+            }
+            
+        });
+      },
+      function (resp) { console.log("error"); },
+      function (resp) { console.log("fail"); },
+      WAVE.CONTENT_TYPE_JSON_UTF8, 
+      WAVE.CONTENT_TYPE_JSON_UTF8  
+  );
 }
 
 function createTabs(root, task) {

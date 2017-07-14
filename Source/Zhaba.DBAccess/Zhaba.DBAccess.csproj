@@ -104,6 +104,7 @@
     <EmbeddedResource Include="SQL\CRUD\User\ByID.mys.sql" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="SQL\CRUD\User\FindUserPmById.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\IssueChat\findByIssue.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\Task\IssueAssign.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\Task\IssueLog.mys.sql" />

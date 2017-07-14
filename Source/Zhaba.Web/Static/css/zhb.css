@@ -816,7 +816,7 @@ body #ftr {
   background-color: darkcyan;
 }
 #tasksPage .tag.assignee-tag {
-  background-color: brown;
+  background-color: cornflowerblue;
 }
 #tasksPage .tag.category-tag {
   background-color: gray;
@@ -859,4 +859,23 @@ body #ftr {
 #tasksPage .table > .cell.detailsCell {
   border-top: 2px solid #d8d8d8;
   border-bottom: none;
+}
+#tasksPage a.button-delete {
+  border: solid 1.5px;
+  border-color: lightgray;
+  -webkit-border-radius: ;
+  -moz-border-radius: ;
+  border-radius: 12px;
+  color: black;
+  padding: 1px 1px;
+  font-size: 14px;
+  background: #f0f0f0;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: none;
+  vertical-align: center;
+  white-space: nowrap;
 }

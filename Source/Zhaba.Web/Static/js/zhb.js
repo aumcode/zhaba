@@ -518,42 +518,47 @@ function createStatusHeader(root) {
     Ør = WAVE.id(Ør);
   if(1==1) {
     var Ø1 = WAVE.ce('div');
-    Ø1.innerText = 'ID';
+    Ø1.innerText = '*';
     Ø1.setAttribute('class', 'cell detailsHead');
-    Ø1.setAttribute('style', 'width: 5%');
+    Ø1.setAttribute('style', 'width: 1%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
     var Ø2 = WAVE.ce('div');
-    Ø2.innerText = 'User';
+    Ø2.innerText = 'ID';
     Ø2.setAttribute('class', 'cell detailsHead');
-    Ø2.setAttribute('style', 'width: 10%');
+    Ø2.setAttribute('style', 'width: 5%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø2);
     var Ø3 = WAVE.ce('div');
-    Ø3.innerText = 'Assigned';
+    Ø3.innerText = 'User';
     Ø3.setAttribute('class', 'cell detailsHead');
-    Ø3.setAttribute('style', 'width: 15%');
+    Ø3.setAttribute('style', 'width: 10%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø3);
     var Ø4 = WAVE.ce('div');
-    Ø4.innerText = 'Operator';
+    Ø4.innerText = 'Assigned';
     Ø4.setAttribute('class', 'cell detailsHead');
-    Ø4.setAttribute('style', 'width: 10%');
+    Ø4.setAttribute('style', 'width: 15%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø4);
     var Ø5 = WAVE.ce('div');
-    Ø5.innerText = 'Unassigned';
+    Ø5.innerText = 'Operator';
     Ø5.setAttribute('class', 'cell detailsHead');
-    Ø5.setAttribute('style', 'width: 15%');
+    Ø5.setAttribute('style', 'width: 10%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø5);
     var Ø6 = WAVE.ce('div');
-    Ø6.innerText = 'Operator';
+    Ø6.innerText = 'Unassigned';
     Ø6.setAttribute('class', 'cell detailsHead');
-    Ø6.setAttribute('style', 'width: 10%');
+    Ø6.setAttribute('style', 'width: 15%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø6);
     var Ø7 = WAVE.ce('div');
-    Ø7.innerText = 'Note';
+    Ø7.innerText = 'Operator';
     Ø7.setAttribute('class', 'cell detailsHead');
-    Ø7.setAttribute('style', 'width: 35%');
+    Ø7.setAttribute('style', 'width: 10%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø7);
+    var Ø8 = WAVE.ce('div');
+    Ø8.innerText = 'Note';
+    Ø8.setAttribute('class', 'cell detailsHead');
+    Ø8.setAttribute('style', 'width: 34%');
+    if (WAVE.isObject(Ør)) Ør.appendChild(Ø8);
   }
-  return Ø7;
+  return Ø8;
 ﻿}
 function createStatusGridRow(root, details) {
   var Ør = arguments[0];
@@ -616,51 +621,67 @@ function createStatusGridRow(root, details) {
   return Ø11;
 }
 
-function createAssignmentGridRow(root, assignment) {
+function createAssignmentGridRow(root, assignment, task) {
   var Ør = arguments[0];
   if (WAVE.isString(Ør))
     Ør = WAVE.id(Ør);
   if(1==1) {
     var Ø1 = WAVE.ce('div');
-    Ø1.innerText = assignment.Counter;
     Ø1.setAttribute('class', 'cell text-align-center detailsCell');
     Ø1.setAttribute('align', 'right');
-    Ø1.setAttribute('style', 'width: 5%');
+    Ø1.setAttribute('style', 'width: 1%');
+  if(!assignment.Close_TS) {
+    var Ø2 = WAVE.ce('a');
+    Ø2.innerText = 'x';
+    Ø2.setAttribute('class', 'button-delete');
+    Ø2.setAttribute('href', '#');
+    Ø2.setAttribute('data-cproject', task.C_Project);
+    Ø2.setAttribute('data-cissue', task.Counter);
+    Ø2.setAttribute('data-cassignee', assignment.Counter);
+    Ø2.addEventListener('click', editAssignee, false);
+    Ø1.appendChild(Ø2);
+  }
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
-    var Ø2 = WAVE.ce('div');
-    Ø2.innerText = assignment.UserFirstName + ' ' + assignment.UserLastName + '(' +assignment.UserLogin+')';
-    Ø2.setAttribute('class', 'cell text-align-center detailsCell');
-    Ø2.setAttribute('align', 'right');
-    Ø2.setAttribute('style', 'width: 10%');
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø2);
     var Ø3 = WAVE.ce('div');
-    Ø3.innerText = WAVE.dateTimeToString(assignment.Open_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+    Ø3.innerText = assignment.Counter;
     Ø3.setAttribute('class', 'cell text-align-center detailsCell');
-    Ø3.setAttribute('style', 'width: 15%');
+    Ø3.setAttribute('align', 'right');
+    Ø3.setAttribute('style', 'width: 5%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø3);
     var Ø4 = WAVE.ce('div');
-    Ø4.innerText = assignment.OperatorOpenLogin;
+    Ø4.innerText = assignment.UserFirstName + ' ' + assignment.UserLastName + '(' +assignment.UserLogin+')';
     Ø4.setAttribute('class', 'cell text-align-center detailsCell');
+    Ø4.setAttribute('align', 'right');
     Ø4.setAttribute('style', 'width: 10%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø4);
     var Ø5 = WAVE.ce('div');
-    Ø5.innerText = WAVE.dateTimeToString(assignment.Close_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+    Ø5.innerText = WAVE.dateTimeToString(assignment.Open_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
     Ø5.setAttribute('class', 'cell text-align-center detailsCell');
     Ø5.setAttribute('style', 'width: 15%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø5);
     var Ø6 = WAVE.ce('div');
-    Ø6.innerText = assignment.OperatorCloseLogin;
+    Ø6.innerText = assignment.OperatorOpenLogin;
     Ø6.setAttribute('class', 'cell text-align-center detailsCell');
-    Ø6.setAttribute('align', 'center');
     Ø6.setAttribute('style', 'width: 10%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø6);
     var Ø7 = WAVE.ce('div');
-    Ø7.innerText = assignment.Note;
-    Ø7.setAttribute('class', 'cell detailsCell');
-    Ø7.setAttribute('style', 'width: 35%');
+    Ø7.innerText = WAVE.dateTimeToString(assignment.Close_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+    Ø7.setAttribute('class', 'cell text-align-center detailsCell');
+    Ø7.setAttribute('style', 'width: 15%');
     if (WAVE.isObject(Ør)) Ør.appendChild(Ø7);
+    var Ø8 = WAVE.ce('div');
+    Ø8.innerText = assignment.OperatorCloseLogin;
+    Ø8.setAttribute('class', 'cell text-align-center detailsCell');
+    Ø8.setAttribute('align', 'center');
+    Ø8.setAttribute('style', 'width: 10%');
+    if (WAVE.isObject(Ør)) Ør.appendChild(Ø8);
+    var Ø9 = WAVE.ce('div');
+    Ø9.innerText = assignment.Note;
+    Ø9.setAttribute('class', 'cell detailsCell');
+    Ø9.setAttribute('style', 'width: 34%');
+    if (WAVE.isObject(Ør)) Ør.appendChild(Ø9);
   }
-  return Ø7;
+  return Ø9;
 }
 
 function buildChatForm(root, task) {
@@ -785,8 +806,7 @@ function buildAssignee(root, assignee) {
      Ør = WAVE.id(Ør);
    var Ø1 = WAVE.ce('div');
    Ø1.innerText = assignee.UserLogin;
-   Ø1.setAttribute('class', 'tag inline-block');
-   Ø1.setAttribute('style', 'background-color: brown');
+   Ø1.setAttribute('class', 'tag assignee-tag inline-block');
    if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
    return Ø1;
 ﻿}
@@ -966,7 +986,7 @@ function buildAssignmentTab(root, task) {
   createGrid(root, gridID);
   createAssignmentHeader(gridID);
   for (var j = 0, l = task.Assignments.length; j < l; j++)
-    createAssignmentGridRow(gridID, task.Assignments[j]);
+    createAssignmentGridRow(gridID, task.Assignments[j], task);
 }
 
 function buildChatTab(root, task) {
@@ -1063,6 +1083,54 @@ function ﻿buildComponentsTab(componentsId, task) {
     });  
 }
 
+function editAssignee(e) {
+  var pid = e.target.dataset.cproject;
+  var iid = e.target.dataset.cissue;
+  var id  = e.target.dataset.cassignee;
+  var link = "/project/{0}/issue/{1}/issueassign?id={2}".args(pid,  iid,  id);
+  WAVE.ajaxCall(
+      'GET',
+      link, 
+      null,
+      function(resp) {
+        var _rec =  new WAVE.RecordModel.Record(JSON.parse(resp));
+        _rec.fieldByName('Open_TS').readonly(true);
+        _rec.fieldByName('C_User').readonly(true);
+        var dlg = WAVE.GUI.Dialog({
+            header: "Unassignee for Issue [{0}]".args(iid),
+            body: buildIssueAssigneeStatusBody(),
+            footer: buildStatusFooter(),
+            onShow: function() {
+              var rv = new WAVE.RecordModel.RecordView("V2", _rec);
+            },
+            onClose: function(dlg, result) {
+              if(result==WAVE.GUI.DLG_CANCEL) return WAVE.GUI.DLG_CANCEL;
+              _rec.validate();
+              if (!_rec.valid()) return WAVE.GUI.DLG_UNDEFINED    
+              WAVE.ajaxCall(
+                  'POST',
+                  link, 
+                  _rec.data(),
+                  function(resp) {
+                    scheduleFetch();  
+                  },
+                  function (resp) { console.log("error"); },
+                  function (resp) { console.log("fail"); },
+                  WAVE.CONTENT_TYPE_JSON_UTF8, 
+                  WAVE.CONTENT_TYPE_JSON_UTF8  
+              );
+              return WAVE.GUI.DLG_CANCEL;
+            }
+            
+        });
+      },
+      function (resp) { console.log("error"); },
+      function (resp) { console.log("fail"); },
+      WAVE.CONTENT_TYPE_JSON_UTF8, 
+      WAVE.CONTENT_TYPE_JSON_UTF8  
+  );
+}
+
 function createTabs(root, task) {
   var statusId = "status-" + task.Counter;
   var statusContainer = "<div id={0}></div>".args(statusId);
@@ -1125,8 +1193,7 @@ function createTabs(root, task) {
   buildAssignmentTab(assignmentId, task);
   buildChatTab(chatId, task);
   buildAreasTab(areasId,  task);
-  buildComponentsTab(componentsId, task)
-
+  buildComponentsTab(componentsId, task);
 }
 /**
  * Created by mad on 13.07.2017.
@@ -1253,8 +1320,7 @@ function buildAreaTag(root, cIssue, cArea, areaName) {
   var Ø1 = WAVE.ce('div');
   Ø1.innerText = areaName;
   Ø1.setAttribute('id', 'issue-' + cIssue + '-areatag-'+cArea);
-  Ø1.setAttribute('class', 'tag inline-block');
-  Ø1.setAttribute('style', 'background-color: darkgreen');
+  Ø1.setAttribute('class', 'tag area-tag inline-block');
   if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
   return Ø1;
 }
@@ -1267,8 +1333,7 @@ function buildCompTag(root, cIssue, cComp, compName) {
   var Ø1 = WAVE.ce('div');
   Ø1.innerText = compName;
   Ø1.setAttribute('id', 'issue-' + cIssue + '-comptag-' + cComp);
-  Ø1.setAttribute('class', 'tag inline-block');
-  Ø1.setAttribute('style', 'background-color: darkblue; cursor: pointer');
+  Ø1.setAttribute('class', 'tag component-tag inline-block');
   if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
   return Ø1;
 }

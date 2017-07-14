@@ -105,7 +105,8 @@ namespace Zhaba.Web.Controllers
     public object IssueAssign(ulong? id, IssueAssignForm form)
     {
       id = id == 0 ? null : id;
-      return DataSetup_ItemDetails<IssueAssignForm, IssueAssignPage>(new object[] { ProjectRow, IssueRow, id }, form, URIS.ForPROJECT_ISSUES(ProjectRow.Counter));
+      var result = DataSetup_ItemDetails<IssueAssignForm, IssueAssignPage>(new object[] { ProjectRow, IssueRow, id }, form, URIS.ForPROJECT_ISSUES(ProjectRow.Counter));
+      return result;
     }
 
     [Action("statusnote", 0, "match { methods=POST,GET }")]
