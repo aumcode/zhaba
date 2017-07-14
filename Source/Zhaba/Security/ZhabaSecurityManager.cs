@@ -78,7 +78,12 @@ namespace Zhaba.Security
       return new AccessLevel(user, permission, node);
     }
 
-    public IConfigSectionNode GetUserLogArchiveDimensions(User user)
+    public IConfigSectionNode GetUserLogArchiveDimensions(IIdentityDescriptor identity)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void LogSecurityMessage(SecurityLogAction action,Message msg,IIdentityDescriptor identity = null)
     {
       throw new NotImplementedException();
     }

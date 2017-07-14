@@ -38,8 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NFX, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NFX.3.5.0.0\lib\NFX.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\packages\NFX.3.5.0.1\lib\NFX.dll</HintPath>
     </Reference>
     <Reference Include="NFX.Wave, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

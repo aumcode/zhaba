@@ -6,14 +6,12 @@ using NFX.DataAccess.CRUD;
 using NFX.Serialization.JSON;
 using NFX.Wave;
 using NFX.Wave.MVC;
+
 using Zhaba.Data.Filters;
-using Zhaba.Data.Forms;
 using Zhaba.Data.QueryBuilders;
 using Zhaba.Data.Rows;
 using Zhaba.Security.Permissions;
-using Zhaba.Web.Controls;
 using Zhaba.Web.Pages.Dashboard;
-using Zhaba.Web.Pages.List;
 using ProjectsPage = Zhaba.Web.Pages.Dashboard.ProjectsPage;
 
 namespace Zhaba.Web.Controllers
@@ -24,7 +22,10 @@ namespace Zhaba.Web.Controllers
     [Action]
     public object Index()
     {
-      return new TasksPage();
+      var filter = new TaskListFilter();
+      if (!new PMPermission().Check()) filter.C_USER = ZhabaUser.DataRow.Counter;
+
+      return MakePage<TasksPage>(FormJSON(filter));
     }
 
     [Action]
@@ -47,39 +48,8 @@ namespace Zhaba.Web.Controllers
       return new JSONResult(projects, JSONWritingOptions.CompactRowsAsMap);
     }
 
-    [Action("tasks", 0, "match { methods=POST,GET accept-json=true}")]
-    public object tasks_GET()
-    {
-      var filter = new TaskListFilter();
-      if (!new PMPermission().Check()) filter.C_USER = ZhabaUser.DataRow.Counter;
-      object tasks;
-      filter.Save(out tasks);
-      return new JSONResult(tasks, JSONWritingOptions.CompactRowsAsMap);
-    }
-
-    /// <summary>
-    /// Create json string from object model
-    /// </summary>
-    /// <param name="model">model</param>
-    /// <param name="validationError">error</param>
-    /// <returns>JSON string</returns>
-    public static string FormJSON<TModel>(TModel model, Exception validationError = null)
-        where TModel : TypedRow
-    {
-      var generator = new NFX.Wave.Client.RecordModelGenerator();
-      return generator.RowToRecordInitJSON(model, validationError).ToJSON();
-    }
-
-    [Action("taskFilter", 0, "match { methods=GET accept-json=true}")]
-    public object taskFilter_GET()
-    {
-      var filter = new TaskListFilter();
-      if (!new PMPermission().Check()) filter.C_USER = ZhabaUser.DataRow.Counter;
-      return FormJSON(filter);
-    }
-
-    [Action("taskFilter", 0, "match { methods=POST accept-json=true}")]
-    public object taskFilter_POST(TaskListFilter filter)
+    [Action("tasks", 0, "match { methods=POST accept-json=true}")]
+    public object tasks_POST(TaskListFilter filter)
     {
       object data;
       if (!new PMPermission().Check()) filter.C_USER = ZhabaUser.DataRow.Counter;
@@ -97,6 +67,19 @@ namespace Zhaba.Web.Controllers
     public void changeStatus_POST(ulong C_Project, ulong C_Issue, string status, string note, ulong? C_User)
     {
       ZApp.Data.Issue.ChangeStatus(ZhabaUser.DataRow.Counter, C_Project, C_Issue, status, note);
+    }
+
+    /// <summary>
+    /// Create json string from object model
+    /// </summary>
+    /// <param name="model">model</param>
+    /// <param name="validationError">error</param>
+    /// <returns>JSON string</returns>
+    public static string FormJSON<TModel>(TModel model, Exception validationError = null)
+        where TModel : TypedRow
+    {
+      var generator = new NFX.Wave.Client.RecordModelGenerator();
+      return generator.RowToRecordInitJSON(model, validationError).ToJSON();
     }
 
   }

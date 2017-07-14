@@ -770,7 +770,7 @@ body #ftr {
   border-radius: 3px;
   color: #fff;
   text-align: center;
-  font-size: 14px;
+  font-size: 13px;
 }
 #tasksPage .tag.status-tag.new {
   background-color: blue;
@@ -809,19 +809,19 @@ body #ftr {
 #tasksPage .tag.priority-tag.lower {
   background-color: green;
 }
-#tasksPage .tag.component-tag {
+#tasksPage .tag.tag-component {
   background-color: darkblue;
 }
-#tasksPage .tag.area-tag {
+#tasksPage .tag.tag-area {
   background-color: darkcyan;
 }
-#tasksPage .tag.assignee-tag {
+#tasksPage .tag.tag-assignee {
   background-color: cornflowerblue;
 }
-#tasksPage .tag.category-tag {
+#tasksPage .tag.tag-category {
   background-color: gray;
 }
-#tasksPage .table {
+#tasksPage .rst-table {
   width: 100%;
   display: -webkit-box;
   display: -moz-box;
@@ -831,32 +831,36 @@ body #ftr {
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
 }
-#tasksPage .table > .cell {
+#tasksPage .rst-table#roster {
+  padding: 0px 15px;
+}
+#tasksPage .rst-table > .rst-cell {
   border-top: 2px solid #a0a0a0;
   overflow: hidden;
   padding: 3px 5px;
 }
-#tasksPage .table > .cell.text-align-center {
+#tasksPage .rst-table > .rst-cell.rst-text-align-center {
   text-align: center;
 }
-#tasksPage .table > .cell.head {
+#tasksPage .rst-table > .rst-cell.rst-head {
   text-align: center;
   color: #fff;
   background-color: #a0a0a0;
   border: 1px dotted #d0d0d0;
 }
-#tasksPage .table > .cell.full {
+#tasksPage .rst-table > .rst-cell.rst-full {
+  margin-left: 15px;
   padding: 0px;
   border-top: 2px solid #d8d8d8;
   width: 100%;
 }
-#tasksPage .table > .cell.detailsHead {
+#tasksPage .rst-table > .rst-cell.rst-details-head {
   text-align: center;
   color: #fff;
   background-color: #c0c0c0;
   border: 1px dotted #d0d0d0;
 }
-#tasksPage .table > .cell.detailsCell {
+#tasksPage .rst-table > .rst-cell.rst-details-cell {
   border-top: 2px solid #d8d8d8;
   border-bottom: none;
 }

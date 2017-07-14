@@ -8,7 +8,7 @@ function linkIssueArea(event, cProject, cIssue, cArea) {
 
   var formData = new FormData();
   formData.append('link', chk.checked);
-  
+
   var areaId = 'issue-' + cIssue + '-areatag-' + cArea;
   var acId = 'ac'+cIssue;
 
@@ -23,26 +23,26 @@ function linkIssueArea(event, cProject, cIssue, cArea) {
         if (chk.checked) {
           var el = WAVE.id(acId);
           if (el) {
-            var link='/project/{0}/area?counter={1}'.args(cProject,cArea);  
+            var link='/project/{0}/area?counter={1}'.args(cProject,cArea);
             WAVE.ajaxCall(
               'GET',
-              link, 
+              link,
               null,
               function (resp) {
-                var data = new WAVE.RecordModel.Record(JSON.parse(resp));        
-                var areaName=data.data().Name;  
-                buildAreaTag(acId, cIssue, cArea, areaName);   
+                var data = new WAVE.RecordModel.Record(JSON.parse(resp));
+                var areaName=data.data().Name;
+                buildAreaTag(acId, cIssue, cArea, areaName);
               },
               function (resp) { console.log("error"); },
               function (resp) { console.log("fail"); },
               WAVE.CONTENT_TYPE_JSON_UTF8,
               WAVE.CONTENT_TYPE_JSON_UTF8
-            );  
+            );
           }
         } else {
-          WAVE.removeElem(areaId);    
-        }  
-            
+          WAVE.removeElem(areaId);
+        }
+
       }
     })
     .fail(function (xhr, txt, err) {
@@ -58,10 +58,10 @@ function linkIssueComponent(event, cProject, cIssue, cComponent) {
 
   var formData = new FormData();
   formData.append('link', chk.checked);
-  
+
   var compId = 'issue-' + cIssue + '-comptag-' + cComponent;
   var acId = 'ac'+cIssue;
-  
+
   $.ajax({
       url: ZHB.URIS.ForPROJECT_LINK_ISSUE_COMPONENT(cProject, cIssue, cComponent),
       type: 'POST',
@@ -73,22 +73,22 @@ function linkIssueComponent(event, cProject, cIssue, cComponent) {
         if (chk.checked) {
           var el = WAVE.id(acId);
           if (el) {
-            var link='/project/{0}/component?counter={1}'.args(cProject,cComponent);  
+            var link='/project/{0}/component?counter={1}'.args(cProject,cComponent);
             WAVE.ajaxCall(
               'GET',
-              link, 
+              link,
               null,
               function (resp) {
-                var data = new WAVE.RecordModel.Record(JSON.parse(resp));        
-                var compName=data.data().Name;  
-                buildCompTag(acId, cIssue, cComponent, compName);   
+                var data = new WAVE.RecordModel.Record(JSON.parse(resp));
+                var compName=data.data().Name;
+                buildCompTag(acId, cIssue, cComponent, compName);
               },
               function (resp) { console.log("error"); },
               function (resp) { console.log("fail"); },
               WAVE.CONTENT_TYPE_JSON_UTF8,
               WAVE.CONTENT_TYPE_JSON_UTF8
-            );              
-          } 
+            );
+          }
         } else {
           WAVE.removeElem(compId);
         }
@@ -119,8 +119,8 @@ WAVE.onReady(function() {
 function buildAreaTag(root, cIssue, cArea, areaName) {
   /***
   div="?areaName"
-  { 
-    id="?'issue-' + cIssue + '-areatag-'+cArea" 
+  {
+    id="?'issue-' + cIssue + '-areatag-'+cArea"
     class="tag tag-area inline-block"
   }
   ***/
@@ -129,12 +129,11 @@ function buildAreaTag(root, cIssue, cArea, areaName) {
 function buildCompTag(root, cIssue, cComp, compName) {
 
   /***
-  div="?compName" 
-  { 
+  div="?compName"
+  {
     id="?'issue-' + cIssue + '-comptag-' + cComp"
     class="tag tag-component inline-block"
-  } 
+  }
   ***/
 }
 
-    

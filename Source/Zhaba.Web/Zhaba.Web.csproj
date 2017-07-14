@@ -31,16 +31,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NFX, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NFX.3.5.0.0\lib\NFX.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\packages\NFX.3.5.0.1\lib\NFX.dll</HintPath>
     </Reference>
     <Reference Include="NFX.Wave, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NFX.Wave.3.5.0.0\lib\NFX.Wave.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\packages\NFX.Wave.3.5.0.1\lib\NFX.Wave.dll</HintPath>
     </Reference>
     <Reference Include="NFX.Web, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NFX.Web.3.5.0.0\lib\NFX.Web.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\packages\NFX.Web.3.5.0.1\lib\NFX.Web.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -204,6 +201,9 @@
     <Content Include="Static\less\report.less" />
     <Content Include="Static\ntc\etc.ntc.js" />
     <Content Include="Static\ntc\tabs.ntc.js" />
+    <Content Include="Static\ntc\tasks.areas.ntc.js" />
+    <Content Include="Static\ntc\tasks.chat.ntc.js" />
+    <Content Include="Static\ntc\tasks.ntc.js" />
     <Content Include="Static\ntc\zhb.ntc.js" />
     <None Include="Controls\Grids\IssueComponentGrid.nht" />
     <None Include="Controls\Grids\CategoryGrid.nht" />

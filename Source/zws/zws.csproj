@@ -38,16 +38,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NFX, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NFX.3.5.0.0\lib\NFX.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\packages\NFX.3.5.0.1\lib\NFX.dll</HintPath>
     </Reference>
     <Reference Include="NFX.Wave, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NFX.Wave.3.5.0.0\lib\NFX.Wave.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\packages\NFX.Wave.3.5.0.1\lib\NFX.Wave.dll</HintPath>
     </Reference>
     <Reference Include="NFX.Web, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NFX.Web.3.5.0.0\lib\NFX.Web.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\packages\NFX.Web.3.5.0.1\lib\NFX.Web.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
