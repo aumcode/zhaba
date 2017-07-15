@@ -107,6 +107,14 @@ var ZHB = (function() {
         ForDASHBOARD_TASKS: function() {
             return "/dashboard/tasks";
         },
+        
+        ForPROJECT_ISSUE_CHATLIST: function(pid, iid) {
+            return issue_setup(pid, iid)+"/chatlist";
+        },
+        ForPROJECT_ISSUE_CHAT: function(pid, iid, cid) {
+            return issue_setup(pid, iid)+"/chat?id={0}".args(cid);
+        }
+        
     };
 
     if (!String.prototype.args) {
@@ -139,4 +147,5 @@ var ZHB = (function() {
 /***@ tasks.ntc.js ***/
 /***@ tasks.render.ntc.js ***/
 /***@ tasks.chat.ntc.js ***/
+/***@ tasks.chat.render.ntc.js ***/
 /***@ tasks.areas.ntc.js ***/

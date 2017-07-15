@@ -120,5 +120,9 @@ ZHB.Tasks.Render = (function () {
         ***/
     };
     
+    published.init = function (init) {
+            
+    };
+    
     return published;
 })();

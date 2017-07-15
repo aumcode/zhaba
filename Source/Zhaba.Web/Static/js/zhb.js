@@ -107,6 +107,14 @@ var ZHB = (function() {
         ForDASHBOARD_TASKS: function() {
             return "/dashboard/tasks";
         },
+        
+        ForPROJECT_ISSUE_CHATLIST: function(pid, iid) {
+            return issue_setup(pid, iid)+"/chatlist";
+        },
+        ForPROJECT_ISSUE_CHAT: function(pid, iid, cid) {
+            return issue_setup(pid, iid)+"/chat?id={0}".args(cid);
+        }
+        
     };
 
     if (!String.prototype.args) {
@@ -585,72 +593,10 @@ function createAssignmentGridRow(root, assignment, task) {
     return Ø9;
 }
 
-function buildChatForm(root, task) {
-    var Ør = arguments[0];
-    if (WAVE.isString(Ør))
-      Ør = WAVE.id(Ør);
-    var Ø1 = WAVE.ce('div');
-    Ø1.setAttribute('id', 'chatForm'+task.Counter);
-    Ø1.setAttribute('class', 'fwDialogBody');
-    Ø1.setAttribute('data-wv-rid', 'chatForm'+task.Counter);
-    var Ø2 = WAVE.ce('div');
-    Ø2.setAttribute('data-wv-fname', 'Note');
-    Ø2.setAttribute('class', 'fView');
-    Ø2.setAttribute('data-wv-ctl', 'textarea');
-    Ø1.appendChild(Ø2);
-    var Ø3 = WAVE.ce('div');
-    var Ø4 = WAVE.ce('a');
-    Ø4.innerText = 'send';
-    Ø4.setAttribute('class', 'button');
-    Ø4.setAttribute('style', 'margin:4px 4px 4px 0px');
-    Ø4.setAttribute('data-cissue', task.Counter);
-    Ø4.setAttribute('data-cproject', task.C_Project);
-    Ø4.addEventListener('click', sendChatMessage1, false);
-    Ø3.appendChild(Ø4);
-    var Ø5 = WAVE.ce('a');
-    Ø5.innerText = 'report';
-    Ø5.setAttribute('class', 'button');
-    Ø5.setAttribute('style', 'margin:4px 4px 4px 0px');
-    Ø5.setAttribute('data-cproject', task.C_Project);
-    Ø5.setAttribute('data-cissue', task.Counter);
-    Ø5.setAttribute('data-report', 'chatreport');
-    Ø5.addEventListener('click', openReport, false);
-    Ø3.appendChild(Ø5);
-    Ø1.appendChild(Ø3);
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
-    return Ø1;
-}
 
-function buildChatMessage(root, task) {
-    var Ør = arguments[0];
-    if (WAVE.isString(Ør))
-      Ør = WAVE.id(Ør);
-    var Ø1 = WAVE.ce('div');
-    Ø1.setAttribute('class', 'ChatDiv');
-    Ø1.setAttribute('id', 'chatMessage-'+task.Counter);
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
-    return Ø1;
-}
 
-function createChatItem(root, item) {
-    var Ør = arguments[0];
-    if (WAVE.isString(Ør))
-      Ør = WAVE.id(Ør);
-    var Ø1 = WAVE.ce('div');
-    Ø1.setAttribute('class', 'ChatItem');
-    var Ø2 = WAVE.ce('div');
-    Ø2.innerText = item.Name +'('+item.Login+') :' + WAVE.dateTimeToString(item.Note_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME);
-    Ø2.setAttribute('id', 'chathedaeritem'+item.Counter);
-    Ø2.setAttribute('class', 'fView ChatItemUser');
-    Ø1.appendChild(Ø2);
-    var Ø3 = WAVE.ce('div');
-    Ø3.innerText = item.Note;
-    Ø3.setAttribute('id', 'chat-note'+item.Counter);
-    Ø3.setAttribute('class', 'fView ChatItemNote');
-    Ø1.appendChild(Ø3);
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
-    return Ø1;
-}
+
+
 
 function buildChatReport(root, task) {
     var Ør = arguments[0];
@@ -669,55 +615,9 @@ function buildChatReport(root, task) {
     return Ø1;
 }
 
-function buildChatFilterForm(root, task) {
-    var Ør = arguments[0];
-    if (WAVE.isString(Ør))
-      Ør = WAVE.id(Ør);
-    var Ø1 = WAVE.ce('div');
-    Ø1.setAttribute('id', 'ChatFilterForm'+task.Counter);
-    Ø1.setAttribute('data-wv-rid', 'chatFilterForm'+task.Counter);
-    var Ø2 = WAVE.ce('div');
-    Ø2.setAttribute('data-wv-fname', 'C_User');
-    Ø2.setAttribute('class', 'fView');
-    Ø2.setAttribute('data-wv-ctl', 'combo');
-    Ø2.setAttribute('style', 'display: inline-block; padding: 8px;');
-    Ø1.appendChild(Ø2);
-    var Ø3 = WAVE.ce('div');
-    Ø3.setAttribute('data-wv-fname', 'Limit');
-    Ø3.setAttribute('class', 'fView');
-    Ø3.setAttribute('style', 'display: inline-block; padding: 8px;');
-    Ø1.appendChild(Ø3);
-    var Ø4 = WAVE.ce('div');
-    Ø4.setAttribute('style', 'display: inline-block; padding: 8px;');
-    var Ø5 = WAVE.ce('a');
-    Ø5.innerText = 'filter';
-    Ø5.setAttribute('data-cissue', task.Counter);
-    Ø5.setAttribute('data-cproject', task.C_Project);
-    Ø5.addEventListener('click', setChatFilter, false);
-    Ø5.setAttribute('class', 'button');
-    Ø4.appendChild(Ø5);
-    Ø1.appendChild(Ø4);
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
-    return Ø1;
-}
 
-function createEditChatButton(root, item, task) {
-    if (item.HasEdit) {
-        var Ør = arguments[0];
-        if (WAVE.isString(Ør))
-          Ør = WAVE.id(Ør);
-        var Ø1 = WAVE.ce('a');
-        Ø1.innerText = 'edit';
-        Ø1.setAttribute('class', 'button');
-        Ø1.setAttribute('data-chatid', item.Counter);
-        Ø1.setAttribute('data-note', item.Note);
-        Ø1.setAttribute('data-cproject', task.C_Project);
-        Ø1.setAttribute('data-cissue', task.Counter);
-        Ø1.addEventListener('click', editChatItem, false);
-        if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
-        return Ø1;
-    }
-}
+
+
 
 function buildEditChatDialog(root, item) {
     var Ør = arguments[0];
@@ -734,91 +634,13 @@ function buildEditChatDialog(root, item) {
     return Ø1;
 }
 
-function chatForm(task) {
-    var link = 'project/{0}/issue/{1}/chat?id='.args(task.C_Project, task.Counter);
-    WAVE.ajaxCall(
-        'GET',
-        link,
-        null,
-        function(resp) {
-            chatRec[task.Counter] = new WAVE.RecordModel.Record(JSON.parse(resp));
-            new WAVE.RecordModel.RecordView('chatForm' + task.Counter, chatRec[task.Counter]);
 
-        },
-        function(resp) { console.log("error"); },
-        function(resp) { console.log("fail"); },
-        WAVE.CONTENT_TYPE_JSON_UTF8,
-        WAVE.CONTENT_TYPE_JSON_UTF8
-    );
-}
 
-function chatFilterForm(task) {
-    var link = 'project/{0}/issue/{1}/chatlist'.args(task.C_Project, task.Counter);
-    WAVE.ajaxCall(
-        'GET',
-        link,
-        null,
-        function(resp) {
-            // debugger;
-            chatFilterRec[task.Counter] = new WAVE.RecordModel.Record(JSON.parse(resp));
-            new WAVE.RecordModel.RecordView('ChatFilterForm' + task.Counter, chatFilterRec[task.Counter]);
 
-        },
-        function(resp) { console.log("error"); },
-        function(resp) { console.log("fail"); },
-        WAVE.CONTENT_TYPE_JSON_UTF8,
-        WAVE.CONTENT_TYPE_JSON_UTF8
-    );
-}
 
-function sendChatMessage1(e) {
-    var iid = e.target.dataset.cissue;
-    var pid = e.target.dataset.cproject;
-    sendChatMessage(pid, iid, "", chatRec[iid])
-}
 
-function sendChatMessage(pid, iid, cid, _rec) {
-    var task = { Counter: iid, C_Project: pid, createImageData: cid };
-    console.log(chatRec[iid]);
-    var link = "project/{0}/issue/{1}/chat?id={2}".args(pid, iid, cid);
-    WAVE.ajaxCall(
-        'POST',
-        link,
-        _rec.data(),
-        function(resp) {
-            chatForm(task);
-            ZHB.Tasks.Chat.refreshChat(task);
 
-        },
-        function(resp) {
-            console.log("error");
-            console.log(resp);
-        },
-        function(resp) {
-            console.log("fail");
-            console.log(resp);
-        },
-        WAVE.CONTENT_TYPE_JSON_UTF8,
-        WAVE.CONTENT_TYPE_JSON_UTF8
-    );
-}
 
-function createChatItems(task, rec) {
-    var id = 'chatMessage-' + task.Counter;
-    document.getElementById(id).innerHTML = "";
-    for (var i = 0, l = rec.Rows.length; i < l; i++) {
-        var item = rec.Rows[i];
-        createChatItem(id, item);
-        document.getElementById('chat-note' + item.Counter).innerHTML = WAVE.markup(item.Note);
-        createEditChatButton('chathedaeritem' + item.Counter, item, task);
-    }
-    /*
-      for (var i = 0, l = rec.Rows.length; i < l; i++) {
-        var item = rec.Rows[i];
-      }
-    */
-
-}
 
 
 function createGrid(root, gridId) {
@@ -853,17 +675,6 @@ function buildAssignmentTab(root, task) {
         createAssignmentGridRow(gridID, task.Assignments[j], task);
 }
 
-function buildChatTab(root, task) {
-    buildChatFilterForm(root, task);
-    buildChatForm(root, task);
-    buildChatMessage(root, task);
-    // buildChatReport(root, task);
-    chatForm(task);
-    chatFilterForm(task);
-    // refreshChat(task);
-}
-
-
 function openReport(e) {
     var pid = e.target.dataset.cproject;
     var iid = e.target.dataset.cissue;
@@ -882,46 +693,6 @@ function setChatFilter(e) {
 function editIssue1(e) {
     e.stopPropagation();
     editIssue(e.target.dataset.cproject, e.target.dataset.cissue);
-}
-
-function editChatItem(e) {
-    e.stopPropagation();
-    var chatId = e.target.dataset.chatid;
-    var note = e.target.dataset.node;
-    var iid = e.target.dataset.cissue;
-    var pid = e.target.dataset.cproject;
-
-    var link = "project/{0}/issue/{1}/chat?id={2}".args(pid, iid, chatId);
-
-    WAVE.ajaxCall(
-        'GET',
-        link,
-        null,
-        function(resp) {
-            var rec = new WAVE.RecordModel.Record(JSON.parse(resp));
-            var dlg = WAVE.GUI.Dialog({
-                header: " Edit note",
-                body: buildEditChatDialog(null, chatId),
-                footer: buildStatusFooter(),
-                onShow: function() {
-                    var rv = new WAVE.RecordModel.RecordView("V22", rec);
-                },
-                onClose: function(dlg, result) {
-                    if (result == WAVE.GUI.DLG_CANCEL) return WAVE.GUI.DLG_CANCEL;
-                    rec.validate();
-                    if (!rec.valid()) return WAVE.GUI.DLG_UNDEFINED
-                    sendChatMessage(pid, iid, chatId, rec);
-                    return WAVE.GUI.DLG_CANCEL;
-                }
-            });
-        },
-        function(resp) { console.log("error"); },
-        function(resp) { console.log("fail"); },
-        WAVE.CONTENT_TYPE_JSON_UTF8,
-        WAVE.CONTENT_TYPE_JSON_UTF8
-    );
-
-
 }
 
 function buildAreasTab(areasId, task) {
@@ -1217,7 +988,7 @@ ZHB.Tasks = (function() {
 
         buildStatusTab(statusId, task);
         buildAssignmentTab(assignmentId, task);
-        buildChatTab(chatId, task);
+        ZHB.Tasks.Chat.buildChatTab(chatId, task);
         buildAreasTab(areasId, task);
         buildComponentsTab(componentsId, task);
     }
@@ -1275,6 +1046,7 @@ ZHB.Tasks = (function() {
                 fTasks = data.Rows;
                 renderTasks("roster");
                 initDetails();
+                ZHB.Tasks.Chat.init({tasks: fTasks});
             },
             ZHB.errorLog,
             ZHB.errorLog
@@ -1296,15 +1068,15 @@ ZHB.Tasks = (function() {
             if (phase === WAVE.RecordModel.EVT_PHASE_AFTER) scheduleFetch();
         });
     }
+ 
+    published.scheduleFetch = function() { scheduleFetch(); };
     
     published.init = function(init) {
+        ZHB.Tasks.Render.init({});
         initFilter(init.filter);
         published.isPM = init.pmPerm;
-        getTasks();
-        ZHB.Tasks.Chat.init({tasks: fTasks});
+        scheduleFetch();
     };
-
-    published.scheduleFetch = function() { scheduleFetch(); };
     
     return published;
 })();
@@ -1470,6 +1242,10 @@ ZHB.Tasks.Render = (function () {
         return Ø1;
     };
     
+    published.init = function (init) {
+            
+    };
+    
     return published;
 })();
 /*jshint devel: true,browser: true, sub: true */
@@ -1479,28 +1255,115 @@ ZHB.Tasks.Chat = (function() {
     "use strict";
     var published = {},
         fScheduleTimer,
-        fTasks
+        fTasks,
+        fChatRec = {},
+        fChatFilterRec = {}
     
     ;
     
-    function schedulerTask() {
+    function schedulerChat() {
         if (fScheduleTimer) clearTimeout(fScheduleTimer);
         WAVE.each(fTasks, function (task) {
-           refreshChat(task); 
+            ZHB.Tasks.Chat.refreshChat(task); 
         });
-        fScheduleTimer = setTimeout(schedulerTask, 20000);
+        fScheduleTimer = setTimeout(schedulerChat, 2000);
     }
 
-    published.refreshChat = function(task) {
-        var link = "/project/{0}/issue/{1}/chatlist".args(task.C_Project, task.Counter);
-        var data = chatFilterRec[task.Counter].data();
+    function createChatItems(task, rec) {
+        var id = 'chatMessage-' + task.Counter;
+        document.getElementById(id).innerHTML = "";
+        for (var i = 0, l = rec.Rows.length; i < l; i++) {
+            var item = rec.Rows[i];
+            ZHB.Tasks.Chat.Render.createChatItem(id, item);
+            document.getElementById('chat-note' + item.Counter).innerHTML = WAVE.markup(item.Note);
+            ZHB.Tasks.Chat.Render.createEditChatButton('chathedaeritem' + item.Counter, item, task);
+        }
+    }
+    
+    function chatForm(task) {
+        var link = ZHB.URIS.ForPROJECT_ISSUE_CHAT(task.C_Project, task.Counter, "");
+        WAVE.ajaxCall(
+            'GET',
+            link,
+            null,
+            function(resp) {
+                fChatRec[task.Counter] = new WAVE.RecordModel.Record(JSON.parse(resp));
+                new WAVE.RecordModel.RecordView('chatForm' + task.Counter, fChatRec[task.Counter]);
+            },
+            ZHB.errorLog,
+            ZHB.errorLog,
+            WAVE.CONTENT_TYPE_JSON_UTF8,
+            WAVE.CONTENT_TYPE_JSON_UTF8
+        );
+    }
+
+    function sendChatMessage(pid, iid, cid, _rec) {
+        var task = { Counter: iid, C_Project: pid, createImageData: cid };
+        var link = ZHB.URIS.ForPROJECT_ISSUE_CHAT(pid, iid, cid);
         WAVE.ajaxCall(
             'POST',
             link,
-            data,
+            _rec.data(),
             function(resp) {
-                var rec = JSON.parse(resp);
-                createChatItems(task, rec);
+                chatForm(task);
+                ZHB.Tasks.Chat.refreshChat(task);
+            },
+            ZHB.errorLog,
+            ZHB.errorLog,
+            WAVE.CONTENT_TYPE_JSON_UTF8,
+            WAVE.CONTENT_TYPE_JSON_UTF8
+        );
+    }
+    
+    function chatFilterForm(task) {
+        var link = ZHB.URIS.ForPROJECT_ISSUE_CHATLIST(task.C_Project, task.Counter);
+        WAVE.ajaxCall(
+            'GET',
+            link,
+            null,
+            function(resp) {
+                // debugger;
+                fChatFilterRec[task.Counter] = new WAVE.RecordModel.Record(JSON.parse(resp));
+                new WAVE.RecordModel.RecordView('ChatFilterForm' + task.Counter, fChatFilterRec[task.Counter]);
+
+            },
+            function(resp) { console.log("error"); },
+            function(resp) { console.log("fail"); },
+            WAVE.CONTENT_TYPE_JSON_UTF8,
+            WAVE.CONTENT_TYPE_JSON_UTF8
+        );
+    }
+    
+    published.editChatItem = function(e) {
+        e.stopPropagation();
+        var chatId = e.target.dataset.chatid;
+        var note = e.target.dataset.node;
+        var iid = e.target.dataset.cissue;
+        var pid = e.target.dataset.cproject;
+
+        var link = ZHB.URIS.ForPROJECT_ISSUE_CHAT(pid, iid, chatId);
+
+        WAVE.ajaxCall(
+            'GET',
+            link,
+            null,
+            function(resp) {
+                var rec = new WAVE.RecordModel.Record(JSON.parse(resp));
+                var dlg = WAVE.GUI.Dialog({
+                    header: " Edit note",
+                    body: buildEditChatDialog(null, chatId),
+                    footer: buildStatusFooter(),
+                    onShow: function() {
+                        var rv = new WAVE.RecordModel.RecordView("V22", rec);
+                    },
+                    onClose: function(dlg, result) {
+                        if (result == WAVE.GUI.DLG_CANCEL) return WAVE.GUI.DLG_CANCEL;
+                        rec.validate();
+                        if (!rec.valid()) return WAVE.GUI.DLG_UNDEFINED;
+                        sendChatMessage(pid, iid, chatId, rec);
+                        return WAVE.GUI.DLG_CANCEL;
+                    }
+                });
             },
             ZHB.errorLog,
             ZHB.errorLog,
@@ -1509,11 +1372,177 @@ ZHB.Tasks.Chat = (function() {
         );
     };
     
+    published.sendChatMessage1 = function(e) {
+        var iid = e.target.dataset.cissue;
+        var pid = e.target.dataset.cproject;
+        sendChatMessage(pid, iid, "", fChatRec[iid])
+    };
+    
+    published.refreshChat = function(task) {
+        if (fChatFilterRec[task.Counter]) {
+            var link = ZHB.URIS.ForPROJECT_ISSUE_CHATLIST(task.C_Project, task.Counter);
+            var data = fChatFilterRec[task.Counter].data();
+            WAVE.ajaxCall(
+                'POST',
+                link,
+                data,
+                function(resp) {
+                    var rec = JSON.parse(resp);
+                    createChatItems(task, rec);
+                },
+                ZHB.errorLog,
+                ZHB.errorLog,
+                WAVE.CONTENT_TYPE_JSON_UTF8,
+                WAVE.CONTENT_TYPE_JSON_UTF8
+            );
+        }
+    };
+    
+    published.buildChatTab = function(root, task) {
+        ZHB.Tasks.Chat.Render.buildChatFilterForm(root, task);
+        ZHB.Tasks.Chat.Render.buildChatForm(root, task);
+        ZHB.Tasks.Chat.Render.buildChatMessage(root, task);
+        chatForm(task);
+        chatFilterForm(task);
+    };
+    
     published.init = function (init) {
+        ZHB.Tasks.Chat.Render.init({});
         fTasks = init.tasks;
-        schedulerTask();    
+        schedulerChat();    
     };
 
+    return published;
+})();
+/*jshint devel: true,browser: true, sub: true */
+/*global WAVE, $, ZHB */
+
+ZHB.Tasks.Chat.Render = (function () {
+    "use strict";
+    var published = {}
+    ;
+    
+    published.buildChatFilterForm = function(root, task) {
+        var Ør = arguments[0];
+        if (WAVE.isString(Ør))
+          Ør = WAVE.id(Ør);
+        var Ø1 = WAVE.ce('div');
+        Ø1.setAttribute('id', 'ChatFilterForm'+task.Counter);
+        Ø1.setAttribute('data-wv-rid', 'chatFilterForm'+task.Counter);
+        var Ø2 = WAVE.ce('div');
+        Ø2.setAttribute('data-wv-fname', 'C_User');
+        Ø2.setAttribute('class', 'fView');
+        Ø2.setAttribute('data-wv-ctl', 'combo');
+        Ø2.setAttribute('style', 'display: inline-block; padding: 8px;');
+        Ø1.appendChild(Ø2);
+        var Ø3 = WAVE.ce('div');
+        Ø3.setAttribute('data-wv-fname', 'Limit');
+        Ø3.setAttribute('class', 'fView');
+        Ø3.setAttribute('style', 'display: inline-block; padding: 8px;');
+        Ø1.appendChild(Ø3);
+        var Ø4 = WAVE.ce('div');
+        Ø4.setAttribute('style', 'display: inline-block; padding: 8px;');
+        var Ø5 = WAVE.ce('a');
+        Ø5.innerText = 'filter';
+        Ø5.setAttribute('data-cissue', task.Counter);
+        Ø5.setAttribute('data-cproject', task.C_Project);
+        Ø5.addEventListener('click', setChatFilter, false);
+        Ø5.setAttribute('class', 'button');
+        Ø4.appendChild(Ø5);
+        Ø1.appendChild(Ø4);
+        if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+        return Ø1;
+    };
+    
+    published.buildChatForm = function(root, task) {
+        var Ør = arguments[0];
+        if (WAVE.isString(Ør))
+          Ør = WAVE.id(Ør);
+        var Ø1 = WAVE.ce('div');
+        Ø1.setAttribute('id', 'chatForm'+task.Counter);
+        Ø1.setAttribute('class', 'fwDialogBody');
+        Ø1.setAttribute('data-wv-rid', 'chatForm'+task.Counter);
+        var Ø2 = WAVE.ce('div');
+        Ø2.setAttribute('data-wv-fname', 'Note');
+        Ø2.setAttribute('class', 'fView');
+        Ø2.setAttribute('data-wv-ctl', 'textarea');
+        Ø1.appendChild(Ø2);
+        var Ø3 = WAVE.ce('div');
+        var Ø4 = WAVE.ce('a');
+        Ø4.innerText = 'send';
+        Ø4.setAttribute('class', 'button');
+        Ø4.setAttribute('style', 'margin:4px 4px 4px 0px');
+        Ø4.setAttribute('data-cissue', task.Counter);
+        Ø4.setAttribute('data-cproject', task.C_Project);
+        Ø4.addEventListener('click', ZHB.Tasks.Chat.sendChatMessage1, false);
+        Ø3.appendChild(Ø4);
+        var Ø5 = WAVE.ce('a');
+        Ø5.innerText = 'report';
+        Ø5.setAttribute('class', 'button');
+        Ø5.setAttribute('style', 'margin:4px 4px 4px 0px');
+        Ø5.setAttribute('data-cproject', task.C_Project);
+        Ø5.setAttribute('data-cissue', task.Counter);
+        Ø5.setAttribute('data-report', 'chatreport');
+        Ø5.addEventListener('click', openReport, false);
+        Ø3.appendChild(Ø5);
+        Ø1.appendChild(Ø3);
+        if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+        return Ø1;
+    };
+    
+    published.buildChatMessage = function(root, task) {
+        var Ør = arguments[0];
+        if (WAVE.isString(Ør))
+          Ør = WAVE.id(Ør);
+        var Ø1 = WAVE.ce('div');
+        Ø1.setAttribute('class', 'ChatDiv');
+        Ø1.setAttribute('id', 'chatMessage-'+task.Counter);
+        if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+        return Ø1;
+    };
+    
+    published.createChatItem = function(root, item) {
+        var Ør = arguments[0];
+        if (WAVE.isString(Ør))
+          Ør = WAVE.id(Ør);
+        var Ø1 = WAVE.ce('div');
+        Ø1.setAttribute('class', 'ChatItem');
+        var Ø2 = WAVE.ce('div');
+        Ø2.innerText = item.Name +'('+item.Login+') :' + WAVE.dateTimeToString(item.Note_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME);
+        Ø2.setAttribute('id', 'chathedaeritem'+item.Counter);
+        Ø2.setAttribute('class', 'fView ChatItemUser');
+        Ø1.appendChild(Ø2);
+        var Ø3 = WAVE.ce('div');
+        Ø3.innerText = item.Note;
+        Ø3.setAttribute('id', 'chat-note'+item.Counter);
+        Ø3.setAttribute('class', 'fView ChatItemNote');
+        Ø1.appendChild(Ø3);
+        if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+        return Ø1;
+    };
+    
+    published.createEditChatButton = function(root, item, task) {
+        if (item.HasEdit) {
+          var Ør = arguments[0];
+          if (WAVE.isString(Ør))
+            Ør = WAVE.id(Ør);
+          var Ø1 = WAVE.ce('a');
+          Ø1.innerText = 'edit';
+          Ø1.setAttribute('class', 'button');
+          Ø1.setAttribute('data-chatid', item.Counter);
+          Ø1.setAttribute('data-note', item.Note);
+          Ø1.setAttribute('data-cproject', task.C_Project);
+          Ø1.setAttribute('data-cissue', task.Counter);
+          Ø1.addEventListener('click', ZHB.Tasks.Chat.editChatItem, false);
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+          return Ø1;
+        }
+    };
+    
+    published.init = function (init) {
+            
+    };
+    
     return published;
 })();
 /*jshint devel: true,browser: true, sub: true */

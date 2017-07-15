@@ -100,7 +100,7 @@ ZHB.Tasks = (function() {
 
         buildStatusTab(statusId, task);
         buildAssignmentTab(assignmentId, task);
-        buildChatTab(chatId, task);
+        ZHB.Tasks.Chat.buildChatTab(chatId, task);
         buildAreasTab(areasId, task);
         buildComponentsTab(componentsId, task);
     }
@@ -158,6 +158,7 @@ ZHB.Tasks = (function() {
                 fTasks = data.Rows;
                 renderTasks("roster");
                 initDetails();
+                ZHB.Tasks.Chat.init({tasks: fTasks});
             },
             ZHB.errorLog,
             ZHB.errorLog
@@ -179,15 +180,15 @@ ZHB.Tasks = (function() {
             if (phase === WAVE.RecordModel.EVT_PHASE_AFTER) scheduleFetch();
         });
     }
+ 
+    published.scheduleFetch = function() { scheduleFetch(); };
     
     published.init = function(init) {
+        ZHB.Tasks.Render.init({});
         initFilter(init.filter);
         published.isPM = init.pmPerm;
-        getTasks();
-        ZHB.Tasks.Chat.init({tasks: fTasks});
+        scheduleFetch();
     };
-
-    published.scheduleFetch = function() { scheduleFetch(); };
     
     return published;
 })();
