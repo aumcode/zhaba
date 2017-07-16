@@ -138,18 +138,6 @@ function buildChatReport(root, task) {
    ***/
 }
 
-
-function buildEditChatDialog(root, item) {
-  /***
-   div
-   {
-     data-wv-rid="V22"
-
-     div { data-wv-fname="Note" class="fView" data-wv-ctl="textarea"}
-   }
-   ***/
-}
-
 function buildAssignmentButtons(root, task) {
   /***
    div
@@ -194,11 +182,6 @@ function openReport(e) {
   var report = e.target.dataset.report;
   var link = "/project/{0}/issue/{1}/{2}".args(pid, iid, report);
   window.open(link);
-}
-
-function editIssue1(e) {
-  e.stopPropagation();
-  editIssue(e.target.dataset.cproject, e.target.dataset.cissue);
 }
 
 function buildAreasTab(areasId, task) {

@@ -76,7 +76,7 @@ ZHB.Tasks.Status.Render = (function () {
                  }
      
                  "? for(var s=0, sl=task.NextState.length; s < sl; s++)" {
-                   a = "?statuses[task.NextState[s]]"
+                   a = "?ZHB.Tasks.Status.getStatusButtonName(task.NextState[s])"
                    {
                      style="margin: 4px 4px 4px 0px"
                      data-nextstate=?task.NextState[s]

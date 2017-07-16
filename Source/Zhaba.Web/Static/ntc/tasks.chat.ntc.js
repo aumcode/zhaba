@@ -109,7 +109,7 @@ ZHB.Tasks.Chat = (function() {
                 var rec = new WAVE.RecordModel.Record(JSON.parse(resp));
                 var dlg = WAVE.GUI.Dialog({
                     header: " Edit note",
-                    body: buildEditChatDialog(null, chatId),
+                    body: ZHB.Tasks.Chat.Render.buildEditChatDialog(null, chatId),
                     footer: ZHB.Tasks.Status.Render.buildStatusFooter(),
                     onShow: function() {
                         var rv = new WAVE.RecordModel.RecordView("V22", rec);

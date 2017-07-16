@@ -284,6 +284,10 @@ ZHB.Tasks.Status = (function () {
             WAVE.CONTENT_TYPE_JSON_UTF8
         );
     };
+    
+    published.getStatusButtonName = function (status) {
+        return fStatuses[status];
+    }
 
     published.init = function (init) {
         ZHB.Tasks.Status.Render.init({});

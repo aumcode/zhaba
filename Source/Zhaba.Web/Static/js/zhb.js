@@ -379,22 +379,6 @@ function buildChatReport(root, task) {
   return Ø1;
 }
 
-
-function buildEditChatDialog(root, item) {
-  var Ør = arguments[0];
-  if (WAVE.isString(Ør))
-    Ør = WAVE.id(Ør);
-  var Ø1 = WAVE.ce('div');
-  Ø1.setAttribute('data-wv-rid', 'V22');
-  var Ø2 = WAVE.ce('div');
-  Ø2.setAttribute('data-wv-fname', 'Note');
-  Ø2.setAttribute('class', 'fView');
-  Ø2.setAttribute('data-wv-ctl', 'textarea');
-  Ø1.appendChild(Ø2);
-  if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
-  return Ø1;
-}
-
 function buildAssignmentButtons(root, task) {
   var Ør = arguments[0];
   if (WAVE.isString(Ør))
@@ -440,11 +424,6 @@ function openReport(e) {
   var report = e.target.dataset.report;
   var link = "/project/{0}/issue/{1}/{2}".args(pid, iid, report);
   window.open(link);
-}
-
-function editIssue1(e) {
-  e.stopPropagation();
-  editIssue(e.target.dataset.cproject, e.target.dataset.cissue);
 }
 
 function buildAreasTab(areasId, task) {
@@ -1358,6 +1337,10 @@ ZHB.Tasks.Status = (function () {
             WAVE.CONTENT_TYPE_JSON_UTF8
         );
     };
+    
+    published.getStatusButtonName = function (status) {
+        return fStatuses[status];
+    }
 
     published.init = function (init) {
         ZHB.Tasks.Status.Render.init({});
@@ -1444,7 +1427,7 @@ ZHB.Tasks.Status.Render = (function () {
               Ø1.appendChild(Ø2);
                for(var s=0, sl=task.NextState.length; s < sl; s++) {
                 var Ø3 = WAVE.ce('a');
-                Ø3.innerText = statuses[task.NextState[s]];
+                Ø3.innerText = ZHB.Tasks.Status.getStatusButtonName(task.NextState[s]);
                 Ø3.setAttribute('style', 'margin: 4px 4px 4px 0px');
                 Ø3.setAttribute('data-nextstate', task.NextState[s]);
                 Ø3.setAttribute('data-cproject', task.C_Project);
@@ -1767,7 +1750,7 @@ ZHB.Tasks.Chat = (function() {
                 var rec = new WAVE.RecordModel.Record(JSON.parse(resp));
                 var dlg = WAVE.GUI.Dialog({
                     header: " Edit note",
-                    body: buildEditChatDialog(null, chatId),
+                    body: ZHB.Tasks.Chat.Render.buildEditChatDialog(null, chatId),
                     footer: ZHB.Tasks.Status.Render.buildStatusFooter(),
                     onShow: function() {
                         var rv = new WAVE.RecordModel.RecordView("V22", rec);
@@ -1837,8 +1820,8 @@ ZHB.Tasks.Chat.Render = (function () {
     "use strict";
     var published = {}
     ;
-    
-    published.buildChatFilterForm = function(root, task) {
+
+    published.buildChatFilterForm = function (root, task) {
         var Ør = arguments[0];
         if (WAVE.isString(Ør))
           Ør = WAVE.id(Ør);
@@ -1869,8 +1852,8 @@ ZHB.Tasks.Chat.Render = (function () {
         if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
         return Ø1;
     };
-    
-    published.buildChatForm = function(root, task) {
+
+    published.buildChatForm = function (root, task) {
         var Ør = arguments[0];
         if (WAVE.isString(Ør))
           Ør = WAVE.id(Ør);
@@ -1905,8 +1888,8 @@ ZHB.Tasks.Chat.Render = (function () {
         if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
         return Ø1;
     };
-    
-    published.buildChatMessage = function(root, task) {
+
+    published.buildChatMessage = function (root, task) {
         var Ør = arguments[0];
         if (WAVE.isString(Ør))
           Ør = WAVE.id(Ør);
@@ -1916,8 +1899,8 @@ ZHB.Tasks.Chat.Render = (function () {
         if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
         return Ø1;
     };
-    
-    published.createChatItem = function(root, item) {
+
+    published.createChatItem = function (root, item) {
         var Ør = arguments[0];
         if (WAVE.isString(Ør))
           Ør = WAVE.id(Ør);
@@ -1936,29 +1919,45 @@ ZHB.Tasks.Chat.Render = (function () {
         if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
         return Ø1;
     };
-    
-    published.createEditChatButton = function(root, item, task) {
+
+    published.createEditChatButton = function (root, item, task) {
         if (item.HasEdit) {
-          var Ør = arguments[0];
-          if (WAVE.isString(Ør))
-            Ør = WAVE.id(Ør);
-          var Ø1 = WAVE.ce('a');
-          Ø1.innerText = 'edit';
-          Ø1.setAttribute('class', 'button');
-          Ø1.setAttribute('data-chatid', item.Counter);
-          Ø1.setAttribute('data-note', item.Note);
-          Ø1.setAttribute('data-cproject', task.C_Project);
-          Ø1.setAttribute('data-cissue', task.Counter);
-          Ø1.addEventListener('click', ZHB.Tasks.Chat.editChatItem, false);
-          if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
-          return Ø1;
+            var Ør = arguments[0];
+            if (WAVE.isString(Ør))
+              Ør = WAVE.id(Ør);
+            var Ø1 = WAVE.ce('a');
+            Ø1.innerText = 'edit';
+            Ø1.setAttribute('class', 'button');
+            Ø1.setAttribute('data-chatid', item.Counter);
+            Ø1.setAttribute('data-note', item.Note);
+            Ø1.setAttribute('data-cproject', task.C_Project);
+            Ø1.setAttribute('data-cissue', task.Counter);
+            Ø1.addEventListener('click', ZHB.Tasks.Chat.editChatItem, false);
+            if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+            return Ø1;
         }
     };
-    
-    published.init = function (init) {
-            
+
+    published.buildEditChatDialog = function (root, item) {
+        var Ør = arguments[0];
+        if (WAVE.isString(Ør))
+          Ør = WAVE.id(Ør);
+        var Ø1 = WAVE.ce('div');
+        Ø1.setAttribute('data-wv-rid', 'V22');
+        var Ø2 = WAVE.ce('div');
+        Ø2.setAttribute('data-wv-fname', 'Note');
+        Ø2.setAttribute('class', 'fView');
+        Ø2.setAttribute('data-wv-ctl', 'textarea');
+        Ø1.appendChild(Ø2);
+        if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+        return Ø1;
     };
-    
+
+
+    published.init = function (init) {
+
+    };
+
     return published;
 })();
 /*jshint devel: true,browser: true, sub: true */
