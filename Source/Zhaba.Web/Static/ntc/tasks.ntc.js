@@ -99,10 +99,10 @@ ZHB.Tasks = (function() {
         });
 
         ZHB.Tasks.Status.buildStatusTab(statusId, task);
-        buildAssignmentTab(assignmentId, task);
+        ZHB.Tasks.Assignment.buildAssignmentTab(assignmentId, task);
         ZHB.Tasks.Chat.buildChatTab(chatId, task);
-        buildAreasTab(areasId, task);
-        buildComponentsTab(componentsId, task);
+        ZHB.Tasks.Areas.buildAreasTab(areasId, task);
+        ZHB.Tasks.Components.buildComponentsTab(componentsId, task);
     }
     
     function renderTasks() {

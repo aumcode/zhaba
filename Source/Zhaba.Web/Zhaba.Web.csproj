@@ -206,6 +206,7 @@
     <Content Include="Static\ntc\tasks.assignment.render.ntc.js" />
     <Content Include="Static\ntc\tasks.chat.ntc.js" />
     <Content Include="Static\ntc\tasks.chat.render.ntc.js" />
+    <Content Include="Static\ntc\tasks.components.ntc.js" />
     <Content Include="Static\ntc\tasks.ntc.js" />
     <Content Include="Static\ntc\tasks.render.ntc.js" />
     <Content Include="Static\ntc\tasks.report.ntc.js" />

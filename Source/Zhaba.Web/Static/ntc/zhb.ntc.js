@@ -154,7 +154,10 @@ var ZHB = (function() {
 /***@ tasks.render.ntc.js ***/
 /***@ tasks.status.ntc.js ***/
 /***@ tasks.status.render.ntc.js ***/
+/***@ tasks.assignment.ntc.js ***/
+/***@ tasks.assignment.render.ntc.js ***/
 /***@ tasks.chat.ntc.js ***/
 /***@ tasks.chat.render.ntc.js ***/
 /***@ tasks.areas.ntc.js ***/
+/***@ tasks.components.ntc.js ***/
 /***@ tasks.report.ntc.js ***/

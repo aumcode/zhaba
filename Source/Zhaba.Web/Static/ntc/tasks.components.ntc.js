@@ -1,16 +1,16 @@
 /*jshint devel: true,browser: true, sub: true */
 /*global WAVE, $, ZHB */
 
-ZHB.Tasks.Areas = (function () {
+ZHB.Tasks.Components = (function () {
     "use strict";
     var published = {};
 
-    published.buildAreasTab = function (areasId, task) {
-        var link = "/project/{0}/issuearea?issue={1}".args(task.C_Project, task.Counter);
+    published.buildComponentsTab = function (componentsId, task) {
+        var link = "/project/{0}/issuecomponent?issue={1}".args(task.C_Project, task.Counter);
         $.post(link,
             null,
             function (grid) {
-                $("#" + areasId).html(grid);
+                $("#" + componentsId).html(grid);
             }).fail(function (error) {
             console.log(error);
         });

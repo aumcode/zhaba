@@ -131,7 +131,7 @@ ZHB.Tasks.Status.Render = (function () {
              div
              {
                align="center"
-               div="?details.Status"{ class="?'tag {0} inline'.args(getStatusStyle(details.Status))" }
+               div="?details.Status"{ class="?'tag {0} inline'.args(ZHB.Tasks.Render.getStatusStyle(details.Status))" }
                div="?details.Category_Name"{ class="tag tag-category inline" }
              }
            }

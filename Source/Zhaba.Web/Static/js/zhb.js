@@ -148,7 +148,7 @@ var ZHB = (function() {
     return published;
 }());
 
-function getStatusBarStyle(value) {
+/*function getStatusBarStyle(value) {
   var red = 0;
   var green = 0;
   if (value <= 25)
@@ -199,201 +199,12 @@ function buildDate(task) {
 function buildDueDate(task) {
   var dueDate = WAVE.dateTimeToString(task.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
   return "{0} in {1}d".args(dueDate, task.Remaining);
-}
+}*/
 
 
-function createAssignmentHeader(root) {
-  var Ør = arguments[0];
-  if (WAVE.isString(Ør))
-    Ør = WAVE.id(Ør);
-  if(1==1) {
-    var Ø1 = WAVE.ce('div');
-    Ø1.innerText = '*';
-    Ø1.setAttribute('class', 'rst-cell rst-details-head');
-    Ø1.setAttribute('style', 'width: 1%');
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
-    var Ø2 = WAVE.ce('div');
-    Ø2.innerText = 'ID';
-    Ø2.setAttribute('class', 'rst-cell rst-details-head');
-    Ø2.setAttribute('style', 'width: 5%');
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø2);
-    var Ø3 = WAVE.ce('div');
-    Ø3.innerText = 'User';
-    Ø3.setAttribute('class', 'rst-cell rst-details-head');
-    Ø3.setAttribute('style', 'width: 10%');
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø3);
-    var Ø4 = WAVE.ce('div');
-    Ø4.innerText = 'Assigned';
-    Ø4.setAttribute('class', 'rst-cell rst-details-head');
-    Ø4.setAttribute('style', 'width: 15%');
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø4);
-    var Ø5 = WAVE.ce('div');
-    Ø5.innerText = 'Operator';
-    Ø5.setAttribute('class', 'rst-cell rst-details-head');
-    Ø5.setAttribute('style', 'width: 10%');
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø5);
-    var Ø6 = WAVE.ce('div');
-    Ø6.innerText = 'Unassigned';
-    Ø6.setAttribute('class', 'rst-cell rst-details-head');
-    Ø6.setAttribute('style', 'width: 15%');
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø6);
-    var Ø7 = WAVE.ce('div');
-    Ø7.innerText = 'Operator';
-    Ø7.setAttribute('class', 'rst-cell rst-details-head');
-    Ø7.setAttribute('style', 'width: 10%');
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø7);
-    var Ø8 = WAVE.ce('div');
-    Ø8.innerText = 'Note';
-    Ø8.setAttribute('class', 'rst-cell rst-details-head');
-    Ø8.setAttribute('style', 'width: 34%');
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø8);
-  }
-  return Ø8;
-}
 
 
-function createAssignmentGridRow(root, assignment, task) {
-  var Ør = arguments[0];
-  if (WAVE.isString(Ør))
-    Ør = WAVE.id(Ør);
-  if(1==1) {
-    var Ø1 = WAVE.ce('div');
-    Ø1.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
-    Ø1.setAttribute('align', 'right');
-    Ø1.setAttribute('style', 'width: 1%');
-  if(!assignment.Close_TS) {
-    var Ø2 = WAVE.ce('a');
-    Ø2.innerText = 'x';
-    Ø2.setAttribute('class', 'button-delete');
-    Ø2.setAttribute('href', '#');
-    Ø2.setAttribute('data-cproject', task.C_Project);
-    Ø2.setAttribute('data-cissue', task.Counter);
-    Ø2.setAttribute('data-cassignee', assignment.Counter);
-    Ø2.addEventListener('click', ZHB.Tasks.Status.editAssignee, false);
-    Ø1.appendChild(Ø2);
-  }
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
-    var Ø3 = WAVE.ce('div');
-    Ø3.innerText = assignment.Counter;
-    Ø3.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
-    Ø3.setAttribute('align', 'right');
-    Ø3.setAttribute('style', 'width: 5%');
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø3);
-    var Ø4 = WAVE.ce('div');
-    Ø4.innerText = assignment.UserFirstName + ' ' + assignment.UserLastName + '(' +assignment.UserLogin+')';
-    Ø4.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
-    Ø4.setAttribute('align', 'right');
-    Ø4.setAttribute('style', 'width: 10%');
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø4);
-    var Ø5 = WAVE.ce('div');
-    Ø5.innerText = WAVE.dateTimeToString(assignment.Open_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
-    Ø5.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
-    Ø5.setAttribute('style', 'width: 15%');
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø5);
-    var Ø6 = WAVE.ce('div');
-    Ø6.innerText = assignment.OperatorOpenLogin;
-    Ø6.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
-    Ø6.setAttribute('style', 'width: 10%');
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø6);
-    var Ø7 = WAVE.ce('div');
-    Ø7.innerText = WAVE.dateTimeToString(assignment.Close_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
-    Ø7.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
-    Ø7.setAttribute('style', 'width: 15%');
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø7);
-    var Ø8 = WAVE.ce('div');
-    Ø8.innerText = assignment.OperatorCloseLogin;
-    Ø8.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
-    Ø8.setAttribute('align', 'center');
-    Ø8.setAttribute('style', 'width: 10%');
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø8);
-    var Ø9 = WAVE.ce('div');
-    Ø9.innerText = assignment.Note;
-    Ø9.setAttribute('class', 'rst-cell rst-details-cell');
-    Ø9.setAttribute('style', 'width: 34%');
-    if (WAVE.isObject(Ør)) Ør.appendChild(Ø9);
-  }
-  return Ø9;
-}
 
-
-function buildChatReport(root, task) {
-  var Ør = arguments[0];
-  if (WAVE.isString(Ør))
-    Ør = WAVE.id(Ør);
-  var Ø1 = WAVE.ce('div');
-  var Ø2 = WAVE.ce('a');
-  Ø2.innerText = 'report';
-  Ø2.setAttribute('data-cproject', task.C_Project);
-  Ø2.setAttribute('data-cissue', task.Counter);
-  Ø2.setAttribute('data-report', 'chatreport');
-  Ø2.addEventListener('click', ZHB.Tasks.Report.openReport, false);
-  Ø2.setAttribute('class', 'button');
-  Ø1.appendChild(Ø2);
-  if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
-  return Ø1;
-}
-
-function buildAssignmentButtons(root, task) {
-  var Ør = arguments[0];
-  if (WAVE.isString(Ør))
-    Ør = WAVE.id(Ør);
-  var Ø1 = WAVE.ce('div');
-   if(task.statusId !='X' && task.statusId !='C' && task.statusId !='D' && ZHB.Tasks.isPM) {
-    var Ø2 = WAVE.ce('a');
-    Ø2.innerText = 'Add user';
-    Ø2.setAttribute('data-counter', task.Counter);
-    Ø2.setAttribute('data-cproject', task.C_Project);
-    Ø2.setAttribute('data-nextstate', 'A');
-    Ø2.addEventListener('click', ZHB.Tasks.Status.changeStatusDialog1, false);
-    Ø2.setAttribute('class', 'button');
-    Ø2.setAttribute('style', 'margin:4px 4px 4px 0px');
-    Ø1.appendChild(Ø2);
-  }
-  var Ø3 = WAVE.ce('a');
-  Ø3.innerText = 'report';
-  Ø3.setAttribute('class', 'button');
-  Ø3.setAttribute('style', 'margin:4px 4px 4px 0px');
-  Ø3.setAttribute('data-cproject', task.C_Project);
-  Ø3.setAttribute('data-cissue', task.Counter);
-  Ø3.setAttribute('data-report', 'assignmentreport');
-  Ø3.addEventListener('click', ZHB.Tasks.Report.openReport, false);
-  Ø1.appendChild(Ø3);
-  if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
-  return Ø1;
-}
-
-
-function buildAssignmentTab(root, task) {
-  var gridID = "assignment-grid-" + task.Counter;
-  buildAssignmentButtons(root, task);
-  ZHB.Tasks.Render.createGrid(root, gridID);
-  createAssignmentHeader(gridID);
-  for (var j = 0, l = task.Assignments.length; j < l; j++)
-    createAssignmentGridRow(gridID, task.Assignments[j], task);
-}
-
-
-function buildAreasTab(areasId, task) {
-  var link = "/project/{0}/issuearea?issue={1}".args(task.C_Project, task.Counter);
-  $.post(link,
-    null,
-    function (grid) {
-      $("#" + areasId).html(grid);
-    }).fail(function (error) {
-    console.log(error);
-  });
-}
-
-function buildComponentsTab(componentsId, task) {
-  var link = "/project/{0}/issuecomponent?issue={1}".args(task.C_Project, task.Counter);
-  $.post(link,
-    null,
-    function (grid) {
-      $("#" + componentsId).html(grid);
-    }).fail(function (error) {
-    console.log(error);
-  });
-}
 /**
  * Created by mad on 13.07.2017.
  */
@@ -614,10 +425,10 @@ ZHB.Tasks = (function() {
         });
 
         ZHB.Tasks.Status.buildStatusTab(statusId, task);
-        buildAssignmentTab(assignmentId, task);
+        ZHB.Tasks.Assignment.buildAssignmentTab(assignmentId, task);
         ZHB.Tasks.Chat.buildChatTab(chatId, task);
-        buildAreasTab(areasId, task);
-        buildComponentsTab(componentsId, task);
+        ZHB.Tasks.Areas.buildAreasTab(areasId, task);
+        ZHB.Tasks.Components.buildComponentsTab(componentsId, task);
     }
     
     function renderTasks() {
@@ -771,6 +582,63 @@ ZHB.Tasks.Render = (function () {
     var published = {}
     ;
 
+    function getStatusBarStyle(value) {
+        var red = 0;
+        var green = 0;
+        if (value <= 25)
+            red = 255;
+        else if (value > 25 && value < 65) {
+            red = 255;
+            green = (value - 25) * 6;
+        } else if (value == 65) {
+            red = 255;
+            green = 255;
+        } else if (value > 65) {
+            red = 255 - ((value - 65) * 7);
+            green = 255;
+        } else if (value == 100) {
+            red = 0;
+            green = 255;
+        }
+        return "width: {0}%; background: rgb({1},{2}, 0)".args(value, red, green);
+    }
+
+
+    function getPriorityStyle(value) {
+        var priority;
+        if (value === 0) {
+            priority = "highest";
+        } else if (value > 0 && value <= 3) {
+            priority = "high";
+        } else if (value > 3 && value <= 5) {
+            priority = "middle";
+        } else {
+            priority = "lower";
+        }
+        return "priority-tag {0}".args(priority);
+    }
+
+    function buildDate(task) {
+        var startDate = WAVE.dateTimeToString(task.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+        var completeDate = "OPEN";
+        if (task.Complete_Date) {
+            completeDate = WAVE.dateTimeToString(task.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+        }
+        return "{0} - {1}".args(startDate, completeDate);
+    }
+
+    function buildDueDate(task) {
+        var dueDate = WAVE.dateTimeToString(task.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+        return "{0} in {1}d".args(dueDate, task.Remaining);
+    }
+
+    function getStatusStyle(value) {
+        return "status-tag {0}".args(value.toLowerCase());
+    }
+
+    published.getStatusStyle = function (value) {
+        return getStatusStyle(value.toLowerCase());
+    };
 
     published.createHeaders = function (root) {
         var Ør = arguments[0];
@@ -819,7 +687,7 @@ ZHB.Tasks.Render = (function () {
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø8);
         }
         return Ø8;
-    }
+    };
 
     published.createRow = function (root, task) {
         var detailsId = "details-" + task.Counter;
@@ -1521,7 +1389,7 @@ ZHB.Tasks.Status.Render = (function () {
         Ø4.setAttribute('align', 'center');
         var Ø5 = WAVE.ce('div');
         Ø5.innerText = details.Status;
-        Ø5.setAttribute('class', 'tag {0} inline'.args(getStatusStyle(details.Status)));
+        Ø5.setAttribute('class', 'tag {0} inline'.args(ZHB.Tasks.Render.getStatusStyle(details.Status)));
         Ø4.appendChild(Ø5);
         var Ø6 = WAVE.ce('div');
         Ø6.innerText = details.Category_Name;
@@ -1636,6 +1504,182 @@ ZHB.Tasks.Status.Render = (function () {
 
 
 
+/*jshint devel: true,browser: true, sub: true */
+/*global WAVE, $, ZHB */
+
+ZHB.Tasks.Assignment = (function () {
+    var published = {}
+    ;
+    
+    published.buildAssignmentTab = function(root, task) {
+        var gridID = "assignment-grid-" + task.Counter;
+        ZHB.Tasks.Assignment.Render.buildAssignmentButtons(root, task);
+        ZHB.Tasks.Render.createGrid(root, gridID);
+        ZHB.Tasks.Assignment.Render.createAssignmentHeader(gridID);
+        for (var j = 0, l = task.Assignments.length; j < l; j++)
+            ZHB.Tasks.Assignment.Render.createAssignmentGridRow(gridID, task.Assignments[j], task);
+    };
+    
+    published.init = function (init) {
+        
+    };
+    
+    return published;
+})();
+/*jshint devel: true,browser: true, sub: true */
+/*global WAVE, $, ZHB */
+
+ZHB.Tasks.Assignment.Render = (function () {
+    var published = {}
+    ;
+
+    published.buildAssignmentButtons = function (root, task) {
+        var Ør = arguments[0];
+        if (WAVE.isString(Ør))
+          Ør = WAVE.id(Ør);
+        var Ø1 = WAVE.ce('div');
+         if(task.statusId !='X' && task.statusId !='C' && task.statusId !='D' && ZHB.Tasks.isPM) {
+          var Ø2 = WAVE.ce('a');
+          Ø2.innerText = 'Add user';
+          Ø2.setAttribute('data-counter', task.Counter);
+          Ø2.setAttribute('data-cproject', task.C_Project);
+          Ø2.setAttribute('data-nextstate', 'A');
+          Ø2.addEventListener('click', ZHB.Tasks.Status.changeStatusDialog1, false);
+          Ø2.setAttribute('class', 'button');
+          Ø2.setAttribute('style', 'margin:4px 4px 4px 0px');
+          Ø1.appendChild(Ø2);
+        }
+        var Ø3 = WAVE.ce('a');
+        Ø3.innerText = 'report';
+        Ø3.setAttribute('class', 'button');
+        Ø3.setAttribute('style', 'margin:4px 4px 4px 0px');
+        Ø3.setAttribute('data-cproject', task.C_Project);
+        Ø3.setAttribute('data-cissue', task.Counter);
+        Ø3.setAttribute('data-report', 'assignmentreport');
+        Ø3.addEventListener('click', ZHB.Tasks.Report.openReport, false);
+        Ø1.appendChild(Ø3);
+        if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+        return Ø1;
+    }
+
+    published.createAssignmentHeader = function (root) {
+        var Ør = arguments[0];
+        if (WAVE.isString(Ør))
+          Ør = WAVE.id(Ør);
+        if(1==1) {
+          var Ø1 = WAVE.ce('div');
+          Ø1.innerText = '*';
+          Ø1.setAttribute('class', 'rst-cell rst-details-head');
+          Ø1.setAttribute('style', 'width: 1%');
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+          var Ø2 = WAVE.ce('div');
+          Ø2.innerText = 'ID';
+          Ø2.setAttribute('class', 'rst-cell rst-details-head');
+          Ø2.setAttribute('style', 'width: 5%');
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø2);
+          var Ø3 = WAVE.ce('div');
+          Ø3.innerText = 'User';
+          Ø3.setAttribute('class', 'rst-cell rst-details-head');
+          Ø3.setAttribute('style', 'width: 10%');
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø3);
+          var Ø4 = WAVE.ce('div');
+          Ø4.innerText = 'Assigned';
+          Ø4.setAttribute('class', 'rst-cell rst-details-head');
+          Ø4.setAttribute('style', 'width: 15%');
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø4);
+          var Ø5 = WAVE.ce('div');
+          Ø5.innerText = 'Operator';
+          Ø5.setAttribute('class', 'rst-cell rst-details-head');
+          Ø5.setAttribute('style', 'width: 10%');
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø5);
+          var Ø6 = WAVE.ce('div');
+          Ø6.innerText = 'Unassigned';
+          Ø6.setAttribute('class', 'rst-cell rst-details-head');
+          Ø6.setAttribute('style', 'width: 15%');
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø6);
+          var Ø7 = WAVE.ce('div');
+          Ø7.innerText = 'Operator';
+          Ø7.setAttribute('class', 'rst-cell rst-details-head');
+          Ø7.setAttribute('style', 'width: 10%');
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø7);
+          var Ø8 = WAVE.ce('div');
+          Ø8.innerText = 'Note';
+          Ø8.setAttribute('class', 'rst-cell rst-details-head');
+          Ø8.setAttribute('style', 'width: 34%');
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø8);
+        }
+        return Ø8;
+    };
+
+    published.createAssignmentGridRow = function (root, assignment, task) {
+        var Ør = arguments[0];
+        if (WAVE.isString(Ør))
+          Ør = WAVE.id(Ør);
+        if(1==1) {
+          var Ø1 = WAVE.ce('div');
+          Ø1.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
+          Ø1.setAttribute('align', 'right');
+          Ø1.setAttribute('style', 'width: 1%');
+        if(!assignment.Close_TS) {
+          var Ø2 = WAVE.ce('a');
+          Ø2.innerText = 'x';
+          Ø2.setAttribute('class', 'button-delete');
+          Ø2.setAttribute('href', '#');
+          Ø2.setAttribute('data-cproject', task.C_Project);
+          Ø2.setAttribute('data-cissue', task.Counter);
+          Ø2.setAttribute('data-cassignee', assignment.Counter);
+          Ø2.addEventListener('click', ZHB.Tasks.Status.editAssignee, false);
+          Ø1.appendChild(Ø2);
+        }
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+          var Ø3 = WAVE.ce('div');
+          Ø3.innerText = assignment.Counter;
+          Ø3.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
+          Ø3.setAttribute('align', 'right');
+          Ø3.setAttribute('style', 'width: 5%');
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø3);
+          var Ø4 = WAVE.ce('div');
+          Ø4.innerText = assignment.UserFirstName + ' ' + assignment.UserLastName + '(' +assignment.UserLogin+')';
+          Ø4.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
+          Ø4.setAttribute('align', 'right');
+          Ø4.setAttribute('style', 'width: 10%');
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø4);
+          var Ø5 = WAVE.ce('div');
+          Ø5.innerText = WAVE.dateTimeToString(assignment.Open_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+          Ø5.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
+          Ø5.setAttribute('style', 'width: 15%');
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø5);
+          var Ø6 = WAVE.ce('div');
+          Ø6.innerText = assignment.OperatorOpenLogin;
+          Ø6.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
+          Ø6.setAttribute('style', 'width: 10%');
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø6);
+          var Ø7 = WAVE.ce('div');
+          Ø7.innerText = WAVE.dateTimeToString(assignment.Close_TS, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+          Ø7.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
+          Ø7.setAttribute('style', 'width: 15%');
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø7);
+          var Ø8 = WAVE.ce('div');
+          Ø8.innerText = assignment.OperatorCloseLogin;
+          Ø8.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
+          Ø8.setAttribute('align', 'center');
+          Ø8.setAttribute('style', 'width: 10%');
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø8);
+          var Ø9 = WAVE.ce('div');
+          Ø9.innerText = assignment.Note;
+          Ø9.setAttribute('class', 'rst-cell rst-details-cell');
+          Ø9.setAttribute('style', 'width: 34%');
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø9);
+        }
+        return Ø9;
+    }
+
+    published.init = function (init) {
+
+    };
+
+    return published;
+})();
 /*jshint devel: true,browser: true, sub: true */
 /*global WAVE, $, ZHB */
 
@@ -1960,11 +2004,40 @@ ZHB.Tasks.Chat.Render = (function () {
 /*jshint devel: true,browser: true, sub: true */
 /*global WAVE, $, ZHB */
 
-ZHB.Tasks.Areas = (function() {
+ZHB.Tasks.Areas = (function () {
     "use strict";
     var published = {};
 
+    published.buildAreasTab = function (areasId, task) {
+        var link = "/project/{0}/issuearea?issue={1}".args(task.C_Project, task.Counter);
+        $.post(link,
+            null,
+            function (grid) {
+                $("#" + areasId).html(grid);
+            }).fail(function (error) {
+            console.log(error);
+        });
+    };
 
+    return published;
+})();
+/*jshint devel: true,browser: true, sub: true */
+/*global WAVE, $, ZHB */
+
+ZHB.Tasks.Components = (function () {
+    "use strict";
+    var published = {};
+
+    published.buildComponentsTab = function (componentsId, task) {
+        var link = "/project/{0}/issuecomponent?issue={1}".args(task.C_Project, task.Counter);
+        $.post(link,
+            null,
+            function (grid) {
+                $("#" + componentsId).html(grid);
+            }).fail(function (error) {
+            console.log(error);
+        });
+    };
 
     return published;
 })();
