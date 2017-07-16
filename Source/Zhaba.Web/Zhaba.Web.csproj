@@ -206,6 +206,8 @@
     <Content Include="Static\ntc\tasks.chat.render.ntc.js" />
     <Content Include="Static\ntc\tasks.ntc.js" />
     <Content Include="Static\ntc\tasks.render.ntc.js" />
+    <Content Include="Static\ntc\tasks.status.ntc.js" />
+    <Content Include="Static\ntc\tasks.status.render.ntc.js" />
     <Content Include="Static\ntc\zhb.ntc.js" />
     <None Include="Controls\Grids\IssueComponentGrid.nht" />
     <None Include="Controls\Grids\CategoryGrid.nht" />

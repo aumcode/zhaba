@@ -113,6 +113,9 @@ var ZHB = (function() {
         },
         ForPROJECT_ISSUE_CHAT: function(pid, iid, cid) {
             return issue_setup(pid, iid)+"/chat?id={0}".args(cid);
+        },
+        ForDASHBOARD_CHANGESTATUS: function() {
+            return "/dashboard/changestatus";
         }
         
     };
@@ -146,6 +149,8 @@ var ZHB = (function() {
 /***@ etc.ntc.js ***/
 /***@ tasks.ntc.js ***/
 /***@ tasks.render.ntc.js ***/
+/***@ tasks.status.ntc.js ***/
+/***@ tasks.status.render.ntc.js ***/
 /***@ tasks.chat.ntc.js ***/
 /***@ tasks.chat.render.ntc.js ***/
 /***@ tasks.areas.ntc.js ***/

@@ -98,7 +98,7 @@ ZHB.Tasks = (function() {
             }
         });
 
-        buildStatusTab(statusId, task);
+        ZHB.Tasks.Status.buildStatusTab(statusId, task);
         buildAssignmentTab(assignmentId, task);
         ZHB.Tasks.Chat.buildChatTab(chatId, task);
         buildAreasTab(areasId, task);
@@ -185,6 +185,7 @@ ZHB.Tasks = (function() {
     
     published.init = function(init) {
         ZHB.Tasks.Render.init({});
+        ZHB.Tasks.Status.init({});
         initFilter(init.filter);
         published.isPM = init.pmPerm;
         scheduleFetch();

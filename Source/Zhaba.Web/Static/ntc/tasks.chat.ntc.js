@@ -84,6 +84,14 @@ ZHB.Tasks.Chat = (function() {
         );
     }
     
+    published.setChatFilter = function(e) {
+        e.stopPropagation();
+        var iid = e.target.dataset.cissue;
+        var pid = e.target.dataset.cproject;
+        var task = { Counter: iid, C_Project: pid };
+        ZHB.Tasks.Chat.refreshChat(task);
+    }
+    
     published.editChatItem = function(e) {
         e.stopPropagation();
         var chatId = e.target.dataset.chatid;
@@ -102,7 +110,7 @@ ZHB.Tasks.Chat = (function() {
                 var dlg = WAVE.GUI.Dialog({
                     header: " Edit note",
                     body: buildEditChatDialog(null, chatId),
-                    footer: buildStatusFooter(),
+                    footer: ZHB.Tasks.Status.Render.buildStatusFooter(),
                     onShow: function() {
                         var rv = new WAVE.RecordModel.RecordView("V22", rec);
                     },

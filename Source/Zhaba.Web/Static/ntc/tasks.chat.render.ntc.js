@@ -21,7 +21,7 @@ ZHB.Tasks.Chat.Render = (function () {
             {
               data-cissue=?task.Counter
               data-cproject=?task.C_Project
-              on-click=setChatFilter
+              on-click=ZHB.Tasks.Chat.setChatFilter
               class="button"
             }
           }
