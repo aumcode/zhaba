@@ -107,7 +107,7 @@ ZHB.Tasks = (function() {
     
     function renderTasks() {
         clearRosterGrid();
-        createHeaders(fRosterGrid);
+        ZHB.Tasks.Render.createHeaders(fRosterGrid);
         WAVE.each(fTasks, function(task) {
             ZHB.Tasks.Render.createRow(fRosterGrid, task);
             buildAreasAndComponents('ac' + task.Counter, task);

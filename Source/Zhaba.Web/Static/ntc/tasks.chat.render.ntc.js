@@ -60,7 +60,7 @@ ZHB.Tasks.Chat.Render = (function () {
                data-cissue=?task.Counter
                data-report='chatreport'
          
-               on-click=openReport
+               on-click=ZHB.Tasks.Report.openReport
              }
            }
          }

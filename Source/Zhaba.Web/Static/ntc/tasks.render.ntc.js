@@ -6,6 +6,23 @@ ZHB.Tasks.Render = (function () {
     var published = {}
     ;
 
+
+    published.createHeaders = function (root) {
+        /***
+         "?if(1 == 1)"
+         {
+           div="ID" {class="rst-cell rst-head" style="width: 3%"}
+           div="Status" {class="rst-cell rst-head" style="width: 10%"}
+           div="Date" {class="rst-cell rst-head" style="width: 12%"}
+           div="Assigned" {class="rst-cell rst-head" style="width: 10%"}
+           div="Areas/Components" {class="rst-cell rst-head" style="width: 15%"}
+           div="Project" {class="rst-cell rst-head" style="width: 10%"}
+           div="Issue" {class="rst-cell rst-head" style="width: 20%"}
+           div="Description"{class="rst-cell rst-head" style="width: 20%"}
+         }
+         ***/
+    }
+
     published.createRow = function (root, task) {
         var detailsId = "details-" + task.Counter;
         /***

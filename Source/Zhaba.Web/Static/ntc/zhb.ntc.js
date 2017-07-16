@@ -116,6 +116,9 @@ var ZHB = (function() {
         },
         ForDASHBOARD_CHANGESTATUS: function() {
             return "/dashboard/changestatus";
+        },
+        ForPROJECT_ISSUE_REPORT : function (pid, iid, report) {
+            return issue_setup(pid, iid) +"/{0}".args(report);
         }
         
     };
@@ -154,3 +157,4 @@ var ZHB = (function() {
 /***@ tasks.chat.ntc.js ***/
 /***@ tasks.chat.render.ntc.js ***/
 /***@ tasks.areas.ntc.js ***/
+/***@ tasks.report.ntc.js ***/

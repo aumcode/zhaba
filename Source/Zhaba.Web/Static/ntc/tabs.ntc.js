@@ -51,22 +51,6 @@ function buildDueDate(task) {
   return "{0} in {1}d".args(dueDate, task.Remaining);
 }
 
-function createHeaders(root) {
-  /***
-   "?if(1 == 1)"
-   {
-     div="ID" {class="rst-cell rst-head" style="width: 3%"}
-     div="Status" {class="rst-cell rst-head" style="width: 10%"}
-     div="Date" {class="rst-cell rst-head" style="width: 12%"}
-     div="Assigned" {class="rst-cell rst-head" style="width: 10%"}
-     div="Areas/Components" {class="rst-cell rst-head" style="width: 15%"}
-     div="Project" {class="rst-cell rst-head" style="width: 10%"}
-     div="Issue" {class="rst-cell rst-head" style="width: 20%"}
-     div="Description"{class="rst-cell rst-head" style="width: 20%"}
-   }
-   ***/
-}
-
 
 function createAssignmentHeader(root) {
   /***
@@ -130,7 +114,7 @@ function buildChatReport(root, task) {
        data-cproject=?task.C_Project
        data-cissue=?task.Counter
        data-report='chatreport'
-       on-click=openReport
+       on-click=ZHB.Tasks.Report.openReport
        class="button"
 
      }
@@ -160,7 +144,7 @@ function buildAssignmentButtons(root, task) {
        data-cproject=?task.C_Project
        data-cissue=?task.Counter
        data-report='assignmentreport'
-       on-click="openReport"
+       on-click=ZHB.Tasks.Report.openReport
      }
    }
    ***/
@@ -176,13 +160,6 @@ function buildAssignmentTab(root, task) {
     createAssignmentGridRow(gridID, task.Assignments[j], task);
 }
 
-function openReport(e) {
-  var pid = e.target.dataset.cproject;
-  var iid = e.target.dataset.cissue;
-  var report = e.target.dataset.report;
-  var link = "/project/{0}/issue/{1}/{2}".args(pid, iid, report);
-  window.open(link);
-}
 
 function buildAreasTab(areasId, task) {
   var link = "/project/{0}/issuearea?issue={1}".args(task.C_Project, task.Counter);

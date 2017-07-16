@@ -53,7 +53,7 @@ ZHB.Tasks.Status.Render = (function () {
                  data-cproject=?task.C_Project
                  data-cissue=?task.Counter
                  data-report='statusreport'
-                 on-click="openReport"
+                 on-click=ZHB.Tasks.Report.openReport
                  class="button"
                  style="margin: 4px 4px 4px 0px"
                }
@@ -92,7 +92,7 @@ ZHB.Tasks.Status.Render = (function () {
                  data-cproject=?task.C_Project
                  data-cissue=?task.Counter
                  data-report='statusreport'
-                 on-click="openReport"
+                 on-click=ZHB.Tasks.Report.openReport
                  class="button"
                  style="margin: 4px 4px 4px 0px"
                }
