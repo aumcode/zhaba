@@ -180,6 +180,60 @@ ZHB.Tasks = (function() {
             if (phase === WAVE.RecordModel.EVT_PHASE_AFTER) scheduleFetch();
         });
     }
+    
+    function changeProgress(pid, iid) {
+        changeProgress(pid, iid, document.getElementById('prog'+iid).value, document.getElementById('desc'+iid).value);
+    }
+
+    function changeProgress(pid, iid, progress, description) {
+        var data = {
+            issueCounter: iid,
+            value: progress,
+            description: description
+        };
+        // console.log(data);
+        WAVE.ajaxCall(
+            'POST',
+            "/dashboard/changeprogress",
+            data,
+            function (resp) { ZHB.Tasks.scheduleFetch();   },
+            function (resp) { console.log("error"); },
+            function (resp) { console.log("fail"); },
+            WAVE.CONTENT_TYPE_JSON_UTF8,
+            WAVE.CONTENT_TYPE_JSON_UTF8
+        );
+    }
+    
+    published.changeProgress1 = function(e) {
+        var status = e.target.dataset.status;
+        if(status == 'C' || status == 'X') return;
+        var pid = e.target.dataset.cproject;
+        var iid = e.target.dataset.cissue;
+        var rec = new WAVE.RecordModel.Record(
+            { ID: "REC_PROGRESS",
+                fields: [
+                    {def: {Name: 'Value', Type: 'int', MinValue: 0, MaxValue: 100}, val: e.target.dataset.progress},
+                    {def: {Name: 'Description', Type: 'string', Size: 512, Required: false}, val: e.target.dataset.description},
+                ]
+            }
+        );
+        e.stopPropagation();
+        var dlg = new WAVE.GUI.Dialog({
+            header: 'Change progress',
+            body: ZHB.Tasks.Render.buildProgressBody(),
+            footer: ZHB.Tasks.Status.Render.buildStatusFooter(),
+            onShow: function() {
+                var rv = new WAVE.RecordModel.RecordView("V3", rec);
+            },
+            onClose: function(dlg, result) {
+                if(result==WAVE.GUI.DLG_CANCEL) return WAVE.GUI.DLG_CANCEL;
+                rec.validate();
+                if (!rec.valid()) return WAVE.GUI.DLG_UNDEFINED;
+                changeProgress(pid,iid,  rec.data().Value, rec.data().Description)
+                return WAVE.GUI.DLG_CANCEL;
+            }
+        });
+    };
  
     published.scheduleFetch = function() { scheduleFetch(); };
     

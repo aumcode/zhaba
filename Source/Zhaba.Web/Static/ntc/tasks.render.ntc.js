@@ -42,7 +42,7 @@ ZHB.Tasks.Render = (function () {
                  data-progress=?task.Completeness
                  data-description=?task.Description
                  data-status=?task.statusId
-                 on-click=changeProgress1
+                 on-click=ZHB.Tasks.changeProgress1
      
                  class="bar-value"
                  align="center"
@@ -148,6 +148,18 @@ ZHB.Tasks.Render = (function () {
          }
          ***/
     };
+
+    published.buildProgressBody = function () {
+        /***
+         div
+         {
+           id="progressForm"
+           data-wv-rid="V3"
+           div { data-wv-fname="Value" class="fView" }
+           div { data-wv-fname="Description" class="fView" }
+         }
+         ***/
+    }
 
     published.init = function (init) {
 
