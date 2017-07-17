@@ -12,8 +12,8 @@ ZHB.Tasks = (function() {
         fScheduleTimer,
         fIsPM = false,
         fTasksDetailsState = {}, //hranit otkritie/zakritie details //TODO: pereimenovat!!!
-        fTasksDetailsList = [],
-        fStatuses = { N: 'New', R: 'Reopen', A: 'Assign', D: 'Done', F: 'Defer', C: 'Close', X: 'Cancel' };
+        fTasksDetailsList = []
+        ;
 
 
     function clearRosterGrid() {

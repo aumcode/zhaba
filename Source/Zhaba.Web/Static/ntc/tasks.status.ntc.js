@@ -287,7 +287,7 @@ ZHB.Tasks.Status = (function () {
     
     published.getStatusButtonName = function (status) {
         return fStatuses[status];
-    }
+    };
 
     published.init = function (init) {
         ZHB.Tasks.Status.Render.init({});

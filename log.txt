@@ -1,0 +1,94 @@
+
+D:\projects\amnicore\zhaba>set SOLUTION_DIR= 
+
+D:\projects\amnicore\zhaba>set PROJECT_DIR=D:\projects\amnicore\zhaba\Source\Zhaba.Web\ 
+
+D:\projects\amnicore\zhaba>echo D:\projects\amnicore\zhaba\Source\Zhaba.Web\ 
+D:\projects\amnicore\zhaba\Source\Zhaba.Web\
+
+D:\projects\amnicore\zhaba>"packages\NFX.3.5.0.0\tools\ntc" "D:\projects\amnicore\zhaba\Source\Zhaba.Web\Pages\*.nht" -r -ext ".auto.cs" -src -c "NFX.Templatization.NHTCompiler, NFX" 
+
+NFX Template Compiler
+Copyright (c) 2007 - 2013 D.Khmaladze / IT Adapter Inc.
+Version 1.0 / NFX as of April 2nd 2013
+
+
+Info: Compiler type: NFX.Templatization.NHTCompiler
+Info: Assembly file: 
+Info: Base template type name: 
+Info: Compile code: False
+Info: Language name: C#
+Info: Namespace: 
+Info: Referenced assembly: System.dll
+Info: Referenced assembly: System.Core.dll
+Info: Referenced assembly: System.Data.dll
+Info: Referenced assembly: System.Xml.dll
+Info: Referenced assembly: System.Xml.Linq.dll
+Info: Referenced assembly: NFX.dll
+Info: Ref assembly search path: 
+Info: Included: ...ts\amnicore\zhaba\Source\Zhaba.Web\Pages\Login.nht
+Info: Included: ...Source\Zhaba.Web\Pages\Dashboard\DashboardPage.nht
+Info: Included: ...\Source\Zhaba.Web\Pages\Dashboard\ProjectsPage.nht
+Info: Included: ...aba\Source\Zhaba.Web\Pages\Dashboard\TasksPage.nht
+Info: Included: ...ore\zhaba\Source\Zhaba.Web\Pages\Edit\AreaPage.nht
+Info: Included: ...zhaba\Source\Zhaba.Web\Pages\Edit\CategoryPage.nht
+Info: Included: ...haba\Source\Zhaba.Web\Pages\Edit\ComponentPage.nht
+Info: Included: ...ba\Source\Zhaba.Web\Pages\Edit\IssueAssignPage.nht
+Info: Included: ...haba\Source\Zhaba.Web\Pages\Edit\IssueChatPage.nht
+Info: Included: ...re\zhaba\Source\Zhaba.Web\Pages\Edit\IssuePage.nht
+Info: Included: ...haba\Source\Zhaba.Web\Pages\Edit\MilestonePage.nht
+Info: Included: ...zhaba\Source\Zhaba.Web\Pages\Edit\NoteEditPage.nht
+Info: Included: ...\zhaba\Source\Zhaba.Web\Pages\Edit\ProjectPage.nht
+Info: Included: ...urce\Zhaba.Web\Pages\Edit\UserRegistrationPage.nht
+Info: Included: ...re\zhaba\Source\Zhaba.Web\Pages\List\AreasPage.nht
+Info: Included: ...aba\Source\Zhaba.Web\Pages\List\CategoriesPage.nht
+Info: Included: ...aba\Source\Zhaba.Web\Pages\List\ComponentsPage.nht
+Info: Included: ...haba\Source\Zhaba.Web\Pages\List\IssueAreaPage.nht
+Info: Included: ...Source\Zhaba.Web\Pages\List\IssueComponentPage.nht
+Info: Included: ...e\zhaba\Source\Zhaba.Web\Pages\List\IssuesPage.nht
+Info: Included: ...aba\Source\Zhaba.Web\Pages\List\MilestonesPage.nht
+Info: Included: ...zhaba\Source\Zhaba.Web\Pages\List\ProjectsPage.nht
+Info: Included: ...re\zhaba\Source\Zhaba.Web\Pages\List\UsersPage.nht
+Info: Included: ...\Zhaba.Web\Pages\Reports\IssueAssignmentReport.nht
+Info: Included: ...Source\Zhaba.Web\Pages\Reports\IssueChatReport.nht
+Info: Included: ...urce\Zhaba.Web\Pages\Reports\IssueStatusReport.nht
+Info: Included: ...ba\Source\Zhaba.Web\Pages\__Masters\FormMaster.nht
+Info: Included: ...ba\Source\Zhaba.Web\Pages\__Masters\GridMaster.nht
+Info: Included: ...\zhaba\Source\Zhaba.Web\Pages\__Masters\Master.nht
+Info: Included: ...\zhaba\Source\Zhaba.Web\Pages\__Masters\Report.nht
+Info: Runtime: 00:00:00.7024197
+
+D:\projects\amnicore\zhaba>REM "packages\NFX.3.5.0.0\tools\ntc" "D:\projects\amnicore\zhaba\Source\Zhaba.Web\Pages\__Masters\*.nht" -r -ext ".auto.cs" -src -c "NFX.Templatization.NHTCompiler, NFX" 
+
+D:\projects\amnicore\zhaba>REM "packages\NFX.3.5.0.0\tools\ntc" "D:\projects\amnicore\zhaba\Source\Zhaba.Web\Pages\List\*.nht" -r -ext ".auto.cs" -src -c "NFX.Templatization.NHTCompiler, NFX" 
+
+D:\projects\amnicore\zhaba>REM "packages\NFX.3.5.0.0\tools\ntc" "D:\projects\amnicore\zhaba\Source\Zhaba.Web\Pages\Edit\*.nht" -r -ext ".auto.cs" -src -c "NFX.Templatization.NHTCompiler, NFX" 
+
+D:\projects\amnicore\zhaba>REM "packages\NFX.3.5.0.0\tools\ntc" "D:\projects\amnicore\zhaba\Source\Zhaba.Web\Pages\Reports\*.nht" -r -ext ".auto.cs" -src -c "NFX.Templatization.NHTCompiler, NFX" 
+
+D:\projects\amnicore\zhaba>REM "packages\NFX.3.5.0.0\tools\ntc" "D:\projects\amnicore\zhaba\Source\Zhaba.Web\Controls\*.nht" -r -ext ".auto.cs" -src -c "NFX.Templatization.NHTCompiler, NFX" 
+
+D:\projects\amnicore\zhaba>"packages\NFX.3.5.0.0\tools\ntc" "D:\projects\amnicore\zhaba\Source\Zhaba.Web\Static\ntc\zhb.ntc.js" -ext ".js" -replace ".ntc.js" -dest "D:\projects\amnicore\zhaba\Source\Zhaba.Web\Static\js" -src -c "NFX.Templatization.TextJSTemplateCompiler, NFX" -o dom-gen="cmp{pretty=1}" 
+
+NFX Template Compiler
+Copyright (c) 2007 - 2013 D.Khmaladze / IT Adapter Inc.
+Version 1.0 / NFX as of April 2nd 2013
+
+
+Info: Compiler type: NFX.Templatization.TextJSTemplateCompiler
+Info: Assembly file: 
+Info: Base template type name: 
+Info: Compile code: False
+Info: Language name: JavaScript
+Info: Namespace: 
+Info: Referenced assembly: System.dll
+Info: Referenced assembly: System.Core.dll
+Info: Referenced assembly: System.Data.dll
+Info: Referenced assembly: System.Xml.dll
+Info: Referenced assembly: System.Xml.Linq.dll
+Info: Referenced assembly: NFX.dll
+Info: Ref assembly search path: 
+Info: Included: ...icore\zhaba\Source\Zhaba.Web\Static\ntc\zhb.ntc.js
+Info: Runtime: 00:00:00.4708189
+
+D:\projects\amnicore\zhaba>call lessc "D:\projects\amnicore\zhaba\Source\Zhaba.Web\Static\less\zhb.less" "D:\projects\amnicore\zhaba\Source\Zhaba.Web\Static\css\zhb.css" 
