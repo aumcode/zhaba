@@ -32,9 +32,9 @@ function linkIssueArea(event, cProject, cIssue, cArea) {
                 var data = new WAVE.RecordModel.Record(JSON.parse(resp));
                 var areaName=data.data().Name;
                 ZHB.Tasks.Render.buildAreaTag(acId, cIssue, cArea, areaName);
-              },
-              function (resp) { console.log("error"); },
-              function (resp) { console.log("fail"); },
+              }, 
+              ZHB.errorLog,
+              ZHB.errorLog,
               WAVE.CONTENT_TYPE_JSON_UTF8,
               WAVE.CONTENT_TYPE_JSON_UTF8
             );
@@ -83,8 +83,8 @@ function linkIssueComponent(event, cProject, cIssue, cComponent) {
                 var compName=data.data().Name;
                 ZHB.Tasks.Render.buildCompTag(acId, cIssue, cComponent, compName);
               },
-              function (resp) { console.log("error"); },
-              function (resp) { console.log("fail"); },
+              ZHB.errorLog,
+              ZHB.errorLog,
               WAVE.CONTENT_TYPE_JSON_UTF8,
               WAVE.CONTENT_TYPE_JSON_UTF8
             );
