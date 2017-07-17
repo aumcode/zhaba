@@ -6,7 +6,7 @@ ZHB.Tasks.Areas = (function () {
     var published = {};
 
     published.buildAreasTab = function (areasId, task) {
-        var link = "/project/{0}/issuearea?issue={1}".args(task.C_Project, task.Counter);
+        var link =  ZHB.URIS.ForPROJECT_ISSUE_AREA(task.C_Project, task.Counter);
         $.post(link,
             null,
             function (grid) {

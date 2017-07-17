@@ -6,7 +6,7 @@ ZHB.Tasks.Components = (function () {
     var published = {};
 
     published.buildComponentsTab = function (componentsId, task) {
-        var link = "/project/{0}/issuecomponent?issue={1}".args(task.C_Project, task.Counter);
+        var link = ZHB.URIS.ForPROJECT_ISSUE_COMPONENT(task.C_Project, task.Counter);
         $.post(link,
             null,
             function (grid) {
