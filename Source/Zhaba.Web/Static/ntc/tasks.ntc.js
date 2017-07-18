@@ -12,7 +12,8 @@ ZHB.Tasks = (function() {
         fScheduleTimer,
         fIsPM = false,
         fTasksDetailsState = {}, //hranit otkritie/zakritie details //TODO: pereimenovat!!!
-        fTasksDetailsList = []
+        fTasksDetailsList = [],
+        fTick = 300000
         ;
 
 
@@ -155,20 +156,21 @@ ZHB.Tasks = (function() {
             fREC.data(),
             function(resp) {
                 var data = JSON.parse(resp);
+                fTick = 300000;
                 fTasks = data.Rows;
                 renderTasks("roster");
                 initDetails();
                 ZHB.Tasks.Chat.init({tasks: fTasks});
             },
-            ZHB.errorLog,
-            ZHB.errorLog
+            function(resp) {ZHB.errorLog(resp); fTick += 300000},
+            function(resp) {ZHB.errorLog(resp); fTick += 300000}
         );
     }
 
     function scheduleFetch() {
         if (fScheduleTimer) clearTimeout(fScheduleTimer);
         getTasks();
-        fScheduleTimer = setTimeout(scheduleFetch, 300000);
+        fScheduleTimer = setTimeout(scheduleFetch, ftick);
     }
 
     function initFilter(filter) {

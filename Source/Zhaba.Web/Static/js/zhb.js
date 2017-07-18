@@ -287,7 +287,8 @@ ZHB.Tasks = (function() {
         fScheduleTimer,
         fIsPM = false,
         fTasksDetailsState = {}, //hranit otkritie/zakritie details //TODO: pereimenovat!!!
-        fTasksDetailsList = []
+        fTasksDetailsList = [],
+        fTick = 300000
         ;
 
 
@@ -430,20 +431,21 @@ ZHB.Tasks = (function() {
             fREC.data(),
             function(resp) {
                 var data = JSON.parse(resp);
+                fTick = 300000;
                 fTasks = data.Rows;
                 renderTasks("roster");
                 initDetails();
                 ZHB.Tasks.Chat.init({tasks: fTasks});
             },
-            ZHB.errorLog,
-            ZHB.errorLog
+            function(resp) {ZHB.errorLog(resp); fTick += 300000},
+            function(resp) {ZHB.errorLog(resp); fTick += 300000}
         );
     }
 
     function scheduleFetch() {
         if (fScheduleTimer) clearTimeout(fScheduleTimer);
         getTasks();
-        fScheduleTimer = setTimeout(scheduleFetch, 300000);
+        fScheduleTimer = setTimeout(scheduleFetch, ftick);
     }
 
     function initFilter(filter) {
@@ -1638,8 +1640,8 @@ ZHB.Tasks.Chat = (function() {
         fScheduleTimer,
         fTasks,
         fChatRec = {},
-        fChatFilterRec = {}
-    
+        fChatFilterRec = {},
+        fTick = 2000
     ;
     
     function schedulerChat() {
@@ -1647,7 +1649,7 @@ ZHB.Tasks.Chat = (function() {
         WAVE.each(fTasks, function (task) {
             ZHB.Tasks.Chat.refreshChat(task); 
         });
-        fScheduleTimer = setTimeout(schedulerChat, 2000);
+        fScheduleTimer = setTimeout(schedulerChat, fTick);
     }
 
     function createChatItems(task, rec) {
@@ -1777,10 +1779,11 @@ ZHB.Tasks.Chat = (function() {
                 data,
                 function(resp) {
                     var rec = JSON.parse(resp);
+                    fTick = 2000;
                     createChatItems(task, rec);
                 },
-                ZHB.errorLog,
-                ZHB.errorLog,
+                function(resp) {ZHB.errorLog(resp); fTick += 10000},
+                function(resp) {ZHB.errorLog(resp); fTick += 10000},
                 WAVE.CONTENT_TYPE_JSON_UTF8,
                 WAVE.CONTENT_TYPE_JSON_UTF8
             );

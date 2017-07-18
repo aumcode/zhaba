@@ -7,8 +7,8 @@ ZHB.Tasks.Chat = (function() {
         fScheduleTimer,
         fTasks,
         fChatRec = {},
-        fChatFilterRec = {}
-    
+        fChatFilterRec = {},
+        fTick = 2000
     ;
     
     function schedulerChat() {
@@ -16,7 +16,7 @@ ZHB.Tasks.Chat = (function() {
         WAVE.each(fTasks, function (task) {
             ZHB.Tasks.Chat.refreshChat(task); 
         });
-        fScheduleTimer = setTimeout(schedulerChat, 2000);
+        fScheduleTimer = setTimeout(schedulerChat, fTick);
     }
 
     function createChatItems(task, rec) {
@@ -146,10 +146,11 @@ ZHB.Tasks.Chat = (function() {
                 data,
                 function(resp) {
                     var rec = JSON.parse(resp);
+                    fTick = 2000;
                     createChatItems(task, rec);
                 },
-                ZHB.errorLog,
-                ZHB.errorLog,
+                function(resp) {ZHB.errorLog(resp); fTick += 10000},
+                function(resp) {ZHB.errorLog(resp); fTick += 10000},
                 WAVE.CONTENT_TYPE_JSON_UTF8,
                 WAVE.CONTENT_TYPE_JSON_UTF8
             );
