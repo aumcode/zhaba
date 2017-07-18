@@ -143,7 +143,9 @@ ZHB.Tasks.Render = (function () {
              div="?task.Priority"{ class="?'tag {0} inline-block'.args(getPriorityStyle(task.Priority))" }
              div="?buildDate(task)"{ class="inline-block" }
              div="?WAVE.dateTimeToString(task.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ 
-               div="?'in {0}d'.args(task.Remaining)"{ class="?'time-r {0} inline-block'.args(getTimeRemainingStyle(task.Remaining))"}
+               "?if(!task.Complete_Date)"{
+                div="?'in {0}d'.args(task.Remaining)"{ class="?'time-r {0} inline-block'.args(getTimeRemainingStyle(task.Remaining))"}
+               }
              }
            }
      
