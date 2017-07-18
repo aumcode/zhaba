@@ -13,8 +13,8 @@ ZHB.Tasks = (function() {
         fIsPM = false,
         fTasksDetailsState = {}, //hranit otkritie/zakritie details //TODO: pereimenovat!!!
         fTasksDetailsList = [],
-        fTick = 300000
-        ;
+        fTick = 300000,
+        fTasksTabsState = {};
 
 
     function clearRosterGrid() {
@@ -93,7 +93,13 @@ ZHB.Tasks = (function() {
                 }
             ]
         });
-        tabs.eventBind(WAVE.GUI.EVT_TABS_TAB_CHANGED, function(sender, args) {
+        
+        if (fTasksTabsState[task.Counter]) {
+          tabs.tabActive(fTasksTabsState[task.Counter]);
+        }
+
+        tabs.eventBind(WAVE.GUI.EVT_TABS_TAB_CHANGED, function (sender, args) {
+            fTasksTabsState[task.Counter] = args;
             if (args === "tChat") {
                 ZHB.Tasks.Chat.refreshChat(task);
             }
@@ -143,7 +149,7 @@ ZHB.Tasks = (function() {
             details.detailsId = detailsId;
 
             if (fTasksDetailsState[detailsId])
-                setTimeout(details.show, 1);
+                setTimeout(details.show, 1);//will appear after rendering
 
             details.eventBind(WAVE.GUI.EVT_DETAILS_SHOW, taskDetailsShowHandler);
             details.eventBind(WAVE.GUI.EVT_DETAILS_HIDE, taskDetailsHideHandler);
