@@ -13,11 +13,17 @@ ZHB.Tasks = (function() {
         fIsPM = false,
         fTasksDetailsState = {}, //hranit otkritie/zakritie details //TODO: pereimenovat!!!
         fTasksDetailsList = [],
-        fTick = 300000,
-        fTasksTabsState = {};
+        fTasksTabsState = {},
+        fTasksTabsList = [],
+        fTick = 300000;
 
 
     function clearRosterGrid() {
+        WAVE.each(fTasksTabsList, function (element) {
+          element.eventClear();
+          element = null; //TODO рассмотреть процесс очистки памяти
+        });
+        
         WAVE.each(fTasksDetailsList, function(element) {
             element.eventClear();
             element = null; //TODO рассмотреть процесс очистки памяти
@@ -93,7 +99,8 @@ ZHB.Tasks = (function() {
                 }
             ]
         });
-        
+        fTasksTabsList.push(tabs);
+
         if (fTasksTabsState[task.Counter]) {
           tabs.tabActive(fTasksTabsState[task.Counter]);
         }
@@ -104,7 +111,7 @@ ZHB.Tasks = (function() {
                 ZHB.Tasks.Chat.refreshChat(task);
             }
         });
-
+        
         ZHB.Tasks.Status.buildStatusTab(statusId, task);
         ZHB.Tasks.Assignment.buildAssignmentTab(assignmentId, task);
         ZHB.Tasks.Chat.buildChatTab(chatId, task);
