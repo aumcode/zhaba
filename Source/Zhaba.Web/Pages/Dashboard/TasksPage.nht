@@ -24,10 +24,12 @@ public TasksPage(string filterVector)
 
 private readonly string m_FilterVector;
 
+
+
 #[override renderBody()]
 <div class="grid" id="tasksPage">
     <div id="title">
-      <div>Tasks</div>
+      <h1>Tasks</h1>
     </div>
     <form id="frmFilter" data-wv-rid="V1" novalidate>
       <div class="fView filter" data-wv-fname="AsOf"></div>
