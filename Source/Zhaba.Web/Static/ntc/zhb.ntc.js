@@ -148,7 +148,6 @@ var ZHB = (function() {
     return published;
 }());
 
-/***@ tabs.ntc.js ***/
 /***@ etc.ntc.js ***/
 /***@ tasks.ntc.js ***/
 /***@ tasks.render.ntc.js ***/

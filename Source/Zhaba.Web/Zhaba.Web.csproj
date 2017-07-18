@@ -200,7 +200,6 @@
     <Content Include="Static\less\pages\DashboardReport.less" />
     <Content Include="Static\less\report.less" />
     <Content Include="Static\ntc\etc.ntc.js" />
-    <Content Include="Static\ntc\tabs.ntc.js" />
     <Content Include="Static\ntc\tasks.areas.ntc.js" />
     <Content Include="Static\ntc\tasks.areas.render.ntc.js" />
     <Content Include="Static\ntc\tasks.assignment.ntc.js" />
