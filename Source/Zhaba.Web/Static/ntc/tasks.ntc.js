@@ -195,10 +195,6 @@ ZHB.Tasks = (function() {
             if (phase === WAVE.RecordModel.EVT_PHASE_AFTER) scheduleFetch();
         });
     }
-    
-    function changeProgress(pid, iid) {
-        changeProgress(pid, iid, document.getElementById('prog'+iid).value, document.getElementById('desc'+iid).value);
-    }
 
     function changeProgress(pid, iid, progress, description) {
         var data = {

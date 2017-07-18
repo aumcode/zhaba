@@ -148,12 +148,6 @@ var ZHB = (function() {
     return published;
 }());
 
-
-
-
-
-
-
 /**
  * Created by mad on 13.07.2017.
  */
@@ -247,11 +241,17 @@ ZHB.Tasks = (function() {
         fIsPM = false,
         fTasksDetailsState = {}, //hranit otkritie/zakritie details //TODO: pereimenovat!!!
         fTasksDetailsList = [],
-        fTick = 300000
-        ;
+        fTasksTabsState = {},
+        fTasksTabsList = [],
+        fTick = 300000;
 
 
     function clearRosterGrid() {
+        WAVE.each(fTasksTabsList, function (element) {
+          element.eventClear();
+          element = null; //TODO рассмотреть процесс очистки памяти
+        });
+        
         WAVE.each(fTasksDetailsList, function(element) {
             element.eventClear();
             element = null; //TODO рассмотреть процесс очистки памяти
@@ -327,12 +327,19 @@ ZHB.Tasks = (function() {
                 }
             ]
         });
-        tabs.eventBind(WAVE.GUI.EVT_TABS_TAB_CHANGED, function(sender, args) {
+        fTasksTabsList.push(tabs);
+
+        if (fTasksTabsState[task.Counter]) {
+          tabs.tabActive(fTasksTabsState[task.Counter]);
+        }
+
+        tabs.eventBind(WAVE.GUI.EVT_TABS_TAB_CHANGED, function (sender, args) {
+            fTasksTabsState[task.Counter] = args;
             if (args === "tChat") {
                 ZHB.Tasks.Chat.refreshChat(task);
             }
         });
-
+        
         ZHB.Tasks.Status.buildStatusTab(statusId, task);
         ZHB.Tasks.Assignment.buildAssignmentTab(assignmentId, task);
         ZHB.Tasks.Chat.buildChatTab(chatId, task);
@@ -377,7 +384,7 @@ ZHB.Tasks = (function() {
             details.detailsId = detailsId;
 
             if (fTasksDetailsState[detailsId])
-                setTimeout(details.show, 1);
+                setTimeout(details.show, 1);//will appear after rendering
 
             details.eventBind(WAVE.GUI.EVT_DETAILS_SHOW, taskDetailsShowHandler);
             details.eventBind(WAVE.GUI.EVT_DETAILS_HIDE, taskDetailsHideHandler);
@@ -415,10 +422,6 @@ ZHB.Tasks = (function() {
         fREC.eventBind(WAVE.RecordModel.EVT_DATA_CHANGE, function(sender, phase, oldv, newv) {
             if (phase === WAVE.RecordModel.EVT_PHASE_AFTER) scheduleFetch();
         });
-    }
-    
-    function changeProgress(pid, iid) {
-        changeProgress(pid, iid, document.getElementById('prog'+iid).value, document.getElementById('desc'+iid).value);
     }
 
     function changeProgress(pid, iid, progress, description) {
