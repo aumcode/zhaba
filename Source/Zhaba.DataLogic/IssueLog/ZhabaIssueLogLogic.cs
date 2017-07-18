@@ -359,7 +359,6 @@ namespace Zhaba.DataLogic
       IssueLogRow newRow = NewIssueLog(evt, operations: operations);
       newRow.C_Category = evt.C_Category;
       newRow.C_Milestone = evt.C_Milestone;
-      newRow.Completeness = 0;
       newRow.Priority = evt.Priority;
       newRow.Status = newRow.Status ?? ZhabaIssueStatus.NEW;
       newRow.Start_Date = evt.Start_Date;
