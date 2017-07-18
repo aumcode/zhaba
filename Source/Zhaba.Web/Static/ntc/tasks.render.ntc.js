@@ -157,9 +157,6 @@ ZHB.Tasks.Render = (function () {
         /***
          div="?areaName"
          {
-           id="?'issue-' + cIssue + '-areatag-'+cArea"
-           data-cissue=?cIssue
-           data-carea=?cArea  
            class="tag tag-area inline-block"
          }
          ***/
@@ -169,9 +166,6 @@ ZHB.Tasks.Render = (function () {
         /***
          div="?compName"
          {
-           id="?'issue-' + cIssue + '-comptag-' + cComp"
-           data-cissue=?cIssue
-           data-ccomponent=?cComp  
            class="tag tag-component inline-block"
          }
          ***/

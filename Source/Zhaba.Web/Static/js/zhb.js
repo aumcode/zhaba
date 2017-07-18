@@ -755,9 +755,6 @@ ZHB.Tasks.Render = (function () {
           Ør = WAVE.id(Ør);
         var Ø1 = WAVE.ce('div');
         Ø1.innerText = areaName;
-        Ø1.setAttribute('id', 'issue-' + cIssue + '-areatag-'+cArea);
-        Ø1.setAttribute('data-cissue', cIssue);
-        Ø1.setAttribute('data-carea', cArea);
         Ø1.setAttribute('class', 'tag tag-area inline-block');
         if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
         return Ø1;
@@ -769,9 +766,6 @@ ZHB.Tasks.Render = (function () {
           Ør = WAVE.id(Ør);
         var Ø1 = WAVE.ce('div');
         Ø1.innerText = compName;
-        Ø1.setAttribute('id', 'issue-' + cIssue + '-comptag-' + cComp);
-        Ø1.setAttribute('data-cissue', cIssue);
-        Ø1.setAttribute('data-ccomponent', cComp);
         Ø1.setAttribute('class', 'tag tag-component inline-block');
         if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
         return Ø1;
