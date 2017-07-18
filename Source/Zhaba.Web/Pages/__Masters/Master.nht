@@ -50,8 +50,9 @@
     <div id="nav">
       <div id="menu">
 
-        <div class="menuBlock" style="cursor: pointer" onclick="window.location='?[URIS.DASHBOARD]';">
-          <img class="menu-icon" src="/static/images/zhaba-icon.png"/> Dashboard
+        <div class="menuBlock" style="cursor: pointer; margin-left: 16px" onclick="window.location='?[URIS.DASHBOARD]';">
+          <img class="menu-icon" src="/static/images/zhaba-icon.png"/>
+          <div class="menu-div-highlight">Dashboard</div>
         </div>
 
         <div class="dropdown">
