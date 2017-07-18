@@ -51,7 +51,7 @@
       <div id="menu">
 
         <div class="menuBlock" style="cursor: pointer" onclick="window.location='?[URIS.DASHBOARD]';">
-          Dashboard
+          <img class="menu-icon" src="/static/images/zhaba-icon.png"/> Dashboard
         </div>
 
         <div class="dropdown">
@@ -98,7 +98,7 @@
         @[}]
         <div class="dropdown" style="float: right">
           <button onclick="userDropDown()" class="dropbtn">
-             User: ?[ZhabaUser.Name]
+             <img class="menu-icon" src="/static/images/account-icon.png"/> ?[ZhabaUser.Name]
           </button>
           <div id="user-drop-down" class="dropdown-content">
             <a href="/user/logout">logout</a>
@@ -142,18 +142,22 @@
     function (resp) { console.log("fail"); });
 
     function projectDropDown() {
+        debugger;
         document.getElementById("project-drop-down").classList.toggle("show");
     }
 
     function dataDropDown() {
+        debugger;
         document.getElementById("data-drop-down").classList.toggle("show");
     }
 
     function userDropDown() {
+        debugger;
         document.getElementById("user-drop-down").classList.toggle("show");
     }
     
     function reportDropDown() {
+        debugger;
         document.getElementById("report-drop-down").classList.toggle("show");
     }
 

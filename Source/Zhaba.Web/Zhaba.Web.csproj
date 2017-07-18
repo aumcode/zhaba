@@ -190,12 +190,12 @@
     <Content Include="Static\css\report.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Static\images\document.svg">
+    <None Include="Static\images\account-icon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Static\images\account.svg">
+    </None>
+    <None Include="Static\images\zhaba-icon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
     <Content Include="Static\less\markup.less" />
     <Content Include="Static\less\pages\DashboardReport.less" />
     <Content Include="Static\less\report.less" />

@@ -140,7 +140,7 @@ var ZHB = (function() {
     };
     
     published.debugLog = function(response) {
-        //todo setup fo only debug!
+      //todo setup for debug only!
         console.log(response);
     };
 
