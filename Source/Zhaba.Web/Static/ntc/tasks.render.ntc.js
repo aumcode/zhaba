@@ -51,9 +51,16 @@ ZHB.Tasks.Render = (function () {
         return "{0} - {1}".args(startDate, completeDate);
     }
 
-    function buildDueDate(task) {
-        var dueDate = WAVE.dateTimeToString(task.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
-        return "{0} in {1}d".args(dueDate, task.Remaining);
+    function getTimeRemainingStyle(remaining) {
+      var style = "time-remaining-default";
+      if (remaining <= 0) {
+        style = "time-remaining-late";
+      } else if (remaining > 0 & remaining < 7) {
+        style = "time-remaining-week";
+      } else if (remaining > 7 & remaining < 14) {
+        style = "time-remaining-two-weeks";
+      }
+      return style;
     }
 
     function getStatusStyle(value) {
@@ -135,7 +142,9 @@ ZHB.Tasks.Render = (function () {
              style="width: 12%;"
              div="?task.Priority"{ class="?'tag {0} inline-block'.args(getPriorityStyle(task.Priority))" }
              div="?buildDate(task)"{ class="inline-block" }
-             div="?buildDueDate(task)"{ }
+             div="?WAVE.dateTimeToString(task.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ 
+               div="?'in {0}d'.args(task.Remaining)"{ class="?'time-r {0} inline-block'.args(getTimeRemainingStyle(task.Remaining))"}
+             }
            }
      
            div { id="?'assignee'+task.Counter" class="rst-cell rst-expander" style="width: 10%" data-details-id=?detailsId}
