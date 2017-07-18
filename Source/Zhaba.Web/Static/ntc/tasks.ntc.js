@@ -63,41 +63,45 @@ ZHB.Tasks = (function() {
 
         var componentsId = "componentsTab-{0}".args(task.Counter);
         var componentsContainer = "<div id={0}></div>".args(componentsId);
+        
+        var tabsArray = [{
+            name: "tStatus",
+            title: "Status",
+            content: statusContainer,
+            visible: true,
+            isHtml: true
+        },
+            {
+                name: "tAssignment",
+                title: "Assignment",
+                content: assignmentContainer,
+                isHtml: true
+            },
+            {
+                name: "tChat",
+                title: "Chat",
+                content: chatContainer,
+                isHtml: true
+            }
+        ];
+        if (ZHB.Tasks.isPM) tabsArray.push(
+            {
+                name: "tAreas",
+                title: "Areas",
+                content: areasContainer,
+                isHtml: true
+            },
+            {
+                name: "tComponents",
+                title: "Components",
+                content: componentsContainer,
+                isHtml: true
+            }
+            );
 
         var tabs = new WAVE.GUI.Tabs({
             DIV: WAVE.id(root),
-            tabs: [{
-                    name: "tStatus",
-                    title: "Status",
-                    content: statusContainer,
-                    visible: true,
-                    isHtml: true
-                },
-                {
-                    name: "tAssignment",
-                    title: "Assignment",
-                    content: assignmentContainer,
-                    isHtml: true
-                },
-                {
-                    name: "tChat",
-                    title: "Chat",
-                    content: chatContainer,
-                    isHtml: true
-                },
-                {
-                    name: "tAreas",
-                    title: "Areas",
-                    content: areasContainer,
-                    isHtml: true
-                },
-                {
-                    name: "tComponents",
-                    title: "Components",
-                    content: componentsContainer,
-                    isHtml: true
-                }
-            ]
+            tabs: tabsArray
         });
         fTasksTabsList.push(tabs);
 

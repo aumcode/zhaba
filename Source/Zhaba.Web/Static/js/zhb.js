@@ -140,7 +140,7 @@ var ZHB = (function() {
     };
     
     published.debugLog = function(response) {
-        //todo setup fo only debug!
+      //todo setup for debug only!
         console.log(response);
     };
 
@@ -291,41 +291,45 @@ ZHB.Tasks = (function() {
 
         var componentsId = "componentsTab-{0}".args(task.Counter);
         var componentsContainer = "<div id={0}></div>".args(componentsId);
+        
+        var tabsArray = [{
+            name: "tStatus",
+            title: "Status",
+            content: statusContainer,
+            visible: true,
+            isHtml: true
+        },
+            {
+                name: "tAssignment",
+                title: "Assignment",
+                content: assignmentContainer,
+                isHtml: true
+            },
+            {
+                name: "tChat",
+                title: "Chat",
+                content: chatContainer,
+                isHtml: true
+            }
+        ];
+        if (ZHB.Tasks.isPM) tabsArray.push(
+            {
+                name: "tAreas",
+                title: "Areas",
+                content: areasContainer,
+                isHtml: true
+            },
+            {
+                name: "tComponents",
+                title: "Components",
+                content: componentsContainer,
+                isHtml: true
+            }
+            );
 
         var tabs = new WAVE.GUI.Tabs({
             DIV: WAVE.id(root),
-            tabs: [{
-                    name: "tStatus",
-                    title: "Status",
-                    content: statusContainer,
-                    visible: true,
-                    isHtml: true
-                },
-                {
-                    name: "tAssignment",
-                    title: "Assignment",
-                    content: assignmentContainer,
-                    isHtml: true
-                },
-                {
-                    name: "tChat",
-                    title: "Chat",
-                    content: chatContainer,
-                    isHtml: true
-                },
-                {
-                    name: "tAreas",
-                    title: "Areas",
-                    content: areasContainer,
-                    isHtml: true
-                },
-                {
-                    name: "tComponents",
-                    title: "Components",
-                    content: componentsContainer,
-                    isHtml: true
-                }
-            ]
+            tabs: tabsArray
         });
         fTasksTabsList.push(tabs);
 
@@ -591,9 +595,16 @@ ZHB.Tasks.Render = (function () {
         return "{0} - {1}".args(startDate, completeDate);
     }
 
-    function buildDueDate(task) {
-        var dueDate = WAVE.dateTimeToString(task.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
-        return "{0} in {1}d".args(dueDate, task.Remaining);
+    function getTimeRemainingStyle(remaining) {
+      var style = "time-remaining-default";
+      if (remaining <= 0) {
+        style = "time-remaining-late";
+      } else if (remaining > 0 & remaining < 7) {
+        style = "time-remaining-week";
+      } else if (remaining > 7 & remaining < 14) {
+        style = "time-remaining-two-weeks";
+      }
+      return style;
     }
 
     function getStatusStyle(value) {
@@ -714,42 +725,48 @@ ZHB.Tasks.Render = (function () {
         Ø11.setAttribute('class', 'inline-block');
         Ø9.appendChild(Ø11);
         var Ø12 = WAVE.ce('div');
-        Ø12.innerText = buildDueDate(task);
+        Ø12.innerText = WAVE.dateTimeToString(task.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+        if(!task.Complete_Date) {
+          var Ø13 = WAVE.ce('div');
+          Ø13.innerText = 'in {0}d'.args(task.Remaining);
+          Ø13.setAttribute('class', 'time-r {0} inline-block'.args(getTimeRemainingStyle(task.Remaining)));
+          Ø12.appendChild(Ø13);
+        }
         Ø9.appendChild(Ø12);
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø9);
-          var Ø13 = WAVE.ce('div');
-          Ø13.setAttribute('id', 'assignee'+task.Counter);
-          Ø13.setAttribute('class', 'rst-cell rst-expander');
-          Ø13.setAttribute('style', 'width: 10%');
-          Ø13.setAttribute('data-details-id', detailsId);
-          if (WAVE.isObject(Ør)) Ør.appendChild(Ø13);
           var Ø14 = WAVE.ce('div');
-          Ø14.setAttribute('id', 'ac'+task.Counter);
+          Ø14.setAttribute('id', 'assignee'+task.Counter);
           Ø14.setAttribute('class', 'rst-cell rst-expander');
-          Ø14.setAttribute('style', 'width: 15%');
+          Ø14.setAttribute('style', 'width: 10%');
           Ø14.setAttribute('data-details-id', detailsId);
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø14);
           var Ø15 = WAVE.ce('div');
-          Ø15.innerText = task.ProjectName;
+          Ø15.setAttribute('id', 'ac'+task.Counter);
           Ø15.setAttribute('class', 'rst-cell rst-expander');
-          Ø15.setAttribute('style', 'width: 10%');
+          Ø15.setAttribute('style', 'width: 15%');
           Ø15.setAttribute('data-details-id', detailsId);
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø15);
           var Ø16 = WAVE.ce('div');
-          Ø16.innerText = task.Name;
+          Ø16.innerText = task.ProjectName;
           Ø16.setAttribute('class', 'rst-cell rst-expander');
-          Ø16.setAttribute('style', 'width: 20%');
+          Ø16.setAttribute('style', 'width: 10%');
           Ø16.setAttribute('data-details-id', detailsId);
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø16);
           var Ø17 = WAVE.ce('div');
-          Ø17.innerText = task.Description;
-          Ø17.setAttribute('id', 'description'+task.Counter);
+          Ø17.innerText = task.Name;
           Ø17.setAttribute('class', 'rst-cell rst-expander');
           Ø17.setAttribute('style', 'width: 20%');
           Ø17.setAttribute('data-details-id', detailsId);
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø17);
+          var Ø18 = WAVE.ce('div');
+          Ø18.innerText = task.Description;
+          Ø18.setAttribute('id', 'description'+task.Counter);
+          Ø18.setAttribute('class', 'rst-cell rst-expander');
+          Ø18.setAttribute('style', 'width: 20%');
+          Ø18.setAttribute('data-details-id', detailsId);
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø18);
         }
-        return Ø17;
+        return Ø18;
     };
 
     published.buildAreaTag = function (root, cIssue, cArea, areaName) {
@@ -1578,7 +1595,7 @@ ZHB.Tasks.Assignment.Render = (function () {
           Ø1.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
           Ø1.setAttribute('align', 'right');
           Ø1.setAttribute('style', 'width: 1%');
-        if(!assignment.Close_TS) {
+        if(!assignment.Close_TS && ZHB.Tasks.isPM) {
           var Ø2 = WAVE.ce('a');
           Ø2.innerText = 'x';
           Ø2.setAttribute('class', 'button-delete');

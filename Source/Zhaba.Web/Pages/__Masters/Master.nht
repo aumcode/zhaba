@@ -143,22 +143,18 @@
     function (resp) { console.log("fail"); });
 
     function projectDropDown() {
-        debugger;
         document.getElementById("project-drop-down").classList.toggle("show");
     }
 
     function dataDropDown() {
-        debugger;
         document.getElementById("data-drop-down").classList.toggle("show");
     }
 
     function userDropDown() {
-        debugger;
         document.getElementById("user-drop-down").classList.toggle("show");
     }
     
     function reportDropDown() {
-        debugger;
         document.getElementById("report-drop-down").classList.toggle("show");
     }
 

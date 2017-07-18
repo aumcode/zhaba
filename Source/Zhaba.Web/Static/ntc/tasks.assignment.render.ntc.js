@@ -58,7 +58,7 @@ ZHB.Tasks.Assignment.Render = (function () {
              class="rst-cell rst-text-align-center rst-details-cell"
              align="right"
              style="width: 1%"
-             "?if(!assignment.Close_TS)" {
+             "?if(!assignment.Close_TS && ZHB.Tasks.isPM)" {
                a="x"
                {
                  class="button-delete"

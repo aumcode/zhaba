@@ -470,24 +470,26 @@ a {
 .menu-item {
   display: inline-block;
 }
-.dropbtn {
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown .dropbtn {
+  outline: none;
   background-color: transparent;
   font-size: 16px;
   color: #fff;
   border: none;
   cursor: pointer;
+  padding: 8px 16px;
+  height: 34px;
 }
-.dropbtn:hover,
-.dropbtn:focus {
+.dropdown .dropbtn:hover,
+.dropdown .dropbtn:focus {
   background-color: #fff0d0;
   color: black;
 }
-.dropdown {
-  padding: 8px 16px;
-  position: relative;
-  display: inline-block;
-}
-.dropdown-content {
+.dropdown .dropdown-content {
   display: none;
   position: absolute;
   background-color: #f9f9f9;
@@ -496,16 +498,16 @@ a {
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
-.dropdown-content a {
+.dropdown .dropdown-content a {
   color: black;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
 }
-.dropdown a:hover {
+.dropdown .dropdown-content a:hover {
   background-color: #fff0d0;
 }
-.show {
+.dropdown .show {
   display: block;
 }
 .wvDetailsContentHidden {
@@ -600,6 +602,11 @@ body #body #nav {
   width: 100%;
   color: #fff;
 }
+body #body #nav .menu-icon {
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+}
 body #body #nav #profile {
   float: right;
   display: inline;
@@ -610,7 +617,7 @@ body #body #nav #menu {
 }
 body #body #nav #menu .menuBlock {
   display: inline;
-  padding: 8px 16px;
+  padding: 8px 0px;
 }
 body #body #nav #menu .menuBlock h3 {
   display: inline;
@@ -619,6 +626,17 @@ body #body #nav #menu .menuBlock a {
   color: #d0d0d0;
   display: inline;
   padding: 0px 6px;
+}
+body #body #nav #menu .menuBlock div.menu-div-highlight {
+  display: inline;
+  color: white;
+  padding: 8px 16px;
+  height: 34px;
+  background-color: transparent;
+}
+body #body #nav #menu .menuBlock div.menu-div-highlight:hover {
+  color: black;
+  background-color: #fff0d0;
 }
 body #ftr {
   bottom: 0;
@@ -769,6 +787,21 @@ body #ftr {
 }
 #tasksPage .inline-block {
   display: inline-block;
+}
+#tasksPage .time-r {
+  margin-left: 3px;
+}
+#tasksPage .time-r.time-remaining-default {
+  color: black;
+}
+#tasksPage .time-r.time-remaining-two-weeks {
+  color: darkgreen;
+}
+#tasksPage .time-r.time-remaining-week {
+  color: orange;
+}
+#tasksPage .time-r.time-remaining-late {
+  color: red;
 }
 #tasksPage .tag {
   margin: 1px;
