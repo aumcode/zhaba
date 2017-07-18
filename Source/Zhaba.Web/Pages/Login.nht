@@ -37,7 +37,7 @@
   var REC = new WAVE.RecordModel.Record(?[:FormJSON(m_Form, m_LoginError)]);
   var RVIEW = new WAVE.RecordModel.RecordView("V1", REC);
 
-  $("#frmLogin").submit(function(e){
+  $("#editForm").submit(function(e){
     if (!REC.validate()) {
       WAVE.GUI.toast('Please enter data in both fields','error')
       e.preventDefault();
