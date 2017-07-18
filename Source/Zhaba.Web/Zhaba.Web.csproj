@@ -202,11 +202,13 @@
     <Content Include="Static\ntc\etc.ntc.js" />
     <Content Include="Static\ntc\tabs.ntc.js" />
     <Content Include="Static\ntc\tasks.areas.ntc.js" />
+    <Content Include="Static\ntc\tasks.areas.render.ntc.js" />
     <Content Include="Static\ntc\tasks.assignment.ntc.js" />
     <Content Include="Static\ntc\tasks.assignment.render.ntc.js" />
     <Content Include="Static\ntc\tasks.chat.ntc.js" />
     <Content Include="Static\ntc\tasks.chat.render.ntc.js" />
     <Content Include="Static\ntc\tasks.components.ntc.js" />
+    <Content Include="Static\ntc\tasks.components.render.ntc.js" />
     <Content Include="Static\ntc\tasks.ntc.js" />
     <Content Include="Static\ntc\tasks.render.ntc.js" />
     <Content Include="Static\ntc\tasks.report.ntc.js" />

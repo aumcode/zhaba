@@ -176,29 +176,8 @@ function linkIssueArea(event, cProject, cIssue, cArea) {
       processData: false,
       contentType: false,
       success : function (resp) {
-        if (chk.checked) {
           var el = WAVE.id(acId);
-          if (el) {
-            var link='/project/{0}/area?counter={1}'.args(cProject,cArea);
-            WAVE.ajaxCall(
-              'GET',
-              link,
-              null,
-              function (resp) {
-                var data = new WAVE.RecordModel.Record(JSON.parse(resp));
-                var areaName=data.data().Name;
-                ZHB.Tasks.Render.buildAreaTag(acId, cIssue, cArea, areaName);
-              }, 
-              ZHB.errorLog,
-              ZHB.errorLog,
-              WAVE.CONTENT_TYPE_JSON_UTF8,
-              WAVE.CONTENT_TYPE_JSON_UTF8
-            );
-          }
-        } else {
-          WAVE.removeElem(areaId);
-        }
-
+          if (el) ZHB.Tasks.refreashTag(cProject, cIssue);
       }
     })
     .fail(function (xhr, txt, err) {
@@ -226,28 +205,8 @@ function linkIssueComponent(event, cProject, cIssue, cComponent) {
       processData: false,
       contentType: false,
       success : function (resp) {
-        if (chk.checked) {
           var el = WAVE.id(acId);
-          if (el) {
-            var link='/project/{0}/component?counter={1}'.args(cProject,cComponent);
-            WAVE.ajaxCall(
-              'GET',
-              link,
-              null,
-              function (resp) {
-                var data = new WAVE.RecordModel.Record(JSON.parse(resp));
-                var compName=data.data().Name;
-                ZHB.Tasks.Render.buildCompTag(acId, cIssue, cComponent, compName);
-              },
-              ZHB.errorLog,
-              ZHB.errorLog,
-              WAVE.CONTENT_TYPE_JSON_UTF8,
-              WAVE.CONTENT_TYPE_JSON_UTF8
-            );
-          }
-        } else {
-         WAVE.removeElem(compId);
-        }
+          if (el) ZHB.Tasks.refreashTag(cProject, cIssue);
       }
     })
     .fail(function (xhr, txt, err) {
@@ -445,7 +404,7 @@ ZHB.Tasks = (function() {
     function scheduleFetch() {
         if (fScheduleTimer) clearTimeout(fScheduleTimer);
         getTasks();
-        fScheduleTimer = setTimeout(scheduleFetch, ftick);
+        fScheduleTimer = setTimeout(scheduleFetch, fTick);
     }
 
     function initFilter(filter) {
@@ -474,6 +433,48 @@ ZHB.Tasks = (function() {
             "/dashboard/changeprogress",
             data,
             function (resp) { ZHB.Tasks.scheduleFetch();   },
+            function (resp) { console.log("error"); },
+            function (resp) { console.log("fail"); },
+            WAVE.CONTENT_TYPE_JSON_UTF8,
+            WAVE.CONTENT_TYPE_JSON_UTF8
+        );
+    }
+    
+    function refreshAreaTag(pid, iid) {
+        var acId = 'ac'+iid;
+        var link = ZHB.URIS.ForPROJECT_ISSUE_AREA(pid,  iid);
+        WAVE.ajaxCall(
+            'POST',
+            link, 
+            null,
+            function (resp) {
+                var _rec = JSON.parse(resp);
+                var _rows = _rec.Rows;
+                for (var i = 0, l = _rows.length; i<l; i++) {
+                    if (_rows[i][4]) ZHB.Tasks.Render.buildAreaTag(acId, iid, _rows[i][0], _rows[i][3]);    
+                }
+            },
+            function (resp) { console.log("error"); },
+            function (resp) { console.log("fail"); },
+            WAVE.CONTENT_TYPE_JSON_UTF8,
+            WAVE.CONTENT_TYPE_JSON_UTF8
+        );
+    }
+
+    function refreshComponentTag(pid, iid) {
+        var acId = 'ac'+iid;
+        var link = ZHB.URIS.ForPROJECT_ISSUE_COMPONENT(pid,  iid);
+        WAVE.ajaxCall(
+            'POST',
+            link,
+            null,
+            function (resp) {
+                var _rec = JSON.parse(resp);
+                var _rows = _rec.Rows;
+                for (var i = 0, l = _rows.length; i<l; i++) {
+                    if (_rows[i][4]) ZHB.Tasks.Render.buildCompTag(acId, iid, _rows[i][0], _rows[i][3]);
+                }
+            },
             function (resp) { console.log("error"); },
             function (resp) { console.log("fail"); },
             WAVE.CONTENT_TYPE_JSON_UTF8,
@@ -510,6 +511,15 @@ ZHB.Tasks = (function() {
                 return WAVE.GUI.DLG_CANCEL;
             }
         });
+    };
+    
+    published.refreashTag = function (pid, iid) {
+        var acId = 'ac'+iid;
+
+        WAVE.id(acId).innerHTML = '';
+
+        refreshAreaTag(pid, iid);
+        refreshComponentTag(pid, iid);
     };
  
     published.scheduleFetch = function() { scheduleFetch(); };
@@ -1960,15 +1970,80 @@ ZHB.Tasks.Areas = (function () {
     "use strict";
     var published = {};
 
-    published.buildAreasTab = function (areasId, task) {
+    published.buildAreasTab = function (root, task) {
         var link =  ZHB.URIS.ForPROJECT_ISSUE_AREA(task.C_Project, task.Counter);
-        $.post(link,
+        
+        WAVE.ajaxCall(
+            'POST',
+            link, 
             null,
-            function (grid) {
-                $("#" + areasId).html(grid);
-            }).fail(function (error) {
-            console.log(error);
-        });
+            function(resp) {
+                var _rec = JSON.parse(resp);
+                ZHB.Tasks.Areas.Render.buildGrid(root, _rec.Rows);
+            },
+            function (resp) { console.log("error"); },
+            function (resp) { console.log("fail"); },
+            WAVE.CONTENT_TYPE_JSON_UTF8,
+            WAVE.CONTENT_TYPE_JSON_UTF8
+        );
+
+    };
+
+    return published;
+})();
+/*jshint devel: true,browser: true, sub: true */
+/*global WAVE, $, ZHB */
+
+ZHB.Tasks.Areas.Render = (function () {
+    "use strict";
+    var published = {};
+
+    published.buildGrid = function (root, areas) {
+        var Ør = arguments[0];
+        if (WAVE.isString(Ør))
+          Ør = WAVE.id(Ør);
+        var Ø1 = WAVE.ce('div');
+        Ø1.setAttribute('class', 'rst-table');
+        var Ø2 = WAVE.ce('div');
+        Ø2.innerText = 'Counter';
+        Ø2.setAttribute('class', 'rst-cell rst-details-head');
+        Ø2.setAttribute('style', 'width:10%');
+        Ø1.appendChild(Ø2);
+        var Ø3 = WAVE.ce('div');
+        Ø3.innerText = 'Name';
+        Ø3.setAttribute('class', 'rst-cell rst-details-head');
+        Ø3.setAttribute('style', 'width:80%');
+        Ø1.appendChild(Ø3);
+        var Ø4 = WAVE.ce('div');
+        Ø4.innerText = 'Linked';
+        Ø4.setAttribute('class', 'rst-cell rst-details-head');
+        Ø4.setAttribute('style', 'width:10%');
+        Ø1.appendChild(Ø4);
+        for(var i=0, l=areas.length; i<l; i++) {
+          var Ø5 = WAVE.ce('div');
+          Ø5.innerText = areas[i][2];
+          Ø5.setAttribute('class', 'rst-cell rst-details-cell');
+          Ø5.setAttribute('style', 'width:10%');
+          Ø1.appendChild(Ø5);
+          var Ø6 = WAVE.ce('div');
+          Ø6.innerText = areas[i][3];
+          Ø6.setAttribute('class', 'rst-cell rst-details-cell');
+          Ø6.setAttribute('style', 'width:80%');
+          Ø1.appendChild(Ø6);
+          var Ø7 = WAVE.ce('div');
+          Ø7.setAttribute('class', 'rst-cell rst-details-cell rst-text-align-center');
+          Ø7.setAttribute('style', 'width:10%');
+        var Ø8 = WAVE.ce('input');
+        Ø8.innerText = areas[i][4];
+        Ø8.setAttribute('style', 'display:inline-block');
+        Ø8.setAttribute('type', 'checkbox');
+        Ø8.checked = areas[i][4];
+        Ø8.setAttribute('onchange', 'linkIssueArea(event,"{0}", "{1}", "{2}")'.args(areas[i][0],areas[i][1],areas[i][2]));
+        Ø7.appendChild(Ø8);
+          Ø1.appendChild(Ø7);
+        }
+        if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+        return Ø1;
     };
 
     return published;
@@ -1980,15 +2055,79 @@ ZHB.Tasks.Components = (function () {
     "use strict";
     var published = {};
 
-    published.buildComponentsTab = function (componentsId, task) {
+    published.buildComponentsTab = function (root, task) {
         var link = ZHB.URIS.ForPROJECT_ISSUE_COMPONENT(task.C_Project, task.Counter);
-        $.post(link,
+
+        WAVE.ajaxCall(
+            'POST',
+            link,
             null,
-            function (grid) {
-                $("#" + componentsId).html(grid);
-            }).fail(function (error) {
-            console.log(error);
-        });
+            function(resp) {
+                var _rec = JSON.parse(resp);
+                ZHB.Tasks.Components.Render.buildGrid(root, _rec.Rows);
+            },
+            function (resp) { console.log("error"); },
+            function (resp) { console.log("fail"); },
+            WAVE.CONTENT_TYPE_JSON_UTF8,
+            WAVE.CONTENT_TYPE_JSON_UTF8
+        );
+    };
+
+    return published;
+})();
+/*jshint devel: true,browser: true, sub: true */
+/*global WAVE, $, ZHB */
+
+ZHB.Tasks.Components.Render = (function () {
+    "use strict";
+    var published = {};
+
+    published.buildGrid = function (root, components) {
+        var Ør = arguments[0];
+        if (WAVE.isString(Ør))
+          Ør = WAVE.id(Ør);
+        var Ø1 = WAVE.ce('div');
+        Ø1.setAttribute('class', 'rst-table');
+        var Ø2 = WAVE.ce('div');
+        Ø2.innerText = 'Counter';
+        Ø2.setAttribute('class', 'rst-cell rst-details-head');
+        Ø2.setAttribute('style', 'width:10%');
+        Ø1.appendChild(Ø2);
+        var Ø3 = WAVE.ce('div');
+        Ø3.innerText = 'Name';
+        Ø3.setAttribute('class', 'rst-cell rst-details-head');
+        Ø3.setAttribute('style', 'width:80%');
+        Ø1.appendChild(Ø3);
+        var Ø4 = WAVE.ce('div');
+        Ø4.innerText = 'Linked';
+        Ø4.setAttribute('class', 'rst-cell rst-details-head');
+        Ø4.setAttribute('style', 'width:10%');
+        Ø1.appendChild(Ø4);
+        for(var i=0, l=components.length; i<l; i++) {
+          var Ø5 = WAVE.ce('div');
+          Ø5.innerText = components[i][2];
+          Ø5.setAttribute('class', 'rst-cell rst-details-cell');
+          Ø5.setAttribute('style', 'width:10%');
+          Ø1.appendChild(Ø5);
+          var Ø6 = WAVE.ce('div');
+          Ø6.innerText = components[i][3];
+          Ø6.setAttribute('class', 'rst-cell rst-details-cell');
+          Ø6.setAttribute('style', 'width:80%');
+          Ø1.appendChild(Ø6);
+          var Ø7 = WAVE.ce('div');
+          Ø7.setAttribute('class', 'rst-cell rst-details-cell rst-text-align-center');
+          Ø7.setAttribute('style', 'width:10%');
+        var Ø8 = WAVE.ce('input');
+        Ø8.innerText = components[i][4];
+        Ø8.setAttribute('style', 'display:inline-block');
+        Ø8.setAttribute('type', 'checkbox');
+        Ø8.checked = components[i][4];
+        Ø8.setAttribute('onchange', 'linkIssueComponent(event,"{0}", "{1}", "{2}")'.args(components[i][0],components[i][1],components[i][2]));
+        Ø7.appendChild(Ø8);
+          Ø1.appendChild(Ø7);
+        }
+        if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+        return Ø1;
     };
 
     return published;

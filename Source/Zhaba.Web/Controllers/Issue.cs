@@ -157,6 +157,13 @@ namespace Zhaba.Web.Controllers
       return report;
     }
 
+    [Action("assignmentreport", 0, "match { methods=GET}")]
+    public object areas()
+    {
+      
+      return null;
+    }
+    
     #region .pvt
 
     protected object DataSetup_PopUp(object[] args, IssueAssignForm form, string postRedirect)

@@ -20,29 +20,8 @@ function linkIssueArea(event, cProject, cIssue, cArea) {
       processData: false,
       contentType: false,
       success : function (resp) {
-        if (chk.checked) {
           var el = WAVE.id(acId);
-          if (el) {
-            var link='/project/{0}/area?counter={1}'.args(cProject,cArea);
-            WAVE.ajaxCall(
-              'GET',
-              link,
-              null,
-              function (resp) {
-                var data = new WAVE.RecordModel.Record(JSON.parse(resp));
-                var areaName=data.data().Name;
-                ZHB.Tasks.Render.buildAreaTag(acId, cIssue, cArea, areaName);
-              }, 
-              ZHB.errorLog,
-              ZHB.errorLog,
-              WAVE.CONTENT_TYPE_JSON_UTF8,
-              WAVE.CONTENT_TYPE_JSON_UTF8
-            );
-          }
-        } else {
-          WAVE.removeElem(areaId);
-        }
-
+          if (el) ZHB.Tasks.refreashTag(cProject, cIssue);
       }
     })
     .fail(function (xhr, txt, err) {
@@ -70,28 +49,8 @@ function linkIssueComponent(event, cProject, cIssue, cComponent) {
       processData: false,
       contentType: false,
       success : function (resp) {
-        if (chk.checked) {
           var el = WAVE.id(acId);
-          if (el) {
-            var link='/project/{0}/component?counter={1}'.args(cProject,cComponent);
-            WAVE.ajaxCall(
-              'GET',
-              link,
-              null,
-              function (resp) {
-                var data = new WAVE.RecordModel.Record(JSON.parse(resp));
-                var compName=data.data().Name;
-                ZHB.Tasks.Render.buildCompTag(acId, cIssue, cComponent, compName);
-              },
-              ZHB.errorLog,
-              ZHB.errorLog,
-              WAVE.CONTENT_TYPE_JSON_UTF8,
-              WAVE.CONTENT_TYPE_JSON_UTF8
-            );
-          }
-        } else {
-         WAVE.removeElem(compId);
-        }
+          if (el) ZHB.Tasks.refreashTag(cProject, cIssue);
       }
     })
     .fail(function (xhr, txt, err) {

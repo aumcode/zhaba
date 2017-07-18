@@ -170,7 +170,7 @@ ZHB.Tasks = (function() {
     function scheduleFetch() {
         if (fScheduleTimer) clearTimeout(fScheduleTimer);
         getTasks();
-        fScheduleTimer = setTimeout(scheduleFetch, ftick);
+        fScheduleTimer = setTimeout(scheduleFetch, fTick);
     }
 
     function initFilter(filter) {
@@ -199,6 +199,48 @@ ZHB.Tasks = (function() {
             "/dashboard/changeprogress",
             data,
             function (resp) { ZHB.Tasks.scheduleFetch();   },
+            function (resp) { console.log("error"); },
+            function (resp) { console.log("fail"); },
+            WAVE.CONTENT_TYPE_JSON_UTF8,
+            WAVE.CONTENT_TYPE_JSON_UTF8
+        );
+    }
+    
+    function refreshAreaTag(pid, iid) {
+        var acId = 'ac'+iid;
+        var link = ZHB.URIS.ForPROJECT_ISSUE_AREA(pid,  iid);
+        WAVE.ajaxCall(
+            'POST',
+            link, 
+            null,
+            function (resp) {
+                var _rec = JSON.parse(resp);
+                var _rows = _rec.Rows;
+                for (var i = 0, l = _rows.length; i<l; i++) {
+                    if (_rows[i][4]) ZHB.Tasks.Render.buildAreaTag(acId, iid, _rows[i][0], _rows[i][3]);    
+                }
+            },
+            function (resp) { console.log("error"); },
+            function (resp) { console.log("fail"); },
+            WAVE.CONTENT_TYPE_JSON_UTF8,
+            WAVE.CONTENT_TYPE_JSON_UTF8
+        );
+    }
+
+    function refreshComponentTag(pid, iid) {
+        var acId = 'ac'+iid;
+        var link = ZHB.URIS.ForPROJECT_ISSUE_COMPONENT(pid,  iid);
+        WAVE.ajaxCall(
+            'POST',
+            link,
+            null,
+            function (resp) {
+                var _rec = JSON.parse(resp);
+                var _rows = _rec.Rows;
+                for (var i = 0, l = _rows.length; i<l; i++) {
+                    if (_rows[i][4]) ZHB.Tasks.Render.buildCompTag(acId, iid, _rows[i][0], _rows[i][3]);
+                }
+            },
             function (resp) { console.log("error"); },
             function (resp) { console.log("fail"); },
             WAVE.CONTENT_TYPE_JSON_UTF8,
@@ -235,6 +277,15 @@ ZHB.Tasks = (function() {
                 return WAVE.GUI.DLG_CANCEL;
             }
         });
+    };
+    
+    published.refreashTag = function (pid, iid) {
+        var acId = 'ac'+iid;
+
+        WAVE.id(acId).innerHTML = '';
+
+        refreshAreaTag(pid, iid);
+        refreshComponentTag(pid, iid);
     };
  
     published.scheduleFetch = function() { scheduleFetch(); };
