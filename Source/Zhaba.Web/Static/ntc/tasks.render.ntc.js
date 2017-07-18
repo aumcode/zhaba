@@ -233,7 +233,7 @@ ZHB.Tasks.Render = (function () {
            div { data-wv-fname="Description" class="fView" }
          }
          ***/
-    }
+    };
 
     published.init = function (init) {
 

@@ -1,11 +1,17 @@
 ﻿application
 {
+  ZHABA-HOME=$(~ZHABA_ROOT)
+  PATH-LOG= $(@$ZHABA-HOME)logs
+  PATH-OBJ=$(@$ZHABA-HOME)obj
+   
   data-store
   {
     type="Zhaba.DataLogic.ZhabaDataStore, Zhaba.DataLogic"
+    log-level = debug
     crud
     {
       type="NFX.DataAccess.MySQL.MySQLDataStore, NFX.MySQL"
+      log-level = $(/data-store/$log-level)
       connect-string="Server=localhost;Database=zhaba;Uid=$(~MYSQL_ADMIN_USERID);Pwd=$(~MYSQL_ADMIN_PASSWORD)"
       script-assembly="Zhaba.DBAccess"
       handler-location { ns="Zhaba.DBAccess, Zhaba.DBAccess" }
@@ -16,8 +22,25 @@
       name="unique-sequence-provider"
     }
     cache { }
+    
   }
-
+  
+  event-timer
+  {
+    event
+    {
+      name="Clean log files"
+      type="NFX.IO.FileSystem.DeleteFilesJob, NFX"
+      interval="04:30:00"
+      recurse=false
+      delete-empty-dirs=false
+      name-include-pattern="*.log"
+      last-modify-ago-hrs=72
+      log-stats=true
+      
+      file-system {root-path=$(/$PATH-LOG)}
+    }
+  }
 
   log
   {
@@ -35,16 +58,18 @@
       type="NFX.Log.Destinations.DebugDestination, NFX"
       name="log-debug-destination"
       min-level="Debug"
-      path=$(~ZHABA_ROOT)\logs
+      path=$(/$PATH-LOG)
     }
 
     destination
     {
       type="NFX.Log.Destinations.CSVFileDestination, NFX"
       name="CSVLog"
-      path=$(~ZHABA_ROOT)\logs
+      path=$(/$PATH-LOG)
       file-name="{0:yyyyMMdd}.csv.log"
     }
+    
+    
   }
 
   object-store
@@ -58,7 +83,7 @@
       name="Object Store Provider"
       type="NFX.ApplicationModel.Volatile.FileObjectStoreProvider"
       load-limit="0"
-      root-path=$(~ZHABA_ROOT)\obj
+      root-path=$(/$PATH-OBJ)
     }
   }
 
@@ -75,8 +100,6 @@
     }
   }
 
-
-
   wave
   {
     server
@@ -91,6 +114,7 @@
           name="error-filter"
           type="NFX.Wave.Filters.ErrorFilter, NFX.Wave"
           show-dump { match { name="localhost" order=0 is-local=true } }
+          log { match { name="all" }}
           security-redirect-url="/User/Login"
         }
 

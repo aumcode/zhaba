@@ -19,6 +19,7 @@ namespace Zhaba.Web.Controllers
   [SiteUserPermission]
   public class Dashboard : ZhabaDataSetupController
   {
+   
     [Action]
     public object Index()
     {

@@ -148,58 +148,7 @@ var ZHB = (function() {
     return published;
 }());
 
-/*function getStatusBarStyle(value) {
-  var red = 0;
-  var green = 0;
-  if (value <= 25)
-    red = 255;
-  else if (value > 25 && value < 65) {
-    red = 255;
-    green = (value - 25) * 6;
-  } else if (value == 65) {
-    red = 255;
-    green = 255;
-  } else if (value > 65) {
-    red = 255 - ((value - 65) * 7);
-    green = 255;
-  } else if (value == 100) {
-    red = 0;
-    green = 255;
-  }
-  return "width: {0}%; background: rgb({1},{2}, 0)".args(value, red, green);
-}
 
-function getStatusStyle(value) {
-  return "status-tag {0}".args(value.toLowerCase());
-}
-
-function getPriorityStyle(value) {
-  var priority;
-  if (value === 0) {
-    priority = "highest";
-  } else if (value > 0 && value <= 3) {
-    priority = "high";
-  } else if (value > 3 && value <= 5) {
-    priority = "middle";
-  } else {
-    priority = "lower";
-  }
-  return "priority-tag {0}".args(priority);
-}
-
-function buildDate(task) {
-  var startDate = WAVE.dateTimeToString(task.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
-  var completeDate = "OPEN";
-  if (task.Complete_Date) {
-    completeDate = WAVE.dateTimeToString(task.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
-  }
-  return "{0} - {1}".args(startDate, completeDate);
-}
-
-function buildDueDate(task) {
-  var dueDate = WAVE.dateTimeToString(task.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
-  return "{0} in {1}d".args(dueDate, task.Remaining);
-}*/
 
 
 
@@ -239,9 +188,9 @@ function linkIssueArea(event, cProject, cIssue, cArea) {
                 var data = new WAVE.RecordModel.Record(JSON.parse(resp));
                 var areaName=data.data().Name;
                 ZHB.Tasks.Render.buildAreaTag(acId, cIssue, cArea, areaName);
-              },
-              function (resp) { console.log("error"); },
-              function (resp) { console.log("fail"); },
+              }, 
+              ZHB.errorLog,
+              ZHB.errorLog,
               WAVE.CONTENT_TYPE_JSON_UTF8,
               WAVE.CONTENT_TYPE_JSON_UTF8
             );
@@ -290,8 +239,8 @@ function linkIssueComponent(event, cProject, cIssue, cComponent) {
                 var compName=data.data().Name;
                 ZHB.Tasks.Render.buildCompTag(acId, cIssue, cComponent, compName);
               },
-              function (resp) { console.log("error"); },
-              function (resp) { console.log("fail"); },
+              ZHB.errorLog,
+              ZHB.errorLog,
               WAVE.CONTENT_TYPE_JSON_UTF8,
               WAVE.CONTENT_TYPE_JSON_UTF8
             );
@@ -908,7 +857,7 @@ ZHB.Tasks.Render = (function () {
         Ø1.appendChild(Ø3);
         if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
         return Ø1;
-    }
+    };
 
     published.init = function (init) {
 
@@ -2009,7 +1958,7 @@ ZHB.Tasks.Areas = (function () {
     var published = {};
 
     published.buildAreasTab = function (areasId, task) {
-        var link = "/project/{0}/issuearea?issue={1}".args(task.C_Project, task.Counter);
+        var link =  ZHB.URIS.ForPROJECT_ISSUE_AREA(task.C_Project, task.Counter);
         $.post(link,
             null,
             function (grid) {
@@ -2029,7 +1978,7 @@ ZHB.Tasks.Components = (function () {
     var published = {};
 
     published.buildComponentsTab = function (componentsId, task) {
-        var link = "/project/{0}/issuecomponent?issue={1}".args(task.C_Project, task.Counter);
+        var link = ZHB.URIS.ForPROJECT_ISSUE_COMPONENT(task.C_Project, task.Counter);
         $.post(link,
             null,
             function (grid) {
