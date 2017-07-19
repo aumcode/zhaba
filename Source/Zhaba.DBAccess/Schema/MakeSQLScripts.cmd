@@ -1,7 +1,7 @@
 @echo off
 
 set DOMAINS="Zhaba.Data.Domains.*, Zhaba;NFX.RelationalModel.DataTypes.*, NFX"
-set TOOLS=..\..\..\packages\NFX.3.4.0.1\tools
+set TOOLS=..\..\..\packages\NFX.3.5.0.1\tools
 set DEBUG=..\..\..\Output\Debug
 
 xcopy %TOOLS%\rsc.exe %DEBUG% /y

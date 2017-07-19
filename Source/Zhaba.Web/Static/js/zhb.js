@@ -1661,12 +1661,13 @@ ZHB.Tasks.Assignment.Render = (function () {
 ZHB.Tasks.Chat = (function() {
     "use strict";
     var published = {},
-        fScheduleTimer,
-        fTasks,
-        fChatRec = {},
-        fChatFilterRec = {},
-        fTick = 2000
-    ;
+    fScheduleTimer,
+    fTasks,
+    fChatRec = {},
+    fChatFilterRec = {},
+    fTick = 5000,
+    fTickDefault = 5000,
+    fTickDelta = 10000;
     
     function schedulerChat() {
         if (fScheduleTimer) clearTimeout(fScheduleTimer);
@@ -1803,11 +1804,11 @@ ZHB.Tasks.Chat = (function() {
                 data,
                 function(resp) {
                     var rec = JSON.parse(resp);
-                    fTick = 2000;
+                    fTick = fTickDefault;
                     createChatItems(task, rec);
                 },
-                function(resp) {ZHB.errorLog(resp); fTick += 10000},
-                function(resp) {ZHB.errorLog(resp); fTick += 10000},
+                function(resp) {ZHB.errorLog(resp); fTick += fTickDelta},
+                function(resp) {ZHB.errorLog(resp); fTick += fTickDelta},
                 WAVE.CONTENT_TYPE_JSON_UTF8,
                 WAVE.CONTENT_TYPE_JSON_UTF8
             );
