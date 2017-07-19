@@ -21,13 +21,15 @@
     Title = "{0} Issue".Args((form.FormMode == FormMode.Edit) ? "Edit" : "Add");
   }
 
+  #[override renderHeader()]
+  <div>?[:Title]</div>
+
   #[override renderEntries()]
   <div class="fView" data-wv-fname="C_User" data-wv-ctl="combo"></div>
   <div class="fView" data-wv-fname="Open_TS"></div>
   <div class="fView" data-wv-fname="Close_TS"></div>
   <div class="fView" data-wv-fname="Note"></div>
   <div class="fView" data-wv-fname="Description"></div>
-
 
   @[if (Form.FormMode == FormMode.Edit) {]
   <div class="fView" data-wv-fname="Comment"></div>

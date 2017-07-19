@@ -23,6 +23,9 @@
   private readonly LoginForm m_Form;
   private readonly Exception m_LoginError;
 
+#[override renderHeader()]
+  <div>?[:Title]</div>
+
 #[override renderEntries()]
   <div id="divID" data-wv-fname="ID" class="fView"></div>
   <div id="divPassword" data-wv-fname="Password" class="fView"></div>

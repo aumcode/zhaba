@@ -20,10 +20,13 @@
   {
     Title = "{0} Chat".Args((form.FormMode == FormMode.Edit) ? "Edit" : "Add");
   }
-
+  
+  #[override renderHeader()]
+  <div>?[:Title]</div>
+  
   #[override renderEntries()]
   <div class="fView" data-wv-fname="Note"></div>
 
-#[override renderBtns()]
+  #[override renderBtns()]
   <input class="button" type="submit" value="Save" />
   <a class="button" href="?[:URIS.ForPROJECT_ISSUES(Form.ProjectID)]">Cancel</a>

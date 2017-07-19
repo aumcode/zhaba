@@ -18,9 +18,11 @@
   public CategoryPage(CategoryForm form, Exception error)
     : base(form, error)
   {
-    Title = "{0} Project".Args((form.FormMode == FormMode.Edit) ? "Edit" : "Create");
+    Title = "{0} Category".Args((form.FormMode == FormMode.Edit) ? "Edit" : "Create");
   }
 
+#[override renderHeader()]
+  <div>?[:Title]</div>
 
 #[override renderEntries()]
   <div class="fView" data-wv-fname="Name"></div>

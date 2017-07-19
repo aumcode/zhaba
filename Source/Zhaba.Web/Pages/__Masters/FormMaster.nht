@@ -27,11 +27,15 @@
 
   public TForm Form { get { return m_Form; } }
 
+  protected virtual void renderHeader() { }
   protected virtual void renderEntries() { }
   protected virtual void renderBtns() { }
 
 #[override renderBody()]
   <form id="editForm" data-wv-rid="V1" method="POST" novalidate="">
+    <div class="header">
+       @[renderHeader();]
+    </div>
     <div class="content">
       <div class="entries">
         @[renderEntries();]
