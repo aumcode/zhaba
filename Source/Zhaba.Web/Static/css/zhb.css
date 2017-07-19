@@ -715,12 +715,19 @@ body #ftr {
   padding: 4px 2px;
 }
 #editForm {
-  margin: 0 auto;
-  padding: 30px 0;
+  margin: 30px auto;
   width: 500px;
+  border: 1px solid #d0d0d0;
+}
+#editForm .header {
+  background: #cfddd0;
+  color: #383838;
+  font-size: 1.37em;
+  padding: 4px;
+  height: 45px;
 }
 #editForm .content {
-  border: 1px solid #6713d2;
+  background: #f0f0f0;
 }
 #editForm .content .entries {
   padding: 15px;
