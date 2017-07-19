@@ -1,12 +1,14 @@
 # Zhaba Issue Tracker
 
-The project is under development.
+### Overview
+Zhaba Issue Tracker is a tool which can be used to track bugs and feature requests during product development. At first is should be noted that Zhaba was developed as internally tool for our company, Agnicore Inc., but you can fully use it at your own business.  The tracker allows you to get rid of the use ofspreadsheets, sticky notes, and email to keep track of bugs, ideas, and requests. Now you can do all that things in just one uncomplicated, central hub. The tracker provides simple workflow and easy filtering. Zhaba allows you to view a list of issues, see individual activity from any day, or gather quick reports.
 
-To run the aplication it is necessary:
+
+### Installation
 1. Create some directory (e.g. C:\Zhaba) with subdirectories `logs` and `obj`.
 2. Add system environment variable `ZHABA_ROOT` that refers to the directory from the step 1.
-3. Create environment variables MYSQL_ADMIN_USERID and MYSQL_ADMIN_PASSWORD
-4. To install database after compilation of the solution you should run `MakeSQLScripts.cmd` and `MakeZhabaDB.cmd` scripts which are located in `Source\Zhaba.DBAccess\Schema` directory. Note that before running the scripts you should replace database connection parameters in `MakeZhabaDB.cmd` with ones valid for your own MySQL database. Also the database connection string in `zws.laconf` should be changed correspondingly. During the DB instalaltion default user `sa` with password `5HwxsG` will be setup.
+3. Create environment variables MYSQL_ADMIN_USERID and MYSQL_ADMIN_PASSWORD which contain your MySQL credentials.
+4. Compile the project.
+5. Run `MakeSQLScripts.cmd` and then `MakeZhabaDB.cmd` scripts which are located in `Source\Zhaba.DBAccess\Schema` directory.
 
-
-After starting the application will be available at `http://localhost:8080`.
+After starting the application will be available at `http://localhost:8080` with default user `sa` with password `5HwxsG`. 
