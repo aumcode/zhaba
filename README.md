@@ -11,4 +11,4 @@ Zhaba Issue Tracker is a tool which can be used to track bugs and feature reques
 4. Compile the project.
 5. Run `MakeSQLScripts.cmd` and then `MakeZhabaDB.cmd` scripts which are located in `Source\Zhaba.DBAccess\Schema` directory.
 
-After starting the application will be available at `http://localhost:8080` with default user `sa` with password `5HwxsG`. 
+After starting the application will be available at `http://localhost:8080` with default user `admin` with password `5HwxsG`. 
