@@ -200,3 +200,5 @@ pip-log.txt
 
 .vs
 .idea
+
+Source/Zhaba.DBAccess/Schema/*.sql
