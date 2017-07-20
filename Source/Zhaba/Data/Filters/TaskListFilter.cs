@@ -95,6 +95,9 @@ namespace Zhaba.Data.Filters
       public string ProjectName { get; set; }
 
       [Field]
+      public string Operator { get; set; }
+
+      [Field]
       public string Assignee { get; set; }
       
       [Field]

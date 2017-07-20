@@ -119,6 +119,15 @@ var ZHB = (function() {
         },
         ForPROJECT_ISSUE_REPORT : function (pid, iid, report) {
             return issue_setup(pid, iid) +"/{0}".args(report);
+        },
+        ForREPORTS : function(report) {
+            return "/reports/{0}".args(report);    
+        },
+        ForREPORTS_DUEITEMS : function () {
+            return ZHB.URIS.ForREPORTS("dueitems");
+        },
+        ForREPORTS_DUEITEMSVIEW : function () {
+            return ZHB.URIS.ForREPORTS("dueitemsview");
         }
         
     };
@@ -149,6 +158,8 @@ var ZHB = (function() {
 }());
 
 /***@ etc.ntc.js ***/
+/***@ reports.ntc.js ***/
+/***@ reports.render.ntc.js ***/
 /***@ tasks.ntc.js ***/
 /***@ tasks.render.ntc.js ***/
 /***@ tasks.status.ntc.js ***/

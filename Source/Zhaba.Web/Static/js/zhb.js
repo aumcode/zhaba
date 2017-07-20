@@ -119,6 +119,15 @@ var ZHB = (function() {
         },
         ForPROJECT_ISSUE_REPORT : function (pid, iid, report) {
             return issue_setup(pid, iid) +"/{0}".args(report);
+        },
+        ForREPORTS : function(report) {
+            return "/reports/{0}".args(report);    
+        },
+        ForREPORTS_DUEITEMS : function () {
+            return ZHB.URIS.ForREPORTS("dueitems");
+        },
+        ForREPORTS_DUEITEMSVIEW : function () {
+            return ZHB.URIS.ForREPORTS("dueitemsview");
         }
         
     };
@@ -226,6 +235,94 @@ WAVE.onReady(function() {
 });
 
 
+/*jshint devel: true,browser: true, sub: true */
+/*global WAVE, $, ZHB */
+
+ZHB.Reports = (function () {
+    var published = {}
+    ;
+    
+    function viewReport(data) {
+        debugger;
+        var link = ZHB.URIS.ForREPORTS_DUEITEMS();
+        WAVE.ajaxCall(
+            'POST',
+            link,
+            data,
+            function (resp) {
+                var w = window.open('about:blank', 'windowname');
+                w.document.write(resp);
+            },
+            ZHB.errorLog,
+            ZHB.errorLog,
+            WAVE.TUNDEFINED,
+            WAVE.CONTENT_TYPE_JSON_UTF8
+        );
+    }
+    
+    published.DueItemsReportForm = function (e) {
+        var link = ZHB.URIS.ForREPORTS_DUEITEMS();
+        WAVE.ajaxCall(
+            'GET',
+            link, 
+            null,
+            function(resp) {
+                var _rec = new WAVE.RecordModel.Record(JSON.parse(resp));
+                var dlg = new WAVE.GUI.Dialog({
+                    header: "Due Items Report",
+                    body:ZHB.Reports.Render.DueItemsReportForm(),
+                    footer: ZHB.Tasks.Status.Render.buildStatusFooter(),
+                    onShow: function() {
+                        var rv = new WAVE.RecordModel.RecordView("V_DueItemsReport", _rec);
+                    },
+                    onClose: function(dlg, result) {
+                        if(result===WAVE.GUI.DLG_CANCEL) return WAVE.GUI.DLG_CANCEL;
+                        _rec.validate();
+                        if (!_rec.valid()) return WAVE.GUI.DLG_UNDEFINED;
+                        viewReport(_rec.data());
+                        return WAVE.GUI.DLG_CANCEL;
+                    }
+                });
+            },
+            ZHB.errorLog,
+            ZHB.errorLog,
+            WAVE.CONTENT_TYPE_JSON_UTF8,
+            WAVE.CONTENT_TYPE_JSON_UTF8
+        );
+        
+    };
+    
+    return published;
+})();
+/*jshint devel: true,browser: true, sub: true */
+/*global WAVE, $, ZHB */
+
+ZHB.Reports.Render = (function () {
+    var published = {}
+    ;
+
+    published.DueItemsReportForm = function (root) {
+        var Ør = arguments[0];
+        if (WAVE.isString(Ør))
+          Ør = WAVE.id(Ør);
+        var Ø1 = WAVE.ce('div');
+        Ø1.setAttribute('id', 'DueItemsReport');
+        Ø1.setAttribute('data-wv-rid', 'V_DueItemsReport');
+        var Ø2 = WAVE.ce('div');
+        Ø2.setAttribute('data-wv-fname', 'AsOf');
+        Ø2.setAttribute('class', 'fView');
+        Ø1.appendChild(Ø2);
+        var Ø3 = WAVE.ce('div');
+        Ø3.setAttribute('data-wv-fname', 'C_Project');
+        Ø3.setAttribute('data-wv-ctl', 'combo');
+        Ø3.setAttribute('class', 'fView');
+        Ø1.appendChild(Ø3);
+        if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
+        return Ø1;        
+    };
+    
+    return published;
+})();
 /*jshint devel: true,browser: true, sub: true */
 /*global WAVE, $, ZHB */
 
@@ -1240,7 +1337,7 @@ ZHB.Tasks.Status.Render = (function () {
               Ø1.appendChild(Ø4);
             }
             var Ø5 = WAVE.ce('a');
-            Ø5.innerText = 'report';
+            Ø5.innerText = 'Report';
             Ø5.setAttribute('data-cproject', task.C_Project);
             Ø5.setAttribute('data-cissue', task.Counter);
             Ø5.setAttribute('data-report', 'statusreport');
@@ -1278,7 +1375,7 @@ ZHB.Tasks.Status.Render = (function () {
               }
             }
             var Ø4 = WAVE.ce('a');
-            Ø4.innerText = 'report';
+            Ø4.innerText = 'Report';
             Ø4.setAttribute('data-cproject', task.C_Project);
             Ø4.setAttribute('data-cissue', task.Counter);
             Ø4.setAttribute('data-report', 'statusreport');
@@ -1297,47 +1394,52 @@ ZHB.Tasks.Status.Render = (function () {
           Ør = WAVE.id(Ør);
         if(1==1) {
           var Ø1 = WAVE.ce('div');
-          Ø1.innerText = 'ID';
+          Ø1.innerText = 'Status Date';
           Ø1.setAttribute('class', 'rst-cell rst-details-head');
-          Ø1.setAttribute('style', 'width: 5%');
+          Ø1.setAttribute('style', 'width: 9%');
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
           var Ø2 = WAVE.ce('div');
-          Ø2.innerText = 'Progress';
+          Ø2.innerText = 'Operator';
           Ø2.setAttribute('class', 'rst-cell rst-details-head');
-          Ø2.setAttribute('style', 'width: 5%');
+          Ø2.setAttribute('style', 'width: 10%');
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø2);
           var Ø3 = WAVE.ce('div');
-          Ø3.innerText = 'Status';
+          Ø3.innerText = '%';
           Ø3.setAttribute('class', 'rst-cell rst-details-head');
-          Ø3.setAttribute('style', 'width: 10%');
+          Ø3.setAttribute('style', 'width: 3%');
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø3);
           var Ø4 = WAVE.ce('div');
-          Ø4.innerText = 'Start';
+          Ø4.innerText = 'Status';
           Ø4.setAttribute('class', 'rst-cell rst-details-head');
           Ø4.setAttribute('style', 'width: 10%');
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø4);
           var Ø5 = WAVE.ce('div');
-          Ø5.innerText = 'Plan\x2FDue';
+          Ø5.innerText = 'Start';
           Ø5.setAttribute('class', 'rst-cell rst-details-head');
-          Ø5.setAttribute('style', 'width: 10%');
+          Ø5.setAttribute('style', 'width: 6%');
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø5);
           var Ø6 = WAVE.ce('div');
-          Ø6.innerText = 'Complete';
+          Ø6.innerText = 'Plan\x2FDue';
           Ø6.setAttribute('class', 'rst-cell rst-details-head');
-          Ø6.setAttribute('style', 'width: 10%');
+          Ø6.setAttribute('style', 'width: 6%');
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø6);
           var Ø7 = WAVE.ce('div');
-          Ø7.innerText = 'Assigned';
+          Ø7.innerText = 'Complete';
           Ø7.setAttribute('class', 'rst-cell rst-details-head');
-          Ø7.setAttribute('style', 'width: 30%');
+          Ø7.setAttribute('style', 'width: 6%');
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø7);
           var Ø8 = WAVE.ce('div');
-          Ø8.innerText = 'Description';
+          Ø8.innerText = 'Assigned';
           Ø8.setAttribute('class', 'rst-cell rst-details-head');
           Ø8.setAttribute('style', 'width: 20%');
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø8);
+          var Ø9 = WAVE.ce('div');
+          Ø9.innerText = 'Description';
+          Ø9.setAttribute('class', 'rst-cell rst-details-head');
+          Ø9.setAttribute('style', 'width: 30%');
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø9);
         }
-        return Ø8;
+        return Ø9;
     };
 
 
@@ -1347,59 +1449,63 @@ ZHB.Tasks.Status.Render = (function () {
           Ør = WAVE.id(Ør);
         if(1==1) {
           var Ø1 = WAVE.ce('div');
-          Ø1.innerText = details.Counter;
+          Ø1.innerText = WAVE.dateTimeToString(details.Status_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME);
           Ø1.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
-          Ø1.setAttribute('align', 'right');
-          Ø1.setAttribute('style', 'width: 5%');
+          Ø1.setAttribute('style', 'width: 9%');
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
           var Ø2 = WAVE.ce('div');
-          Ø2.innerText = details.Completeness +'%';
+          Ø2.innerText = details.Operator;
           Ø2.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
-          Ø2.setAttribute('style', 'width: 5%');
+          Ø2.setAttribute('style', 'width: 10%');
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø2);
           var Ø3 = WAVE.ce('div');
+          Ø3.innerText = details.Completeness +'%';
           Ø3.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
-          Ø3.setAttribute('style', 'width: 10%');
-        var Ø4 = WAVE.ce('div');
-        Ø4.setAttribute('align', 'center');
-        var Ø5 = WAVE.ce('div');
-        Ø5.innerText = details.Status;
-        Ø5.setAttribute('class', 'tag {0} inline'.args(ZHB.Tasks.Render.getStatusStyle(details.Status)));
-        Ø4.appendChild(Ø5);
-        var Ø6 = WAVE.ce('div');
-        Ø6.innerText = details.Category_Name;
-        Ø6.setAttribute('class', 'tag tag-category inline');
-        Ø4.appendChild(Ø6);
-        Ø3.appendChild(Ø4);
+          Ø3.setAttribute('style', 'width: 3%');
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø3);
-          var Ø7 = WAVE.ce('div');
-          Ø7.innerText = WAVE.dateTimeToString(details.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
-          Ø7.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
-          Ø7.setAttribute('style', 'width: 10%');
-          if (WAVE.isObject(Ør)) Ør.appendChild(Ø7);
+          var Ø4 = WAVE.ce('div');
+          Ø4.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
+          Ø4.setAttribute('style', 'width: 10%');
+        var Ø5 = WAVE.ce('div');
+        Ø5.setAttribute('align', 'center');
+        var Ø6 = WAVE.ce('div');
+        Ø6.innerText = details.Status;
+        Ø6.setAttribute('class', 'tag {0} inline'.args(ZHB.Tasks.Render.getStatusStyle(details.Status)));
+        Ø5.appendChild(Ø6);
+        var Ø7 = WAVE.ce('div');
+        Ø7.innerText = details.Category_Name;
+        Ø7.setAttribute('class', 'tag tag-category inline');
+        Ø5.appendChild(Ø7);
+        Ø4.appendChild(Ø5);
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø4);
           var Ø8 = WAVE.ce('div');
-          Ø8.innerText = WAVE.dateTimeToString(details.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+          Ø8.innerText = WAVE.dateTimeToString(details.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
           Ø8.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
-          Ø8.setAttribute('style', 'width: 10%');
+          Ø8.setAttribute('style', 'width: 6%');
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø8);
           var Ø9 = WAVE.ce('div');
-          Ø9.innerText = WAVE.dateTimeToString(details.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+          Ø9.innerText = WAVE.dateTimeToString(details.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
           Ø9.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
-          Ø9.setAttribute('style', 'width: 10%');
+          Ø9.setAttribute('style', 'width: 6%');
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø9);
           var Ø10 = WAVE.ce('div');
-          Ø10.innerText = details.Assignee;
+          Ø10.innerText = WAVE.dateTimeToString(details.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
           Ø10.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
-          Ø10.setAttribute('style', 'width: 30%');
+          Ø10.setAttribute('style', 'width: 6%');
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø10);
           var Ø11 = WAVE.ce('div');
-          Ø11.innerText = details.Description;
-          Ø11.setAttribute('id', 'details-description'+details.Counter);
+          Ø11.innerText = details.Assignee;
           Ø11.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
           Ø11.setAttribute('style', 'width: 20%');
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø11);
+          var Ø12 = WAVE.ce('div');
+          Ø12.innerText = details.Description;
+          Ø12.setAttribute('id', 'details-description'+details.Counter);
+          Ø12.setAttribute('class', 'rst-cell rst-details-cell');
+          Ø12.setAttribute('style', 'width: 30%');
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø12);
         }
-        return Ø11;
+        return Ø12;
     };
 
     published.buildStatusBody = function (status) {
@@ -1525,7 +1631,7 @@ ZHB.Tasks.Assignment.Render = (function () {
           Ø1.appendChild(Ø2);
         }
         var Ø3 = WAVE.ce('a');
-        Ø3.innerText = 'report';
+        Ø3.innerText = 'Report';
         Ø3.setAttribute('class', 'button');
         Ø3.setAttribute('style', 'margin:4px 4px 4px 0px');
         Ø3.setAttribute('data-cproject', task.C_Project);
@@ -1894,7 +2000,7 @@ ZHB.Tasks.Chat.Render = (function () {
         Ø4.addEventListener('click', ZHB.Tasks.Chat.sendChatMessage1, false);
         Ø3.appendChild(Ø4);
         var Ø5 = WAVE.ce('a');
-        Ø5.innerText = 'report';
+        Ø5.innerText = 'Report';
         Ø5.setAttribute('class', 'button');
         Ø5.setAttribute('style', 'margin:4px 4px 4px 0px');
         Ø5.setAttribute('data-cproject', task.C_Project);

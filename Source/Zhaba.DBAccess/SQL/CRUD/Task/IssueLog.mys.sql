@@ -11,6 +11,7 @@
   TC.NAME as CATEGORY_NAME,
   TP.COUNTER as C_PROJECT,
   TP.NAME as PROJECTNAME,
+  TU.LOGIN as OPERATOR,
   (SELECT GROUP_CONCAT(_tt2.LOGIN SEPARATOR '; ')
      FROM tbl_issueassign _tt1
        JOIN tbl_user _tt2 ON _tt1.C_USER = _tt2.COUNTER
@@ -22,6 +23,7 @@
 FROM tbl_issuelog as T1
   join tbl_issue as TI on T1.C_ISSUE = TI.COUNTER
   join tbl_category as TC on T1.C_CATEGORY = TC.COUNTER
+  join tbl_user as TU on T1.C_OPERATOR = TU.COUNTER
   join tbl_milestone as TM on T1.C_MILESTONE = TM.COUNTER
   join tbl_project as TP on TI.C_PROJECT = TP.COUNTER
 WHERE 

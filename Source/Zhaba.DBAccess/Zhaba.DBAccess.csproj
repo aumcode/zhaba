@@ -86,6 +86,7 @@
     <EmbeddedResource Include="SQL\CRUD\User\ByLogin.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\Component\ByID.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\Sequence\ByScopeName.mys.sql" />
+    <EmbeddedResource Include="SQL\Reports\CountStatusIssueByProject.mys.sql" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SQL\CRUD\Meeting\ByID.mys.sql" />
@@ -104,6 +105,7 @@
     <EmbeddedResource Include="SQL\CRUD\User\ByID.mys.sql" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="SQL\Reports\CountIssueByProject.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\User\FindUserPmById.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\IssueChat\findByIssue.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\Task\IssueAssign.mys.sql" />

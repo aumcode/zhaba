@@ -48,7 +48,7 @@ ZHB.Tasks.Status.Render = (function () {
                    class="button"
                  }
                }
-               a="report"
+               a="Report"
                {
                  data-cproject=?task.C_Project
                  data-cissue=?task.Counter
@@ -87,7 +87,7 @@ ZHB.Tasks.Status.Render = (function () {
                    }
                  }
                }
-               a="report"
+               a="Report"
                {
                  data-cproject=?task.C_Project
                  data-cissue=?task.Counter
@@ -105,14 +105,15 @@ ZHB.Tasks.Status.Render = (function () {
         /***
          "?if(1==1)"
          {
-           div="ID" {class="rst-cell rst-details-head" style="width: 5%"}
-           div="Progress" {class="rst-cell rst-details-head" style="width: 5%"}
+           div="Status Date" {class="rst-cell rst-details-head" style="width: 9%"}
+           div="Operator" {class="rst-cell rst-details-head" style="width: 10%"}
+           div="%" {class="rst-cell rst-details-head" style="width: 3%"}
            div="Status" {class="rst-cell rst-details-head" style="width: 10%"}
-           div="Start" {class="rst-cell rst-details-head" style="width: 10%"}
-           div="Plan/Due" {class="rst-cell rst-details-head" style="width: 10%"}
-           div="Complete" {class="rst-cell rst-details-head" style="width: 10%"}
-           div="Assigned" {class="rst-cell rst-details-head" style="width: 30%"}
-           div="Description"{ class="rst-cell rst-details-head"  style="width: 20%"}
+           div="Start" {class="rst-cell rst-details-head" style="width: 6%"}
+           div="Plan/Due" {class="rst-cell rst-details-head" style="width: 6%"}
+           div="Complete" {class="rst-cell rst-details-head" style="width: 6%"}
+           div="Assigned" {class="rst-cell rst-details-head" style="width: 20%"}
+           div="Description"{ class="rst-cell rst-details-head"  style="width: 30%"}
          }
          ***/
     };
@@ -122,8 +123,9 @@ ZHB.Tasks.Status.Render = (function () {
         /***
          "?if(1==1)"
          {
-           div="?details.Counter"{ class="rst-cell rst-text-align-center rst-details-cell" align="right" style="width: 5%"}
-           div="?details.Completeness +'%'" { class="rst-cell rst-text-align-center rst-details-cell" style="width: 5%"}
+           div="?WAVE.dateTimeToString(details.Status_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE_TIME)"{ class="rst-cell rst-text-align-center rst-details-cell" style="width: 9%"}
+           div="?details.Operator"{ class="rst-cell rst-text-align-center rst-details-cell" style="width: 10%"}
+           div="?details.Completeness +'%'" { class="rst-cell rst-text-align-center rst-details-cell" style="width: 3%"}
            div
            {
              class="rst-cell rst-text-align-center rst-details-cell"
@@ -135,11 +137,11 @@ ZHB.Tasks.Status.Render = (function () {
                div="?details.Category_Name"{ class="tag tag-category inline" }
              }
            }
-           div="?WAVE.dateTimeToString(details.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rst-cell rst-text-align-center rst-details-cell" style="width: 10%"}
-           div="?WAVE.dateTimeToString(details.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rst-cell rst-text-align-center rst-details-cell" style="width: 10%"}
-           div="?WAVE.dateTimeToString(details.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rst-cell rst-text-align-center rst-details-cell" style="width: 10%"}
-           div=?details.Assignee { class="rst-cell rst-text-align-center rst-details-cell" style="width: 30%"}
-           div="?details.Description"{ id="?'details-description'+details.Counter" class="rst-cell rst-text-align-center rst-details-cell" style="width: 20%"}
+           div="?WAVE.dateTimeToString(details.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rst-cell rst-text-align-center rst-details-cell" style="width: 6%"}
+           div="?WAVE.dateTimeToString(details.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rst-cell rst-text-align-center rst-details-cell" style="width: 6%"}
+           div="?WAVE.dateTimeToString(details.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rst-cell rst-text-align-center rst-details-cell" style="width: 6%"}
+           div=?details.Assignee { class="rst-cell rst-text-align-center rst-details-cell" style="width: 20%"}
+           div="?details.Description"{ id="?'details-description'+details.Counter" class="rst-cell rst-details-cell" style="width: 30%"}
          }
          ***/
     };

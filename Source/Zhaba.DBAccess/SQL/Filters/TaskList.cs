@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using MySql.Data.MySqlClient;
 using NFX;
 using NFX.DataAccess.MySQL;
@@ -26,6 +25,7 @@ select
   T1.START_DATE,
   T1.COMPLETENESS, 
   T1.DUE_DATE,
+  TU.LOGIN as OPERATOR,
   TC.NAME as CATEGORY_NAME,
   TP.COUNTER as C_PROJECT,
   TP.NAME as PROJECTNAME,
@@ -38,6 +38,7 @@ select
   CASE WHEN T1.STATUS IN ('D', 'X', 'C') THEN T1.STATUS_DATE ELSE NULL END AS COMPLETE_DATE  
 from tbl_issuelog as T1
   join tbl_issue as TI on T1.C_ISSUE = TI.COUNTER
+  join tbl_user as TU on T1.C_OPERATOR = TU.COUNTER
   join tbl_category as TC on T1.C_CATEGORY = TC.COUNTER
   join tbl_milestone as TM on T1.C_MILESTONE = TM.COUNTER
   join tbl_project as TP on TI.C_PROJECT = TP.COUNTER

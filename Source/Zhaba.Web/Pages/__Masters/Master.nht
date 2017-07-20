@@ -73,7 +73,7 @@
             Reports
           </button>
           <div id="report-drop-down" class="dropdown-content">
-            <a href="#">Due items</a>
+            <a href="javascript:ZHB.Reports.DueItemsReportForm()">Due items</a>
           </div>
         </div>
         <div class="menuBlock style="color: white">|</div>

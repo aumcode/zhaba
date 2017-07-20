@@ -53,6 +53,7 @@
     <Compile Include="Controllers\Project.cs" />
     <Compile Include="Controllers\Home.cs" />
     <Compile Include="Controllers\ProjectControllerBase.cs" />
+    <Compile Include="Controllers\Reports.cs" />
     <Compile Include="Controllers\User.cs" />
     <Compile Include="Controls\Grids\AreaGrid.nht.auto.cs">
       <DependentUpon>AreaGrid.nht</DependentUpon>
@@ -168,11 +169,14 @@
     <Compile Include="Pages\Reports\IssueStatusReport.nht.auto.cs">
       <DependentUpon>IssueStatusReport.nht</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Reports\DueItemsReport.nht.auto.cs">
-      <DependentUpon>DueItemsReport.nht</DependentUpon>
+    <Compile Include="Pages\Reports\DueItemsReportPage.nht.auto.cs">
+      <DependentUpon>DueItemsReportPage.nht</DependentUpon>
     </Compile>
     <Compile Include="Pages\Reports\IssueAssignmentReport.nht.auto.cs">
       <DependentUpon>IssueAssignmentReport.nht</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Reports\Form\DueItemsReportFormPage.nht.auto.cs">
+      <DependentUpon>DueItemsReportFormPage.nht</DependentUpon>
     </Compile>
     <Compile Include="Pages\__Masters\FormMaster.nht.auto.cs">
       <DependentUpon>FormMaster.nht</DependentUpon>
@@ -183,6 +187,12 @@
     <Compile Include="Pages\__Masters\Report.nht.auto.cs">
       <DependentUpon>Report.nht</DependentUpon>
     </Compile>
+    <Compile Include="Pages\__Masters\ReportMaster.nht.auto.cs">
+      <DependentUpon>ReportMaster.nht</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\__Masters\ReportFormMaster.nht.auto.cs">
+      <DependentUpon>ReportFormMaster.nht</DependentUpon>
+    </Compile>
     <Compile Include="Pages\__Masters\Master.nht.auto.cs">
       <DependentUpon>Master.nht</DependentUpon>
     </Compile>
@@ -190,6 +200,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Pages\Reports\Form\DueItemsReportFormPage.nht" />
+    <Content Include="Pages\__Masters\ReportFormMaster.nht" />
+    <Content Include="Pages\__Masters\ReportMaster.nht" />
     <Content Include="Static\css\report.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -203,6 +216,8 @@
     <Content Include="Static\less\pages\DashboardReport.less" />
     <Content Include="Static\less\report.less" />
     <Content Include="Static\ntc\etc.ntc.js" />
+    <Content Include="Static\ntc\reports.render.ntc.js" />
+    <Content Include="Static\ntc\reports.ntc.js" />
     <Content Include="Static\ntc\tasks.areas.ntc.js" />
     <Content Include="Static\ntc\tasks.areas.render.ntc.js" />
     <Content Include="Static\ntc\tasks.assignment.ntc.js" />
@@ -254,7 +269,7 @@
     <None Include="Pages\Dashboard\ProjectsPage.nht" />
     <None Include="Pages\Reports\IssueAbstractReport.nht" />
     <None Include="Pages\Reports\IssueAssignmentReport.nht" />
-    <None Include="Pages\Reports\DueItemsReport.nht" />
+    <None Include="Pages\Reports\DueItemsReportPage.nht" />
     <None Include="Pages\Reports\IssueChatReport.nht" />
     <None Include="Pages\Reports\IssueStatusReport.nht" />
     <None Include="Pages\__Masters\FormMaster.nht" />

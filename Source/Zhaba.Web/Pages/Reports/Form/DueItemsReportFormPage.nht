@@ -1,0 +1,37 @@
+#<laconf>
+  compiler
+  {
+    using { ns="System.Linq" }
+    using { ns="System.Collections.Generic" }
+    using { ns="NFX" }
+    using { ns="NFX.DataAccess.CRUD" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Wave.Templatization" }
+    using { ns="Zhaba" }
+    using { ns="Zhaba.Data.Forms" }
+    using { ns="Zhaba.Data.Reports" }
+    base-class-name="Zhaba.Web.Pages.ReportFormMaster<DueItemsReport>"
+    namespace="Zhaba.Web.Pages"
+  }
+#</laconf>
+
+#[class]
+  public DueItemsReportFormPage(DueItemsReport report, Exception error)
+    : base(report, error)
+  {
+    Title = "Due Items Report";
+  }
+
+
+#[render]
+
+#[override renderHeader()]
+  <div>?[:Title]</div>
+
+#[override renderEntries()]
+  <div class="fView" data-wv-fname="AsOf"></div>
+  <div class="fView" data-wv-fname="C_Project"></div>
+
+#[override renderBtns()]
+  <input class="button" type="submit" value="Save" />
+  <a class="button" href="#">Cancel</a>
