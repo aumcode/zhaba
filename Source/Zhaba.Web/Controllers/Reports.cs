@@ -16,12 +16,10 @@ namespace Zhaba.Web.Controllers
   public class Reports : ZhabaController
   {
     [Action]
-    public object dueitems(DueItemsReport report)
+    public object DueItems(DueItemsReport report)
     {
       return DateSetup<DueItemsReport, DueItemsReport.Statistic, DueItemsReportPage, DueItemsReportFormPage>(new object[] {report}, report);
     }
-
-
 
     #region .pvt
 
