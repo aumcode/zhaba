@@ -25,6 +25,7 @@ namespace Zhaba.Web.Controllers
     [Action("dueitemsview", 0, "match { methods=GET}")]
     public object DueItemsView(DateTime? asOf, ulong? C_Project)
     {
+      C_Project = C_Project == null ? null : C_Project.Value == 0 ? null : C_Project;
       var report = new DueItemsReport() {AsOf = asOf, C_Project = C_Project};
       return DateSetupView<DueItemsReport, DueItemsReport.Statistic, DueItemsReportPage>(report);
     }

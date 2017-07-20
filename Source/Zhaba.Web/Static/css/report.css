@@ -226,12 +226,17 @@ img {
   background-color: gray;
 }
 #DashboardReport .report-body {
-  margin: 20px 0px;
+  text-align: center;
+  padding: 20px;
 }
 #DashboardReport .tags-body {
-  margin: 5px 0px;
+  margin: 5px 20px;
+}
+#DashboardReport .header {
+  margin: 20px;
 }
 #DashboardReport table {
+  width: 100%;
   border-collapse: collapse;
 }
 #DashboardReport table tr:nth-child(even) {
@@ -253,4 +258,10 @@ img {
   font-size: 14px;
   border-top: 2px solid #d8d8d8;
   border-bottom: none;
+}
+#DashboardReport table td .text-aligment-left {
+  text-align: left;
+}
+#ftr {
+  text-align: center;
 }

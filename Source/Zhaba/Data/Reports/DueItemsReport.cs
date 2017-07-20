@@ -45,7 +45,7 @@ namespace Zhaba.Data.Reports
       [Field] public DateTime? Status_Date { get; set; }
       [Field] public string Description { get; set; }
       [Field] public DateTime? Start_Date { get; set; }
-      [Field] public int Completness { get; set; }
+      [Field] public int Completeness { get; set; }
       [Field] public DateTime? Due_Date { get; set; }
       [Field] public string Operator { get; set; }
       [Field] public string Category_Name { get; set; }
