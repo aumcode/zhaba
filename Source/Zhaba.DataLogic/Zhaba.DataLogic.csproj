@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LogicBase.cs" />
+    <Compile Include="Reports\ZhabaReportsLogic.cs" />
     <Compile Include="StringConsts.cs" />
     <Compile Include="ZhabaDataStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

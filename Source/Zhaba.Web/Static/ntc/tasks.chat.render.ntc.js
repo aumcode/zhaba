@@ -51,7 +51,7 @@ ZHB.Tasks.Chat.Render = (function () {
          
                on-click=ZHB.Tasks.Chat.sendChatMessage1
              }
-             a="report"
+             a="Report"
              {
                class="button"
                style="margin:4px 4px 4px 0px"

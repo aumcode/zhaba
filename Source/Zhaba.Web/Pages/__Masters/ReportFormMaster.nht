@@ -1,0 +1,70 @@
+#<laconf>
+  compiler
+  {
+    using { ns="System.Linq" }
+    using { ns="System.Collections.Generic" }
+    using { ns="NFX" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Wave.Templatization" }
+    using { ns="Zhaba" }
+    using { ns="Zhaba.Data.Forms" }
+    class-declaration="ReportFormMaster<TReport>"
+    class-constraint="where TReport : ZhabaReportForm"
+    base-class-name="Zhaba.Web.Pages.Report"
+    namespace="Zhaba.Web.Pages"
+  }
+#</laconf>
+
+#[class]
+  protected ReportFormMaster(TReport report, Exception error)
+  {
+    m_Report = report;
+    m_ValidationError = error;
+  }
+
+  private readonly TReport m_Report;
+  private readonly Exception m_ValidationError;
+
+  public TReport Report { get { return m_Report; } }
+
+  protected virtual void renderHeader() { }
+  protected virtual void renderEntries() { }
+  protected virtual void renderBtns() { }
+
+#[override renderBody()]
+  <form id="editForm" data-wv-rid="V1" method="POST" novalidate="">
+    <div class="header">
+       @[renderHeader();]
+    </div>
+    <div class="content">
+      <div class="entries">
+        @[renderEntries();]
+      </div>
+      <div class="btns">
+        @[renderBtns();]
+      </div>
+    </div>
+  </form>
+
+#[override renderScripts()]
+<script>
+
+  var REC = new WAVE.RecordModel.Record(?[:FormJSON(m_Report, m_ValidationError)]);
+  var RVIEW = new WAVE.RecordModel.RecordView("V1", REC);
+
+  $('#editForm').submit(function (e) {
+    if (!REC.validate())
+    {
+      WAVE.GUI.toast('Please correct all validation errors marked in red','error');
+      e.preventDefault();
+      return false;
+    }
+    REC.resetModified();
+    return true;
+  })
+
+  @[if (m_ValidationError!=null) {]
+    WAVE.GUI.toast('Please correct errors on form marked in red', 'error', 5000);
+  @[}]
+
+</script>

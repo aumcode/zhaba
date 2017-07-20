@@ -32,13 +32,15 @@
   protected IEnumerable<AreaRow> areas;
   protected IEnumerable<ComponentRow> components;
   protected IEnumerable<TRow> m_List;
+  protected string m_Title;
   
   protected virtual void reportBody() { }
 
 #[override renderBody()]
 <div  id="DashboardReport">
-  <h1>Project:  [@[Target.Write(m_Project.Counter);]] @[Target.Write(m_Project.Name);]</h1>
-  <h2>Issue: [@[Target.Write(m_Issue.Counter);]] @[Target.Write(m_Issue.Name);] </h2>
+  <h1>@[Target.Write(m_Title);]</h1>
+  <h2>Project:  [@[Target.Write(m_Project.Counter);]] @[Target.Write(m_Project.Name);]</h3>
+  <h3>Issue: [@[Target.Write(m_Issue.Counter);]] @[Target.Write(m_Issue.Name);] </h3>
   
   @[foreach(AreaRow row in areas) {]
   <span class="tag">@[Target.Write(row.Name);]</span>

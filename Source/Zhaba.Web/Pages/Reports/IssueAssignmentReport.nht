@@ -21,6 +21,7 @@
   public IssueAssignmentReport(ProjectRow project, IssueRow issue) : base(project, issue)
   {
     m_List = ZApp.Data.CRUD.LoadEnumerable(QIssueAssign.findIssueAssigneeByIssue<TaskListFilter.IssueAssignListFilterRow>(issue.Counter));
+    m_Title = "Issue Assiggnment Report";
   }
 
 #[override reportBody()]

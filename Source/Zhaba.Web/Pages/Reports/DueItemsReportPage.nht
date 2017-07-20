@@ -1,0 +1,51 @@
+﻿#<laconf>
+  compiler
+  {
+    using { ns="System.Linq" }
+    using { ns="System.Collections.Generic" }
+    using { ns="NFX" }
+    using { ns="NFX.DataAccess.CRUD" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Wave.Templatization" }
+    using { ns="Zhaba" }
+    using { ns="Zhaba.Data.Forms" }
+    using { ns="Zhaba.Data.Rows" }
+    using { ns="Zhaba.Data.QueryBuilders" }
+    using { ns="Zhaba.Data.Reports" }
+    base-class-name="Zhaba.Web.Pages.ReportMaster<DueItemsReport, DueItemsReport.Statistic>"
+    namespace="Zhaba.Web.Pages.Reports"
+  }
+#</laconf>
+
+#[class]
+  public DueItemsReportPage(DueItemsReport report, IEnumerable<DueItemsReport.Statistic> data) : base(report, data)
+  {
+    Title = "Due Items Report";  
+  }
+#[override renderBody()]
+<h1>?[:Title]</h1>
+<div>
+  @[foreach(var row in Data) {]
+   <hr/>
+  <div>
+    <h2>[?[:row.C_Project]] ?[:row.Name]</h2>
+    <ul>
+      <li>Total Issue - ?[:row.IssueCount]
+        <ul>
+          @[foreach(var item in row.DetailIssueCount) {]
+          <li> ?[:item.Status] - ?[:item.Count] 
+          </li>
+          @[}]
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  @[}]
+</div>
+<div>
+
+</div>
+
+
+

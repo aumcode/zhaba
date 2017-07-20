@@ -96,4 +96,12 @@ namespace Zhaba.Data.Forms
     {
     }
   }
+
+  public abstract class ZhabaReportForm : ZhabaForm
+  {
+    protected ZhabaReportForm() : base()
+    {
+      
+    }
+  }
 }

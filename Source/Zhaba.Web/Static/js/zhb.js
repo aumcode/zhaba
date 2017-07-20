@@ -1240,7 +1240,7 @@ ZHB.Tasks.Status.Render = (function () {
               Ø1.appendChild(Ø4);
             }
             var Ø5 = WAVE.ce('a');
-            Ø5.innerText = 'report';
+            Ø5.innerText = 'Report';
             Ø5.setAttribute('data-cproject', task.C_Project);
             Ø5.setAttribute('data-cissue', task.Counter);
             Ø5.setAttribute('data-report', 'statusreport');
@@ -1278,7 +1278,7 @@ ZHB.Tasks.Status.Render = (function () {
               }
             }
             var Ø4 = WAVE.ce('a');
-            Ø4.innerText = 'report';
+            Ø4.innerText = 'Report';
             Ø4.setAttribute('data-cproject', task.C_Project);
             Ø4.setAttribute('data-cissue', task.Counter);
             Ø4.setAttribute('data-report', 'statusreport');
@@ -1525,7 +1525,7 @@ ZHB.Tasks.Assignment.Render = (function () {
           Ø1.appendChild(Ø2);
         }
         var Ø3 = WAVE.ce('a');
-        Ø3.innerText = 'report';
+        Ø3.innerText = 'Report';
         Ø3.setAttribute('class', 'button');
         Ø3.setAttribute('style', 'margin:4px 4px 4px 0px');
         Ø3.setAttribute('data-cproject', task.C_Project);
@@ -1894,7 +1894,7 @@ ZHB.Tasks.Chat.Render = (function () {
         Ø4.addEventListener('click', ZHB.Tasks.Chat.sendChatMessage1, false);
         Ø3.appendChild(Ø4);
         var Ø5 = WAVE.ce('a');
-        Ø5.innerText = 'report';
+        Ø5.innerText = 'Report';
         Ø5.setAttribute('class', 'button');
         Ø5.setAttribute('style', 'margin:4px 4px 4px 0px');
         Ø5.setAttribute('data-cproject', task.C_Project);

@@ -20,7 +20,7 @@ ZHB.Tasks.Assignment.Render = (function () {
                style="margin:4px 4px 4px 0px"
              }
            }
-           a="report"
+           a="Report"
            {
              class="button"
              style="margin:4px 4px 4px 0px"
