@@ -68,6 +68,7 @@
     <Compile Include="Data\Filters\ProjectListFilter.cs" />
     <Compile Include="Data\Filters\TaskListFilter.cs" />
     <Compile Include="Data\Filters\UserListFilter.cs" />
+    <Compile Include="Data\Forms\CancelNoteEditForm.cs" />
     <Compile Include="Data\Forms\CategoryForm.cs" />
     <Compile Include="Data\Forms\IssueAssignForm.cs" />
     <Compile Include="Data\Forms\IssueChatForm.cs" />

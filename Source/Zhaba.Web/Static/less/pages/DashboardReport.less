@@ -1,35 +1,36 @@
 #DashboardReport {
-  table {
-    border-collapse: collapse;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #f0f0f0;
-  }
-  
-  tr:nth-child(odd) {
-    background-color: #fafafa;
-  }
-  
-  th {
-    background-color: #909090;
-  }
-  
-  td {
-    padding: 5px 10px;
-    
-  }
-  
-  .tag {
-    border: 1px solid #909090;
-    border-radius: 12px;
-    padding: 5px 5px;
-    margin: 2px 2px;
-    background-color: #f2f2f2;
-  }
-  
   .report-body {
     margin: 20px 0px;
   }
 
+  .tags-body {
+    margin: 5px 0px;
+  }
+
+  table {
+    border-collapse: collapse;
+    tr:nth-child(even) {
+      background-color: #f0f0f0;
+    }
+  
+    tr:nth-child(odd) {
+      background-color: #fafafa;
+    }
+    
+    th {
+       padding: 4px;
+       font-size: 14px;
+       text-align:center;
+       color: #fff;
+       background-color: #c0c0c0;
+       border: 1px dotted #d0d0d0;
+    }
+  
+    td {
+      padding: 4px;
+      font-size: 14px;
+      border-top: 2px solid #d8d8d8;
+      border-bottom: none;
+    }
+  }
 }

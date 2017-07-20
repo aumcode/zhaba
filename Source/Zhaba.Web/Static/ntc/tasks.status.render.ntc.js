@@ -3,8 +3,7 @@
 
 ZHB.Tasks.Status.Render = (function () {
     "use strict";
-    var published = {}
-    ;
+    var published = {};
 
     published.buildStatusButtons = function (root, task) {
         var detailsId = "details-" + task.Counter;
@@ -133,8 +132,9 @@ ZHB.Tasks.Status.Render = (function () {
              div
              {
                align="center"
-               div="?details.Status"{ class="?'tag {0} inline'.args(ZHB.Tasks.Render.getStatusStyle(details.Status))" }
-               div="?details.Category_Name"{ class="tag tag-category inline" }
+               div="?details.Priority"{ class="?'tag {0} inline-block'.args(ZHB.Tasks.Render.getPriorityStyle(details.Priority))" }
+               div="?details.Status"{ class="?'tag {0} inline-block'.args(ZHB.Tasks.Render.getStatusStyle(details.Status))" }
+               div="?details.Category_Name"{ class="tag tag-category inline-block" }
              }
            }
            div="?WAVE.dateTimeToString(details.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE)"{ class="rst-cell rst-text-align-center rst-details-cell" style="width: 6%"}

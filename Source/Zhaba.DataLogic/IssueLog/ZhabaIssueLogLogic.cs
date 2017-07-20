@@ -230,7 +230,7 @@ namespace Zhaba.DataLogic
               Priority = form.Priority,
               Start_Date = form.Start_Date.Value.Date,
               Due_Date = form.Due_Date.Value.Date,
-              Description = ""
+              Description = form.Description
             }, trn);
           else
             write(new EditIssueEvent()
@@ -243,7 +243,7 @@ namespace Zhaba.DataLogic
               Priority = form.Priority,
               Start_Date = form.Start_Date.Value.Date,
               Due_Date = form.Due_Date.Value.Date,
-              Description = ""
+              Description = form.Description
             }, trn);
           trn.Commit();
         }

@@ -39,18 +39,21 @@
 #[override renderBody()]
 <div  id="DashboardReport">
   <h1>@[Target.Write(m_Title);]</h1>
-  <h2>Project:  [@[Target.Write(m_Project.Counter);]] @[Target.Write(m_Project.Name);]</h3>
+  <h2>Project:  [@[Target.Write(m_Project.Counter);]] @[Target.Write(m_Project.Name);]</h2>
   <h3>Issue: [@[Target.Write(m_Issue.Counter);]] @[Target.Write(m_Issue.Name);] </h3>
   
-  @[foreach(AreaRow row in areas) {]
-  <span class="tag">@[Target.Write(row.Name);]</span>
-  @[}]
-  @[foreach(ComponentRow row in components) {]
-  <span class="tag">@[Target.Write(row.Name);]</span>
-  @[}]
-<div class="report-body">
-  @[reportBody();]
-</div>
+  <div class="tags-body">
+     @[foreach(AreaRow row in areas) {]
+    <span class="tag tag-area inline-block">@[Target.Write(row.Name);]</span>
+    @[}]
+    @[foreach(ComponentRow row in components) {]
+    <span class="tag tag-component inline-block">@[Target.Write(row.Name);]</span>
+    @[}]
+  </div>
+ 
+  <div class="report-body">
+    @[reportBody();]
+  </div>
 </div>
 
 
