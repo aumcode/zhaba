@@ -1,0 +1,35 @@
+#<laconf>
+  compiler
+  {
+    using { ns="NFX" }
+    using { ns="NFX.Wave" }
+    using { ns="NFX.Security" }
+    using { ns="Zhaba" }
+    using { ns="Zhaba.Web" }
+    using { ns="Zhaba.Data.Rows" }
+    using { ns="NFX.Wave.Templatization" }
+    using { ns="NFX.ApplicationModel" }
+    using { ns="Zhaba.Security.Permissions" }
+    using { ns="Zhaba.Data.Forms" }
+    using { ns="NFX.DataAccess.CRUD" }
+    base-class-name="Zhaba.Web.Pages.Report"
+    class-declaration="ReportMaster<TReport, TData>"
+    class-constraint="where TReport : ZhabaReportForm"
+    namespace="Zhaba.Web.Pages"
+  }
+#</laconf>
+
+#[class]
+  
+  public ReportMaster(TReport report, IEnumerable<TData> data) {
+    m_Report = report;
+    m_Data = data;
+  }
+  
+  private TReport m_Report;
+  private IEnumerable<TData> m_Data;
+  
+  public virtual TReport Report { get{ return m_Report;} }
+  public virtual IEnumerable<TData> Data { get{ return m_Data;} }
+  
+  

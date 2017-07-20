@@ -48,7 +48,7 @@ ZHB.Tasks.Status.Render = (function () {
                    class="button"
                  }
                }
-               a="report"
+               a="Report"
                {
                  data-cproject=?task.C_Project
                  data-cissue=?task.Counter
@@ -87,7 +87,7 @@ ZHB.Tasks.Status.Render = (function () {
                    }
                  }
                }
-               a="report"
+               a="Report"
                {
                  data-cproject=?task.C_Project
                  data-cissue=?task.Counter

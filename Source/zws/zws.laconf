@@ -201,6 +201,14 @@
             
             match
             {
+              order = 60
+              path="/reports/{mvc-action}"
+              var{ name=type default='Reports' }
+              var{ query-name="*" }
+            }
+            
+            match
+            {
               order=100
               path='{mvc-action}'
               var{ query-name=* }

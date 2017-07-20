@@ -21,6 +21,7 @@
   public IssueStatusReport(ProjectRow project, IssueRow issue) : base(project, issue)
   {
     m_List = ZApp.Data.CRUD.LoadEnumerable(QIssueLog.findAllByIssue<TaskListFilter.TaskListFilterRow>(issue.Counter));
+    m_Title = "Issue Status Report";
   }
 
 #[override reportBody()]

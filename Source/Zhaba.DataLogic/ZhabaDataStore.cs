@@ -27,6 +27,7 @@ namespace Zhaba.DataLogic
       m_Users = new ZhabaUserLogic(this);
       m_SequenceProvider = new ZhabaSequenceProvider();
       m_IssueLog = new ZhabaIssueLogLogic(this);
+      m_ReportsLogic = new ZhabaReportsLogic(this);
     }
 
     protected override void Destructor()
@@ -43,6 +44,7 @@ namespace Zhaba.DataLogic
     private ZhabaUserLogic m_Users;
     private ZhabaSequenceProvider m_SequenceProvider;
     private ZhabaIssueLogLogic m_IssueLog;
+    private ZhabaReportsLogic m_ReportsLogic;
 
     #endregion
 
@@ -51,6 +53,7 @@ namespace Zhaba.DataLogic
     public IUniqueSequenceProvider SequenceProvider { get { return m_SequenceProvider; } }
     public IUserLogic Users { get { return m_Users; } }
     public IIssueLogic Issue { get { return m_IssueLog; } }
+    public IReportLogic ReportLogic {get { return m_ReportsLogic; } }
 
     public override bool InstrumentationEnabled
     {

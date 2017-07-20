@@ -6,6 +6,7 @@ using NFX.DataAccess.CRUD;
 
 using Zhaba.Data.Rows;
 using Zhaba.Data.Forms;
+using Zhaba.Data.Reports;
 
 namespace Zhaba.Data
 {
@@ -17,6 +18,7 @@ namespace Zhaba.Data
 
     IUserLogic Users { get; }
     IIssueLogic Issue { get; }
+    IReportLogic ReportLogic { get; }
   }
 
 
@@ -45,7 +47,7 @@ namespace Zhaba.Data
   public interface IIssueLogic : IStoreLogic
   {
     void WriteLogEvent(IssueLogEvent evt, ICRUDOperations operations = null);
-    Exception WriteIssueForm(IssueForm from, out object saveResult);
+    Exception WriteIssueForm(IssueForm form, out object saveResult);
     Exception WriteIssueAssignForm(IssueAssignForm form, out object saveResult);
     void CloseIssue(ulong C_Project, ulong C_Issue, ulong C_User);
     void ReOpenIssue(ulong C_Project, ulong C_Issue, ulong C_User);
@@ -54,6 +56,10 @@ namespace Zhaba.Data
     void ChangeStatus(ulong c_User, ulong c_Project, ulong c_Issue, string status, string description, ulong? c_AssignedUser = null);
   }
 
+  public interface IReportLogic : IStoreLogic
+  {
+    Exception DueItemReport(DueItemsReport form, out object saveResult);
+  }
   
 
 }

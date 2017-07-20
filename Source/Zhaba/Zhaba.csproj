@@ -58,7 +58,6 @@
     <Compile Include="Data\Domains\Time.cs" />
     <Compile Include="Data\Filters\AreaListFilter.cs" />
     <Compile Include="Data\Filters\CategoryListFilter.cs" />
-    <Compile Include="Data\Filters\DueItemsReportFilter.cs" />
     <Compile Include="Data\Filters\IssueAreaListFilter.cs" />
     <Compile Include="Data\Filters\IssueChatFilter.cs" />
     <Compile Include="Data\Filters\IssueComponentListFilter.cs" />
@@ -84,12 +83,14 @@
     <Compile Include="Data\QueryBuilders\QIssueAssign.cs" />
     <Compile Include="Data\QueryBuilders\QIssueChat.cs" />
     <Compile Include="Data\QueryBuilders\QIssueLog.cs" />
+    <Compile Include="Data\QueryBuilders\QReports.cs" />
     <Compile Include="Data\QueryBuilders\QSequence.cs" />
     <Compile Include="Data\QueryBuilders\QCommon.cs" />
     <Compile Include="Data\QueryBuilders\QProject.cs" />
     <Compile Include="Data\QueryBuilders\QTask.cs" />
     <Compile Include="Data\QueryBuilders\QUser.cs" />
     <Compile Include="Data\QueryBuilders\TRow.cs" />
+    <Compile Include="Data\Reports\DueItemsReport.cs" />
     <Compile Include="Data\Rows\AgendaIssue.cs" />
     <Compile Include="Data\Rows\AgendaRow.cs" />
     <Compile Include="Data\Rows\CategoryRow.cs" />
