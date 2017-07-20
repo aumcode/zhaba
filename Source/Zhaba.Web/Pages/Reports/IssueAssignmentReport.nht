@@ -37,9 +37,9 @@
   <tr>
     <td style="width: 50px">@[Target.Write(item.Counter);]</td>      
     <td style="width: 250px">@[Target.Write(item.UserFirstName);]&nbsp;@[Target.Write(item.UserLastName);]&nbsp;(@[Target.Write(item.UserLogin);])</td>      
-    <td style="width: 100px">@[Target.Write(item.OperatorOpenFirstName);]&nbsp;@[Target.Write(item.OperatorOpenLastName);]&nbsp;(@[Target.Write(item.OperatorOpenLogin);])</td>      
+    <td style="width: 200px">@[Target.Write(item.OperatorOpenFirstName);]&nbsp;@[Target.Write(item.OperatorOpenLastName);]&nbsp;(@[Target.Write(item.OperatorOpenLogin);])</td>      
     <td style="width: 150px">@[Target.Write(item.Open_TS);]</td>
-    <td style="width: 100px">
+    <td style="width: 200px">
     @[ if (item.OperatorCloseLogin != null) {]
     @[Target.Write(item.OperatorCloseFirstName);]&nbsp;@[Target.Write(item.OperatorCloseLastName);]&nbsp;(@[Target.Write(item.OperatorCloseLogin);])
     @[}]
