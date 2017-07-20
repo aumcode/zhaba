@@ -37,11 +37,13 @@
   protected virtual void reportBody() { }
 
 #[override renderBody()]
-<div  id="DashboardReport">
-  <h1>@[Target.Write(m_Title);]</h1>
-  <h2>Project:  [@[Target.Write(m_Project.Counter);]] @[Target.Write(m_Project.Name);]</h2>
-  <h3>Issue: [@[Target.Write(m_Issue.Counter);]] @[Target.Write(m_Issue.Name);] </h3>
-  
+<div id="DashboardReport">
+  <div class="header">
+    <h1>@[Target.Write(m_Title);]</h1>
+    <h2>Project:  [@[Target.Write(m_Project.Counter);]] @[Target.Write(m_Project.Name);]</h2>
+    <h3>Issue: [@[Target.Write(m_Issue.Counter);]] @[Target.Write(m_Issue.Name);] </h3>
+  </div>
+
   <div class="tags-body">
      @[foreach(AreaRow row in areas) {]
     <span class="tag tag-area inline-block">@[Target.Write(row.Name);]</span>

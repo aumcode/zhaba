@@ -27,8 +27,8 @@
 #[override reportBody()]
 <table>
   <tr>
-    <th>ID</th>
-    <th>Progress</th>
+    <th style="width: 50px">ID</th>
+    <th style="width: 50px">%</th>
     <th>Status</th>
     <th>Priority</th>
     <th>Start</th>
@@ -41,13 +41,13 @@
   <tr>
     <td>@[Target.Write(item.Counter.ToString("000000"));]</td>      
     <td>@[Target.Write(item.Completeness.ToString("000"));]</td>      
-    <td>@[Target.Write(item.Status);]<br>@[Target.Write(item.Status_Date.Value.ToString("MMMM dd, yyyy H:mm:ss"));]</td>      
+    <td>@[Target.Write("{0} {1}".Args(item.Status, item.Category_Name));]<br>@[Target.Write(item.Status_Date.Value.ToString("MMMM dd, yyyy H:mm:ss"));]</td>      
     <td>@[Target.Write(item.Priority.ToString("00"));]</td>
     <td>@[Target.Write(item.Start_Date.Value.ToString("MMMM dd, yyyy"));]</td>
     <td>@[Target.Write(item.Due_Date.Value.ToString("MMMM dd, yyyy"));]</td>
     <td>@[Target.Write(item.Complete_Date != null ? item.Complete_Date.Value.ToString("MMMM dd, yyyy") : "OPEN");]</td>
     <td>@[Target.Write(item.Assignee);]</td>
-    <td><pre>@[Target.Write(item.Description);]</pre></td>                
+    <td><pre style="text-align: left">@[Target.Write(item.Description);]</pre></td>                
   </tr>
   @[}]
 </table>

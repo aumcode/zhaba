@@ -35,16 +35,16 @@
   </tr>
   @[ foreach(var item in m_List) {]
   <tr>
-    <td>@[Target.Write(item.Counter);]</td>      
-    <td>@[Target.Write(item.UserFirstName);]&nbsp;@[Target.Write(item.UserLastName);]&nbsp;(@[Target.Write(item.UserLogin);])</td>      
-    <td>@[Target.Write(item.OperatorOpenFirstName);]&nbsp;@[Target.Write(item.OperatorOpenLastName);]&nbsp;(@[Target.Write(item.OperatorOpenLogin);])</td>      
-    <td>@[Target.Write(item.Open_TS);]</td>
-    <td>
+    <td style="width: 50px">@[Target.Write(item.Counter);]</td>      
+    <td style="width: 250px">@[Target.Write(item.UserFirstName);]&nbsp;@[Target.Write(item.UserLastName);]&nbsp;(@[Target.Write(item.UserLogin);])</td>      
+    <td style="width: 100px">@[Target.Write(item.OperatorOpenFirstName);]&nbsp;@[Target.Write(item.OperatorOpenLastName);]&nbsp;(@[Target.Write(item.OperatorOpenLogin);])</td>      
+    <td style="width: 150px">@[Target.Write(item.Open_TS);]</td>
+    <td style="width: 100px">
     @[ if (item.OperatorCloseLogin != null) {]
     @[Target.Write(item.OperatorCloseFirstName);]&nbsp;@[Target.Write(item.OperatorCloseLastName);]&nbsp;(@[Target.Write(item.OperatorCloseLogin);])
     @[}]
     </td>
-    <td>@[Target.Write(item.Close_TS);]</td>
+    <td style="width: 150px">@[Target.Write(item.Close_TS);]</td>
     <td>@[Target.Write(item.Note);]</td>
   </tr>
   @[}]

@@ -1,13 +1,20 @@
 #DashboardReport {
+
   .report-body {
-    margin: 20px 0px;
+    text-align: center;
+    padding: 20px;
   }
 
   .tags-body {
-    margin: 5px 0px;
+    margin: 5px 20px;
+  }
+
+  .header {
+    margin: 20px;
   }
 
   table {
+    width: 100%;
     border-collapse: collapse;
     tr:nth-child(even) {
       background-color: #f0f0f0;
@@ -31,6 +38,13 @@
       font-size: 14px;
       border-top: 2px solid #d8d8d8;
       border-bottom: none;
+      & .text-aligment-left{
+        text-align: left;
+      }
     }
   }
+}
+
+#ftr {
+  text-align: center;
 }
