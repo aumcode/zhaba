@@ -16,6 +16,8 @@ namespace Zhaba.Data.Forms
   /// </summary>
   public class IssueForm : ProjectFormBase
   {
+    public const int DEFAULT_PRIORITY = 10;
+    
     #region .ctor
     public IssueForm() { }
 
@@ -45,7 +47,7 @@ namespace Zhaba.Data.Forms
         }
         else
         {
-          Start_Date = App.TimeSource.UTCNow.Date;  
+          Start_Date = App.TimeSource.UTCNow.Date;
         }
 
         RoundtripBag[ITEM_ID_BAG_PARAM] = counter.Value;
@@ -54,6 +56,7 @@ namespace Zhaba.Data.Forms
       {
         FormMode = FormMode.Insert;
         Start_Date = App.TimeSource.UTCNow.Date;
+        Priority = DEFAULT_PRIORITY;
       }
     }
     #endregion
@@ -85,8 +88,8 @@ namespace Zhaba.Data.Forms
     public DateTime? Due_Date { get; set; }
 
     [Field(required: true,
-           description: "Priority",
-           metadata: @"Placeholder='Priority'")]
+      description: "Priority",
+      metadata: @"Placeholder='Priority'")]
     public ulong Priority { get; set; }
     #endregion
 
