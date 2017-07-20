@@ -1,20 +1,19 @@
-﻿using System;
-using NFX.DataAccess.CRUD;
+﻿using NFX.DataAccess.CRUD;
 using Zhaba.Data.Rows;
 
 namespace Zhaba.Data.Forms
 {
-  public class NoteEditForm : IssueFormBase
+  public class CancelNoteEditForm : IssueFormBase
   {
-    public NoteEditForm() { }
+    public CancelNoteEditForm() { }
 
-    public NoteEditForm(ProjectRow project,  IssueRow issue, string status) 
+    public CancelNoteEditForm(ProjectRow project, IssueRow issue, string status) 
       : base(project, issue)
     {
       FormMode = FormMode.Insert;
       Status = status;
     }
-  
+
     [Field(required: false,
           description: "Status",
           metadata: @"Placeholder='Status'")]
@@ -22,7 +21,8 @@ namespace Zhaba.Data.Forms
 
     [Field(required: false,
            description: "Description",
-           metadata: @"Placeholder='Description'")]
+           metadata: @"Placeholder='Description'",
+           minLength: 8)]
     public string Description { get; set; }
   }
 }

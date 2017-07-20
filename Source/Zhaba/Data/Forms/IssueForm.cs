@@ -17,7 +17,8 @@ namespace Zhaba.Data.Forms
   public class IssueForm : ProjectFormBase
   {
     public const int DEFAULT_PRIORITY = 10;
-    
+    private const string DEFAULT_ISSUE_INSERT_DESCRIPTION = "Created";
+
     #region .ctor
     public IssueForm() { }
 
@@ -44,6 +45,7 @@ namespace Zhaba.Data.Forms
           Priority = issueLog.Priority;
           Start_Date = issueLog.Start_Date;
           Due_Date = issueLog.Due_Date;
+          Description = issueLog.Description;
         }
         else
         {
@@ -58,6 +60,7 @@ namespace Zhaba.Data.Forms
         FormMode = FormMode.Insert;
         Start_Date = App.TimeSource.UTCNow.Date;
         Priority = DEFAULT_PRIORITY;
+        Description = DEFAULT_ISSUE_INSERT_DESCRIPTION;
       }
     }
     #endregion
@@ -92,6 +95,11 @@ namespace Zhaba.Data.Forms
       description: "Priority",
       metadata: @"Placeholder='Priority'")]
     public ulong Priority { get; set; }
+
+    [Field(required: false,
+           description: "Description",
+           metadata: @"Placeholder='Description'")]
+    public string Description { get; set; }
     #endregion
 
     #region Public

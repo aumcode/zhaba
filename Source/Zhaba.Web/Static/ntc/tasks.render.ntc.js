@@ -3,8 +3,7 @@
 
 ZHB.Tasks.Render = (function () {
     "use strict";
-    var published = {}
-    ;
+    var published = {};
 
     function getStatusBarStyle(value) {
         var red = 0;
@@ -112,8 +111,8 @@ ZHB.Tasks.Render = (function () {
                div
                {
                  align="center"
-                 div="?task.Status"{ class="?'tag {0} inline'.args(getStatusStyle(task.Status))" }
-                 div="?task.Category_Name"{ class="tag tag-category inline" }
+                 div="?task.Status"{ class="?'tag {0} inline-block'.args(getStatusStyle(task.Status))" }
+                 div="?task.Category_Name"{ class="tag tag-category inline-block" }
                }
      
                div="?task.Completeness +'%'"
@@ -223,7 +222,7 @@ ZHB.Tasks.Render = (function () {
            div { class="fView" data-wv-fname="C_Milestone" data-wv-ctl="combo" }
            div { class="fView" data-wv-fname="C_Category" data-wv-ctl="combo" }
            div { class="fView" data-wv-fname="Priority" }
-     
+           div { class="fView" data-wv-fname="Description" }
          }
          ***/
     };
@@ -242,6 +241,10 @@ ZHB.Tasks.Render = (function () {
 
     published.init = function (init) {
 
+    };
+
+    published.getPriorityStyle = function(priority) {
+      return getPriorityStyle(priority);
     };
 
     return published;

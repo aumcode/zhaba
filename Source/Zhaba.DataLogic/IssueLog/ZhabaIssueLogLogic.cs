@@ -229,7 +229,8 @@ namespace Zhaba.DataLogic
               C_Category = Convert.ToUInt64(form.C_Category),
               Priority = form.Priority,
               Start_Date = form.Start_Date.Value.Date,
-              Due_Date = form.Due_Date.Value.Date
+              Due_Date = form.Due_Date.Value.Date,
+              Description = form.Description
             }, trn);
           else
             write(new EditIssueEvent()
@@ -241,7 +242,8 @@ namespace Zhaba.DataLogic
               C_Category = Convert.ToUInt64(form.C_Category),
               Priority = form.Priority,
               Start_Date = form.Start_Date.Value.Date,
-              Due_Date = form.Due_Date.Value.Date
+              Due_Date = form.Due_Date.Value.Date,
+              Description = form.Description
             }, trn);
           trn.Commit();
         }
