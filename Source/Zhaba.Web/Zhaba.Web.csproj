@@ -160,23 +160,23 @@
     <Compile Include="Pages\Login.nht.auto.cs">
       <DependentUpon>Login.nht</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Reports\DueItemsReportPage.nht.auto.cs">
+      <DependentUpon>DueItemsReportPage.nht</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Reports\Form\DueItemsReportFormPage.nht.auto.cs">
+      <DependentUpon>DueItemsReportFormPage.nht</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Reports\IssueAbstractReport.nht.auto.cs">
       <DependentUpon>IssueAbstractReport.nht</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Reports\IssueAssignmentReport.nht.auto.cs">
+      <DependentUpon>IssueAssignmentReport.nht</DependentUpon>
     </Compile>
     <Compile Include="Pages\Reports\IssueChatReport.nht.auto.cs">
       <DependentUpon>IssueChatReport.nht</DependentUpon>
     </Compile>
     <Compile Include="Pages\Reports\IssueStatusReport.nht.auto.cs">
       <DependentUpon>IssueStatusReport.nht</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Reports\DueItemsReportPage.nht.auto.cs">
-      <DependentUpon>DueItemsReportPage.nht</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Reports\IssueAssignmentReport.nht.auto.cs">
-      <DependentUpon>IssueAssignmentReport.nht</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Reports\Form\DueItemsReportFormPage.nht.auto.cs">
-      <DependentUpon>DueItemsReportFormPage.nht</DependentUpon>
     </Compile>
     <Compile Include="Pages\__Masters\FormMaster.nht.auto.cs">
       <DependentUpon>FormMaster.nht</DependentUpon>
