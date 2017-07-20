@@ -24,7 +24,7 @@
   }
 #[override renderBody()]
 <h1>?[:Title]</h1>
-<div>
+<div id="DashboardReport">
   @[foreach(var row in Data) {]
    <hr/>
   <div>

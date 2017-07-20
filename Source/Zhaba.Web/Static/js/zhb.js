@@ -88,6 +88,10 @@ var ZHB = (function() {
             return issue_setup(pid, iid) + "/issueassign?id={0}".args(id);
         },
 
+        ForISSUE_ISSUECANCEL: function (pid, iid, id) {
+          return issue_setup(pid, iid) + "/issuecancel?id={0}".args(id);
+        },
+
         ForISSUE_STATUSNOTE: function(pid, iid, status) {
             return issue_setup(pid, iid) + "/statusnote?status={0}".args(status);
         },
@@ -126,8 +130,8 @@ var ZHB = (function() {
         ForREPORTS_DUEITEMS : function () {
             return ZHB.URIS.ForREPORTS("dueitems");
         },
-        ForREPORTS_DUEITEMSVIEW : function () {
-            return ZHB.URIS.ForREPORTS("dueitemsview");
+        ForREPORTS_DUEITEMS_VIEW : function (asOf, cProject) {
+            return ZHB.URIS.ForREPORTS("dueitemsview")+"?AsOf={0}&C_Project={1}".args(asOf,  cProject);
         }
         
     };
@@ -239,60 +243,69 @@ WAVE.onReady(function() {
 /*global WAVE, $, ZHB */
 
 ZHB.Reports = (function () {
-    var published = {}
-    ;
+  var published = {}
+  ;
+
+  function viewReport(data) {
+    debugger;
     
-    function viewReport(data) {
-        debugger;
-        var link = ZHB.URIS.ForREPORTS_DUEITEMS();
-        WAVE.ajaxCall(
-            'POST',
-            link,
-            data,
-            function (resp) {
-                var w = window.open(link, 'windowname');
-                w.document.write(resp);
-            },
-            ZHB.errorLog,
-            ZHB.errorLog,
-            WAVE.TUNDEFINED,
-            WAVE.CONTENT_TYPE_JSON_UTF8
-        );
-    }
+    var asOf = WAVE.dateTimeToString(data.AsOf, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+    var cProject = data.C_Project;
     
-    published.DueItemsReportForm = function (e) {
-        var link = ZHB.URIS.ForREPORTS_DUEITEMS();
-        WAVE.ajaxCall(
-            'GET',
-            link, 
-            null,
-            function(resp) {
-                var _rec = new WAVE.RecordModel.Record(JSON.parse(resp));
-                var dlg = new WAVE.GUI.Dialog({
-                    header: "Due Items Report",
-                    body:ZHB.Reports.Render.DueItemsReportForm(),
-                    footer: ZHB.Tasks.Status.Render.buildStatusFooter(),
-                    onShow: function() {
-                        var rv = new WAVE.RecordModel.RecordView("V_DueItemsReport", _rec);
-                    },
-                    onClose: function(dlg, result) {
-                        if(result===WAVE.GUI.DLG_CANCEL) return WAVE.GUI.DLG_CANCEL;
-                        _rec.validate();
-                        if (!_rec.valid()) return WAVE.GUI.DLG_UNDEFINED;
-                        viewReport(_rec.data());
-                        return WAVE.GUI.DLG_CANCEL;
-                    }
-                });
-            },
-            ZHB.errorLog,
-            ZHB.errorLog,
-            WAVE.CONTENT_TYPE_JSON_UTF8,
-            WAVE.CONTENT_TYPE_JSON_UTF8
-        );
-        
-    };
+    var link = ZHB.URIS.ForREPORTS_DUEITEMS_VIEW(asOf, cProject);
+    var strWindowFeatures = "location=yes,scrollbars=yes,status=yes";
+
+    var win = window.open(link, "_blank", strWindowFeatures);
     
-    return published;
+/*    WAVE.ajaxCall(
+      'GET',
+      link, 
+      data,
+      function (resp) {
+        var win = window.open(link, "_blank", strWindowFeatures);
+        win.document.write(resp)
+      },
+      ZHB.errorLog,
+      ZHB.errorLog,
+      WAVE.TUNDEFINED,
+      WAVE.CONTENT_TYPE_JSON_UTF8
+    );*/
+
+  }
+
+  published.DueItemsReportForm = function (e) {
+    var link = ZHB.URIS.ForREPORTS_DUEITEMS();
+    WAVE.ajaxCall(
+      'GET',
+      link,
+      null,
+      function (resp) {
+        var _rec = new WAVE.RecordModel.Record(JSON.parse(resp));
+        var dlg = new WAVE.GUI.Dialog({
+          header: "Due Items Report",
+          body: ZHB.Reports.Render.DueItemsReportForm(),
+          footer: ZHB.Tasks.Status.Render.buildStatusFooter(),
+          onShow: function () {
+            var rv = new WAVE.RecordModel.RecordView("V_DueItemsReport", _rec);
+          },
+          onClose: function (dlg, result) {
+            if (result === WAVE.GUI.DLG_CANCEL) return WAVE.GUI.DLG_CANCEL;
+            _rec.validate();
+            if (!_rec.valid()) return WAVE.GUI.DLG_UNDEFINED;
+            viewReport(_rec.data());
+            return WAVE.GUI.DLG_CANCEL;
+          }
+        });
+      },
+      ZHB.errorLog,
+      ZHB.errorLog,
+      WAVE.CONTENT_TYPE_JSON_UTF8,
+      WAVE.CONTENT_TYPE_JSON_UTF8
+    );
+
+  };
+
+  return published;
 })();
 /*jshint devel: true,browser: true, sub: true */
 /*global WAVE, $, ZHB */
@@ -644,8 +657,7 @@ ZHB.Tasks = (function() {
 
 ZHB.Tasks.Render = (function () {
     "use strict";
-    var published = {}
-    ;
+    var published = {};
 
     function getStatusBarStyle(value) {
         var red = 0;
@@ -785,11 +797,11 @@ ZHB.Tasks.Render = (function () {
         Ø4.setAttribute('align', 'center');
         var Ø5 = WAVE.ce('div');
         Ø5.innerText = task.Status;
-        Ø5.setAttribute('class', 'tag {0} inline'.args(getStatusStyle(task.Status)));
+        Ø5.setAttribute('class', 'tag {0} inline-block'.args(getStatusStyle(task.Status)));
         Ø4.appendChild(Ø5);
         var Ø6 = WAVE.ce('div');
         Ø6.innerText = task.Category_Name;
-        Ø6.setAttribute('class', 'tag tag-category inline');
+        Ø6.setAttribute('class', 'tag tag-category inline-block');
         Ø4.appendChild(Ø6);
         Ø3.appendChild(Ø4);
         var Ø7 = WAVE.ce('div');
@@ -959,6 +971,10 @@ ZHB.Tasks.Render = (function () {
         Ø7.setAttribute('class', 'fView');
         Ø7.setAttribute('data-wv-fname', 'Priority');
         Ø1.appendChild(Ø7);
+        var Ø8 = WAVE.ce('div');
+        Ø8.setAttribute('class', 'fView');
+        Ø8.setAttribute('data-wv-fname', 'Description');
+        Ø1.appendChild(Ø8);
         if (WAVE.isObject(Ør)) Ør.appendChild(Ø1);
         return Ø1;
     };
@@ -986,6 +1002,10 @@ ZHB.Tasks.Render = (function () {
 
     };
 
+    published.getPriorityStyle = function(priority) {
+      return getPriorityStyle(priority);
+    };
+
     return published;
 })();
 /*jshint devel: true,browser: true, sub: true */
@@ -994,6 +1014,7 @@ ZHB.Tasks.Render = (function () {
 ZHB.Tasks.Status = (function () {
     "use strict";
     var published = {},
+        CANCELLATION_WARNING = "WARNING! CANCEL is an irrevocable action and can not be un-done in future.",
         fStatuses = {N: 'New', R: 'Reopen', A: 'Assign', D: 'Done', F: 'Defer', C: 'Close', X: 'Cancel'}
     ;
 
@@ -1115,11 +1136,30 @@ ZHB.Tasks.Status = (function () {
             }
         });
     }
-
+    
     function buildPopUpDialog(status, rec, pid, iid) {
+      var dlg = new WAVE.GUI.Dialog({
+        header: 'Change state to ' + fStatuses[status],
+        body: ZHB.Tasks.Status.Render.buildStatusBody(),
+        footer: ZHB.Tasks.Status.Render.buildStatusFooter(),
+        onShow: function () {
+          var rv = new WAVE.RecordModel.RecordView("V2", rec);
+        },
+        onClose: function (dlg, result) {
+          if (result == WAVE.GUI.DLG_CANCEL) return WAVE.GUI.DLG_CANCEL;
+          rec.validate();
+          if (!rec.valid()) return WAVE.GUI.DLG_UNDEFINED;
+          var note = rec.data().Description;
+          changeStatus(pid, iid, status, note);
+          return WAVE.GUI.DLG_CANCEL;
+        }
+      });
+    }
+
+    function buildPopUpCancelDialog(status, rec, pid, iid) {
         var dlg = new WAVE.GUI.Dialog({
             header: 'Change state to ' + fStatuses[status],
-            body: ZHB.Tasks.Status.Render.buildStatusBody(),
+            body: ZHB.Tasks.Status.Render.buildStatusBody(status),
             footer: ZHB.Tasks.Status.Render.buildStatusFooter(),
             onShow: function () {
                 var rv = new WAVE.RecordModel.RecordView("V2", rec);
@@ -1128,13 +1168,48 @@ ZHB.Tasks.Status = (function () {
                 if (result == WAVE.GUI.DLG_CANCEL) return WAVE.GUI.DLG_CANCEL;
                 rec.validate();
                 if (!rec.valid()) return WAVE.GUI.DLG_UNDEFINED;
-                var note = rec.data().Description;
-                changeStatus(pid, iid, status, note);
-                return WAVE.GUI.DLG_CANCEL;
+                var dialogResult;
+                WAVE.GUI.showConfirmationDialog(
+                  'Warning!',
+                  CANCELLATION_WARNING,
+                  [WAVE.GUI.DLG_YES, WAVE.GUI.DLG_NO],
+                  function (sender, result) {
+                    if (result == WAVE.GUI.DLG_NO) {
+                      dialogResult = WAVE.GUI.DLG_UNDEFINED;
+                      return WAVE.GUI.DLG_NO;
+                    }
+                    var note = rec.data().Description;
+                    changeStatus(pid, iid, status, note);
+                    dialogResult = WAVE.GUI.DLG_CANCEL;
+                    dlg.close();
+                    return WAVE.GUI.DLG_YES;
+                  });
+                return dialogResult;
             }
         });
     }
 
+    function getIssueCancelForm(pid, iid, iaid) {
+      var link = ZHB.URIS.ForISSUE_ISSUECANCEL(pid, iid, iaid);
+      WAVE.ajaxCall(
+          'GET',
+          link,
+          null,
+          function (resp) {
+            var _rec = new WAVE.RecordModel.Record(JSON.parse(resp));
+            buildPopUpCancelDialog("X", _rec, pid, iid);
+          },
+          function (resp) {
+            console.log("error");
+          },
+          function (resp) {
+            console.log("fail");
+          },
+          WAVE.CONTENT_TYPE_JSON_UTF8,
+          WAVE.CONTENT_TYPE_JSON_UTF8
+      );
+    }
+    
     function getIssueAssignForm(pid, iid, iaid) {
         var link = ZHB.URIS.ForISSUE_ISSUEASSIGN(pid, iid, iaid);
         WAVE.ajaxCall(
@@ -1175,15 +1250,16 @@ ZHB.Tasks.Status = (function () {
             WAVE.CONTENT_TYPE_JSON_UTF8,
             WAVE.CONTENT_TYPE_JSON_UTF8
         );
-
     }
 
     function changeStatusDialog(status, pid, iid) {
-        if (status == 'A') {
-            getIssueAssignForm(pid, iid, "");
-        } else {
-            getOtherForm(status, pid, iid);
-        }
+      if (status == 'A') {
+        getIssueAssignForm(pid, iid, "");
+      } else if (status == 'X') {
+        getIssueCancelForm(pid, iid, "");
+      } else {
+        getOtherForm(status, pid, iid);
+      }
     }
 
     published.addIssue = function (pid) {
@@ -1290,8 +1366,7 @@ ZHB.Tasks.Status = (function () {
 
 ZHB.Tasks.Status.Render = (function () {
     "use strict";
-    var published = {}
-    ;
+    var published = {};
 
     published.buildStatusButtons = function (root, task) {
         var detailsId = "details-" + task.Counter;
@@ -1469,43 +1544,47 @@ ZHB.Tasks.Status.Render = (function () {
         var Ø5 = WAVE.ce('div');
         Ø5.setAttribute('align', 'center');
         var Ø6 = WAVE.ce('div');
-        Ø6.innerText = details.Status;
-        Ø6.setAttribute('class', 'tag {0} inline'.args(ZHB.Tasks.Render.getStatusStyle(details.Status)));
+        Ø6.innerText = details.Priority;
+        Ø6.setAttribute('class', 'tag {0} inline-block'.args(ZHB.Tasks.Render.getPriorityStyle(details.Priority)));
         Ø5.appendChild(Ø6);
         var Ø7 = WAVE.ce('div');
-        Ø7.innerText = details.Category_Name;
-        Ø7.setAttribute('class', 'tag tag-category inline');
+        Ø7.innerText = details.Status;
+        Ø7.setAttribute('class', 'tag {0} inline-block'.args(ZHB.Tasks.Render.getStatusStyle(details.Status)));
         Ø5.appendChild(Ø7);
+        var Ø8 = WAVE.ce('div');
+        Ø8.innerText = details.Category_Name;
+        Ø8.setAttribute('class', 'tag tag-category inline-block');
+        Ø5.appendChild(Ø8);
         Ø4.appendChild(Ø5);
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø4);
-          var Ø8 = WAVE.ce('div');
-          Ø8.innerText = WAVE.dateTimeToString(details.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
-          Ø8.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
-          Ø8.setAttribute('style', 'width: 6%');
-          if (WAVE.isObject(Ør)) Ør.appendChild(Ø8);
           var Ø9 = WAVE.ce('div');
-          Ø9.innerText = WAVE.dateTimeToString(details.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+          Ø9.innerText = WAVE.dateTimeToString(details.Start_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
           Ø9.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
           Ø9.setAttribute('style', 'width: 6%');
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø9);
           var Ø10 = WAVE.ce('div');
-          Ø10.innerText = WAVE.dateTimeToString(details.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
+          Ø10.innerText = WAVE.dateTimeToString(details.Due_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
           Ø10.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
           Ø10.setAttribute('style', 'width: 6%');
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø10);
           var Ø11 = WAVE.ce('div');
-          Ø11.innerText = details.Assignee;
+          Ø11.innerText = WAVE.dateTimeToString(details.Complete_Date, WAVE.DATE_TIME_FORMATS.SHORT_DATE);
           Ø11.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
-          Ø11.setAttribute('style', 'width: 20%');
+          Ø11.setAttribute('style', 'width: 6%');
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø11);
           var Ø12 = WAVE.ce('div');
-          Ø12.innerText = details.Description;
-          Ø12.setAttribute('id', 'details-description'+details.Counter);
-          Ø12.setAttribute('class', 'rst-cell rst-details-cell');
-          Ø12.setAttribute('style', 'width: 30%');
+          Ø12.innerText = details.Assignee;
+          Ø12.setAttribute('class', 'rst-cell rst-text-align-center rst-details-cell');
+          Ø12.setAttribute('style', 'width: 20%');
           if (WAVE.isObject(Ør)) Ør.appendChild(Ø12);
+          var Ø13 = WAVE.ce('div');
+          Ø13.innerText = details.Description;
+          Ø13.setAttribute('id', 'details-description'+details.Counter);
+          Ø13.setAttribute('class', 'rst-cell rst-details-cell');
+          Ø13.setAttribute('style', 'width: 30%');
+          if (WAVE.isObject(Ør)) Ør.appendChild(Ø13);
         }
-        return Ø12;
+        return Ø13;
     };
 
     published.buildStatusBody = function (status) {

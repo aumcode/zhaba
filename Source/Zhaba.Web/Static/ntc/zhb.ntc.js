@@ -130,8 +130,8 @@ var ZHB = (function() {
         ForREPORTS_DUEITEMS : function () {
             return ZHB.URIS.ForREPORTS("dueitems");
         },
-        ForREPORTS_DUEITEMSVIEW : function () {
-            return ZHB.URIS.ForREPORTS("dueitemsview");
+        ForREPORTS_DUEITEMS_VIEW : function (asOf, cProject) {
+            return ZHB.URIS.ForREPORTS("dueitemsview")+"?AsOf={0}&C_Project={1}".args(asOf,  cProject);
         }
         
     };
