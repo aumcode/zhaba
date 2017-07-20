@@ -48,6 +48,7 @@ namespace Zhaba.Data.Forms
         else
         {
           Start_Date = App.TimeSource.UTCNow.Date;
+          Priority = DEFAULT_PRIORITY;
         }
 
         RoundtripBag[ITEM_ID_BAG_PARAM] = counter.Value;
