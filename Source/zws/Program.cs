@@ -1,7 +1,7 @@
-﻿using NFX.ApplicationModel;
-using NFX.DataAccess.CRUD;
+﻿using System;
+
+using NFX.ApplicationModel;
 using NFX.Wave;
-using System;
 
 namespace zws
 {
