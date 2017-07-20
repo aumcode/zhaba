@@ -40,8 +40,28 @@
       </li>
     </ul>
   </div>
-
+  <div>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Progress</th>
+        <th>User</th>
+        <th>Day</th>
+        <th>Description</th>
+      </tr>
+    @[foreach(var item in row.IssueDetals){]
+      <tr>
+        <td>?[:item.Counter]</td>
+        <td>?[:item.Completness]</td>
+        <td>?[:item.Assignee]</td>
+        <td>?[:item.Remaining]</td>
+        <td>?[:item.Description]</td>
+      </tr>
+    @[}]
+    </table>
+  </div>
   @[}]
+  
 </div>
 <div>
 

@@ -84,6 +84,7 @@
     <EmbeddedResource Include="SQL\CRUD\Component\ByID.mys.sql" />
     <EmbeddedResource Include="SQL\CRUD\Sequence\ByScopeName.mys.sql" />
     <EmbeddedResource Include="SQL\Reports\CountStatusIssueByProject.mys.sql" />
+    <EmbeddedResource Include="SQL\Reports\IssueDetails.mys.sql" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SQL\CRUD\Meeting\ByID.mys.sql" />

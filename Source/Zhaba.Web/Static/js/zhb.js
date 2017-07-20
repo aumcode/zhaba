@@ -250,7 +250,7 @@ ZHB.Reports = (function () {
             link,
             data,
             function (resp) {
-                var w = window.open('about:blank', 'windowname');
+                var w = window.open(link, 'windowname');
                 w.document.write(resp);
             },
             ZHB.errorLog,
