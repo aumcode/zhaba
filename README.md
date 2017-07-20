@@ -9,6 +9,6 @@ Zhaba Issue Tracker is a tool which can be used to track bugs and feature reques
 2. Add system environment variable `ZHABA_ROOT` that refers to the directory from the step 1.
 3. Create environment variables MYSQL_ADMIN_USERID and MYSQL_ADMIN_PASSWORD which contain your MySQL credentials.
 4. Compile the project.
-5. Run `MakeSQLScripts.cmd` and then `MakeZhabaDB.cmd` scripts which are located in `Source\Zhaba.DBAccess\Schema` directory.
+5. Run `MakeSQLScripts.cmd` and then `MakeZhabaDB.cmd` scripts which are located in `Source\Zhaba.DBAccess\MDB` directory.
 
-After starting the application will be available at `http://localhost:8080` with default user `sa` with password `5HwxsG`. 
+After starting the application will be available at `http://localhost:8080` with default user `admin` with password `5HwxsG`. 
