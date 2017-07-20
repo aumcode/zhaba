@@ -91,10 +91,14 @@ summary,
 time,
 mark,
 audio,
-video {
+video,
+button,
+input,
+select,
+option {
   border: 0;
-  font-size: 100%;
   font: inherit;
+  font-size: 14px;
   margin: 0;
   padding: 0;
   vertical-align: baseline;
@@ -269,10 +273,57 @@ img {
   height: 45px;
 }
 .wvDialogFooter {
+  text-align: right;
   position: relative;
-  float: right;
   width: 100%;
   height: 45px;
+}
+.wvConfirmDialogButton {
+  margin: 5px;
+  padding: 2px;
+  width: 75px;
+  height: 23px;
+}
+.wvConfirmDialogButton,
+.wvConfirmDialogButton:visited {
+  background: #f0f0f0;
+  border: solid 1.5px;
+  border-color: lightgray;
+  border-radius: 3px;
+  color: black;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  line-height: 1;
+  padding: 4px 12px;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: none;
+  vertical-align: bottom;
+  white-space: nowrap;
+  -webkit-transition: background 0.15s linear;
+  -moz-transition: background 0.15s linear;
+  -o-transition: background 0.15s linear;
+  -ms-transition: background 0.15s linear;
+  transition: background 0.15s linear;
+}
+.wvConfirmDialogButton:hover:enabled,
+.wvConfirmDialogButton:hover {
+  background: #cfddd0;
+  text-decoration: none;
+  border-color: gray;
+}
+.wvConfirmDialogButton:active:enabled,
+.wvConfirmDialogButton:active {
+  -webkit-box-shadow: inset 0 0 6px rgba(5, 32, 53, 0.3);
+  -moz-box-shadow: inset 0 0 6px rgba(5, 32, 53, 0.3);
+  box-shadow: inset 0 0 6px rgba(5, 32, 53, 0.3);
+}
+.wvConfirmDialogButton:focus {
+  text-decoration: none;
+  -webkit-box-shadow: 0 0 5px rgba(5, 32, 53, 0.3);
+  -moz-box-shadow: 0 0 5px rgba(5, 32, 53, 0.3);
+  box-shadow: 0 0 5px rgba(5, 32, 53, 0.3);
 }
 .dlgYellow .wvDialogHeader {
   background: red;
@@ -477,7 +528,6 @@ a {
 .dropdown .dropbtn {
   outline: none;
   background-color: transparent;
-  font-size: 16px;
   color: #fff;
   border: none;
   cursor: pointer;
@@ -722,9 +772,12 @@ body #ftr {
 #editForm .header {
   background: #cfddd0;
   color: #383838;
-  font-size: 1.37em;
   padding: 4px;
   height: 45px;
+  font-size: 24px;
+}
+#editForm .header div {
+  font: inherit;
 }
 #editForm .content {
   background: #f0f0f0;
@@ -745,6 +798,62 @@ body #ftr {
 .wv-markup-em {
   font-weight: bold;
   text-shadow: 0px 0px 10px #ffff00;
+}
+.tag {
+  margin: 1px;
+  padding: 2px;
+  border-radius: 3px;
+  color: #fff;
+  text-align: center;
+  font-size: 13px;
+}
+.tag.status-tag.new {
+  background-color: blue;
+}
+.tag.status-tag.reopen {
+  background-color: orange;
+}
+.tag.status-tag.assigned {
+  background-color: cadetblue;
+}
+.tag.status-tag.done {
+  background-color: #539a53;
+}
+.tag.status-tag.defer {
+  background-color: purple;
+}
+.tag.status-tag.closed {
+  background-color: gray;
+}
+.tag.status-tag.canceled {
+  background-color: darkgray;
+}
+.tag.priority-tag {
+  width: 20px;
+}
+.tag.priority-tag.highest {
+  background-color: red;
+}
+.tag.priority-tag.high {
+  background-color: orange;
+}
+.tag.priority-tag.middle {
+  background-color: #9c6f10;
+}
+.tag.priority-tag.lower {
+  background-color: green;
+}
+.tag.tag-component {
+  background-color: darkblue;
+}
+.tag.tag-area {
+  background-color: darkcyan;
+}
+.tag.tag-assignee {
+  background-color: cornflowerblue;
+}
+.tag.tag-category {
+  background-color: gray;
 }
 #tasksPage .header {
   color: white;
@@ -809,63 +918,6 @@ body #ftr {
 }
 #tasksPage .time-r.time-remaining-late {
   color: red;
-}
-#tasksPage .tag {
-  margin: 1px;
-  padding: 2px;
-  border-radius: 3px;
-  color: #fff;
-  text-align: center;
-  font-size: 13px;
-}
-#tasksPage .tag.status-tag.new {
-  background-color: blue;
-}
-#tasksPage .tag.status-tag.reopen {
-  background-color: orange;
-}
-#tasksPage .tag.status-tag.assigned {
-  background-color: cadetblue;
-}
-#tasksPage .tag.status-tag.done {
-  background-color: #539a53;
-}
-#tasksPage .tag.status-tag.defer {
-  background-color: purple;
-}
-#tasksPage .tag.status-tag.closed {
-  background-color: gray;
-}
-#tasksPage .tag.status-tag.canceled {
-  background-color: darkgray;
-}
-#tasksPage .tag.priority-tag {
-  padding: 0;
-  width: 20px;
-}
-#tasksPage .tag.priority-tag.highest {
-  background-color: red;
-}
-#tasksPage .tag.priority-tag.high {
-  background-color: orange;
-}
-#tasksPage .tag.priority-tag.middle {
-  background-color: #9c6f10;
-}
-#tasksPage .tag.priority-tag.lower {
-  background-color: green;
-}
-#tasksPage .tag.tag-component {
-  background-color: darkblue;
-}
-#tasksPage .tag.tag-area {
-  background-color: darkcyan;
-}
-#tasksPage .tag.tag-assignee {
-  background-color: cornflowerblue;
-}
-#tasksPage .tag.tag-category {
-  background-color: gray;
 }
 #tasksPage .rst-table {
   width: 100%;

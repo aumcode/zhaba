@@ -109,7 +109,17 @@ namespace Zhaba.Web.Controllers
       return result;
     }
 
+    [Action("issuecancel", 0, "match { methods=POST,GET }")]
+    [PMPermission]
+    public object IssueCancel(ulong? id, CancelNoteEditForm form)
+    {
+      id = id == 0 ? null : id;
+      var result = DataSetup_ItemDetails<CancelNoteEditForm, NoteEditPage>(new object[] { ProjectRow, IssueRow, id }, form, URIS.ForPROJECT_ISSUES(ProjectRow.Counter));
+      return result;
+    }
+
     [Action("statusnote", 0, "match { methods=POST,GET }")]
+    [PMPermission]
     public object StatusNote(ulong? id, NoteEditForm form)
     {
       return DataSetup_ItemDetails<NoteEditForm, NoteEditPage>(new object[] { ProjectRow, IssueRow, id }, form, URIS.ForPROJECT_ISSUES(ProjectRow.Counter));

@@ -318,6 +318,7 @@
     <None Include="Static\less\mixins.less" />
     <None Include="Static\less\pages\tasksPage.less" />
     <None Include="Static\less\reset.less" />
+    <None Include="Static\less\tags.less" />
     <None Include="Static\less\zhb.less" />
   </ItemGroup>
   <ItemGroup>

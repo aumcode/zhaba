@@ -4,6 +4,7 @@
 ZHB.Tasks.Status = (function () {
     "use strict";
     var published = {},
+        CANCELLATION_WARNING = "WARNING! CANCEL is an irrevocable action and can not be un-done in future.",
         fStatuses = {N: 'New', R: 'Reopen', A: 'Assign', D: 'Done', F: 'Defer', C: 'Close', X: 'Cancel'}
     ;
 
@@ -125,11 +126,30 @@ ZHB.Tasks.Status = (function () {
             }
         });
     }
-
+    
     function buildPopUpDialog(status, rec, pid, iid) {
+      var dlg = new WAVE.GUI.Dialog({
+        header: 'Change state to ' + fStatuses[status],
+        body: ZHB.Tasks.Status.Render.buildStatusBody(),
+        footer: ZHB.Tasks.Status.Render.buildStatusFooter(),
+        onShow: function () {
+          var rv = new WAVE.RecordModel.RecordView("V2", rec);
+        },
+        onClose: function (dlg, result) {
+          if (result == WAVE.GUI.DLG_CANCEL) return WAVE.GUI.DLG_CANCEL;
+          rec.validate();
+          if (!rec.valid()) return WAVE.GUI.DLG_UNDEFINED;
+          var note = rec.data().Description;
+          changeStatus(pid, iid, status, note);
+          return WAVE.GUI.DLG_CANCEL;
+        }
+      });
+    }
+
+    function buildPopUpCancelDialog(status, rec, pid, iid) {
         var dlg = new WAVE.GUI.Dialog({
             header: 'Change state to ' + fStatuses[status],
-            body: ZHB.Tasks.Status.Render.buildStatusBody(),
+            body: ZHB.Tasks.Status.Render.buildStatusBody(status),
             footer: ZHB.Tasks.Status.Render.buildStatusFooter(),
             onShow: function () {
                 var rv = new WAVE.RecordModel.RecordView("V2", rec);
@@ -138,13 +158,48 @@ ZHB.Tasks.Status = (function () {
                 if (result == WAVE.GUI.DLG_CANCEL) return WAVE.GUI.DLG_CANCEL;
                 rec.validate();
                 if (!rec.valid()) return WAVE.GUI.DLG_UNDEFINED;
-                var note = rec.data().Description;
-                changeStatus(pid, iid, status, note);
-                return WAVE.GUI.DLG_CANCEL;
+                var dialogResult;
+                WAVE.GUI.showConfirmationDialog(
+                  'Warning!',
+                  CANCELLATION_WARNING,
+                  [WAVE.GUI.DLG_YES, WAVE.GUI.DLG_NO],
+                  function (sender, result) {
+                    if (result == WAVE.GUI.DLG_NO) {
+                      dialogResult = WAVE.GUI.DLG_UNDEFINED;
+                      return WAVE.GUI.DLG_NO;
+                    }
+                    var note = rec.data().Description;
+                    changeStatus(pid, iid, status, note);
+                    dialogResult = WAVE.GUI.DLG_CANCEL;
+                    dlg.close();
+                    return WAVE.GUI.DLG_YES;
+                  });
+                return dialogResult;
             }
         });
     }
 
+    function getIssueCancelForm(pid, iid, iaid) {
+      var link = ZHB.URIS.ForISSUE_ISSUECANCEL(pid, iid, iaid);
+      WAVE.ajaxCall(
+          'GET',
+          link,
+          null,
+          function (resp) {
+            var _rec = new WAVE.RecordModel.Record(JSON.parse(resp));
+            buildPopUpCancelDialog("X", _rec, pid, iid);
+          },
+          function (resp) {
+            console.log("error");
+          },
+          function (resp) {
+            console.log("fail");
+          },
+          WAVE.CONTENT_TYPE_JSON_UTF8,
+          WAVE.CONTENT_TYPE_JSON_UTF8
+      );
+    }
+    
     function getIssueAssignForm(pid, iid, iaid) {
         var link = ZHB.URIS.ForISSUE_ISSUEASSIGN(pid, iid, iaid);
         WAVE.ajaxCall(
@@ -185,15 +240,16 @@ ZHB.Tasks.Status = (function () {
             WAVE.CONTENT_TYPE_JSON_UTF8,
             WAVE.CONTENT_TYPE_JSON_UTF8
         );
-
     }
 
     function changeStatusDialog(status, pid, iid) {
-        if (status == 'A') {
-            getIssueAssignForm(pid, iid, "");
-        } else {
-            getOtherForm(status, pid, iid);
-        }
+      if (status == 'A') {
+        getIssueAssignForm(pid, iid, "");
+      } else if (status == 'X') {
+        getIssueCancelForm(pid, iid, "");
+      } else {
+        getOtherForm(status, pid, iid);
+      }
     }
 
     published.addIssue = function (pid) {

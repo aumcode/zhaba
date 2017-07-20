@@ -88,6 +88,10 @@ var ZHB = (function() {
             return issue_setup(pid, iid) + "/issueassign?id={0}".args(id);
         },
 
+        ForISSUE_ISSUECANCEL: function (pid, iid, id) {
+          return issue_setup(pid, iid) + "/issuecancel?id={0}".args(id);
+        },
+
         ForISSUE_STATUSNOTE: function(pid, iid, status) {
             return issue_setup(pid, iid) + "/statusnote?status={0}".args(status);
         },
@@ -126,8 +130,8 @@ var ZHB = (function() {
         ForREPORTS_DUEITEMS : function () {
             return ZHB.URIS.ForREPORTS("dueitems");
         },
-        ForREPORTS_DUEITEMSVIEW : function () {
-            return ZHB.URIS.ForREPORTS("dueitemsview");
+        ForREPORTS_DUEITEMS_VIEW : function (asOf, cProject) {
+            return ZHB.URIS.ForREPORTS("dueitemsview")+"?AsOf={0}&C_Project={1}".args(asOf,  cProject);
         }
         
     };

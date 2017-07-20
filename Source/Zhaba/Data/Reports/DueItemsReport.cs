@@ -31,13 +31,30 @@ namespace Zhaba.Data.Reports
 
     public class IssueDetails : TypedRow
     {
-      [Field] public ulong C_Issue { get; set; }
+      private string m_Status;
+      
+      [Field] public ulong Counter { get; set; }
       [Field] public string Name { get; set; }
+      [Field]
+      public string Status
+      {
+        get { return ZhabaIssueStatus.MapDescription(m_Status); }
+        set { m_Status = value; } 
+        
+      }
+      [Field] public DateTime? Status_Date { get; set; }
       [Field] public string Description { get; set; }
-      [Field] public string Users { get; set; }
-      [Field] public int dueDay { get; set; }
-      [Field] public int Progress { get; set; }
+      [Field] public DateTime? Start_Date { get; set; }
+      [Field] public int Completeness { get; set; }
+      [Field] public DateTime? Due_Date { get; set; }
+      [Field] public string Operator { get; set; }
+      [Field] public string Category_Name { get; set; }
+      [Field] public ulong C_Project { get; set; }
+      [Field] public string Project_Name { get; set; }
+      [Field] public string Assignee { get; set; }
       [Field] public int Priority { get; set; }
+      [Field] public DateTime? Complete_Date { get; set; }
+      [Field] public int Remaining { get; set; }
     }
     
     public class Statistic : TypedRow
@@ -46,7 +63,7 @@ namespace Zhaba.Data.Reports
       [Field] public string Name { get; set; }
       [Field] public int IssueCount { get; set; }
       [Field] public IEnumerable<IssueStatus> DetailIssueCount { get; set; }
-      [Field] public IEnumerable<IssueDetails> DetailsIssue { get; set; }
+      [Field] public IEnumerable<IssueDetails> IssueDetals { get; set; }
     }
     
     #endregion

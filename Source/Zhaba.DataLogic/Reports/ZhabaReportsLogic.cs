@@ -28,14 +28,15 @@ namespace Zhaba.DataLogic
         {
           var asOf = (report.AsOf ?? App.TimeSource.UTCNow.Date).AddHours(23).AddMinutes(59).AddSeconds(59); 
           
-          var query = QReports.CountIssueByProject<DueItemsReport.Statistic>(report.C_Project, asOf);
+          var query = QReports.DueItems.CountIssueByProject<DueItemsReport.Statistic>(report.C_Project, asOf);
           saveResult = trn.LoadEnumerable<DueItemsReport.Statistic>(query);
           var rows = saveResult as IEnumerable<DueItemsReport.Statistic>;
           foreach (var row in rows)
           {
-            var queryCount = QReports.CountStatusIssueByProject<DueItemsReport.IssueStatus>(row.C_Project, asOf);
-            var issueCounts = trn.LoadEnumerable<DueItemsReport.IssueStatus>(queryCount);
-            row.DetailIssueCount = issueCounts;
+            var queryCount = QReports.DueItems.CountStatusIssueByProject<DueItemsReport.IssueStatus>(row.C_Project, asOf);
+            row.DetailIssueCount = trn.LoadEnumerable<DueItemsReport.IssueStatus>(queryCount);
+            var queryDetails = QReports.DueItems.IssueDetails<DueItemsReport.IssueDetails>(row.C_Project, asOf);
+            row.IssueDetals = trn.LoadEnumerable<DueItemsReport.IssueDetails>(queryDetails);
           }
         }
       }
