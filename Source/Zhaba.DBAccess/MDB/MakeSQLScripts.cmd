@@ -7,7 +7,7 @@ set DEBUG=..\..\..\Output\Debug
 xcopy %TOOLS%\rsc.exe %DEBUG% /y
 
 echo Building ZHABA main script ---------------------------------------------------
-%DEBUG%\rsc.exe db.rschema /o domain-search-paths=%DOMAINS%
+%DEBUG%\rsc.exe ..\Schema\db.rschema /o domain-search-paths=%DOMAINS%
 if errorlevel 1 goto ERROR
 
 echo Done!
