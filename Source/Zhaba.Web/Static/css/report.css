@@ -226,7 +226,6 @@ img {
   background-color: gray;
 }
 #DashboardReport .report-body {
-  text-align: center;
   padding: 20px;
 }
 #DashboardReport .tags-body {
@@ -234,6 +233,14 @@ img {
 }
 #DashboardReport .header {
   margin: 20px;
+}
+#DashboardReport dl dt {
+  background-color: #f0f0f0;
+}
+#DashboardReport dl dd {
+  background-color: #fafafa;
+  padding: 20px 20px;
+  margin: 20px 20px;
 }
 #DashboardReport table {
   width: 100%;
