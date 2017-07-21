@@ -15,6 +15,7 @@
       connect-string="Server=localhost;Database=zhaba;Uid=$(~MYSQL_ADMIN_USERID);Pwd=$(~MYSQL_ADMIN_PASSWORD)"
       script-assembly="Zhaba.DBAccess"
       handler-location { ns="Zhaba.DBAccess, Zhaba.DBAccess" }
+      date-time-kind=UTC
     }
     unique-sequence-provider
     {

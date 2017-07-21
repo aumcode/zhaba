@@ -30,4 +30,4 @@
 
 #[override renderBtns()]
   <input class="button" type="submit" value="Save" />
-  <a class="button" href="?[:URIS.ForPROJECT_ISSUES(Form.ProjectID)]">Cancel</a>
+  <a class="button" href="?[:URIS.ForPROJECT_COMPONENTS(Form.ProjectID)]">Cancel</a>
