@@ -122,8 +122,8 @@ ZHB.Tasks.Render = (function () {
                  data-progress=?task.Completeness
                  data-description=?task.Description
                  data-status=?task.statusId
+                 data-checkuser="?ZHB.Tasks.checkUser(task)"
                  on-click=ZHB.Tasks.changeProgress1
-     
                  class="bar-value"
                  align="center"
                }

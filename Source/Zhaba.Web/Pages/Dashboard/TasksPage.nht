@@ -39,6 +39,9 @@ private readonly string m_FilterVector;
       @[if (new PMPermission().Check()) {]
       <div class="fView big-filter" data-wv-fname="ProjectName" data-wv-ctl="combo"></div>
       <div class="fView big-filter" data-wv-fname="C_USER" data-wv-ctl="combo"></div>
+      @[} else { ]
+      <div class="fView big-filter" data-wv-fname="ProjectName" data-wv-ctl="combo"></div>
+      <div class="fView big-filter" data-wv-fname="C_USER" data-wv-ctl="combo"></div>
       @[}]
       <div class="fView" data-wv-fname="Search" style="width: 1000px"></div>
     </form>
@@ -55,7 +58,8 @@ private readonly string m_FilterVector;
 
   WAVE.onReady(ZHB.Tasks.init({
     filter: ?[:m_FilterVector],
-    pmPerm: WAVE.strAsBool("?[new PMPermission().Check()]")
+    pmPerm: WAVE.strAsBool("?[new PMPermission().Check()]"),
+    currentUser: ?[:ZhabaUser.DataRow.Counter]
   }));
 
   var categories;

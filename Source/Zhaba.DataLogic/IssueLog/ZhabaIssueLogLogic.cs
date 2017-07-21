@@ -107,8 +107,21 @@ namespace Zhaba.DataLogic
       }
     }
 
+    public bool CheckUser(ulong cUser, ulong cIssue)
+    {
+      bool result;
+      var query = QIssueAssign.findIssueAssignByIssueAndUserAndDate<IssueAssignRow>(cIssue, cUser,
+        App.TimeSource.UTCNow.Date.AddHours(23).AddMinutes(59).AddSeconds(59));
+      Row row = ZApp.Data.CRUD.LoadOneRow(query);
+      result = row != null;
+      return result;
+    }
+
     public void ChangeProgess(ulong C_User, ulong issueCounter, int value, string description = null) 
     {
+      
+      
+      
       var evt = new ProceedIssueEvent()
       {
         C_Issue = issueCounter,

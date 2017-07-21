@@ -25,7 +25,6 @@ namespace Zhaba.Web.Controllers
     {
       var filter = new TaskListFilter();
       if (!new PMPermission().Check()) filter.C_USER = ZhabaUser.DataRow.Counter;
-
       return MakePage<TasksPage>(FormJSON(filter));
     }
 
@@ -53,7 +52,7 @@ namespace Zhaba.Web.Controllers
     public object tasks_POST(TaskListFilter filter)
     {
       object data;
-      if (!new PMPermission().Check()) filter.C_USER = ZhabaUser.DataRow.Counter;
+      // if (!new PMPermission().Check()) filter.C_USER = ZhabaUser.DataRow.Counter;
       filter.Save(out data);
       return new JSONResult(data, JSONWritingOptions.CompactRowsAsMap);
     }
@@ -61,6 +60,9 @@ namespace Zhaba.Web.Controllers
     [Action("changeProgress", 0, "match { methods=POST accept-json=true}")]
     public void changeProgress_POST(ulong issueCounter, int value, string description)
     {
+      if(!new PMPermission().Check() && !ZApp.Data.Issue.CheckUser(ZhabaUser.DataRow.Counter, issueCounter))  
+        throw HTTPStatusException.Forbidden_403("Access denied"); 
+      
       ZApp.Data.Issue.ChangeProgess(ZhabaUser.DataRow.Counter, issueCounter, value, description);
     }
 

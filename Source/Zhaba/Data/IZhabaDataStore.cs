@@ -54,6 +54,7 @@ namespace Zhaba.Data
     void DeferIssue(ulong C_Project, ulong C_Issue, ulong C_User);
     void ChangeProgess(ulong C_User, ulong issueCounter, int value, string description = null);
     void ChangeStatus(ulong c_User, ulong c_Project, ulong c_Issue, string status, string description, ulong? c_AssignedUser = null);
+    bool CheckUser(ulong cUser, ulong cIssue);
   }
 
   public interface IReportLogic : IStoreLogic
