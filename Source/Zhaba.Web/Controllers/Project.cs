@@ -1,7 +1,7 @@
 ﻿using NFX;
 using NFX.Wave;
 using NFX.Wave.MVC;
-
+using Zhaba.Data;
 using Zhaba.Data.Forms;
 using Zhaba.Data.Filters;
 using Zhaba.Data.QueryBuilders;
@@ -113,12 +113,28 @@ namespace Zhaba.Web.Controllers
       if (link)
       {
         affected = ZApp.Data.CRUD.Insert(issueArea);
+        ZApp.Data.Issue.WriteLogEvent(new ChangeIssueComponentEvent()
+        {
+          C_Issue = issue.Value,
+          C_User = ZhabaUser.DataRow.Counter,
+          DateUTC = App.TimeSource.UTCNow,
+          Description = "ADD COMPONENT [{0}] TO ISSUE [{1}]".Args(component, issue)
+        });
+
       }
       else
       {
         affected = ZApp.Data.CRUD.Delete(issueArea);
         if (affected <= 0)
           throw HTTPStatusException.NotFound_404("Issue-Area link not found");
+        ZApp.Data.Issue.WriteLogEvent(new ChangeIssueComponentEvent()
+        {
+          C_Issue = issue.Value,
+          C_User = ZhabaUser.DataRow.Counter,
+          DateUTC = App.TimeSource.UTCNow,
+          Description = "REMOVE COMPONENT [{0}] IN ISSUE [{1}]".Args(component, issue)
+        });
+
       }
 
       return NFX.Wave.SysConsts.JSON_RESULT_OK;
@@ -148,12 +164,27 @@ namespace Zhaba.Web.Controllers
       if (link)
       {
         affected = ZApp.Data.CRUD.Insert(issueArea);
+        ZApp.Data.Issue.WriteLogEvent(new ChangeIssueAreaEvent()
+        {
+          C_Issue = issue.Value,
+          C_User = ZhabaUser.DataRow.Counter,
+          DateUTC = App.TimeSource.UTCNow,
+          Description = "ADD AREA [{0}] TO ISSUE [{1}]".Args(area, issue)
+        });
       }
       else
       {
         affected = ZApp.Data.CRUD.Delete(issueArea);
         if (affected <= 0)
           throw HTTPStatusException.NotFound_404("Issue-Area link not found");
+        ZApp.Data.Issue.WriteLogEvent(new ChangeIssueAreaEvent()
+        {
+          C_Issue = issue.Value,
+          C_User = ZhabaUser.DataRow.Counter,
+          DateUTC = App.TimeSource.UTCNow,
+          Description = "REMOVE AREA [{0}] IN ISSUE [{1}]".Args(area, issue)
+        });
+
       }
 
       return NFX.Wave.SysConsts.JSON_RESULT_OK;

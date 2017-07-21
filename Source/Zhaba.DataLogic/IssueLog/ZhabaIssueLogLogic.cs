@@ -459,6 +459,20 @@ namespace Zhaba.DataLogic
       operations.Insert(newRow);
     }
 
+    private void write(ChangeIssueAreaEvent evt, ICRUDOperations operations = null)
+    {
+      operations = operations ?? ZApp.Data.CRUD;
+      IssueLogRow newRow = NewIssueLog(evt, operations: operations);
+      operations.Insert(newRow);
+    }
+
+    private void write(ChangeIssueComponentEvent evt, ICRUDOperations operations = null)
+    {
+      operations = operations ?? ZApp.Data.CRUD;
+      IssueLogRow newRow = NewIssueLog(evt, operations: operations);
+      operations.Insert(newRow);
+    }
+
     private IssueLogRow NewIssueLog(IssueLogEvent evt, string status = null, ICRUDOperations operations = null)
     {
       if (operations == null) return null;

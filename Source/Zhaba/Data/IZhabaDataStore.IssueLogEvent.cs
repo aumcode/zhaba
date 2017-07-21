@@ -115,5 +115,15 @@ namespace Zhaba.Data
     [Field(required: true)]
     public ulong C_Category { get; set; } 
   }
+  
+  public sealed class ChangeIssueAreaEvent : IssueLogEvent
+  {
+
+  }
+
+  public sealed class ChangeIssueComponentEvent : IssueLogEvent
+  {
+
+  }
 
 }
