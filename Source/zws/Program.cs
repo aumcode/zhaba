@@ -7,6 +7,8 @@ namespace zws
 {
   internal class Program
   {
+    public const string FOR_SERVICE_HANDLER = "server started...";
+    
     private static void Main(string[] args)
     {
       try
@@ -18,7 +20,7 @@ namespace zws
           server.Configure(null);
           server.Start();
 
-          Console.WriteLine("server started...");
+          Console.WriteLine(FOR_SERVICE_HANDLER);
           Console.ReadLine();
         }
       }
