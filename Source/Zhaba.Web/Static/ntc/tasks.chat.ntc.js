@@ -22,7 +22,7 @@ ZHB.Tasks.Chat = (function () {
 
   function createChatItems(task, rec) {
     var id = 'chatMessage-' + task.Counter;
-    if (document.getElementById(id) !== undefined) {
+    if ((document.getElementById(id) !== undefined) && (document.getElementById(id) !== null)) {
       document.getElementById(id).innerHTML = "";
       for (var i = 0, l = rec.Rows.length; i < l; i++) {
         var item = rec.Rows[i];
