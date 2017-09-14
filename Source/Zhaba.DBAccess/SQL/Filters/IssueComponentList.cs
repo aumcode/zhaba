@@ -41,7 +41,7 @@ namespace Zhaba.DBAccess.SQL.Filters
  CASE WHEN TIA.C_ISSUE IS NULL THEN 'F' ELSE 'T' END AS LINKED
 FROM tbl_component TA
 LEFT JOIN tbl_issuecomponent TIA ON TIA.C_COMPONENT = ta.COUNTER AND TIA.C_ISSUE = ?pIssue
-WHERE TA.C_PROJECT = ?pProject
+WHERE TA.C_PROJECT = ?pProject AND TA.IN_USE = 'T'
   {0}
 ORDER BY {1}".Args(where, orderBy);
     }
